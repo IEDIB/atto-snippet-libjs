@@ -14,6 +14,8 @@ Dins de la carpeta build un script anomenat `build.js` s'encarregarà de minific
 
 El markup HTML junt amb la meta-informació associada amb l'snippet anirà dins la carpeta presets. Cada snippet tindrà un fitxer de configuració yaml amb nom `dynamic_sample.yaml`. Aquest fitxer és el que s'empra a posteriori per ésser importat dins el plugin "iedib-atto-snippets" de Moodle.
 
+En el markup HTML, `class="iedib-sd"` permetrà donar una aparença uniforme a tots els contenidors dels snippets dinàmics. D'altra banda `role="dynamic_sample"` identifica el tipus de component dinàmic que ha d'ésser processat.
+
 ## Instal·lar per desenvolupament
 
 Requisits nodejs + npm
