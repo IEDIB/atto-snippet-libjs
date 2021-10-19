@@ -3,7 +3,7 @@ key: dynamic-sample
 instructions: >
   Escriure aquí les instruccions que han de tenir en compte els usuaris.
   Perquè l'snippet funcioni us heu d'assegurar que al final de la pàgina
-  del llibre apareix <https://piworld.es/iedib/snippets/interes.min.js></script>
+  del llibre apareix l'script https://piworld.es/iedib/snippets/interes.min.js 
 
 defaults: 
   header: "Interès compost"
@@ -13,7 +13,7 @@ defaults:
   formula: "compost"
 
 body: |
-    <div class="iedib-sd" role="dynamic_sample" data-formula="compost" data-header="{{header}}">
+    <div class="iedib-sd" role="dynamic_sample" data-formula="{{formula}}" data-header="{{header}}">
         <label>Capital</label><br>
         <input type="number" name="capital" step="1000" value="{{capital}}"><label> €</label><br>
         <label>Termini</label>
