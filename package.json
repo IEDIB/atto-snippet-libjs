@@ -1,0 +1,27 @@
+{
+  "name": "iedib-atto-snippets-dynamic",
+  "version": "1.0.0",
+  "description": "Dynamic snippets @ IEDIB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IEDIB/iedib-atto-snippets-dynamic.git"
+  },
+  "keywords": [
+    "Snippets",
+    "IEDIB"
+  ],
+  "author": "IEDIB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IEDIB/iedib-atto-snippets-dynamic/issues"
+  },
+  "homepage": "https://github.com/IEDIB/iedib-atto-snippets-dynamic#readme",
+  "dependencies": { 
+    "uglify-js": "^2.4.24"
+  }
+}
