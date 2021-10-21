@@ -11,9 +11,10 @@ defaults:
   termini: 20
   interes: 2.5 
   formula: "compost"
+  printable: 1
 
 body: |
-    <div class="iedib-sd" role="dynamic_sample" data-formula="{{formula}}" data-header="{{header}}">
+    <div class="iedib-snippetd{{#ifCond printable 'eq' 0}} d-print-none{{/ifCond}}" role="dynamic_sample" data-formula="{{formula}}" data-header="{{header}}">
         <label>Capital</label><br>
         <input type="number" name="capital" step="1000" value="{{capital}}"><label> €</label><br>
         <label>Termini</label>
@@ -51,3 +52,6 @@ misc:
     - name: formula
       title: Formula
       type: text
+    - name: printable
+      title: Imprimible?
+      type: checkbox
