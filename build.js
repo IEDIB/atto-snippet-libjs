@@ -19,6 +19,7 @@ console.log(" ")
  
 
 // Uglify all files
+let all = "";
 fs.readdirSync(src).forEach( (file) => {
     if(!path.extname(file)=="js") {
         return
@@ -31,11 +32,14 @@ fs.readdirSync(src).forEach( (file) => {
     } else if(result.warnings) {
         console.log(result.warnings)
     }
+    all += result.code + "\n"
 
-
-    const target = path.join(dst, file.replace(".js", ".min.js"));
+    let target = path.join(dst, file.replace(".js", ".min.js"));
     fs.writeFileSync(target, result.code, {encoding:'utf8'});
     console.log("> written " + target);
      
+    target = path.join(dst, "all.min.js");
+    fs.writeFileSync(target, all, {encoding:'utf8'});
+    console.log("> written " + target);
 })
  
