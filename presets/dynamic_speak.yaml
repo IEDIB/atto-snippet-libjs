@@ -1,0 +1,23 @@
+name: Llegir el text
+key: dynamic-speak
+instructions: >
+   Amb l'editor atto, seleccioneu el text que voleu que es pronunciï i inseriu un enllaç.
+   A la URL escriviu #speak_**-**. En **-** heu d'escriure l'idioma en què s'ha de pronunciar 
+   la paraula. Per exemple es-ES en castellà, es-AR en argentí, en-US en anglès nord-americà,
+   de-DE en alemany, etc.<br> 
+   Quan deseu la pàgina podeu clicar sobre el text i es llegirà en veu alta.
+
+defaults: {}
+   
+
+body: |
+    Exemple <a href="#speak_en-us">Dog</a> y ejemplo <a href="#speak_es-ES">Perro</a>.
+  
+version: 1.0.0
+misc:
+  category: Dinàmics
+  stars: 2
+  scope: L
+  requires: ["https://piworld.es/iedib/snippets/speak.min.js"]
+  parameters: []
+   

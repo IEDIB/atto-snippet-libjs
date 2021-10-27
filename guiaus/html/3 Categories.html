@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ca">
+<!--Pàgina autogenerada-->
+<head>
+    <title>Categories</title>
+    <meta charset="utf-8">
+    
+</head>
+
+<body>
+
+    <p>Els components <em>snippet</em> estan organitzats en les següents categories</p>
+
+    <p style="margin-left:35px;font-size:90%;"><b>Llegenda</b></p>
+    <div style="margin-left:45px;font-size:90%;border: 1px solid gray;border-radius: 10px;padding-top: 10px; padding-left: 20px; width: 80%;">
+        &nbsp;&nbsp;<i class="fas fa-thumbs-up" style="color:darkgreen;"></i> &nbsp;&nbsp; Component d'ús recomanat o emprat amb freqüència
+        <br>
+        &nbsp;&nbsp;<i class="fas fa-thumbs-down" style="color:gray;"></i> &nbsp;&nbsp; Component desaconsellat o d'ús molt restringit
+        <br>
+        &nbsp;&nbsp;<i class="fas fa-comment-plus" style="color:darkorange;"></i> &nbsp;&nbsp; Novetat
+    </div>
+
+    <p><br></p>
+
+    <ul>
+
+        
+
+            <li><b>Categoria - Dinàmics</b>
+                <div id="accordion-cat-nd971gukoso" style="margin-top: 1px; margin-bottom:20px;">
+                    <div class="card">
+                        <div class="card-header" id="cat-nd971gukoso" style="padding: 5px;">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse"
+                                    data-target="#collapse-cat-nd971gukoso" aria-expanded="true"
+                                    aria-controls="collapse-cat-nd971gukoso">
+                                    Conté 2 snippets &nbsp;&nbsp;
+                                        
+                                        
+                                        
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapse-cat-nd971gukoso" class="collapse" aria-labelledby="Dinàmics"
+                            data-parent="#accordion-cat-nd971gukoso">
+                            <ul>
+                                
+                                    <li>
+                                        
+                                            <i style="height:20px;width:20px;display:inline-block;"></i>
+                                        
+                                           Llegir el text
+                                           
+                                        </li>
+                                    
+                                    <li>
+                                        
+                                            <i style="height:20px;width:20px;display:inline-block;"></i>
+                                        
+                                           Un exemple d&#39;snippet dinàmic
+                                           
+                                        </li>
+                                    
+                            </ul>
+                        </div>
+
+                        
+
+                    </div>
+                </div> 
+                <p><br></p>
+            </li>
+            
+    </ul>
+ 
+    <script>
+    // Router for snippet atto
+    var catids = {
+      'altres': 41217,
+      'bootstrap': 41218,
+      'capses':41219,
+      'eoi':41220,
+      'filtres':41221,
+      'imatge':41222,
+      'video':41223
+    };
+    var loc = window.location.href.split("?");
+    var cmid = '';
+    var id = '';
+    var snpt = null;
+    if(loc){
+      var params = loc[1].split("&"); 
+      for(var i=0, len=params.length; i<len; i++){
+          var kv = params[i].split("=");
+        if(kv.length==2 && kv[0]=='snpt'){
+          snpt = kv[1];
+        } else if(kv.length==2 && (kv[0]=='cmid'||kv[0]=='chapterid')){
+          cmid = kv[1];
+        } else if(kv.length==2 && kv[0]=='id'){
+          id = kv[1];
+        }
+      }
+    }
+    if(snpt) {
+      var snpt_pts=snpt.split('$');
+      if(snpt_pts.length==2) {
+        cmid = catids[snpt_pts[0]];
+        if(cmid && id) {
+           var redirect = loc[0]+"?id="+id+"&chapterid="+cmid+"#section-"+snpt_pts[1];
+           window.location.href = redirect;
+        }
+      }
+    }
+    </script>
+</body>
+
+</html>

@@ -21,7 +21,13 @@
     "url": "https://github.com/IEDIB/iedib-atto-snippets-dynamic/issues"
   },
   "homepage": "https://github.com/IEDIB/iedib-atto-snippets-dynamic#readme",
-  "dependencies": { 
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "escape-html": "^1.0.3",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.7",
+    "js-beautify": "^1.14.0",
+    "js-yaml": "^2.0.5",
     "uglify-js": "^2.4.24"
   }
 }
