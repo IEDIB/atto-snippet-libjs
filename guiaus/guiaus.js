@@ -619,6 +619,13 @@ function creaPaginaPlantilles(lPlantilles) {
 
 const listCategories = readSnippets()
 
+// Neteja el directori html de sortida
+const files = fs.readdirSync("./html") 
+for (const file of files) {
+      if(file.endsWith(".html")) {
+            fs.unlinkSync(path.join("./html", file));
+      }
+}
 
 
 // Crea la pàgina índex de categories 

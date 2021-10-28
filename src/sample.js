@@ -95,27 +95,38 @@
      };
  
     
-     // Cerca tots els contenidors dels components d'aquest tipus
-     var componentContainers = document.querySelectorAll('[role="' + COMPONENT_NAME + '"]');
-     // Crea una instància de la classe anterior per a cadascun dels components trobats en la pàgina
-     for(var i=0, len=componentContainers.length; i<len; i++) {
-         var container = componentContainers[i];
-         // Evita que un contenidor pugui ésser tractat més d'una vegada degut a múltiples insercions de la llibreria
-         if(container.dataset.active) {
-            continue;
-         }
-         container.dataset.active = "1";
+    
 
-         var instancia = new Snippet(container);
-         // Exposa l'objecte a window per si es volgués emprar la seva API
-         // Aquesta seria la forma d'utilitzar comunicació entre components (si fos necessari)
-         // s'assegura que el contenidor del component té id, sinó l'assigna
-         var id = container.getAttribute("id");
-         if(!id) {
-             id = "dynamic_"+Math.random().toString(32).substring(2);
-             container.id = id;
-         }
-         window.iedibAPI.snippets[id] = instancia;
-     }
+     window.iedibAPI = window.iedibAPI || {};
+     window.iedibAPI.snippets = window.iedibAPI.snippets || {};
+     window.iedibAPI.snippets.triggers = window.iedibAPI.snippets.triggers || {};
+  
+     var snipfy = function() {
+        // Cerca tots els contenidors dels components d'aquest tipus
+        var componentContainers = document.querySelectorAll('[role="' + COMPONENT_NAME + '"]');
+        // Crea una instància de la classe anterior per a cadascun dels components trobats en la pàgina
+        for(var i=0, len=componentContainers.length; i<len; i++) {
+            var container = componentContainers[i];
+            // Evita que un contenidor pugui ésser tractat més d'una vegada degut a múltiples insercions de la llibreria
+            if(container.dataset.active) {
+                continue;
+            }
+            container.dataset.active = "1";
+
+            var instancia = new Snippet(container);
+            // Exposa l'objecte a window per si es volgués emprar la seva API
+            // Aquesta seria la forma d'utilitzar comunicació entre components (si fos necessari)
+            // s'assegura que el contenidor del component té id, sinó l'assigna
+            var id = container.getAttribute("id");
+            if(!id) {
+                id = "dynamic_"+Math.random().toString(32).substring(2);
+                container.id = id;
+            }
+            window.iedibAPI.snippets[id] = instancia;
+        }
+    }; 
+        
+    snipfy();  
+    window.iedibAPI.snippets.triggers["sample"] = snipfy;
  
  })(); 

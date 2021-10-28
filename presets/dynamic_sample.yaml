@@ -1,9 +1,7 @@
 name: Un exemple d'snippet dinàmic
 key: dynamic-sample
 instructions: >
-  Escriure aquí les instruccions que han de tenir en compte els usuaris.
-  Perquè l'snippet funcioni us heu d'assegurar que al final de la pàgina
-  del llibre apareix l'script https://piworld.es/iedib/snippets/interes.min.js 
+  Escriure aquí les instruccions que han de tenir en compte els usuaris. 
 
 defaults: 
   header: "Interès compost"
@@ -29,7 +27,7 @@ body: |
   
 version: 1.0.0
 misc:
-  category: Dinàmics
+  category: economia
   stars: 2
   scope: L
   requires: ["https://piworld.es/iedib/snippets/interes.min.js"]

@@ -45,6 +45,17 @@
         }
     };
 
+
+    window.iedibAPI = window.iedibAPI || {};
+    window.iedibAPI.snippets = window.iedibAPI.snippets || {};
+    window.iedibAPI.snippets.triggers = window.iedibAPI.snippets.triggers || {};
+    var snipfy = function() { 
+        var listElems = document.querySelectorAll('a[href^="#speak_"]'); 
+        onVoicesLoaded(listElems);
+    }; 
+    window.iedibAPI.snippets.triggers["speak"] = snipfy; 
+    
+
     //Comprovar si està suportada window.SpeechSynthesisUtterance, i l'idioma demanat, sinó elimina l'enllaç 
     var synth = window.speechSynthesis;
     var supported = synth != null && window.SpeechSynthesisUtterance != null;

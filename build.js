@@ -40,7 +40,7 @@ fs.readdirSync(src).forEach( (file) => {
     if(fs.existsSync(path.join(src, file.replace(".js",".css")))) {
 
         let local_css = fs.readFileSync(path.join(src, file.replace(".js",".css")), "utf8");
-        local_css = local_css.replace(/'/g,'"').replace(/\\/g,"\\\\").replace(/\n/g,' ').replace(/\t/g,' ').replace(/  /g, ' ');
+        local_css = local_css.replace(/'/g,'"').replace(/\\/g,"\\\\").replace(/\n/g,' ').replace(/\t/g,' ').replace(/  /g, ' ').replace(/5 Free/g,'5 Pro');
         allcss += " "+local_css;
 
          // add css

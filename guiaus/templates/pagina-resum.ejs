@@ -30,8 +30,9 @@
 
 <body>
 
-    <p>Els components <em>snippet</em> estan organitzats en les següents categories</p>
+    <p>Els components <em>snippets dinàmics</em> estan organitzats en les següents categories</p>
 
+    <!--
     <p style="margin-left:35px;font-size:90%;"><b>Llegenda</b></p>
     <div style="margin-left:45px;font-size:90%;border: 1px solid gray;border-radius: 10px;padding-top: 10px; padding-left: 20px; width: 80%;">
         &nbsp;&nbsp;<i class="fas fa-thumbs-up" style="color:darkgreen;"></i> &nbsp;&nbsp; Component d'ús recomanat o emprat amb freqüència
@@ -40,7 +41,7 @@
         <br>
         &nbsp;&nbsp;<i class="fas fa-comment-plus" style="color:darkorange;"></i> &nbsp;&nbsp; Novetat
     </div>
-
+    -->
     <p><br></p>
 
     <ul>
@@ -55,7 +56,7 @@
                                 <button class="btn btn-link" data-toggle="collapse"
                                     data-target="#collapse-<%=e.randid%>" aria-expanded="true"
                                     aria-controls="collapse-<%=e.randid%>">
-                                    Conté <%=e.snippets.length%> snippets &nbsp;&nbsp;
+                                    Conté <%=e.snippets.length%> snippets<!--&nbsp;&nbsp;
                                         <% if(e.handsup) { %>
                                             <%=e.handsup%> <i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;
                                         <% } %>
@@ -66,18 +67,19 @@
                                             <%=e.nous%> <i class="fas fa-comment-plus"
                                                                         style="color:darkorange;"></i>&nbsp;&nbsp;
                                         <% } %>
+                                        -->
                                 </button>
                             </h5>
                         </div>
 
-                        <div id="collapse-<%=e.randid%>" class="collapse" aria-labelledby="<%=e.name%>"
+                        <div id="collapse-<%=e.randid%>" class="collapse show" aria-labelledby="<%=e.name%>"
                             data-parent="#accordion-<%=e.randid%>">
                             <ul>
                                 <% e.snippets.forEach( (s)=> { %>
                                     <li>
                                         <% if(s.nou) { %>
-                                            <i style="height:20px;width:20px;display:inline-block;color:darkorange;"
-                                                class="fas fa-comment-plus"></i>
+                                           <!-- <i style="height:20px;width:20px;display:inline-block;color:darkorange;"
+                                                class="fas fa-comment-plus"></i>-->
                                         <% } else if(s.stars==3) { %>
                                            <i style="height:20px;width:20px;display:inline-block;color:darkgreen;"
                                                     class="fas fa-thumbs-up"></i>

@@ -1,3 +1,5 @@
+
+
 var compiledCache = {};
 
 function copyToClipboard(text) {
@@ -179,5 +181,14 @@ $(function(){
         mapSnippets[key]['html'] = html;
         var newcode = hljs.highlight('html', html); 
         codeblock.innerHTML = newcode.value;
+
+        // Aquí es necessari tornar a cercar els components dinàmics perquè siguin tractats
+        if(window.iedibAPI && window.iedibAPI.snippets && window.iedibAPI.snippets.triggers) {
+            var triggers = Object.values(window.iedibAPI.snippets.triggers);
+            for(var i=0, len=triggers.length; i<len; i++) {
+                triggers[i]();
+            }
+        }
+
     });
 });
