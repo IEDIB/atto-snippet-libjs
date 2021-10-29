@@ -53,7 +53,7 @@ fs.readdirSync(src).forEach( (file) => {
 
 
     let target = path.join(dst, file.replace(".js", ".min.js"));
-    fs.writeFileSync(target, result.code, {encoding:'utf8'});
+    fs.writeFileSync(target, code, {encoding:'utf8'});
     console.log("> written " + target);
      
 
@@ -73,3 +73,13 @@ fs.writeFileSync(target, all, {encoding:'utf8'});
 console.log("> written " + target);
 
  
+if(allcss.length) {
+    // add css
+    all = `
+    !function(){var l = '${allcss}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; document.getElementsByTagName('head')[0].appendChild(s);}();
+    ` 
+    target = path.join(dst, "allcss.min.js");
+    fs.writeFileSync(target, all, {encoding:'utf8'});
+    console.log("> written " + target);
+}
+

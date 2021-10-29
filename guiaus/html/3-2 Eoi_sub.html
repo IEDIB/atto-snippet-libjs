@@ -87,13 +87,13 @@
             </div>
             <!--end:tabmenu-->
             <!--begin:accordion-->
-            <div id="acc-5jq5f1qrbi" class="accordion iedib-accordion">
+            <div id="acc-b8saurms9j" class="accordion iedib-accordion">
                 <div class="accordion-group">
-                    <div class="accordion-heading"><a class="accordion-toggle" href="#collapse_acc-5jq5f1qrbi_0"
-                            data-toggle="collapse" data-parent="#acc-5jq5f1qrbi" style="background: whitesmoke;">
+                    <div class="accordion-heading"><a class="accordion-toggle" href="#collapse_acc-b8saurms9j_0"
+                            data-toggle="collapse" data-parent="#acc-b8saurms9j" style="background: whitesmoke;">
                             <span class="icon icon-plus-sign"></span> <span>&nbsp;</span> <i
                                 class="fas fa-sliders-h"></i> Paràmetres </a></div>
-                    <div id="collapse_acc-5jq5f1qrbi_0" class="accordion-body collapse">
+                    <div id="collapse_acc-b8saurms9j_0" class="accordion-body collapse">
                         <div class="accordion-inner">
                             <p><em>No admet paràmetres de configuració.</em></p>
                         </div>
@@ -134,7 +134,7 @@
 
     <p><br></p>
     <p><br></p>
-    <p><small>Versió revisada 28.10.2021</small></p>
+    <p><small>Versió revisada 29.10.2021</small></p>
 
     
     <script src="https://piworld.es/iedib/node_modules/handlebars/dist/handlebars.min.js"></script>
@@ -158,8 +158,10 @@
     </script>
     <script>
         
-        var mapSnippets = {"dynamic-speak":{"name":"Llegir el text","key":"dynamic-speak","instructions":"Amb l'editor atto, seleccioneu el text que voleu que es pronunciï i inseriu un enllaç. A la URL escriviu #speak_**-**. En **-** heu d'escriure l'idioma en què s'ha de llegir  la paraula. Per exemple es-ES en castellà, es-AR en argentí, en-US en anglès nord-americà, de-DE en alemany, etc.<br>  Quan deseu la pàgina, podeu clicar sobre el text i es llegirà en veu alta.\n","defaults":{"$id":"r78qilodsrvg"},"body":"<p><br></p>\n<p>\n    Alguns exemples <a href=\"#speak_en-us\">Potatoes</a>,  <a href=\"#speak_es-ES\">Patatas</a>,  <a href=\"#speak_en-GB\">Potatoes</a>.\n</p>  \n","version":"1.0.0","misc":{"category":"eoi","stars":2,"scope":"L","requires":["https://piworld.es/iedib/snippets/speak.min.js"],"parameters":[]},"category":"eoi","parent":"","html":"<p><br></p>\n<p>\n  Alguns exemples <a href=\"#speak_en-us\">Potatoes</a>, <a href=\"#speak_es-ES\">Patatas</a>, <a href=\"#speak_en-GB\">Potatoes</a>.\n</p>"}};
-        var compiledCache = {};
+        var mapSnippets = {"dynamic-speak":{"name":"Llegir el text","key":"dynamic-speak","instructions":"Amb l'editor atto, seleccioneu el text que voleu que es pronunciï i inseriu un enllaç. A la URL escriviu #speak_**-**. En **-** heu d'escriure l'idioma en què s'ha de llegir  la paraula. Per exemple es-ES en castellà, es-AR en argentí, en-US en anglès nord-americà, de-DE en alemany, etc.<br>  Quan deseu la pàgina, podeu clicar sobre el text i es llegirà en veu alta.\n","defaults":{"$id":"r70p7snbctmg"},"body":"<p><br></p>\n<p>\n    Alguns exemples <a href=\"#speak_en-us\">Potatoes</a>,  <a href=\"#speak_es-ES\">Patatas</a>,  <a href=\"#speak_en-GB\">Potatoes</a>.\n</p>  \n","version":"1.0.0","misc":{"category":"eoi","stars":2,"scope":"L","requires":["https://piworld.es/iedib/snippets/speak.min.js"],"parameters":[]},"category":"eoi","parent":"","html":"<p><br></p>\n<p>\n  Alguns exemples <a href=\"#speak_en-us\">Potatoes</a>, <a href=\"#speak_es-ES\">Patatas</a>, <a href=\"#speak_en-GB\">Potatoes</a>.\n</p>"}};
+        
+
+var compiledCache = {};
 
 function copyToClipboard(text) {
   // must use a temporary form element for the selection and copy
@@ -340,6 +342,15 @@ $(function(){
         mapSnippets[key]['html'] = html;
         var newcode = hljs.highlight('html', html); 
         codeblock.innerHTML = newcode.value;
+
+        // Aquí es necessari tornar a cercar els components dinàmics perquè siguin tractats
+        if(window.iedibAPI && window.iedibAPI.snippets && window.iedibAPI.snippets.triggers) {
+            var triggers = Object.values(window.iedibAPI.snippets.triggers);
+            for(var i=0, len=triggers.length; i<len; i++) {
+                triggers[i]();
+            }
+        }
+
     });
 }); 
     

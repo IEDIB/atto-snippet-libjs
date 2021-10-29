@@ -8,6 +8,7 @@ const path = require('path')
 const fs = require('fs')
 
 app.use('/assets', express.static('./build/'));
+app.use('/assets2', express.static('../iedib-atto-snippets-misc/styles/'));
 
 app.get('/guiaus/:page', (req, res) => {
     const p = req.params;    
@@ -29,7 +30,7 @@ app.get('/guiaus/:page', (req, res) => {
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/assets/snippets-m384-josep.css">
+    <link rel="stylesheet" type="text/css" href="/assets2/snippets-m384-josep.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.js"></script>

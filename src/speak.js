@@ -16,6 +16,10 @@
     var onVoicesLoaded = function (listElem) {
         for (var i = 0, len = allReadable.length; i < len; i++) {
         var elem = listElem[i];
+        if(elem.classList.contains("sd-speak-enabled")) {
+            //already treated
+            continue;
+        }
         var idioma = elem.getAttribute("href").split("_")[1];
         elem.title = "Speak!";
         var voices = speechSynthesis.getVoices();
