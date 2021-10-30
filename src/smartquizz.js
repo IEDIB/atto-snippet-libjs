@@ -50,15 +50,15 @@
                     if (!revisited) {
                         console.log("Must say aloud if not revisited ", text);
                     }
-                    vNotify && vNotify.info({
+                    window.vNotify && window.vNotify.info({
                         text: text, 
                         title:'Resultat',
                         fadeInDuration: 1000,
                         fadeOutDuration: 1000,
                         fadeInterval: 50,
-                        visibleDuration: 5000, // auto close after 5 seconds
+                        visibleDuration: 8000, // auto close after 5 seconds
                         postHoverVisibleDuration: 500,
-                        position: "topRight", // topLeft, bottomLeft, bottomRight, center
+                        position: "center", // topLeft, bottomLeft, bottomRight, center
                         sticky: false, // is sticky
                         showClose: true // show close button
                       }); 
