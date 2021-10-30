@@ -4,21 +4,14 @@
 (function(){  
     // Aquest nom ha de coincidir amb el role="sample" del contenidor HTML
      var COMPONENT_NAME = "dynamic_sample";
- 
-     // Contenidor per desar les instàncies dels components
-     window.iedibAPI = window.iedibAPI || {};
-     window.iedibAPI.snippets = window.iedibAPI.snippets || {};
-     window.iedibAPI.snippetsLoaded = window.iedibAPI.snippetsLoaded || [];
-   
-     if(window.iedibAPI.snippetsLoaded.indexOf(COMPONENT_NAME) < 0) {
-        window.iedibAPI.snippetsLoaded.push(COMPONENT_NAME);
-     } else {
-       // Es deu tractar d'un error, no tornis a carregar-lo un altre pic
-       console.error("Warning:: Library "+ COMPONENT_NAME + " loaded twice!");
-     }
-     
-   
-    
+     if(window.IB.sd[COMPONENT_NAME]) {
+        // Already loaded in page
+        // Bind any remaining component
+        console.error("Warning: "+COMPONENT_NAME+" loaded twice.");
+        window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
+        return;
+      } 
+
      // Crea la classe per cada component a partir del contenidor
      var Snippet = function(container) { 
          var self = this;
@@ -51,9 +44,10 @@
              termini: this.elements.termini.value
          };
          
-         this.elements.boto.addEventListener("click", function(){
+         this.handler = function(){
             self.compute();
-         });
+         };
+         this.elements.boto.addEventListener("click", this.handler);
      };
  
      // API del component que es vol exposar
@@ -91,17 +85,19 @@
              var resultat = eval(formula);
              this.elements.sortida.innerHTML = "El capital final és " + resultat.toFixed(2)+ " €"; 
              return resultat;
+         },
+         dispose: function() {
+            this.elements.sortida.innerHTML = "";
+            this.elements.boto.removeEventListener(this.handler);
+            this.container.removeAttribute('data-active');
          }
      };
  
     
-    
-
-     window.iedibAPI = window.iedibAPI || {};
-     window.iedibAPI.snippets = window.iedibAPI.snippets || {};
-     window.iedibAPI.snippets.triggers = window.iedibAPI.snippets.triggers || {};
+    var alias = {inst: {}};
+    window.IB.sd[COMPONENT_NAME] = alias;
   
-     var snipfy = function() {
+     var bind = function() {
         // Cerca tots els contenidors dels components d'aquest tipus
         var componentContainers = document.querySelectorAll('[role="' + COMPONENT_NAME + '"]');
         // Crea una instància de la classe anterior per a cadascun dels components trobats en la pàgina
@@ -122,11 +118,17 @@
                 id = "dynamic_"+Math.random().toString(32).substring(2);
                 container.id = id;
             }
-            window.iedibAPI.snippets[id] = instancia;
+            window.IB.sd[COMPONENT_NAME].inst[id] = instancia;
         }
     }; 
+    alias.bind = bind;
+    alias.unbind = function() {
+        var lInst = Object.values(alias.inst);
+        for(var i=0, l=lInts.length; i<l; i++) {
+            lInst[i].dispose(); 
+        }
+        alias.inst = {};
+     };
         
-    snipfy();  
-    window.iedibAPI.snippets.triggers["sample"] = snipfy;
- 
+    bind();   
  })(); 

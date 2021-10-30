@@ -206,12 +206,18 @@ window.wheelzoom = (function () {
         };
     }
 }());
-
 (function() {
-    window.iedibAPI = window.iedibAPI || {};
-    window.iedibAPI.snippets = window.iedibAPI.snippets || {};
-    window.iedibAPI.snippets.triggers = window.iedibAPI.snippets.triggers || {};
-    var snipfy = function() {
+    var COMPONENT_NAME = "dynamic_zoom";
+    if(window.IB.sd[COMPONENT_NAME]) {
+        // Already loaded in page
+        // Bind any remaining component
+        console.error("Warning: "+COMPONENT_NAME+" loaded twice.");
+        window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
+        return;
+    }
+    var alias = {inst: {}};
+    window.IB.sd[COMPONENT_NAME] = alias;
+    var bind = function() {
         var allImgs = document.querySelectorAll('img.zoom');
 
         for(var i=0, len=allImgs.length; i<len; i++) {
@@ -219,11 +225,25 @@ window.wheelzoom = (function () {
             if(elm.dataset.active) {
                 continue;
             }
-            elm.dataset.active = 1;
+            elm.dataset.active = "1";
             wheelzoom(elm);
+            var id = elem.getAttribute("id")
+            if(!id) {
+                id = "sd_"+Math.random().toString(32).substring(2);
+                elem.setAttribute("id", id);
+            }
+            window.IB.sd[COMPONENT_NAME].inst[id] = elem;
         }
     };
-    snipfy();  
-    window.iedibAPI.snippets.triggers["zoom"] = snipfy;
+    alias.unbind = function() {
+        var lInst = Object.values(alias.inst);
+        for(var i=0, l=lInts.length; i<l; i++) {
+            lInst[i].dispatchEvent(new Event('wheelzoom.destroy'));
+            lInst[i].removeAttribute("data-active");
+        }
+        alias.inst = {};
+    };
+    alias.bind = bind;
+    bind();   
 })();
 

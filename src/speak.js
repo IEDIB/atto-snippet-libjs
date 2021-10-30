@@ -1,4 +1,12 @@
 (function () {
+    var COMPONENT_NAME = "dynamic_speak";
+    if (window.IB.sd[COMPONENT_NAME]) {
+        // Already loaded in page
+        // Bind any remaining component
+        console.error("Warning: " + COMPONENT_NAME + " loaded twice.");
+        window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
+        return;
+    } 
     var findVoice = function (lang, voices) {
         lang = (lang || "").toLowerCase();
         var k = 0;
@@ -13,73 +21,92 @@
         return voice;
     };
 
-    var onVoicesLoaded = function (listElem) {
-        for (var i = 0, len = allReadable.length; i < len; i++) {
-        var elem = listElem[i];
-        if(elem.classList.contains("sd-speak-enabled")) {
-            //already treated
-            continue;
-        }
+    var VoicePlayer = function(elem) {
+        var self = this;
+        this._elem = elem;
         var idioma = elem.getAttribute("href").split("_")[1];
         elem.title = "Speak!";
-        var voices = speechSynthesis.getVoices();
+        var voices = window.speechSynthesis.getVoices();
         var voice = findVoice(idioma, voices);
-        if (voice) {
-
+        this.handler = null;
+        if (voice) { 
+            var idioma = this._elem.getAttribute("href").split("_")[1];
+            this.utterance = new SpeechSynthesisUtterance(elem.innerText);
+            this.utterance.voice = voice;
             elem.classList.add("sd-speak-enabled");
-
-            elem.addEventListener("click", function (evt) {
+            this.handler = function (evt) {
                 evt.preventDefault(); // Evita que executi el link    
-                var elem = evt.target;
-                var idioma = elem.getAttribute("href").split("_")[1];
-
-                var utterance = new SpeechSynthesisUtterance(elem.innerText);
-                utterance.voice = findVoice(idioma, voices);
-                synth.speak(utterance);
-
-                //alert("He de llegir ``"+ elem.innerText + "´´ en idioma --> " + idioma); 
-            });
-
-
+                self.play();
+            }; 
+            elem.addEventListener("click", this.handler);
         } else {
             //Get rid of the a link since browser does not support this feature
             elem.removeAttribute("href");
-
-        }
         }
     };
-
-
-    window.iedibAPI = window.iedibAPI || {};
-    window.iedibAPI.snippets = window.iedibAPI.snippets || {};
-    window.iedibAPI.snippets.triggers = window.iedibAPI.snippets.triggers || {};
-    var snipfy = function() { 
-        var listElems = document.querySelectorAll('a[href^="#speak_"]'); 
-        onVoicesLoaded(listElems);
-    }; 
-    window.iedibAPI.snippets.triggers["speak"] = snipfy; 
-    
-
-    //Comprovar si està suportada window.SpeechSynthesisUtterance, i l'idioma demanat, sinó elimina l'enllaç 
-    var synth = window.speechSynthesis;
-    var supported = synth != null && window.SpeechSynthesisUtterance != null;
-    var allReadable = document.querySelectorAll('a[href^="#speak_"]');
-    if (!supported) {
-        //Get rid of links
-        for (var i = 0, len = allReadable.length; i < len; i++) {
-            allReadable[i].removeAttribute("href");
+    VoicePlayer.prototype = {
+        play: function() {
+            window.speechSynthesis.speak(this.utterance); 
+        },
+        dispose: function() {
+            this._elem.removeEventListener(this.handler);
+            this._elem.classList.remove("sd-speak-enabled"); 
+            this._elem.removeAttribute('data-active');
         }
-        return;
     }
 
-    if ((synth.getVoices()||[]).length) { 
-        onVoicesLoaded(allReadable);
-    } else {
-        // wait until the voices have been loaded asyncronously
-        synth.addEventListener("voiceschanged", function () {
-           onVoicesLoaded(allReadable);
-        });
-    }
+    var onVoicesLoaded = function (listElem) {
+        for (var i = 0, len = listElem.length; i < len; i++) {
+            var elem = listElem[i];
+            if (elem.classList.contains("sd-speak-enabled")) {
+                //already treated
+                continue;
+            }
+            var instance = new VoicePlayer(elem);
+            var id = elem.getAttribute("id")
+            if(!id) {
+                id = "sd_"+Math.random().toString(32).substring(2);
+                elem.setAttribute("id", id);
+            }
+            window.IB.sd[COMPONENT_NAME].inst[id] = instance;
+            
+        }
+    };
+ 
+    var alias = { inst: {} };
+    window.IB.sd[COMPONENT_NAME] = alias;
+    var bind = function () {
+        //Comprovar si està suportada window.SpeechSynthesisUtterance, i l'idioma demanat, sinó elimina l'enllaç 
+        var synth = window.speechSynthesis;
+        var supported = synth != null && window.SpeechSynthesisUtterance != null;
+        var allReadable = document.querySelectorAll('a[href^="#speak_"]');
+        if (!supported) {
+            //Get rid of links
+            for (var i = 0, len = allReadable.length; i < len; i++) {
+                allReadable[i].removeAttribute("href");
+            }
+            return;
+        }
+
+        if ((synth.getVoices() || []).length) {
+               onVoicesLoaded(allReadable);
+        } else {
+            // wait until the voices have been loaded asyncronously
+            synth.addEventListener("voiceschanged", function () {
+                onVoicesLoaded(allReadable);
+            });
+        } 
+    };
+    alias.bind = bind;
+    alias.unbind = function() {
+        var lInst = Object.values(alias.inst);
+        for(var i=0, l=lInts.length; i<l; i++) {
+            lInst[i].dispose();
+        }
+        alias.inst = {};
+     };
+
+    bind();
 
 
 })();
