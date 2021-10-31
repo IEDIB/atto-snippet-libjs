@@ -171,6 +171,15 @@ $(function(){
         
     });
     $(".btn.btn-primary[data-key]").click(function(evt){
+        // Aquí es necessari tornar a cercar els components antics i eliminar-los
+        if(window.IB && window.IB.sd) {
+            // TODO: millorar que es faci un unbound selectiu únicament al mòdul afectat
+            var modules = Object.values(window.IB.sd);
+            for(var i=0, len=modules.length; i<len; i++) {
+                modules[i].unbind && modules[i].unbind();
+            }
+        }
+
         var key = $(this).data("key");  
         var parameters = updateSnippetParameters(key);
         var html = compileSnippet(key, parameters);
@@ -183,10 +192,10 @@ $(function(){
         codeblock.innerHTML = newcode.value;
 
         // Aquí es necessari tornar a cercar els components dinàmics perquè siguin tractats
-        if(window.iedibAPI && window.iedibAPI.snippets && window.iedibAPI.snippets.triggers) {
-            var triggers = Object.values(window.iedibAPI.snippets.triggers);
-            for(var i=0, len=triggers.length; i<len; i++) {
-                triggers[i]();
+        if(window.IB && window.IB.sd) { 
+            var modules = Object.values(window.IB.sd);
+            for(var i=0, len=modules.length; i<len; i++) {
+                modules[i].bind && modules[i].bind();
             }
         }
 

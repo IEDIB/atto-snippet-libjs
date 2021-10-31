@@ -49,9 +49,10 @@
             window.speechSynthesis.speak(this.utterance); 
         },
         dispose: function() {
-            this._elem.removeEventListener(this.handler);
+            this._elem.removeEventListener("click", this.handler);
             this._elem.classList.remove("sd-speak-enabled"); 
-            this._elem.removeAttribute('data-active');
+            this._elem.removeAttribute('data-active'); 
+            this._elem.removeAttribute('title'); 
         }
     }
 
@@ -73,7 +74,7 @@
         }
     };
  
-    var alias = { inst: {} };
+    var alias = { author: "Josep Mulet", version: "1.0", inst: {} };
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function () {
         //Comprovar si està suportada window.SpeechSynthesisUtterance, i l'idioma demanat, sinó elimina l'enllaç 
@@ -100,7 +101,7 @@
     alias.bind = bind;
     alias.unbind = function() {
         var lInst = Object.values(alias.inst);
-        for(var i=0, l=lInts.length; i<l; i++) {
+        for(var i=0, l=lInst.length; i<l; i++) {
             lInst[i].dispose();
         }
         alias.inst = {};

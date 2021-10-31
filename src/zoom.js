@@ -149,6 +149,7 @@ window.wheelzoom = (function () {
 
             img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
             img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
+            img.style.cursor = "nesw-resize";
             img.addEventListener('wheelzoom.reset', reset);
 
             img.addEventListener('wheel', onwheel);
@@ -167,6 +168,7 @@ window.wheelzoom = (function () {
             img.style.backgroundImage = originalProperties.backgroundImage;
             img.style.backgroundRepeat = originalProperties.backgroundRepeat;
             img.src = originalProperties.src;
+            img.style.cursor = "default";
         }.bind(null, {
             backgroundImage: img.style.backgroundImage,
             backgroundRepeat: img.style.backgroundRepeat,
@@ -215,7 +217,7 @@ window.wheelzoom = (function () {
         window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
         return;
     }
-    var alias = {inst: {}};
+    var alias = {author: "Pep Mut", version: "1.0", inst: {}};
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function() {
         var allImgs = document.querySelectorAll('img.zoom');
@@ -227,17 +229,17 @@ window.wheelzoom = (function () {
             }
             elm.dataset.active = "1";
             wheelzoom(elm);
-            var id = elem.getAttribute("id")
+            var id = elm.getAttribute("id")
             if(!id) {
                 id = "sd_"+Math.random().toString(32).substring(2);
-                elem.setAttribute("id", id);
+                elm.setAttribute("id", id);
             }
-            window.IB.sd[COMPONENT_NAME].inst[id] = elem;
+            window.IB.sd[COMPONENT_NAME].inst[id] = elm;
         }
     };
     alias.unbind = function() {
         var lInst = Object.values(alias.inst);
-        for(var i=0, l=lInts.length; i<l; i++) {
+        for(var i=0, l=lInst.length; i<l; i++) {
             lInst[i].dispatchEvent(new Event('wheelzoom.destroy'));
             lInst[i].removeAttribute("data-active");
         }

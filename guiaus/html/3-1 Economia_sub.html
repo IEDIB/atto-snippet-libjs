@@ -103,13 +103,13 @@
             </div>
             <!--end:tabmenu-->
             <!--begin:accordion-->
-            <div id="acc-e2938vtico" class="accordion iedib-accordion">
+            <div id="acc-0hk51otaopg" class="accordion iedib-accordion">
                 <div class="accordion-group">
-                    <div class="accordion-heading"><a class="accordion-toggle" href="#collapse_acc-e2938vtico_0"
-                            data-toggle="collapse" data-parent="#acc-e2938vtico" style="background: whitesmoke;">
+                    <div class="accordion-heading"><a class="accordion-toggle" href="#collapse_acc-0hk51otaopg_0"
+                            data-toggle="collapse" data-parent="#acc-0hk51otaopg" style="background: whitesmoke;">
                             <span class="icon icon-plus-sign"></span> <span>&nbsp;</span> <i
                                 class="fas fa-sliders-h"></i> Paràmetres </a></div>
-                    <div id="collapse_acc-e2938vtico_0" class="accordion-body collapse">
+                    <div id="collapse_acc-0hk51otaopg_0" class="accordion-body collapse">
                         <div class="accordion-inner">
                              
             <div class="form-group">
@@ -176,7 +176,7 @@
 
     <p><br></p>
     <p><br></p>
-    <p><small>Versió revisada 29.10.2021</small></p>
+    <p><small>Versió revisada 31.10.2021</small></p>
 
     
     <script src="https://piworld.es/iedib/node_modules/handlebars/dist/handlebars.min.js"></script>
@@ -200,7 +200,7 @@
     </script>
     <script>
         
-        var mapSnippets = {"dynamic-sample":{"name":"Un exemple d'snippet dinàmic","key":"dynamic-sample","instructions":"Escriure aquí les instruccions que han de tenir en compte els usuaris. \n","defaults":{"header":"Interès compost","capital":100000,"termini":20,"interes":2.5,"formula":"compost","printable":1,"$id":"ruoqrna2pkd"},"body":"<div class=\"iedib-snippetd{{#ifCond printable 'eq' 0}} d-print-none{{/ifCond}}\" role=\"dynamic_sample\" data-formula=\"{{formula}}\" data-header=\"{{header}}\">\n    <label>Capital</label><br>\n    <input type=\"number\" name=\"capital\" step=\"1000\" value=\"{{capital}}\"><label> €</label><br>\n    <label>Termini</label>\n    <br><input type=\"number\" name=\"termini\" value=\"{{termini}}\"><label> anys</label>\n    <br>\n    <label> Tipus d'interès</label>\n    <br><input type=\"number\" name=\"interes\" value=\"{{interes}}\" step=\".25\">\n    <label>%</label> <br>\n    <button class=\"btn btn-primary\" name=\"submit\">Calcula</button>\n    <p name=\"output\"></p>\n</div>  \n","version":"1.0.0","misc":{"category":"economia","stars":2,"scope":"L","requires":["https://piworld.es/iedib/snippets/interes.min.js"],"parameters":[{"name":"header","title":"Capçalera","type":"text"},{"name":"capital","title":"Capital (defecte)","type":"numeric","min":0},{"name":"termini","title":"Termini (anys)","type":"numeric","min":0},{"name":"interes","title":"Percentatge","type":"numeric","min":0},{"name":"formula","title":"Formula","type":"text"},{"name":"printable","title":"Imprimible?","type":"checkbox"}]},"category":"economia","parent":"","html":"<div class=\"iedib-snippetd\" role=\"dynamic_sample\" data-formula=\"compost\" data-header=\"Interès compost\">\n  <label>Capital</label><br>\n  <input type=\"number\" name=\"capital\" step=\"1000\" value=\"100000\"><label> €</label><br>\n  <label>Termini</label>\n  <br><input type=\"number\" name=\"termini\" value=\"20\"><label> anys</label>\n  <br>\n  <label> Tipus d'interès</label>\n  <br><input type=\"number\" name=\"interes\" value=\"2.5\" step=\".25\">\n  <label>%</label> <br>\n  <button class=\"btn btn-primary\" name=\"submit\">Calcula</button>\n  <p name=\"output\"></p>\n</div>"}};
+        var mapSnippets = {"dynamic-sample":{"name":"Un exemple d'snippet dinàmic","key":"dynamic-sample","instructions":"Escriure aquí les instruccions que han de tenir en compte els usuaris. \n","defaults":{"header":"Interès compost","capital":100000,"termini":20,"interes":2.5,"formula":"compost","printable":1,"$id":"rijgai9qbpf"},"body":"<div class=\"iedib-snippetd{{#ifCond printable 'eq' 0}} d-print-none{{/ifCond}}\" role=\"dynamic_sample\" data-formula=\"{{formula}}\" data-header=\"{{header}}\">\n    <label>Capital</label><br>\n    <input type=\"number\" name=\"capital\" step=\"1000\" value=\"{{capital}}\"><label> €</label><br>\n    <label>Termini</label>\n    <br><input type=\"number\" name=\"termini\" value=\"{{termini}}\"><label> anys</label>\n    <br>\n    <label> Tipus d'interès</label>\n    <br><input type=\"number\" name=\"interes\" value=\"{{interes}}\" step=\".25\">\n    <label>%</label> <br>\n    <button class=\"btn btn-primary\" name=\"submit\">Calcula</button>\n    <p name=\"output\"></p>\n</div>  \n","version":"1.0.0","misc":{"category":"economia","stars":2,"scope":"L","requires":["https://piworld.es/iedib/snippets/interes.min.js"],"parameters":[{"name":"header","title":"Capçalera","type":"text"},{"name":"capital","title":"Capital (defecte)","type":"numeric","min":0},{"name":"termini","title":"Termini (anys)","type":"numeric","min":0},{"name":"interes","title":"Percentatge","type":"numeric","min":0},{"name":"formula","title":"Formula","type":"text"},{"name":"printable","title":"Imprimible?","type":"checkbox"}]},"category":"economia","parent":"","html":"<div class=\"iedib-snippetd\" role=\"dynamic_sample\" data-formula=\"compost\" data-header=\"Interès compost\">\n  <label>Capital</label><br>\n  <input type=\"number\" name=\"capital\" step=\"1000\" value=\"100000\"><label> €</label><br>\n  <label>Termini</label>\n  <br><input type=\"number\" name=\"termini\" value=\"20\"><label> anys</label>\n  <br>\n  <label> Tipus d'interès</label>\n  <br><input type=\"number\" name=\"interes\" value=\"2.5\" step=\".25\">\n  <label>%</label> <br>\n  <button class=\"btn btn-primary\" name=\"submit\">Calcula</button>\n  <p name=\"output\"></p>\n</div>"}};
         
 
 var compiledCache = {};
@@ -374,6 +374,15 @@ $(function(){
         
     });
     $(".btn.btn-primary[data-key]").click(function(evt){
+        // Aquí es necessari tornar a cercar els components antics i eliminar-los
+        if(window.IB && window.IB.sd) {
+            // TODO: millorar que es faci un unbound selectiu únicament al mòdul afectat
+            var modules = Object.values(window.IB.sd);
+            for(var i=0, len=modules.length; i<len; i++) {
+                modules[i].unbind && modules[i].unbind();
+            }
+        }
+
         var key = $(this).data("key");  
         var parameters = updateSnippetParameters(key);
         var html = compileSnippet(key, parameters);
@@ -386,10 +395,10 @@ $(function(){
         codeblock.innerHTML = newcode.value;
 
         // Aquí es necessari tornar a cercar els components dinàmics perquè siguin tractats
-        if(window.iedibAPI && window.iedibAPI.snippets && window.iedibAPI.snippets.triggers) {
-            var triggers = Object.values(window.iedibAPI.snippets.triggers);
-            for(var i=0, len=triggers.length; i<len; i++) {
-                triggers[i]();
+        if(window.IB && window.IB.sd) { 
+            var modules = Object.values(window.IB.sd);
+            for(var i=0, len=modules.length; i<len; i++) {
+                modules[i].bind && modules[i].bind();
             }
         }
 

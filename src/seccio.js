@@ -63,7 +63,7 @@
       }
   };
   
-  var alias = {inst: {}};
+  var alias = {author: "Josep Mulet", version: "1.0", inst: {}};
   window.IB.sd[COMPONENT_NAME] = alias;
   var bind = function() {
     var sectionElems = document.querySelectorAll('[role="seccio"]');
@@ -85,7 +85,7 @@
   alias.bind = bind;
   alias.unbind = function() {
      var lInst = Object.values(alias.inst);
-     for(var i=0, l=lInts.length; i<l; i++) {
+     for(var i=0, l=lInst.length; i<l; i++) {
          lInst[i].dispose();
      }
      alias.inst = {};
