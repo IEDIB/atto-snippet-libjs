@@ -70,7 +70,7 @@ fs.readdirSync(src).forEach( (file) => {
 
          // add css
          code = ` 
-         !function(){var l = '${local_css}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; document.getElementsByTagName('head')[0].appendChild(s);}();
+         !function(){if(document.getElementById("sd_css_${file}")){return;}; var l = '${local_css}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; s.id="sd_css_${file}"; document.getElementsByTagName('head')[0].appendChild(s);}();
          `
          + code 
     }
@@ -89,7 +89,7 @@ if(allcss.length) {
     // add css
     all = `
     window.IB = window.IB || {}; window.IB.sd = window.IB.sd || {}; 
-    !function(){var l = '${allcss}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; document.getElementsByTagName('head')[0].appendChild(s);}();
+    !function(){if(document.getElementById("sd_css_all")){return;}; var l = '${allcss}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; s.id="sd_css_all"; document.getElementsByTagName('head')[0].appendChild(s);}();
     `
     + all
 }
@@ -104,7 +104,7 @@ console.log("> written " + target);
 if(allcss.length) {
     // add css
     all = `
-    !function(){var l = '${allcss}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; document.getElementsByTagName('head')[0].appendChild(s);}();
+    !function(){if(document.getElementById("sd_css_all")){return;}; var l = '${allcss}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; s.id="sd_css_all"; document.getElementsByTagName('head')[0].appendChild(s);}();
     ` 
     target = path.join(dst, "allcss.min.js");
     fs.writeFileSync(target, all, {encoding:'utf8'});
@@ -119,7 +119,7 @@ Object.keys(categories).forEach( (catname) => {
     let code = "window.IB = window.IB || {}; window.IB.sd = window.IB.sd || {};";
     if(listCss.length) {
         code += `
-        !function(){var l = '${listCss.join(" ")}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; document.getElementsByTagName('head')[0].appendChild(s);}();
+        !function(){if(document.getElementById("sd_css_${catname}")){return;}; var l = '${listCss.join(" ")}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; s.id="sd_css_${catname}"; document.getElementsByTagName('head')[0].appendChild(s);}();
         `;
     }
     code += listCode.join(" \n")
