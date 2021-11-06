@@ -234,7 +234,7 @@ window.wheelzoom = (function () {
                 id = "sd_"+Math.random().toString(32).substring(2);
                 elm.setAttribute("id", id);
             }
-            window.IB.sd[COMPONENT_NAME].inst[id] = elm;
+            alias.inst[id] = elm;
         }
     };
     alias.unbind = function() {
