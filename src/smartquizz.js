@@ -1,5 +1,29 @@
+window.IB = window.IB || {};
+window.IB.sd =  window.IB.sd || {};
 (function () {
-
+    /**
+     * This component requires that other components are loaded in page
+     */
+    var hasSections = window.IB.sd['sections']!=null;
+    var hasIAPace = window.IB != null && window.IB.iapace != null;
+    var hasOverlay = window.Overlay != null;
+    if(!hasSections) {
+        console.error("Sections module required");
+    }
+    if(!hasIAPace) {
+        console.error("IAPace module required");
+    }
+    if(!hasOverlay) {
+        console.error("Overlay module required");
+    }
+    
+    var findSectionByname = function(secName) {
+        if(!hasSections) {
+            return null;
+        }
+        return IB.sd['sections'].inst['#'+secName];
+    };
+    
     var COMPONENT_NAME = "dynamic_smartquizz";
     if (window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
@@ -9,7 +33,7 @@
         return;
     }
 
-    function handleInteraction(data, ds, revisited) {
+    function handleInteraction(elem, data, ds, revisited) {
 
         console.log("handle interaction");
         console.log(data, ds);
@@ -33,6 +57,12 @@
                 }
                 if (fullfilled) {
                     console.log("Must collapse ", secname);
+                    var component = findSectionByname(secname);
+                    if(component) {
+                        component.hide();
+                    } else {
+                        console.error("Cannot find ", secname);
+                    }
                 }
             }
         }
@@ -45,11 +75,20 @@
                 var ruleParts = rule.split(":");
                 var text = ruleParts[0].trim();
                 var condition = ruleParts[1].trim();
+                condition = condition.replace("\\gt",">").replace("\\ge",">=")
+                                     .replace("\\lt","<").replace("\\le","<=");
                 var fullfilled = eval("" + data.score + condition);
                 if (fullfilled) {
                     if (!revisited) {
                         console.log("Must say aloud if not revisited ", text);
                     }
+                    if(hasOverlay) {
+                        elem.querySelector("iframe").style['pointer-events']="none";
+                        var overlay = new Overlay(elem);
+                        overlay.back(true);
+                        overlay.msg(text);
+                    }
+                    /*
                     window.vNotify && window.vNotify.info({
                         text: text, 
                         title:'Resultat',
@@ -62,6 +101,7 @@
                         sticky: false, // is sticky
                         showClose: true // show close button
                       }); 
+                    */
                     break;
                 }
             }
@@ -75,7 +115,11 @@
                 var ruleParts = scroll.split(":");
                 var sec = ruleParts[0].trim();
                 var condition = ruleParts[1].trim();
+                condition = condition.replace("\\gt",">").replace("\\ge",">=")
+                                     .replace("\\lt","<").replace("\\le","<=");
                 var fullfilled = eval("" + data.score + condition);
+                fullfilled = condition.replace("\\gt",">").replace("\\ge",">=")
+                .replace("\\lt","<").replace("\\le","<=");
                 if (fullfilled) {
                     if (!revisited) {
                         console.log("Must scroll to ", sec);
@@ -90,7 +134,7 @@
         }
     }
 
-    function initApi() {
+    function initApi(elem) {
         var flatten = function (map) {
             if (!map) {
                 return "";
@@ -138,36 +182,43 @@
             var isCompleted = verb == "http://adlnet.gov/expapi/verbs/completed";
             var isInteracted = verb == "http://adlnet.gov/expapi/verbs/interacted";
             var pregunta = flatten(st.object.definition.name).trim();
-            preguntes[pregunta] = evt.getScore() * 10 / evt.getMaxScore();
-
+            var ascore = evt.getScore() * 10 / evt.getMaxScore();
+           
+            if(hasIAPace && elem.dataset.category && ascore!=null && !isNaN(ascore)) {
+                preguntes[pregunta] = ascore;
+                console.log("Adding score to " + elem.dataset.category, ascore)
+                IB.iapace.addScore(elem.dataset.category, ascore);
+            } 
 
             if (isCompleted) {
                 h5p_filter.style["display"] = "none";
-                $("#main_hidden").css("display", "block");
+                //$("#main_hidden").css("display", "block");
                 var persistData = {
                     completion: r.completion,
                     success: r.success,
                     score: r.score.scaled * 10,
                     preguntes: preguntes
                 };
-                localStorage.setItem(h5p_filter.dataset.name, JSON.stringify(persistData));
-                handleInteraction(persistData, h5p_filter.dataset, false);
+                if(hasIAPace) {
+                    IB.iapace.saveInitialEval(elem.id, persistData);
+                } 
+                handleInteraction(elem, persistData, h5p_filter.dataset, false);
             }
 
         });
-        $("#main_hidden").css("display", "none");
+        //$("#main_hidden").css("display", "none");
         return true;
     }
 
     // Attempt to execute a funcion up to n times, after a delay, before cancelling
     // E----- delay ---> E----- delay ---> .... (n)
     // fun must return true if success
-    var FunctionAttemptExec = function (fun, ntimes, delay) {
-        var res = fun();
+    var FunctionAttemptExec = function (fun, ntimes, delay, arg) {
+        var res = fun(arg);
         if (!res && ntimes > 0) {
             // wait a delay
             window.setTimeout(function () {
-                FunctionAttemptExec(fun, ntimes - 1, delay);
+                FunctionAttemptExec(fun, ntimes - 1, delay, arg);
             }, delay);
         }
     };
@@ -181,17 +232,18 @@
                 continue;
             }
             smarts[i].dataset.active = "1";
-            var aname = smarts[i].dataset.name;
-            if (localStorage.getItem(aname)) {
-                // Recover data
-                var persistData = JSON.parse(localStorage.getItem(aname));
-                console.log(persistData);
-                smarts[i].style["display"] = "none";
-                $("#main_hidden").css("display", "block");
-                handleInteraction(persistData, smarts[i].dataset, true);
-            } else {
-                //Prepare initial
-                FunctionAttemptExec(initApi, 5, 1000);
+            var idAvaluacio = smarts[i].id;
+            console.log(idAvaluacio, hasIAPace);
+            if(idAvaluacio && hasIAPace) {
+                var persistData = IB.iapace.loadInitialEval(idAvaluacio);
+                if (persistData) { 
+                    console.log(persistData); 
+                    handleInteraction(smarts[i], persistData, smarts[i].dataset, true);
+                } else {
+                    console.log("No initial data");
+                    //Prepare initial
+                    FunctionAttemptExec(initApi, 5, 1000, smarts[i]);
+                }
             }
         }
     };

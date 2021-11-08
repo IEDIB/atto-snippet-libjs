@@ -130,7 +130,7 @@
   var alias = {inst: {}};
   window.IB.sd[COMPONENT_NAME] = alias;
   var bind = function() {
-    var sectionElems = document.querySelectorAll('ul[role="seccions"]');
+    var sectionElems = document.querySelectorAll('ul[role="sections"]');
     for(var i=0, len=sectionElems.length; i<len; i++) {
       var elem = sectionElems[i]; 
       if(elem.dataset.active == "1") {
