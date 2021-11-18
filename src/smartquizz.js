@@ -7,6 +7,7 @@ window.IB.sd =  window.IB.sd || {};
     var hasSections = window.IB.sd['sections']!=null;
     var hasIAPace = window.IB != null && window.IB.iapace != null;
     var hasOverlay = window.Overlay != null;
+    var hasConfetti = window.Confetti != null;
     if(!hasSections) {
         console.error("Sections module required");
     }
@@ -16,13 +17,10 @@ window.IB.sd =  window.IB.sd || {};
     if(!hasOverlay) {
         console.error("Overlay module required");
     }
+    if(!hasConfetti) {
+        console.error("Confetti module required");
+    }
     
-    var findSectionByname = function(secName) {
-        if(!hasSections) {
-            return null;
-        }
-        return IB.sd['sections'].inst['#'+secName];
-    };
     
     var COMPONENT_NAME = "dynamic_smartquizz";
     if (window.IB.sd[COMPONENT_NAME]) {
@@ -36,37 +34,8 @@ window.IB.sd =  window.IB.sd || {};
     function handleInteraction(elem, data, ds, revisited) {
 
         console.log("handle interaction");
-        console.log(data, ds);
-
-        // Parse ds.collapse
-        if (ds.collapse) {
-            var rules = ds.collapse.split(";");
-            for (var ir = 0, lr = rules.length; ir < lr; ir++) {
-                var rule = rules[ir];
-                var ruleParts = rule.split(":");
-                var secname = ruleParts[0].trim();
-                var pregrules = ruleParts[1].trim();
-                var fullfilled = true;
-                var conditions = pregrules.split("+");
-                for (var ic = 0, lc = conditions.length; ic < lc; ic++) {
-                    var preg = conditions[ic].trim();
-                    if (data.preguntes[preg] < 5) {
-                        fullfilled = false;
-                        break;
-                    }
-                }
-                if (fullfilled) {
-                    console.log("Must collapse ", secname);
-                    var component = findSectionByname(secname);
-                    if(component) {
-                        component.hide();
-                    } else {
-                        console.error("Cannot find ", secname);
-                    }
-                }
-            }
-        }
-
+        console.log(data, ds); 
+        
         // Parse ds.growl
         if (ds.growl) {
             var growls = ds.growl.split(";");
@@ -107,6 +76,14 @@ window.IB.sd =  window.IB.sd || {};
             }
         }
 
+        //Do autocollapse of sections if it applies
+        if(hasSections) {
+            var sectionInstances = Object.values(IB.sd['sections'].inst || {});
+            for(var ks=0, lks=sectionInstances.length; ks<lks; ks++) {
+                sectionInstances[ks].autoCollapse && sectionInstances[ks].autoCollapse();
+            }
+        }
+
         //parse ds.scroll
         if (ds.scroll) {
             var scrolls = ds.scroll.split(";");
@@ -124,7 +101,7 @@ window.IB.sd =  window.IB.sd || {};
                     if (!revisited) {
                         console.log("Must scroll to ", sec);
                         var aTag = $("a[name='"+ sec +"']");
-                        $('html,body').animate({scrollTop: aTag.offset().top},'fast');
+                        $('html,body').animate({scrollTop: aTag.offset().top-200}, 'fast');
                     }
                     console.log("I would not go to ", sec);
                     // Only one message allowed
@@ -191,18 +168,35 @@ window.IB.sd =  window.IB.sd || {};
             } 
 
             if (isCompleted) {
-                h5p_filter.style["display"] = "none";
+                //h5p_filter.style["display"] = "none";
                 //$("#main_hidden").css("display", "block");
+                var overallScore = r.score.scaled * 10;
                 var persistData = {
                     completion: r.completion,
                     success: r.success,
-                    score: r.score.scaled * 10,
+                    score: overallScore,
                     preguntes: preguntes
                 };
                 if(hasIAPace) {
                     IB.iapace.saveInitialEval(elem.id, persistData);
                 } 
-                handleInteraction(elem, persistData, h5p_filter.dataset, false);
+                if(elem.dataset.confetti && hasConfetti) {
+                    var condition = elem.dataset.confetti;
+                    condition = condition.replace("\\gt",">").replace("\\ge",">=")
+                                     .replace("\\lt","<").replace("\\le","<=");
+                    var fullfilled = eval("" + overallScore + condition);
+                    if(fullfilled) {
+                        var confetti = new Confetti(elem);
+                        confetti.play();
+                        window.setTimeout(function() {
+                            handleInteraction(elem, persistData, h5p_filter.dataset, false);
+                        }, 1500);
+                    } else {
+                        handleInteraction(elem, persistData, h5p_filter.dataset, false);
+                    }
+                } else {
+                    handleInteraction(elem, persistData, h5p_filter.dataset, false);
+                }
             }
 
         });

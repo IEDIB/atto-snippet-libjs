@@ -43,12 +43,12 @@
           toggleClasses(this.target, "pw-section-semi","pw-section-showing")
           this.active = !this.active;
       },
-      show: function() {
+      expand: function() {
           if(!this.active) {
             this.toggle();
           }
       },
-      hide: function() {
+      collapse: function() {
           if(this.active) {
             this.toggle();
           }
@@ -86,29 +86,71 @@
      }
   };
   TimelineSections.prototype = {
-      show: function(which) {
+      autoCollapse: function() {
+            var ds = this._container.dataset;  
+            var idQuizz = ds.idQuizz;
+            if(!idQuizz) {
+              console.error("Missing idQuizz in sections container");
+              return;
+            }
+            //retrive quizz performance from localstore
+            var provesInicials = IB.iapace._tree[IB.iapace.coursename || 'cmat0'].ia;
+            if(!provesInicials) {
+              console.error("Cannot find initial test "+idQuizz)
+              return;
+            }
+            var data = provesInicials[idQuizz];
+            if(!data) {
+              console.error("Cannot find initial test "+idQuizz);
+              return;
+            }
+            // Parse ds.collapse
+            if (ds.collapse) {
+              var rules = ds.collapse.split(";");
+              for (var ir = 0, lr = rules.length; ir < lr; ir++) {
+                  var rule = rules[ir];
+                  var ruleParts = rule.split(":");
+                  var secname = ruleParts[0].trim();
+                  var pregrules = ruleParts[1].trim();
+                  var fullfilled = true;
+                  var conditions = pregrules.split("+");
+                  for (var ic = 0, lc = conditions.length; ic < lc; ic++) {
+                      var preg = conditions[ic].trim();
+                      if (data.preguntes[preg] < 5) {
+                          fullfilled = false;
+                          break;
+                      }
+                  }
+                  if (fullfilled) {
+                      console.log("Must collapse ", secname);
+                      this.collapse('#'+secname); 
+                  }
+              }
+            }
+      },
+      expand: function(which) {
         if(which) {
           if(this.sections[which]) {
-              this.sections[which].show();
+              this.sections[which].expand();
           }
         } else {
           var keys = Object.keys(this.sections);
           for(var i=0, len=keys.length; i<len; i++) {
             var key = keys[i];
-            this.sections[key].show();
+            this.sections[key].expand();
           }
         }   
       },
-      hide: function(which) {
+      collapse: function(which) {
         if(which) {
           if(this.sections[which]) {
-              this.sections[which].hide();
+              this.sections[which].collapse();
           }
         } else {
           var keys = Object.keys(this.sections);
           for(var i=0, len=keys.length; i<len; i++) {
             var key = keys[i];
-            this.sections[key].hide();
+            this.sections[key].collapse();
           }
         }   
       },
@@ -123,7 +165,6 @@
           var key = keys[i];
           this.sections[key].dispose();
         }
-        this._container.removeAttribute("data-active");
       }
   };
   
