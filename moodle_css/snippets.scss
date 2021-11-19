@@ -1,0 +1,20 @@
+.iedib-sd-area {
+	display: none;
+}
+#page-mod-book-edit .iedib-sd-area, #page-mod-assign-mod .iedib-sd-area, #page-mod-page-mod .iedib-sd-area {
+    position: relative;
+    margin: auto;
+    display: block;
+    padding: 10px;
+    width: 90%;
+    height: 50px;                             
+    border: 1px solid rgb(50,0,0);
+    border-radius: 5px;
+    background: rgb(255,200,205);
+}
+
+#page-mod-book-edit .iedib-sd-area, #page-mod-assign-mod .iedib-sd-area::after, #page-mod-page-mod .iedib-sd-area::after {
+ content: "Àrea d'snippets dinàmics. No la modifiqueu ni esborreu. Manteniu-la sempre al final de la pàgina.";
+ color: rgb(50,0,0);
+}
+ 
