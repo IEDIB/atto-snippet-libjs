@@ -4,26 +4,23 @@
     text-decoration: none;  
   } 
   @keyframes speakicon_anim {
-    0% {
-      opacity: 0;
-      left: -10px;
+    0% { 
+      font-size: 70%;
     }
-    100% {
-      opacity: 1;
-      left: -5px;
+    100% { 
+      font-size: 85%;
     }
   } 
-  .sd-speak-enabled:hover:after {
-    content: "\f0a1";
-    position: absolute;
-    left: -5px;
-    top: -16px;
-    background: white;
-    z-index:1000;
+  .sd-speak-enabled::before {
+    content: "\f0a1";  
+    background: white; 
     font-family: 'Font Awesome\ 5 Free'; 
     font-size: 70%;
     margin: 0px 5px;
     font-weight: 700; 
     vertical-align:top; 
+  }
+  .sd-speak-enabled:hover:before {
     animation: speakicon_anim 1s ease;
+    animation-fill-mode: forwards;
   }

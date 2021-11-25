@@ -227,6 +227,7 @@ window.wheelzoom = (function () {
             if(elm.dataset.active) {
                 continue;
             }
+            elm.style.maxWidth="95%"; //Prevent scroll on page
             elm.dataset.active = "1";
             wheelzoom(elm);
             var id = elm.getAttribute("id")

@@ -70,8 +70,12 @@
                 elem.setAttribute("id", id);
             }
             window.IB.sd[COMPONENT_NAME].inst[id] = instance;
-            
         }
+
+        //Stop voices on page change
+        window.addEventListener('unload', function(evt) {
+            window.speechSynthesis.cancel();
+        });
     };
  
     var alias = { author: "Josep Mulet", version: "1.0", inst: {} };
