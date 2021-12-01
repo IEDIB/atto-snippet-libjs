@@ -227,7 +227,10 @@ window.wheelzoom = (function () {
             if(elm.dataset.active) {
                 continue;
             }
-            elm.style.maxWidth="95%"; //Prevent scroll on page
+            //hack to apply after jquery of boostiedib
+            setTimeout(function(evt){
+                elm.style.maxWidth="95%"; //Prevent scroll on page
+            }, 1000);
             elm.dataset.active = "1";
             wheelzoom(elm);
             var id = elm.getAttribute("id")
