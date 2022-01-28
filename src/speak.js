@@ -1,5 +1,5 @@
 (function () {
-    var COMPONENT_NAME = "dynamic_speak";
+    var COMPONENT_NAME = "speak";
     if (window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
         // Bind any remaining component

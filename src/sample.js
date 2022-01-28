@@ -3,7 +3,7 @@
 // Exemple de mòdul aïllat amb Vainilla JS
 (function(){  
     // Aquest nom ha de coincidir amb el role="sample" del contenidor HTML
-     var COMPONENT_NAME = "dynamic_sample";
+     var COMPONENT_NAME = "sample";
      if(window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
         // Bind any remaining component

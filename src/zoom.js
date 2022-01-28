@@ -209,7 +209,7 @@ window.wheelzoom = (function () {
     }
 }());
 (function() {
-    var COMPONENT_NAME = "dynamic_zoom";
+    var COMPONENT_NAME = "zoom";
     if(window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
         // Bind any remaining component
