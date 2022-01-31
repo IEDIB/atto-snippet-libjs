@@ -1,4 +1,5 @@
 /*@include: ./misc/jsxgraphcore.js */
+//TODO remove this dependency 
 /*@include: ./misc/js-expression-eval.min.js */
 
 
@@ -62,8 +63,17 @@
             }
         }
         this.id = elem.id;
+         // Look for jessiecode
+         var codiElem =elem.querySelector('script[type="text/jessiecode"]');
+         var codi = null;
+         if(codiElem) {
+             var codi = codiElem.innerText;
+         }
         this.board = JXG.JSXGraph.initBoard(this.id, {boundingbox: this.bb, axis: true, showCopyright: false});
-      
+        if(codi) {
+            self.board.jc.parse(codi);
+        }
+
         if(ds.pltFun) {
             var parts = ds.pltFun.split("::");
             parts = mapa(parts, function(e){
@@ -100,7 +110,6 @@
                 this.drawPoint(dd.x, dd.y, dd.name, dd.color, dd.size);
             }
         }
-
     };
     Plotme.prototype = {
         drawFunction: function(expr, name, color, width) {
