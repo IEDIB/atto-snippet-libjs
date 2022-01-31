@@ -105,11 +105,21 @@
                 }
             });
             for(var i=0; i<parts.length; i++) {
-                var dd = parts[i];
-                //console.error(dd);
+                var dd = parts[i]; 
                 this.drawPoint(dd.x, dd.y, dd.name, dd.color, dd.size);
             }
         }
+
+        if(ds.pltBetween) {
+            var parts = ds.pltBetween.split(",");
+            parts = mapa(parts, function(e){
+                // Retrieve object from board
+                return JXG.getReference(self.board, e.trim());
+            }); 
+            this.drawBetween(parts[0], parts[1]); 
+        }
+
+        self.board.update();
     };
     Plotme.prototype = {
         drawFunction: function(expr, name, color, width) {
@@ -125,6 +135,26 @@
             color = color || "blue";
             size = size || 3;
             return this.board.create('point', [x,y], {size: size, name: name, fixed:true, fillColor: color, strokeColor: color});
+        },
+        drawBetween: function(f, g) {
+            var region = this.board.create('curve', [[], []], {strokeWidth:0, fillColor:'orange', fillOpacity: 0.3});
+            region.updateDataArray = function() { 
+                    // Start with (0, 0)
+                    this.dataX = [0];
+                    this.dataY = [0];
+                    
+                    // Copy all points from f2
+                    this.dataX = this.dataX.concat( mapa(f.points, function(p){ return p.usrCoords[1];} ) );
+                    this.dataY = this.dataY.concat( mapa(f.points, function(p){ return p.usrCoords[2];}) );
+                    
+                    // Copy all points from g2
+                    this.dataX = this.dataX.concat( mapa(g.points, function(p){ return p.usrCoords[1];} ) );
+                    this.dataY = this.dataY.concat( mapa(g.points, function(p){ return p.usrCoords[2];}) );
+                
+                    // Close curve (TODO: Check if correctly closed)
+                    this.dataX = this.dataX.concat( f.points[0].usrCoords[1] );
+                    this.dataY = this.dataY.concat( f.points[0].usrCoords[2] );
+            }
         },
         getBoard: function() {
             return this.board;
