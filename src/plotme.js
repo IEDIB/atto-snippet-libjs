@@ -4,6 +4,7 @@
 
 
 (function () {
+    JXG.Options.text.useMathJax = true;
     var COMPONENT_NAME = "plotme";
     if (window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page

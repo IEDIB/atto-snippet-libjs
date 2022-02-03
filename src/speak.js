@@ -46,6 +46,8 @@
     };
     VoicePlayer.prototype = {
         play: function() {
+            // TODO call abort pending...
+            //window.speechSynthesis.cancel();
             window.speechSynthesis.speak(this.utterance); 
         },
         dispose: function() {
