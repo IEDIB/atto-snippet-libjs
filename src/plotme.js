@@ -69,6 +69,7 @@
          var codi = null;
          if(codiElem) {
              var codi = codiElem.innerText;
+             codi = codi.replace(/``/g, '<<').replace(/´´/g, '>>');
          }
         this.board = JXG.JSXGraph.initBoard(this.id, {boundingbox: this.bb, axis: true, showCopyright: false});
         if(codi) {
