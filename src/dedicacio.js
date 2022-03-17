@@ -3,8 +3,8 @@
 // Exemple de mòdul aïllat amb Vainilla JS
 (function(){  
     var WORDS_MINUTE = 110;
-    var MIN_IMATGE = 2;
-    var MIN_TAULA = 5;
+    var MIN_IMATGE = 1.1;
+    var MIN_TAULA = 1;
     var MIN_VIDEO = 10;
     var MIN_PER_ACTIVITAT = 5;
     // Aquest nom ha de coincidir amb el role="sample" del contenidor HTML
@@ -50,7 +50,7 @@
             var nimg = pageContent.querySelectorAll("img").length;
             minuts += nimg*MIN_IMATGE; 
             // Taules
-            var ntaules = pageContent.querySelectorAll("table").length;
+            var ntaules = pageContent.querySelectorAll("table.iedib-table").length;
             minuts += ntaules*MIN_TAULA; 
             // Videos youtube
             var nvideos = pageContent.querySelectorAll(".iedib-video-container").length;
@@ -83,6 +83,7 @@
                 this.aSpan.innerText = dedicationTimeStr;
             }
  
+            console.error("words=",wlen," imatges=", nimg, " taules=", ntaules, " videos=", nvideos, " proposats=", ex_proposat, "Total (min)=", minuts);
 
          },
          dispose: function() {
