@@ -217,10 +217,10 @@ window.wheelzoom = (function () {
         window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
         return;
     }
-    var alias = {author: "Pep Mut", version: "1.0", inst: {}};
+    var alias = {author: "Josep Mulet, Pep Mut", version: "1.0", inst: {}};
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function() {
-        var allImgs = document.querySelectorAll('img.zoom');
+        var allImgs = document.querySelectorAll('img[role="snptd_zoom"]');
 
         for(var i=0, len=allImgs.length; i<len; i++) {
             var elm = allImgs[i];
