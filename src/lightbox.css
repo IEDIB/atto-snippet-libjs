@@ -11,8 +11,14 @@
     height: 100%;
     border: 0;
     border-radius: 0;
+    background: rgba(0,0,0,0);
 }
 .modal-fullscreen-xl .modal-body {
     width: 100%;
     overflow: auto;
+    background: rgba(0,0,0,0);
+}
+.left-arrow, .right-arrow {
+    font-size: 300%;
+    color: whitesmoke;
 }
