@@ -7,8 +7,7 @@
 .iedib-ctx {
     display: inline-block;
     border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
-    background: rgb(31, 106, 219);
+    border-bottom-left-radius: 50%; 
     color: rgb(241, 245, 254);
     margin: 0;
     padding: 4px;
@@ -24,6 +23,7 @@
     background: rgb(241, 245, 254);
     color: rgb(31, 106, 219);
     font-size: 12px;
+    cursor: help;
 }
 
 .iedib-time>span {
