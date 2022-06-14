@@ -4,7 +4,8 @@
 
     var leftArrow = '<span>&#10094;</span>';
     var rightArrow = '<span>&#10095;</span>';
- 
+    var MODAL_ID = 'snptModal_lightbox';
+
     var COMPONENT_NAME = 'lightbox';
     if(window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
@@ -13,68 +14,83 @@
         window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
         return;
     } 
-     
+    
+    // Find all galleries   
+    // Global to all instances of Lightbox
+    var $gallery = $('[role="snptd_lightbox"]');
+    //Ensure all have an id
+    $.each($gallery, function(i, e) {
+        e.id = "imglightbox_"+i;
+    });
+
     var Lightbox = function(container) {
-        // Find all galleries
-        this.$gallery = $('[role="snptd_lightbox"]');
+       
         // currentIndex in gallery
-        this.currentIndex = -1;
-        $.each(this.$gallery, function(i, ele) { 
-             if(ele.id ==container.id) {
-                 self.currentIndex = i;
-                 return false;
-             }
-        });
+        this.currentIndex = parseInt(container.id.split("_")[1]);
+        this.originalIndex = this.currentIndex; 
         this._setup(container);
     }
 
     Lightbox.prototype._setup = function(container) {
-        var self = this;
-        this.id = "snptModal_lightbox";
+        var self = this; 
+        
         this.$container = $(container);
+        
         this.$container.css("cursor", "pointer");
         this.$container.attr("data-toggle", "modal");
-        this.$container.attr("data-target", '#'+this.id);
+        this.$container.attr("data-target", '#'+MODAL_ID);
  
-        
         //Only one modal per page
-        this.$modal = $("#"+this.id);
+        this.$modal = $("#"+MODAL_ID);
         if(!this.$modal.length) {
-            this.createModal();
+            this._createModal();
         } else {
             this.$img = this.$modal.find('img');
         }
 
         this.$container.off();
         this.$container.on("click", function(evt) {
-            //change src of image in modal
-            if(self.$img.length) { 
-                // Create image dynamically
-                var imgObj = new Image();  
-                var src = self.$container.attr("data-src") || self.$container.attr("src");
-                imgObj.onload = function() {
-                    self._resize(imgObj.width, imgObj.height);
-                    // Can provide a highres in data-src
-                    self.$img.attr("src", src);
-                };
-                imgObj.onerror = function(err) {
-                    console.error("Cannot load image ", err);
-                    self.$img.attr("src", "");
-                }
-                imgObj.src = src;
-            }
+            self.currentIndex = self.originalIndex; 
+            self._loadImageDynamically();
         });
     };
 
-    Lightbox.prototype.createModal = function() {
+    Lightbox.prototype._loadImageDynamically = function() {
         var self = this;
-        var hasGallery = this.$gallery.length > 1;
-        var leftArrowHTML = '<a class="left-arrow" href="#">'+leftArrow+'</a>';
-        var rightArrowHTML = '<a class="right-arrow" href="#">'+rightArrow+'</a>';
-        var modalHTML = $('<div class="modal fade modal-fullscreen-xl" id="'+this.id+'" tabindex="-1" role="dialog">'+
+        //Retrieve container from current index
+        if(!$gallery[this.currentIndex]) {
+            console.error("Noting at currentIndex", this.currentIndex);
+            return;
+        }
+        var $container = $($gallery[this.currentIndex]);
+        
+        //change src of image in modal
+        if(self.$img.length) { 
+            // Create image dynamically
+            var imgObj = new Image();  
+            var src = $container.attr("data-src") || $container.attr("src");
+            imgObj.onload = function() {
+                self._resize(imgObj.width, imgObj.height);
+                // Can provide a highres in data-src
+                self.$img.attr("src", src);
+            };
+            imgObj.onerror = function(err) {
+                console.error("Cannot load image ", err);
+                self.$img.attr("src", "");
+            }
+            imgObj.src = src;
+        }
+    };
+
+    Lightbox.prototype._createModal = function() {
+        var self = this;
+        var hasGallery = $gallery.length > 1;
+        var leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);">'+leftArrow+'</a>';
+        var rightArrowHTML = '<a class="navigate-right-arrow" href="javascript:void(0);">'+rightArrow+'</a>';
+        var modalHTML = $('<div class="modal fade modal-fullscreen-xl" id="'+MODAL_ID+'" tabindex="-1" role="dialog">'+
         '<div class="modal-dialog" role="document">'+
             '<div class="modal-content">'+
-                '<div class="modal-header bg-dark border-dark"><button type="button" class="close text-white" data-dismiss="modal">&times;</button>'+
+                '<div class="modal-header"><button type="button" class="close text-white" data-dismiss="modal">&times;</button>'+
                 '</div>'+
                 '<div class="modal-body p-0" style="text-align:center;">'+
                     (hasGallery? leftArrowHTML : '') +
@@ -99,13 +115,13 @@
 
         if(hasGallery) {
 
-            this.$modal.find('.left-arrow').on("click", function(evt) {
-                evt.preventDefault();
+            this.$modal.find('.navigate-left-arrow').on("click", function(evt) {
+                evt.preventDefault(); 
                 self._navigateLeft();
             });
 
-            this.$modal.find('.right-arrow').on("click", function(evt) {
-                evt.preventDefault();
+            this.$modal.find('.navigate-right-arrow').on("click", function(evt) {
+                evt.preventDefault(); 
                 self._navigateRight();
             });
 
@@ -136,20 +152,20 @@
 
     Lightbox.prototype._navigateLeft = function() {
        if(this.currentIndex==0) {
-           this.currentIndex = this.$gallery.length-1;
+           this.currentIndex = $gallery.length-1;
        } else {
            this.currentIndex -= 1;
        } 
-       this._setup(this.$gallery[this.currentIndex]);
+       this._loadImageDynamically();
     };
 
     Lightbox.prototype._navigateRight = function() {
-        if(this.currentIndex==this.$gallery.length-1) {
+        if(this.currentIndex==$gallery.length-1) {
             this.currentIndex = 0;
         } else {
          this.currentIndex += 1;
         } 
-        this._setup(this.$gallery[this.currentIndex]);
+        this._loadImageDynamically();
     };
 
     Lightbox.prototype.dispose = function() {

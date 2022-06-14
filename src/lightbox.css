@@ -1,9 +1,15 @@
 .modal-fullscreen-xl .modal-header {
     padding: 0rem 1rem;
+    border: none;
+}
+.modal-fullscreen-xl .close {
+    font-size: 200%;
+    border-radius: 50%;
+    background: black;
 }
 .modal-fullscreen-xl .modal-dialog {
-    width: 98%;
-    height: 98%;
+    width: 95%;
+    height: 95%;
     max-width: none;
     margin: auto;
 }
@@ -18,7 +24,7 @@
     overflow: auto;
     background: rgba(0,0,0,0);
 }
-.left-arrow, .right-arrow {
+.navigate-left-arrow, .navigate-right-arrow {
     font-size: 300%;
     color: whitesmoke;
 }
