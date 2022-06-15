@@ -1,6 +1,14 @@
 (function(){
     // LOOK_AND_FEEL pot ésser default, github o xcode
     var LOOK_AND_FEEL = 'xcode';
+    // OLD - VALUES
+    //"https://iedib.net/assets/js/highlight.min.js" 
+    //"https://iedib.net/assets/js/highlightjs-line-numbers.min.js" 
+    // "https://iedib.net/assets/css/"+LOOK_AND_FEEL+".min.css"
+    //createScript("https://iedib.net/assets/js/highlightjs-line-numbers.min.js", "highlightjs-line-numbers.min.js", cb2);
+    var CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/'+LOOK_AND_FEEL+'.min.css';
+    var JS1_URL = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js';
+    var JS2_URL = 'https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js';
 
     var createLinkSheet = function(href, id) {
         var link = document.createElement('link');
@@ -16,6 +24,7 @@
     var createScript = function(src, id, cb) {
         var scriptElem = document.createElement('script'); 
         scriptElem.src = src;
+        scriptElem.async = false;
         if(id) {
             scriptElem.id = id;
         }
@@ -29,27 +38,37 @@
     };
     
     var _loadHighlight = function() {
-        var cb1 = function() {
-            console.log("Load done");
+        var cb2 = function() {
             _doHighlight();
+        }
+        var cb1 = function() { 
+           createScript(JS2_URL, "highlight-numbering.min", cb2);
         };
-        console.log("loading....");
-        createScript("https://iedib.net/assets/js/highlight.min.js", "highlight.min.js", cb1)
-        //createScript("https://iedib.net/assets/js/highlightjs-line-numbers.min.js", "highlightjs-line-numbers.min.js", cb2);
+        //
+        createScript(JS1_URL, "highlight.min", cb1)
     };
 
     var _doHighlight = function() {
-        hljs.initHighlightingOnLoad();
-        hljs.initLineNumbersOnLoad && hljs.initLineNumbersOnLoad();
-        window.document.dispatchEvent(new Event("DOMContentLoaded", {
+        //hljs.initHighlightingOnLoad();
+        //hljs.initLineNumbersOnLoad && hljs.initLineNumbersOnLoad();
+        /*window.document.dispatchEvent(new Event("DOMContentLoaded", {
             bubbles: true,
             cancelable: true
-        }));
+        }));*/
+        var allPreCode = document.querySelectorAll('pre code');
+        for(var j=0, lenj=allPreCode.length; j<lenj; j++) {
+            var el = allPreCode[j];
+            if(hljs && !el.classList.contains("nohighlight")) {
+                hljs.highlightElement(el);
+                if(hljs.lineNumbersBlock && !el.classList.contains("nohljsln")){
+                     hljs.lineNumbersBlock(el, {singleLine: true});
+                }
+            }
+        }
     };
 
     if(!document.querySelector("#hljs_styles")) {
-        console.log("Loading css...");
-        createLinkSheet("https://iedib.net/assets/css/"+LOOK_AND_FEEL+".min.css", "hljs_styles");
+        createLinkSheet(CSS_URL, "hljs_styles");
     } 
     //Check if the page contains hljs
     if(window.hljs) {
