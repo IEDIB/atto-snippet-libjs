@@ -206,6 +206,14 @@ $(function () {
             player_el.append(ctime);
             player_el.append(stop_btn);
 
+            if(settings.accordion) {
+                settings.accordion.on("click", function(evt){
+                    // when closing the accordion, stop the audio
+                    audioElement.pause();
+                    $(play_btn).html('<i class="fas fa-play"></i>');
+                });
+            }   
+
         }); //end event loadeddata
 
 
@@ -250,8 +258,11 @@ $(function () {
             srcs.push(url + ".m4a");
             srcs.push(url + ".mp3");
         } else {
-            // TODO:: check | for more than one file
-            srcs.push(url);
+            // support more than one file
+            var urls = url.split(",");
+            for(var j=0, lenj=urls.length; j<lenj; j++) {
+                srcs.push(urls[j].trim());
+            }
         }
 
         var fromElements = $e.find('[data-from]');
@@ -395,8 +406,10 @@ $(function () {
             id: data_audible,
             src: srcs,
             onTimeupdate: onTimeupdate,
-            onStop: onStop
+            onStop: onStop,
+            accordion: aatgg
         });
+
 
 
     }; //end audible plugin

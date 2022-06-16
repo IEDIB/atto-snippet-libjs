@@ -50,6 +50,10 @@
 
     var _doHighlight = function() {
         //hljs.initHighlightingOnLoad();
+        if(window.hljs && !hljs.highlightElement) {
+            console.error("ERROR> S'ha detectat una versió antiga de hljs a la pàgina que impedeix que es carregui la nova. Eliminau l'script manualment.");
+            return;
+        }
         //hljs.initLineNumbersOnLoad && hljs.initLineNumbersOnLoad();
         /*window.document.dispatchEvent(new Event("DOMContentLoaded", {
             bubbles: true,
