@@ -1,4 +1,22 @@
 (function(){
+    // pooling a function
+    var waitForFunc = function(name, maxttries, successCb) {
+        var found = (typeof(window[name])=='function'); 
+        if(found) {
+            successCb && successCb();
+        } else if(maxttries > 0) {
+            window.setTimeout(function() {
+                var found = (typeof(window["name"])=='function');
+                if(found) {
+                    successCb && successCb();
+                } else {
+                    waitForFunc(name, maxttries-1, successCb);
+                }
+            }, 250);
+        } else {
+            console.error("Cannot wait for function ", name);
+        }
+    };
     var createLinkSheet = function(href, id) {
         if(document.querySelector('#'+id)) {
             // Already loaded 
@@ -36,7 +54,9 @@
 
     // -->  Gràfics de JSXG
     var onreadyJSXG = function (componentContainers) {
-        JXG.Options.text.useMathJax = true;
+        if(window.MathJax) {
+            JXG.Options.text.useMathJax = true;
+        }
         var COMPONENT_NAME = "jsxg";
         if (window.IB.sd[COMPONENT_NAME]) {
             // Already loaded in page
@@ -105,7 +125,7 @@
              var codi = null;
              if(codiElem) {
                  var codi = codiElem.innerText;
-                 codi = codi.replace(/#\[/g, '<<').replace(/\]#/g, '>>');
+                 codi = codi.replace(/\[\[\[/g, '<<').replace(/\]\]\]/g, '>>');
              }
             this.board = JXG.JSXGraph.initBoard(this.id, {boundingbox: this.bb, axis: true, showCopyright: false});
             if(codi) {
@@ -244,10 +264,52 @@
     var componentContainers = document.querySelectorAll('[role="snptd_jsxg"]');
     if(componentContainers.length) {
         var readyFn1 = function() {
-            onreadyJSXG(componentContainers);
+            require(['jsxgraphcore'], function(e){
+                // Expose to the window object
+                window.JGX = e;
+                onreadyJSXG(componentContainers);
+        });
+            
         };
         // load dependencies
         createLinkSheet("https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css", "jsxgraph.css");
-        jsLoader("https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js", "jsxgraphcore.js", readyFn1);
+        waitForFunc("require", 15, function(){
+            // JSXG requires requirejs
+            jsLoader("https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js", "jsxgraphcore.js", readyFn1);
+        });
     }
+
+     // Check if it is required to load dependencies of datatable?
+     /*
+     var componentContainers = document.querySelectorAll('div[role="snptd_datatable"]');
+     if(componentContainers.length) {
+        var readyFn2 = function() {
+            for(var i=0, len=componentContainers.length; i<len; i++) {
+                var elem = $(componentContainers[i]);
+                // TODO read from text/Datatable script for csv within elem
+                var csvElem = elem.find('script[type="text/Datatable"]');
+                console.error(csvElem.text());
+                 
+                // create a table
+                var tid = 'dt_'+ Math.random().toString(32).substring(2);
+                var table = $('<table id="'+tid+'" class="display" style="width:100%"></table>');
+                var thead = $('<thead><tr><th>Name</th><th>Age</th></tr></thead>'); 
+                var tbody = $('<tbody></tbody>');
+                var trow1 = $('<tr><td>Mike</td><td>44</td></tr>');
+                var trow2 = $('<tr><td>Clara</td><td>14</td></tr>');
+                table.append(thead);
+                tbody.append(trow1);
+                tbody.append(trow2);
+                table.append(tbody);
+                
+                elem.append(table);
+                $.DataTable('#'+tid);    
+            }
+        };
+        // load dependencies
+        createLinkSheet("https://piworld.es/iedib/DataTables/datatables.min.css", "datatables.css");
+        jsLoader("https://piworld.es/iedib/DataTables/datatables.min.js", "datatables.js", readyFn2);
+     }
+     */
 })();
+ 
