@@ -135,11 +135,8 @@ console.log("> written " + target);
 // Monolithic file only with css
 if(allcss.length) {
     // add css
-    all = `
-    !function(){if(document.getElementById("sd_css_all")){return;}; var l = '${allcss}'; var s = document.createElement('style'); s.type = 'text/css'; s.innerHTML = l; s.id="sd_css_all"; document.getElementsByTagName('head')[0].appendChild(s);}();
-    ` 
-    target = path.join(dst, "allcss.min.js");
-    fs.writeFileSync(target, all, {encoding:'utf8'});
+    target = path.join(dst, "all.css");
+    fs.writeFileSync(target, allcss, {encoding:'utf8'});
     console.log("> written " + target);
 }
 

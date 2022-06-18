@@ -24,7 +24,6 @@
     });
 
     var Lightbox = function(container) {
-       
         // currentIndex in gallery
         this.currentIndex = parseInt(container.id.split("_")[1]);
         this.originalIndex = this.currentIndex; 
