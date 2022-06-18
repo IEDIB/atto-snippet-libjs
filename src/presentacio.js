@@ -37,6 +37,7 @@
         }
         // Determine which is the current diapositiva
         this.n = 0;
+        maxHeight = Math.max(maxHeight, 150);
         for(var i=0; i<this.num; i++) {
           this.diapositives[i].style.height=maxHeight+'px';
           if(this.diapositives[i].classList.contains('active')) {
@@ -46,7 +47,7 @@
       
         // Control Transicions manuals / temporitzades
         var ds = container.dataset;
-        var cadenaDurades = (ds.durations || "0").trim();             // Variable de control manual /automatic
+        var cadenaDurades = (ds.durades || "0").trim();             // Variable de control manual /automatic
         this.continuarAutomatic = (cadenaDurades!="0");
 
         var tempsDiapositiva = cadenaDurades.split(",");
@@ -75,7 +76,7 @@
         
          
     
-        if(ds.autostart==null || ds.autostart!="false") {
+        if(ds.autostart=="1") {
           // Inicia la presentació al principi
           if (this.continuarAutomatic && this.n < this.num) {
               this.currentTimeout = setTimeout(function(){self.seguent();}, this.durada[this.n] * 1000);
@@ -107,7 +108,7 @@
           this.currentTimeout = null;
         }
         if(this.continuarAutomatic) {
-          if(this.container.dataset.loop=="false" && this.n == this.num-1) {
+          if(!this.container.dataset.loop=="1" && this.n == this.num-1) {
             // stop - end the reproducció
             this.continuarAutomatic = false;
             this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>';
