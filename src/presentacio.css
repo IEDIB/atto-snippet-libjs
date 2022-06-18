@@ -32,12 +32,11 @@ div[role="snptd_presentacio"] .box_continguts {
     background-color: #d4ebee;
 }
 
-
 div[role="snptd_presentacio"] .box_botons {
-    padding-left: 20px;
-    padding-top: 10px;
-    font-size: 20px;
-    height: 60px;
+    padding-left: 10px;
+    padding-top: 6px;
+    font-size: 18px;
+    height: 40px;
     background-color: #d4ebee;
 }
 
@@ -50,7 +49,7 @@ div[role="snptd_presentacio"] .box_comptador {
     float: right;
     padding-right: 15px;
     padding-top: 5px;
-    font-size: 18px;
+    font-size: 16px;
     height: 30px;
     color: #0069d9;
 }

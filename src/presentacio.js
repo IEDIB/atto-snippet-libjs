@@ -85,7 +85,9 @@
             // No s'ha iniciat  
             this.continuarAutomatic = false;
             this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
-          this._updateCounter();
+            this._updateCounter();
+        } else { 
+            this._updateCounter();
         }
         
     }; // End Presentacio class constructor
@@ -111,14 +113,14 @@
           if(!this.container.dataset.loop=="1" && this.n == this.num-1) {
             // stop - end the reproducció
             this.continuarAutomatic = false;
-            this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>';
+            this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
             return;
           }
           var self = this;
           this.currentTimeout = setTimeout(function(){self.seguent();}, this.durada[this.n]*1000);
-          this.buttonPlay.innerHTML = '<i class="fas fa-pause"></i>';
+          this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-pause"></i>');
         } else {
-          this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>';
+            this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
         }
     }; 
 
@@ -224,24 +226,24 @@
     };
  
     Presentacio.prototype._crearBotons = function () {
-        this.buttonFirst = createButton("btn btn-outline-primary btn-first", "fas fa-fast-backward");
+        this.buttonFirst = createButton("btn btn-sm btn-outline-primary btn-first", "fas fa-fast-backward");
         this.button_container.appendChild(this.buttonFirst);
         this.buttonFirst.title = "First";
         
-        this.buttonBack = createButton("btn btn-outline-primary btn-step-backward", "fas fa-chevron-left");
+        this.buttonBack = createButton("btn btn-sm btn-outline-primary btn-step-backward", "fas fa-chevron-left");
         this.button_container.appendChild(this.buttonBack);
         this.buttonBack.title = "Previous";
 
-        this.buttonNext = createButton("btn btn-outline-primary btn-step-forward", "fas fa-chevron-right");
+        this.buttonNext = createButton("btn btn-sm btn-outline-primary btn-step-forward", "fas fa-chevron-right");
         this.button_container.appendChild(this.buttonNext);
         this.buttonNext.title = "Next";
       
-        this.buttonLast = createButton( "btn btn-outline-primary btn-last", "fas fa-fast-forward");
+        this.buttonLast = createButton( "btn btn-sm btn-outline-primary btn-last", "fas fa-fast-forward");
         this.buttonLast.title = "Last";
         this.button_container.appendChild(this.buttonLast);
   
         if(this.continuarAutomatic) {
-            this.buttonPlay = createButton("btn btn-primary btn-step-play", "fas fa-pause");
+            this.buttonPlay = createButton("btn btn-sm btn-primary btn-step-play", "fas fa-pause");
             this.buttonPlay.style["margin-left"] = "15px";
             this.buttonPlay.title = "Play/Pause";
             this.button_container.appendChild(this.buttonPlay);
@@ -261,7 +263,7 @@
 
 
 
-    var alias = { author: "Josep Mulet", version: "1.0", inst: {} };
+    var alias = { author: "Josep Mulet", version: "1.2", inst: {} };
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function () {
         var componentContainers = document.querySelectorAll('div[role="snptd_presentacio"]');
