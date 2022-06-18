@@ -8,265 +8,259 @@
         return;
     }
 
-    // DEFAULT CONSTANTS
-    var TipusContingut = "<b>Exemple </b>";
-    var NumTotalItems = 6;
+    // DEFAULT CONSTANTS 
+    var DEFALT_TIME = 4;
 
     // Cream la classe passant-li el contenidor
     var Presentacio = function (container) {
-        this.container = container;
-        this.button_container = contenidor.querySelector('div[class="box_botons"]');
-
+        var self = this;
         //Amaga els tabs en mode visualització
-        var tabs = contenidor.querySelector('ul.nav.nav-tabs');
+        var tabs = container.querySelector('ul.nav.nav-tabs');
         tabs.style.display = 'none';
 
-        this.diapositives = contenidor.querySelectorAll("div.tab-content > div.tab-pane");
+        this.container = container; 
+        this.button_container = document.createElement('div');
+        this.button_container.className = "box_botons"; 
+        container.append(this.button_container); 
+
+        this.diapositives = container.querySelectorAll("div.tab-content > div.tab-pane");
+        // Avoid changes in height
+        // Determine the max height of all diapositives and set them to the maximum value
+       
         this.num = this.diapositives.length;
-
+        var maxHeight = 0;
+        for(var i=0; i<this.num; i++) {
+          var h = this.diapositives[i].offsetHeight;
+          if(h > maxHeight) {
+              maxHeight = h;
+          }
+        }
+        // Determine which is the current diapositiva
+        this.n = 0;
+        for(var i=0; i<this.num; i++) {
+          this.diapositives[i].style.height=maxHeight+'px';
+          if(this.diapositives[i].classList.contains('active')) {
+              this.n = i;
+          }
+        }
+      
         // Control Transicions manuals / temporitzades
+        var ds = container.dataset;
+        var cadenaDurades = (ds.durations || "0").trim();             // Variable de control manual /automatic
+        this.continuarAutomatic = (cadenaDurades!="0");
 
-        var cadenaDurades = container.dataset.durades || "0";             // Variable de control manual /automatic
- 
-        var n = 0;
-        this.continuarAutomatic = false;
+        var tempsDiapositiva = cadenaDurades.split(",");
 
-        var TempsDiapositiva = cadenaDurades.split(",");
-
-        var Durada = [];
-
-        for (var j = 0; j < num; j++) {
-            //TODO try catch
-            Durada[j] = parseInt(TempsDiapositiva[j]);
+        this.durada = [];
+        var len_td = tempsDiapositiva.length; 
+        for (var j = 0; j < this.num; j++) {
+            var t = DEFALT_TIME;
+            if(j >= len_td) {
+                this.durada.push(t);
+                continue;
+            }
+            try {
+                t = parseInt(tempsDiapositiva[j]);
+                if(t != null) {
+                    this.durada.push(t);
+                }
+            } catch(ex) {
+                //
+            }
         }
 
-        carregaBotons();
-        carregaListeners();
-        eliminarActive_Primer();
-
-        if (cadenaDurades != "0" && n < num) {
-            setTimeout(MostraSeguent, Durada[n] * 1000);
+        this._crearBotons();
+        this._carregaListeners();
+        
+        
+         
+    
+        if(ds.autostart==null || ds.autostart!="false") {
+          // Inicia la presentació al principi
+          if (this.continuarAutomatic && this.n < this.num) {
+              this.currentTimeout = setTimeout(function(){self.seguent();}, this.durada[this.n] * 1000);
+          } 
+        } else if(this.continuarAutomatic) {
+            // No s'ha iniciat  
+            this.continuarAutomatic = false;
+            this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
+          this._updateCounter();
         }
-    };
+        
+    }; // End Presentacio class constructor
 
 
 
     // Funcions de canvi de diapositiva
-
-    Presentacio.prototype.eliminarActive_Seguent = function () {
-
-        var k = -1;
-        for (var i = 0; i < num; i++) {
-            if (diapositives[i].classList.contains("active")) {
-                k = i + 1;
-            }
-            diapositives[i].classList.remove("active");
+    Presentacio.prototype._eliminarActive = function() {
+        for (var i = 0; i < this.num; i++) { 
+            this.diapositives[i].classList.remove("active");
         }
-        if (k == num) {
-            k = num - 1;
-        }
-        diapositives[k].classList.add("active");
+    };
 
-        document.querySelector('.box_comptador').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;  (Element " + (k + 1) + " de " + num + ")";
+    Presentacio.prototype._updateCounter = function() {
+        this.boxComptador.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp; " + (this.n+1) + " / " + this.num ;
+      
+      
+        if(this.currentTimeout) {
+          clearInterval(this.currentTimeout);
+          this.currentTimeout = null;
+        }
+        if(this.continuarAutomatic) {
+          if(this.container.dataset.loop=="false" && this.n == this.num-1) {
+            // stop - end the reproducció
+            this.continuarAutomatic = false;
+            this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>';
+            return;
+          }
+          var self = this;
+          this.currentTimeout = setTimeout(function(){self.seguent();}, this.durada[this.n]*1000);
+          this.buttonPlay.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+          this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    }; 
+
+    Presentacio.prototype.seguent = function () {
+        this._eliminarActive();
+        this.n += 1; 
+        if (this.n == this.num) {
+            this.n = 0;
+        }
+        this.diapositives[this.n].classList.add("active");
+        this._updateCounter();
     };
 
 
-    Presentacio.prototype.eliminarActive_Anterior = function () {
+    Presentacio.prototype.anterior = function () {
+        this._eliminarActive();
+        this.n -= 1; 
+        if (this.n < 0) {
+            this.n = this.num-1;
+        }
+        this.diapositives[this.n].classList.add("active");
+        this._updateCounter(); 
+    };
+
+
+    Presentacio.prototype.primer = function () {
+        this._eliminarActive();
+        this.n = 0;
+        this.diapositives[this.n].classList.add("active");
         this.continuarAutomatic = false;
-        var k = -1;
-        for (var i = 0; i < num; i++) {
-            if (diapositives[i].classList.contains("active")) {
-                k = (i - 1) % num;
-            }
-            diapositives[i].classList.remove("active");
-        }
-        if (k < 0) {
-            k = 0;
-        }
-        diapositives[k].classList.add("active");
-
-        document.querySelector('.box_comptador').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;  (Element " + (k + 1) + " de " + num + ")";
+        this._updateCounter(); 
     };
 
 
-    Presentacio.prototype.eliminarActive_Primer = function () {
+    Presentacio.prototype.darrer = function () {
+        this._eliminarActive();
+        this.n = this.num -1;
+        this.diapositives[this.n].classList.add("active");
         this.continuarAutomatic = false;
-        n = 0;
-        var k = -1;
-        for (var i = 0; i < num; i++) {
-            diapositives[i].classList.remove("active");
-        }
-
-        k = 0;
-
-        diapositives[k].classList.add("active");
-
-        document.querySelector('.box_comptador').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;  (Element " + (k + 1) + " de " + num + ")";
+        this._updateCounter(); 
     };
 
-
-    Presentacio.prototype.eliminarActive_Darrer = function () {
+    Presentacio.prototype.pausa = function () {
         this.continuarAutomatic = false;
-        var k = -1;
-        for (var i = 0; i < num; i++) {
-            diapositives[i].classList.remove("active");
+        if(this.currentTimeout != null) {
+            clearTimeout(this.currentTimeout);
+            this.currentTimeout = null;
         }
+      this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>';
+    }; 
 
-        k = num - 1;
-
-        diapositives[k].classList.add("active");
-
-        document.querySelector('.box_comptador').innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;  (Element " + (k + 1) + " de " + num + ")";
-    };
-
-
-
-    Presentacio.prototype.activa_pausa = function () {
-
-        this.continuarAutomatic = false;
-
-    };
-
-
-    Presentacio.prototype.activa_play = function () {
-
+    Presentacio.prototype.play = function () {
+        var self = this;
         this.continuarAutomatic = true;
-
-        eliminarActive_Seguent();
-        n = n + 1;
-        if (n < num) {
-            setTimeout(MostraSeguent, Durada[n] * 1000);
-        }
-
+        this.currentTimeout = setTimeout(function(){self.seguent()}, this.durada[this.n] * 1000);
+      
+        this.buttonPlay.innerHTML = '<i class="fas fa-pause"></i>';
     };
 
 
 
     // detecció de pulsació dels botons i cridades a les funcions
 
-    Presentacio.prototype.carregaListeners = function () {
+    Presentacio.prototype._carregaListeners = function () {
         var self = this;
 
-        self.contenidor.querySelector(".btn-first").addEventListener("click", function (evt) {
-            self.eliminarActive_Primer();
+        this.buttonFirst.addEventListener("click", function (evt) {
+            self.primer();
         });
 
-        self.contenidor.querySelector(".btn-last").addEventListener("click", function (evt) {
-            self.eliminarActive_Darrer();
+        this.buttonLast.addEventListener("click", function (evt) {
+            self.darrer();
         });
 
 
-        if (cadenaDurades == "0") {
-            self.contenidor.querySelector(".btn-step-forward").addEventListener("click", function (evt) {
-                self.eliminarActive_Seguent();
-            });
+         this.buttonNext.addEventListener("click", function (evt) {
+                self.seguent();
+         });
 
-            self.contenidor.querySelector(".btn-step-backward").addEventListener("click", function (evt) {
-                self.eliminarActive_Anterior();
-            });
-
-        }
-        else {
-
-            self.contenidor.querySelector(".btn-pause").addEventListener("click", function (evt) {
-                self.activa_pausa();
-            });
-
-
-            self.contenidor.querySelector(".btn-play").addEventListener("click", function (evt) {
-                self.activa_play();
-            });
+         this.buttonBack.addEventListener("click", function (evt) {
+                self.anterior();
+         });
+     
+        if(self.continuarAutomatic) {
+          this.buttonPlay.addEventListener("click", function (evt) {
+              if(!self.continuarAutomatic) {
+                self.play();
+              } else {
+                self.pausa();
+              }
+           });
         }
 
-    }
+    };
 
-
-    function MostraSeguent() {
-        if (this.continuarAutomatic == true) {
-            eliminarActive_Seguent();
-            n = n + 1;
-            if (n < num) {
-                setTimeout(MostraSeguent, Durada[n] * 1000);
-            }
-        }
-    }
-
-
-
-
-    Presentacio.prototype.carregaBotons = function () {
-
-
+    var createButton = function(classNames, classFawesome) {
         var botonet1 = document.createElement("button");
-        botonet1.className = "btn btn-primary btn-first";
+        botonet1.className = classNames;
         var inc1 = document.createElement("i");
-        inc1.className = "fas fa-fast-backward";
+        inc1.className = classFawesome;
         botonet1.appendChild(inc1);
-        button_container.appendChild(botonet1);
+        return botonet1;
+    };
+ 
+    Presentacio.prototype._crearBotons = function () {
+        this.buttonFirst = createButton("btn btn-outline-primary btn-first", "fas fa-fast-backward");
+        this.button_container.appendChild(this.buttonFirst);
+        this.buttonFirst.title = "First";
+        
+        this.buttonBack = createButton("btn btn-outline-primary btn-step-backward", "fas fa-chevron-left");
+        this.button_container.appendChild(this.buttonBack);
+        this.buttonBack.title = "Previous";
 
-
-        if (cadenaDurades == "0") {
-
-            var botonet2 = document.createElement("button");
-            botonet2.className = "btn btn-primary btn-step-backward";
-            var inc2 = document.createElement("i");
-            inc2.className = "fas fa-step-backward";
-            botonet2.appendChild(inc2);
-            button_container.appendChild(botonet2);
-
-
-            var botonet3 = document.createElement("button");
-            botonet3.className = "btn btn-primary btn-step-forward";
-            var inc3 = document.createElement("i");
-            inc3.className = "fas fa-step-forward";
-            botonet3.appendChild(inc3);
-            button_container.appendChild(botonet3);
-
+        this.buttonNext = createButton("btn btn-outline-primary btn-step-forward", "fas fa-chevron-right");
+        this.button_container.appendChild(this.buttonNext);
+        this.buttonNext.title = "Next";
+      
+        this.buttonLast = createButton( "btn btn-outline-primary btn-last", "fas fa-fast-forward");
+        this.buttonLast.title = "Last";
+        this.button_container.appendChild(this.buttonLast);
+  
+        if(this.continuarAutomatic) {
+            this.buttonPlay = createButton("btn btn-primary btn-step-play", "fas fa-pause");
+            this.buttonPlay.style["margin-left"] = "15px";
+            this.buttonPlay.title = "Play/Pause";
+            this.button_container.appendChild(this.buttonPlay);
+          
         }
-
-        else {
-
-            var botonet5 = document.createElement("button");
-            botonet5.className = "btn btn-primary btn-pause";
-            var inc5 = document.createElement("i");
-            inc5.className = "fas fa-pause";
-            botonet5.appendChild(inc5);
-            button_container.appendChild(botonet5);
-
-
-            var botonet6 = document.createElement("button");
-            botonet6.className = "btn btn-primary btn-play";
-            var inc6 = document.createElement("i");
-            inc6.className = "fas fa-play";
-            botonet6.appendChild(inc6);
-            button_container.appendChild(botonet6);
-
-        }
-
-
-
-        var botonet4 = document.createElement("button");
-        botonet4.className = "btn btn-primary btn-last";
-        var inc4 = document.createElement("i");
-        inc4.className = "fas fa-fast-forward";
-        botonet4.appendChild(inc4);
-        button_container.appendChild(botonet4);
-
 
 
         // a darrera els botons, afegim el comptador
 
-        var BoxComptador = document.createElement("div");
-        BoxComptador.className = "box_comptador";
-        button_container.appendChild(BoxComptador);
+        this.boxComptador = document.createElement("div");
+        this.boxComptador.className = "box_comptador";
+        this.button_container.appendChild(this.boxComptador);
 
-    };
-
-
+    }; // End Presentacio prototype
 
 
 
-    var alias = { author: "Josep Muvar", version: "1.0", inst: {} };
+
+
+    var alias = { author: "Josep Mulet", version: "1.0", inst: {} };
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function () {
         var componentContainers = document.querySelectorAll('div[role="snptd_presentacio"]');

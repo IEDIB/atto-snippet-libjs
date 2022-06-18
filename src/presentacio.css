@@ -1,51 +1,56 @@
 div[role="snptd_presentacio"] {
     margin: auto;
     border-radius: 5px;
-    border: 1px solid grey;
-    width: 600px;
+    border: 2px solid #d4ebee;
+    max-width: 600px;
 }
 
-div[role="snptd_presentacio"].tab_content {
+div[role="snptd_presentacio"] .tab_content {
     border: 1px solid gray;
     height: 280px;
 }
 
-div[role="snptd_presentacio"].tab_pane {
+div[role="snptd_presentacio"] .tab_pane {
     border: 1px solid gray;
     height: 220px;
 }
 
-div[role="snptd_presentacio"].snpt_container {
+
+div[role="snptd_presentacio"] .snpt_container {
     margin: 20px 400px;
     height: 300px;
     width: 50%;
-    background-color: powderblue;
+    background-color: #d4ebee;
 }
 
-div[role="snptd_presentacio"].box_continguts {
+div[role="snptd_presentacio"] .box_continguts {
     padding-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
     font-size: 20px;
     height: 250px;
-    background-color: powderblue;
+    background-color: #d4ebee;
 }
 
-div[role="snptd_presentacio"].box_botons {
+
+div[role="snptd_presentacio"] .box_botons {
     padding-left: 20px;
     padding-top: 10px;
     font-size: 20px;
     height: 60px;
-    background-color: powderblue;
+    background-color: #d4ebee;
 }
 
-div[role="snptd_presentacio"].box_comptador {
+div[role="snptd_presentacio"] .box_botons button {
+    margin: 0 1px;
+}
+
+div[role="snptd_presentacio"] .box_comptador {
     display: inline;
-    position: relative;
-    left: 100px;
-    padding-right: 10px;
-    padding-top: 10px;
-    font-size: 20px;
-    height: 40px;
-    background-color: powderblue;
+    float: right;
+    padding-right: 15px;
+    padding-top: 5px;
+    font-size: 18px;
+    height: 30px;
+    color: #0069d9;
 }
