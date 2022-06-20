@@ -5,11 +5,17 @@ div[role="snptd_presentacio"] {
     max-width: 600px;
 }
 
+div[role="snptd_presentacio"].theme-dark > .tab-content {
+    background: #363640;
+    color: whitesmoke;
+}
+
 /* %SKIPALLCSS */
 
 div[role="snptd_presentacio"] > .tab-content {
     border: none;
     display: flex;
+    padding: 10px;
 } 
 
 div[role="snptd_presentacio"] .tab-pane {

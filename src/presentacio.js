@@ -14,6 +14,7 @@
     // Cream la classe passant-li el contenidor
     var Presentacio = function (container) {
         var self = this;
+        var ds = container.dataset;
         //Amaga els tabs en mode visualització
         var tabs = container.querySelector('ul.nav.nav-tabs');
         tabs.style.display = 'none';
@@ -51,7 +52,7 @@
         } 
       
         // Control Transicions manuals / temporitzades
-        var ds = container.dataset;
+       
         var cadenaDurades = (ds.durades || "0").trim();             // Variable de control manual /automatic
         this.continuarAutomatic = (cadenaDurades!="0");
         var tempsDiapositiva = cadenaDurades.split(",");
