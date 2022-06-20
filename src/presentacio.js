@@ -28,28 +28,32 @@
         // Determine the max height of all diapositives and set them to the maximum value
        
         this.num = this.diapositives.length;
-        var maxHeight = 0;
+        /*var maxHeight = 0;
         for(var i=0; i<this.num; i++) {
           var h = this.diapositives[i].offsetHeight;
           if(h > maxHeight) {
               maxHeight = h;
           }
-        }
+        }*/
         // Determine which is the current diapositiva
         this.n = 0;
-        maxHeight = Math.max(maxHeight, 150);
+        var mustFade = (ds.transition=='fade');
+        //maxHeight = Math.max(maxHeight+40, 150);
         for(var i=0; i<this.num; i++) {
-          this.diapositives[i].style.height=maxHeight+'px';
+          //this.diapositives[i].style.height=maxHeight+'px';
+          this.diapositives[i].style.overflow='hidden';
+          if(mustFade) {
+            this.diapositives[i].classList.add('fade');
+          }
           if(this.diapositives[i].classList.contains('active')) {
               this.n = i;
-          }
-        }
+          } 
+        } 
       
         // Control Transicions manuals / temporitzades
         var ds = container.dataset;
         var cadenaDurades = (ds.durades || "0").trim();             // Variable de control manual /automatic
         this.continuarAutomatic = (cadenaDurades!="0");
-
         var tempsDiapositiva = cadenaDurades.split(",");
 
         this.durada = [];
@@ -90,6 +94,23 @@
             this._updateCounter();
         }
         
+        /*
+        window.addEventListener('resize', function() { 
+            var maxHeight = 0;
+            for(var i=0; i<self.num; i++) {
+              var h = self.diapositives[i].offsetHeight;
+              if(h > maxHeight) {
+                  maxHeight = h;
+              }
+            } 
+            maxHeight = Math.max(maxHeight+40, 150);
+            for(var i=0; i<self.num; i++) {
+              self.diapositives[i].style.height=maxHeight+'px'; 
+            }
+        });
+        */
+
+
     }; // End Presentacio class constructor
 
 
@@ -247,7 +268,6 @@
             this.buttonPlay.style["margin-left"] = "15px";
             this.buttonPlay.title = "Play/Pause";
             this.button_container.appendChild(this.buttonPlay);
-          
         }
 
 

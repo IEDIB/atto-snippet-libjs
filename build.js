@@ -95,10 +95,20 @@ fs.readdirSync(src).forEach( (file) => {
     catObj.code.push(code);
     if(fs.existsSync(path.join(src, file.replace(".js",".css")))) {
 
-        let local_css = removeComments(fs.readFileSync(path.join(src, file.replace(".js",".css")), "utf8"));
+        let local_css = fs.readFileSync(path.join(src, file.replace(".js",".css")), "utf8");
+        var local_all_css = local_css;
+        //remove %SKIPALLCSS
+        if(local_all_css.indexOf("/* %SKIPALLCSS */")) {
+            local_all_css = local_all_css.split("/* %SKIPALLCSS */")[0];
+        }
+        local_all_css = removeComments(local_all_css)
+        local_css = removeComments(local_css);
+
         local_css = local_css.replace(/'/g,'"').replace(/\\/g,"\\\\").replace(/\n/g,' ').replace(/\t/g,' ').replace(/  /g, ' ').replace(/5 Free/g,'5 Pro');
+        local_all_css = local_all_css.replace(/'/g,'"').replace(/\\/g,"\\\\").replace(/\n/g,' ').replace(/\t/g,' ').replace(/  /g, ' ').replace(/5 Free/g,'5 Pro');
         catObj.css.push(local_css);
-        allcss += " "+local_css;
+  
+        allcss += " "+local_all_css;
 
          // add css
          code = ` 

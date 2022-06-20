@@ -5,16 +5,25 @@ div[role="snptd_presentacio"] {
     max-width: 600px;
 }
 
-div[role="snptd_presentacio"] .tab_content {
-    border: 1px solid gray;
-    height: 280px;
+/* %SKIPALLCSS */
+
+div[role="snptd_presentacio"] > .tab-content {
+    border: none;
+    display: flex;
+} 
+
+div[role="snptd_presentacio"] .tab-pane {
+    display: block;
+    border: none;
+    min-height: 100px;
+    margin-right: -100%;
+    width: 100%;
+    opacity: 0; 
 }
 
-div[role="snptd_presentacio"] .tab_pane {
-    border: 1px solid gray;
-    height: 220px;
+div[role="snptd_presentacio"] .tab-pane.active {
+    opacity: 1;
 }
-
 
 div[role="snptd_presentacio"] .snpt_container {
     margin: 20px 400px;
