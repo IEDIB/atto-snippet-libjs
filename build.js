@@ -27,6 +27,7 @@ function removeComments(code) {
 // Uglify all files
 let all = "";
 let allcss = "";
+let allcss_reduced = "";
 // empaqueta per categories
 const categories = {
     "general": {code:[], css:[]}
@@ -108,7 +109,8 @@ fs.readdirSync(src).forEach( (file) => {
         local_all_css = local_all_css.replace(/'/g,'"').replace(/\\/g,"\\\\").replace(/\n/g,' ').replace(/\t/g,' ').replace(/  /g, ' ').replace(/5 Free/g,'5 Pro');
         catObj.css.push(local_css);
   
-        allcss += " "+local_all_css;
+        allcss_reduced += " "+local_all_css;
+        allcss += " " + local_css;
 
          // add css
          code = ` 
@@ -146,7 +148,7 @@ console.log("> written " + target);
 if(allcss.length) {
     // add css
     target = path.join(dst, "all.css");
-    fs.writeFileSync(target, allcss, {encoding:'utf8'});
+    fs.writeFileSync(target, allcss_reduced, {encoding:'utf8'});
     console.log("> written " + target);
 }
 

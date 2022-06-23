@@ -209,25 +209,25 @@
     Presentacio.prototype._carregaListeners = function () {
         var self = this;
 
-        this.buttonFirst.addEventListener("click", function (evt) {
+        this.evListener1 = this.buttonFirst.addEventListener("click", function (evt) {
             self.primer();
         });
 
-        this.buttonLast.addEventListener("click", function (evt) {
+        this.evListener2 = this.buttonLast.addEventListener("click", function (evt) {
             self.darrer();
         });
 
 
-         this.buttonNext.addEventListener("click", function (evt) {
+        this.evListener3 = this.buttonNext.addEventListener("click", function (evt) {
                 self.seguent();
          });
 
-         this.buttonBack.addEventListener("click", function (evt) {
+        this.evListener4 = this.buttonBack.addEventListener("click", function (evt) {
                 self.anterior();
          });
      
         if(self.continuarAutomatic) {
-          this.buttonPlay.addEventListener("click", function (evt) {
+            this.evListener5 = this.buttonPlay.addEventListener("click", function (evt) {
               if(!self.continuarAutomatic) {
                 self.play();
               } else {
@@ -236,6 +236,19 @@
            });
         }
 
+    };
+
+    Presentacio.prototype.dispose = function () {
+        //Destroy instance
+        this.currentTimeout && window.clearTimeout(this.currentTimeout);
+        this.evListener1 && window.removeEventListener("click", this.evListener1);
+        this.evListener2 && window.removeEventListener("click", this.evListener2);
+        this.evListener3 && window.removeEventListener("click", this.evListener3);
+        this.evListener4 && window.removeEventListener("click", this.evListener4);
+        this.evListener5 && window.removeEventListener("click", this.evListener5);
+
+        this.container.dataset.active = '0';
+        this.container.remove(this.button_container); 
     };
 
     var createButton = function(classNames, classFawesome) {

@@ -13,20 +13,13 @@
         console.error("Warning: "+COMPONENT_NAME+" loaded twice.");
         window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
         return;
-    } 
-    
-    // Find all galleries   
-    // Global to all instances of Lightbox
-    var $gallery = $('[role="snptd_lightbox"]');
-    //Ensure all have an id
-    $.each($gallery, function(i, e) {
-        e.id = "imglightbox_"+i;
-    });
-
+    }  
+   
     var Lightbox = function(container) {
         // currentIndex in gallery
         this.currentIndex = parseInt(container.id.split("_")[1]);
         this.originalIndex = this.currentIndex; 
+        this.$gallery = $('[role="snptd_lightbox"]');
         this._setup(container);
     }
 
@@ -57,11 +50,12 @@
     Lightbox.prototype._loadImageDynamically = function() {
         var self = this;
         //Retrieve container from current index
-        if(!$gallery[this.currentIndex]) {
-            console.error("Noting at currentIndex", this.currentIndex);
+        var gallery = $('[role="snptd_lightbox"]');
+        if(!gallery[this.currentIndex]) {
+            console.error("Nothing at currentIndex", this.currentIndex);
             return;
         }
-        var $container = $($gallery[this.currentIndex]);
+        var $container = $(gallery[this.currentIndex]);
         
         //change src of image in modal
         if(self.$img.length) { 
@@ -83,7 +77,7 @@
 
     Lightbox.prototype._createModal = function() {
         var self = this;
-        var hasGallery = $gallery.length > 1;
+        var hasGallery = this.$gallery.length > 1;
         var leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);">'+leftArrow+'</a>';
         var rightArrowHTML = '<a class="navigate-right-arrow" href="javascript:void(0);">'+rightArrow+'</a>';
         var modalHTML = $('<div class="modal fade modal-fullscreen-xl" id="'+MODAL_ID+'" tabindex="-1" role="dialog">'+
@@ -151,7 +145,7 @@
 
     Lightbox.prototype._navigateLeft = function() {
        if(this.currentIndex==0) {
-           this.currentIndex = $gallery.length-1;
+           this.currentIndex = this.$gallery.length-1;
        } else {
            this.currentIndex -= 1;
        } 
@@ -159,7 +153,7 @@
     };
 
     Lightbox.prototype._navigateRight = function() {
-        if(this.currentIndex==$gallery.length-1) {
+        if(this.currentIndex==this.$gallery.length-1) {
             this.currentIndex = 0;
         } else {
          this.currentIndex += 1;
@@ -168,6 +162,7 @@
     };
 
     Lightbox.prototype.dispose = function() {
+        this.$container.attr("data-active", '0');
         this.$container.off();
     };
 
@@ -175,6 +170,14 @@
     window.IB.sd[COMPONENT_NAME] = alias;
   
      var bind = function() {
+         // Find all galleries   
+        // Global to all instances of Lightbox
+        var $gallery = $('[role="snptd_lightbox"]');
+        //Ensure all have a correct id
+        $.each($gallery, function(i, e) {
+            e.id = "imglightbox_"+i;
+        });
+
         // Cerca tots els contenidors dels components d'aquest tipus
         var componentContainers = document.querySelectorAll('[role="snptd_' + COMPONENT_NAME + '"]');
         // Crea una instància de la classe anterior per a cadascun dels components trobats en la pàgina

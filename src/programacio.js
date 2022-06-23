@@ -1,5 +1,6 @@
 (function(){
     // LOOK_AND_FEEL pot ésser default, github o xcode
+    var COMPONENT_NAME = 'programacio';
     var LOOK_AND_FEEL = 'xcode';
     // OLD - VALUES
     //"https://iedib.net/assets/js/highlight.min.js" 
@@ -62,6 +63,7 @@
         var allPreCode = document.querySelectorAll('pre code');
         for(var j=0, lenj=allPreCode.length; j<lenj; j++) {
             var el = allPreCode[j];
+            el.style.padding = 'initial';
             if(hljs && !el.classList.contains("nohighlight")) {
                 hljs.highlightElement(el);
                 if(hljs.lineNumbersBlock && !el.classList.contains("nohljsln")){
@@ -75,9 +77,20 @@
         createLinkSheet(CSS_URL, "hljs_styles");
     } 
     //Check if the page contains hljs
-    if(window.hljs) {
-        _doHighlight();
-    } else {
-        _loadHighlight();
-    }  
+    var alias = {author: "Josep Mulet", version: "1.0", inst: {}};
+    window.IB.sd[COMPONENT_NAME] = alias;
+  
+    var bind = function() {
+        if(window.hljs) {
+            _doHighlight();
+        } else {
+            _loadHighlight();
+        }  
+    }; 
+    alias.bind = bind;
+    alias.unbind = function() { 
+        alias.inst = {};
+     };
+        
+    bind();  
 })();
