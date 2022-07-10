@@ -1,0 +1,4 @@
+gTTS==2.2.4
+sanic==20.9.1
+hashlib
+#pip install --upgrade gTTS-token
