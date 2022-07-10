@@ -1,3 +1,4 @@
+from xml import dom
 from sanic import Sanic
 from sanic import response
 from gtts import gTTS
@@ -6,8 +7,9 @@ from os.path import exists
 
 app = Sanic(__name__)
 
+BASE_URL = '/api/gtts'
 
-@app.route("/api/speak")
+@app.route(BASE_URL+"/speak")
 async def speak(request):
     if not 't' in request.args or not 'l' in request.args:
         return response.json(
@@ -27,22 +29,41 @@ async def speak(request):
     lang = lang.strip()
 
     codi = hashlib.sha256((text+'_'+lang).encode('utf8')).hexdigest()
-    filename = './'+codi+'.mp3'
+    filename = './cached/'+codi+'.mp3'
     if exists(filename):
         return await response.file(filename)
 
-    
-    tts = gTTS(text, lang=lang, tld='com')
-    tts.save(filename)
-    if exists(filename):
-        return await response.file(filename)
-   
+    errMsg = ''
+    try:
+        plang = lang.split('-')
+        domain = 'com'
+        rlang = plang[0].strip()
+        if len(plang) > 1:
+            accent = plang[1].strip().lower()
+            if accent == 'gb':
+                domain = 'co.uk'
+            elif accent == 'au':
+                domain = 'co.au'
+            elif accent == 'de':
+                domain = 'de'
+            elif accent == 'fr':
+                domain = 'fr'
+            elif accent == 'ca':
+                domain = 'ca'
+            elif accent == 'es':
+                domain = 'es'
+        tts = gTTS(text, lang=rlang, tld=domain)
+        tts.save(filename)
+        if exists(filename):
+            return await response.file(filename)
+    except Exception as ex:
+        errMsg = str(ex)
 
     return response.json(
-        {'message': 'Unable to generate mp3'}, 
+        {'message': 'Unable to generate mp3. '+errMsg}, 
         status=400
     )
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=3010)
