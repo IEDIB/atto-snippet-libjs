@@ -44,19 +44,51 @@
             elem.removeAttribute("href");
         }
     };
-    VoicePlayer.prototype = {
-        play: function() {
-            // TODO call abort pending...
+    VoicePlayer.prototype.play = function() {
+            // call abort pending...
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(this.utterance); 
-        },
-        dispose: function() {
+    };
+    VoicePlayer.prototype.dispose = function() {
             this._elem.removeEventListener("click", this.handler);
             this._elem.classList.remove("sd-speak-enabled"); 
             this._elem.removeAttribute('data-active'); 
             this._elem.removeAttribute('title'); 
+    };
+
+    var GTTSPlayer = function(elem) {
+        var self = this;
+        this._elem = elem;
+        var idioma = elem.getAttribute("href").split("_")[1];
+        var sText = elem.innerText.trim();
+        var slang = idioma.split("-")[0].trim();
+        elem.title = "gTTS Speak!";
+        this.url = "https://piworld.es/gtts/speak?t="+encodeURIComponent(sText)+"&l="+slang;
+        this.audio = null;
+        this.handler = function (evt) {
+            evt.preventDefault(); // Evita que executi el link    
+            self.play();
+        }; 
+        elem.addEventListener("click", this.handler);
+    };
+
+    GTTSPlayer.prototype.play = function() {
+        if(!GTTSPlayer.audio) {
+            GTTSPlayer.audio = new Audio(this.url);
+        } else {
+            GTTSPlayer.audio.pause();
+            GTTSPlayer.audio.currentTime = 0;
         }
-    }
+        GTTSPlayer.audio.src = this.url;
+        GTTSPlayer.audio.play();
+    };
+
+    GTTSPlayer.prototype.dispose = function() {
+        GTTSPlayer.audio.pause();
+        GTTSPlayer.audio.currentTime = 0;
+        GTTSPlayer.audio.src=null;
+        GTTSPlayer.audio = null;
+    };
 
     var onVoicesLoaded = function (listElem) {
         for (var i = 0, len = listElem.length; i < len; i++) {
@@ -88,11 +120,29 @@
         var supported = synth != null && window.SpeechSynthesisUtterance != null;
         var allReadable = document.querySelectorAll('a[href^="#speak_"]');
         if (!supported) {
-            //Get rid of links
-            for (var i = 0, len = allReadable.length; i < len; i++) {
-                allReadable[i].removeAttribute("href");
+            // Try to use the gTTS api instead (cached in piworld.es) 
+            for (var i = 0, len = listElem.length; i < len; i++) {
+                var elem = listElem[i];
+                if (elem.classList.contains("sd-speak-enabled")) {
+                    //already treated
+                    continue;
+                }
+                var instance = new GTTSPlayer(elem);
+                var id = elem.getAttribute("id")
+                if(!id) {
+                    id = "sd_"+Math.random().toString(32).substring(2);
+                    elem.setAttribute("id", id);
+                }
+                window.IB.sd[COMPONENT_NAME].inst[id] = instance;
             }
             return;
+
+            // Get rid of links
+            /*
+            for (var i = 0, len = allReadable.length; i < len; i++) {
+                allReadable[i].removeAttribute("href");
+            } 
+            */
         }
 
         if ((synth.getVoices() || []).length) {
