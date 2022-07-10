@@ -1,5 +1,6 @@
 (function () {
     var COMPONENT_NAME = "speak";
+    var MAX_GTTS_LEN = 1000;
     if (window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
         // Bind any remaining component
@@ -60,16 +61,23 @@
         var self = this;
         this._elem = elem;
         var idioma = elem.getAttribute("href").split("_")[1];
-        var sText = elem.innerText.trim();
-        var slang = idioma.split("-")[0].trim();
+        var sText = elem.innerText.trim(); 
+        if(sText.length > MAX_GTTS_LEN) {
+            console.log("GTTS: Max length supported is "+MAX_GTTS_LEN+" characters.");
+            elem.removeAttribute("href");
+            return;
+        }
         elem.title = "gTTS Speak!";
-        this.url = "https://piworld.es/gtts/speak?t="+encodeURIComponent(sText)+"&l="+slang;
+        this.url = "https://piworld.es/api/gtts/speak?t="+encodeURIComponent(sText)+"&l="+idioma;
         this.audio = null;
         this.handler = function (evt) {
             evt.preventDefault(); // Evita que executi el link    
             self.play();
         }; 
         elem.addEventListener("click", this.handler);
+        if(!this.handler) {
+            this._elem.removeEventListener("click", this.handler);
+        }
     };
 
     GTTSPlayer.prototype.play = function() {
@@ -88,8 +96,18 @@
         GTTSPlayer.audio.currentTime = 0;
         GTTSPlayer.audio.src=null;
         GTTSPlayer.audio = null;
+        if(!this.handler) {
+            this._elem.removeEventListener("click", this.handler);
+        }
     };
 
+    var isVoiceAvailable = function(elem) {
+        var idioma = elem.getAttribute("href").split("_")[1];
+        var voices = window.speechSynthesis.getVoices();
+        var voice = findVoice(idioma, voices);
+        return voice != null;
+    };
+ 
     var onVoicesLoaded = function (listElem) {
         for (var i = 0, len = listElem.length; i < len; i++) {
             var elem = listElem[i];
@@ -97,12 +115,21 @@
                 //already treated
                 continue;
             }
-            var instance = new VoicePlayer(elem);
             var id = elem.getAttribute("id")
             if(!id) {
                 id = "sd_"+Math.random().toString(32).substring(2);
                 elem.setAttribute("id", id);
             }
+            //check if the required voice is available
+            var instance = null;
+            if(isVoiceAvailable(elem)) {
+                instance = new VoicePlayer(elem);
+            }
+            //otherwise, fallback on gTTS engine
+            else {
+                instance = new GTTSPlayer(elem);
+            }
+            
             window.IB.sd[COMPONENT_NAME].inst[id] = instance;
         }
 

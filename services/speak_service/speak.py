@@ -15,8 +15,11 @@ async def speak(request):
         return response.json(
         {'message': 'Missing t or l args'}, 
         status=400
-    )
-    print(request.args)
+    ) 
+    skip_cache = False
+    if 'c' in request.args and request.args['c']=='false':
+        skip_cache = True
+
     text = request.args['t']
     lang = request.args['l']
 
@@ -30,7 +33,7 @@ async def speak(request):
 
     codi = hashlib.sha256((text+'_'+lang).encode('utf8')).hexdigest()
     filename = './cached/'+codi+'.mp3'
-    if exists(filename):
+    if not skip_cache and exists(filename):
         return await response.file(filename)
 
     errMsg = ''
@@ -41,9 +44,7 @@ async def speak(request):
         if len(plang) > 1:
             accent = plang[1].strip().lower()
             if accent == 'gb':
-                domain = 'co.uk'
-            elif accent == 'au':
-                domain = 'co.au'
+                domain = 'co.uk' 
             elif accent == 'de':
                 domain = 'de'
             elif accent == 'fr':
