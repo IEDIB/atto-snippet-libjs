@@ -1,3 +1,4 @@
+ 
 (function () {
     var COMPONENT_NAME = "presentacio";
     if (window.IB.sd[COMPONENT_NAME]) {
@@ -15,6 +16,7 @@
     var Presentacio = function (container) {
         var self = this;
         var ds = container.dataset;
+        this.loop = (ds.loop=="1");
         //Amaga els tabs en mode visualització
         var tabs = container.querySelector('ul.nav.nav-tabs');
         tabs.style.display = 'none';
@@ -25,23 +27,13 @@
         container.append(this.button_container); 
 
         this.diapositives = container.querySelectorAll("div.tab-content > div.tab-pane");
-        // Avoid changes in height
-        // Determine the max height of all diapositives and set them to the maximum value
        
         this.num = this.diapositives.length;
-        /*var maxHeight = 0;
-        for(var i=0; i<this.num; i++) {
-          var h = this.diapositives[i].offsetHeight;
-          if(h > maxHeight) {
-              maxHeight = h;
-          }
-        }*/
-        // Determine which is the current diapositiva
+       
+        // Determine which is the current diapositiva (by default the one acive)
         this.n = 0;
-        var mustFade = (ds.transition=='fade');
-        //maxHeight = Math.max(maxHeight+40, 150);
-        for(var i=0; i<this.num; i++) {
-          //this.diapositives[i].style.height=maxHeight+'px';
+        var mustFade = (ds.transition=='fade'); 
+        for(var i=0; i<this.num; i++) { 
           this.diapositives[i].style.overflow='hidden';
           if(mustFade) {
             this.diapositives[i].classList.add('fade');
@@ -52,8 +44,8 @@
         } 
       
         // Control Transicions manuals / temporitzades
-       
-        var cadenaDurades = (ds.durades || "0").trim();             // Variable de control manual /automatic
+        var cadenaDurades = (ds.durades || "0").trim();             
+        // Variable de control manual /automatic
         this.continuarAutomatic = (cadenaDurades!="0");
         var tempsDiapositiva = cadenaDurades.split(",");
 
@@ -71,7 +63,7 @@
                     this.durada.push(t);
                 }
             } catch(ex) {
-                //
+                console.error(ex);
             }
         }
 
@@ -94,24 +86,7 @@
         } else { 
             this._updateCounter();
         }
-        
-        /*
-        window.addEventListener('resize', function() { 
-            var maxHeight = 0;
-            for(var i=0; i<self.num; i++) {
-              var h = self.diapositives[i].offsetHeight;
-              if(h > maxHeight) {
-                  maxHeight = h;
-              }
-            } 
-            maxHeight = Math.max(maxHeight+40, 150);
-            for(var i=0; i<self.num; i++) {
-              self.diapositives[i].style.height=maxHeight+'px'; 
-            }
-        });
-        */
-
-
+      
     }; // End Presentacio class constructor
 
 
@@ -132,7 +107,7 @@
           this.currentTimeout = null;
         }
         if(this.continuarAutomatic) {
-          if(!this.container.dataset.loop=="1" && this.n == this.num-1) {
+          if(!this.loop && this.n == this.num-1) {
             // stop - end the reproducció
             this.continuarAutomatic = false;
             this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
@@ -146,23 +121,31 @@
         }
     }; 
 
-    Presentacio.prototype.seguent = function () {
+    Presentacio.prototype.seguent = function () { 
+        if (this.n >= this.num - 1) {
+          if(this.loop) {
+            this.n = -1;
+          } else { 
+            return;
+          }
+        }
         this._eliminarActive();
         this.n += 1; 
-        if (this.n == this.num) {
-            this.n = 0;
-        }
         this.diapositives[this.n].classList.add("active");
         this._updateCounter();
     };
 
 
-    Presentacio.prototype.anterior = function () {
+    Presentacio.prototype.anterior = function () {   
+        if (this.n == 0) {
+           if(this.loop) {
+            this.n = this.num;
+          } else {
+            return;
+          } 
+        }
         this._eliminarActive();
         this.n -= 1; 
-        if (this.n < 0) {
-            this.n = this.num-1;
-        }
         this.diapositives[this.n].classList.add("active");
         this._updateCounter(); 
     };
@@ -297,7 +280,7 @@
 
 
 
-    var alias = { author: "Josep Mulet", version: "1.2", inst: {} };
+    var alias = { author: "Tomeu Fiol, Josep Mulet", version: "1.3", inst: {} };
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function () {
         var componentContainers = document.querySelectorAll('div[role="snptd_presentacio"]');

@@ -1,70 +1,85 @@
-div[role="snptd_presentacio"] {
-    margin: auto;
-    border-radius: 5px;
-    border: 2px solid #d4ebee;
-    max-width: 600px;
-}
-
-div[role="snptd_presentacio"].theme-dark > .tab-content {
-    background: #363640;
-    color: whitesmoke;
-}
-
-/* %SKIPALLCSS */
-
-div[role="snptd_presentacio"] > .tab-content {
-    border: none;
-    display: flex;
-    padding: 10px;
-} 
-
-div[role="snptd_presentacio"] .tab-pane {
-    display: block;
-    border: none;
-    min-height: 100px;
-    margin-right: -100%;
-    width: 100%;
-    opacity: 0; 
-}
-
-div[role="snptd_presentacio"] .tab-pane.active {
-    opacity: 1;
-}
-
-div[role="snptd_presentacio"] .snpt_container {
-    margin: 20px 400px;
-    height: 300px;
-    width: 50%;
-    background-color: #d4ebee;
-}
-
-div[role="snptd_presentacio"] .box_continguts {
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 20px;
-    height: 250px;
-    background-color: #d4ebee;
-}
-
-div[role="snptd_presentacio"] .box_botons {
-    padding-left: 10px;
-    padding-top: 6px;
-    font-size: 18px;
-    height: 40px;
-    background-color: #d4ebee;
-}
-
-div[role="snptd_presentacio"] .box_botons button {
-    margin: 0 1px;
-}
-
-div[role="snptd_presentacio"] .box_comptador {
-    display: inline;
-    float: right;
-    padding-right: 15px;
-    padding-top: 5px;
-    font-size: 16px;
-    height: 30px;
-    color: #0069d9;
-}
+@media not print {
+    div[role="snptd_presentacio"] {
+        margin: auto;
+        border-radius: 5px;
+        border: 2px solid #d4ebee;
+        max-width: 600px;
+    }
+  
+    div[role="snptd_presentacio"].theme-dark > .tab-content {
+        background: #363640;
+        color: whitesmoke;
+    }
+  }
+  
+  /* %SKIPALLCSS */
+  @media not print {
+    div[role="snptd_presentacio"] > .tab-content {
+        border: none;
+        display: flex;
+        padding: 10px;
+    } 
+  
+    div[role="snptd_presentacio"] .tab-pane {
+        display: block;
+        border: none;
+        min-height: 100px;
+        margin-right: -100%;
+        width: 100%;
+        opacity: 0; 
+    }
+  
+    div[role="snptd_presentacio"] .tab-pane.active {
+        opacity: 1;
+    }
+  
+    div[role="snptd_presentacio"] .snpt_container {
+        margin: 20px 400px;
+        height: 300px;
+        width: 50%;
+        background-color: #d4ebee;
+    }
+  
+    div[role="snptd_presentacio"] .box_continguts {
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 20px;
+        height: 250px;
+        background-color: #d4ebee;
+    }
+  
+    div[role="snptd_presentacio"] .box_botons {
+        padding-left: 10px;
+        padding-top: 6px;
+        font-size: 18px;
+        height: 40px;
+        background-color: #d4ebee;
+    }
+  
+    div[role="snptd_presentacio"] .box_botons button {
+        margin: 0 1px;
+    }
+  
+    div[role="snptd_presentacio"] .box_comptador {
+        display: inline;
+        float: right;
+        padding-right: 15px;
+        padding-top: 5px;
+        font-size: 16px;
+        height: 30px;
+        color: #0069d9;
+    }
+  }
+  
+  @media print {
+    div[role="snptd_presentacio"] .box_botons {
+      display: none;
+    }
+    div[role="snptd_presentacio"] .fade {
+        opacity: 1;
+    }
+    div[role="snptd_presentacio"] .nav.nav-tabs {
+        display: block!important;
+    }
+  }
