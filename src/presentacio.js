@@ -17,9 +17,12 @@
         var self = this;
         var ds = container.dataset;
         this.loop = (ds.loop=="1");
-        //Amaga els tabs en mode visualització
-        var tabs = container.querySelector('ul.nav.nav-tabs');
-        tabs.style.display = 'none';
+        //override tabs names to 1/n, 2/n etc. Useful for printing
+        var tabLabels = container.querySelectorAll('ul.nav.nav-tabs > li > a');
+        for(var i=0, len=tabLabels.length; i<len; i++) {
+            tabLabels[i].innerHTML = "&nbsp; "+ (i+1)+ "/" + len;
+        }
+       
 
         this.container = container; 
         this.button_container = document.createElement('div');
@@ -35,6 +38,9 @@
         var mustFade = (ds.transition=='fade'); 
         for(var i=0; i<this.num; i++) { 
           this.diapositives[i].style.overflow='hidden';
+          //add content-panel labels 1/n, 2/n etc. Useful for printing
+          this.diapositives[i].dataset.label = (i+1)+"/"+this.num;
+          this.diapositives[i].classList.remove("iedib-tabpane");
           if(mustFade) {
             this.diapositives[i].classList.add('fade');
           }
@@ -280,7 +286,7 @@
 
 
 
-    var alias = { author: "Tomeu Fiol, Josep Mulet", version: "1.3", inst: {} };
+    var alias = { author: "Tomeu Fiol, Josep Mulet", version: "1.4", inst: {} };
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function () {
         var componentContainers = document.querySelectorAll('div[role="snptd_presentacio"]');
