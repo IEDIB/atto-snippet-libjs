@@ -10,13 +10,13 @@
     }
 
     // DEFAULT CONSTANTS 
-    var DEFALT_TIME = 4;
+    var DEFALT_TIME = 5;
 
     // Cream la classe passant-li el contenidor
     var Presentacio = function (container) {
         var self = this;
         var ds = container.dataset;
-        this.loop = (ds.loop=="1");
+        this.loop = (ds.loop=="1" || ds.loop=="true");
         //override tabs names to 1/n, 2/n etc. Useful for printing
         var tabLabels = container.querySelectorAll('ul.nav.nav-tabs > li > a');
         for(var i=0, len=tabLabels.length; i<len; i++) {
@@ -25,6 +25,7 @@
        
 
         this.container = container; 
+        this.container.style.overflow='hidden';
         this.button_container = document.createElement('div');
         this.button_container.className = "box_botons"; 
         container.append(this.button_container); 
@@ -33,20 +34,32 @@
        
         this.num = this.diapositives.length;
        
-        // Determine which is the current diapositiva (by default the one acive)
-        this.n = 0;
+        // Determine which is the current diapositiva (by default the first one)
+        this.n = 0; // By default the first one
+
+        if(ds.start) {
+            try {
+                this.n = (parseInt(ds.start)-1) % this.num;
+            } catch(ex) {
+                console.error(ex);
+            }
+        }
+
         var mustFade = (ds.transition=='fade'); 
         for(var i=0; i<this.num; i++) { 
-          this.diapositives[i].style.overflow='hidden';
+          //this.diapositives[i].style.overflow='hidden';
           //add content-panel labels 1/n, 2/n etc. Useful for printing
           this.diapositives[i].dataset.label = (i+1)+"/"+this.num;
           this.diapositives[i].classList.remove("iedib-tabpane");
           if(mustFade) {
             this.diapositives[i].classList.add('fade');
           }
-          if(this.diapositives[i].classList.contains('active')) {
-              this.n = i;
-          } 
+          // Disregard the active as startfrom 
+          if(i==this.n) {
+            this.diapositives[i].classList.add('active');
+          } else {
+            this.diapositives[i].classList.remove('active');
+          }
         } 
       
         // Control Transicions manuals / temporitzades
@@ -55,6 +68,15 @@
         this.continuarAutomatic = (cadenaDurades!="0");
         var tempsDiapositiva = cadenaDurades.split(",");
 
+        // If only one time is set, then all slides have the same duration
+        if(tempsDiapositiva.length == 1) {
+            // Set as default time
+            try {
+                DEFALT_TIME = parseInt(tempsDiapositiva[0]);
+            } catch(ex){
+                console.error(ex);
+            }
+        }
         this.durada = [];
         var len_td = tempsDiapositiva.length; 
         for (var j = 0; j < this.num; j++) {
@@ -76,12 +98,17 @@
         this._crearBotons();
         this._carregaListeners();
         
-        
-         
+        var autostart = ds.autostart;
+        if(ds.loop != "1" && ds.loop != "true") {
+            // Never autostart if loop is disabled!
+            autostart = "0";
+        }
     
-        if(ds.autostart=="1") {
+        if(autostart=="1" || autostart=="true") {
           // Inicia la presentació al principi
           if (this.continuarAutomatic && this.n < this.num) {
+              //Show the counter
+              this._updateCounter();
               this.currentTimeout = setTimeout(function(){self.seguent();}, this.durada[this.n] * 1000);
           } 
         } else if(this.continuarAutomatic) {
@@ -286,7 +313,7 @@
 
 
 
-    var alias = { author: "Tomeu Fiol, Josep Mulet", version: "1.4", inst: {} };
+    var alias = { author: "Tomeu Fiol, Josep Mulet", version: "1.6", inst: {} };
     window.IB.sd[COMPONENT_NAME] = alias;
     var bind = function () {
         var componentContainers = document.querySelectorAll('div[role="snptd_presentacio"]');

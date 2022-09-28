@@ -26,7 +26,13 @@
         var self = this;
         this._elem = elem;
         var idioma = elem.getAttribute("href").split("_")[1];
-        elem.title = "Speak!";
+        //decide what to do with the title
+        if(elem.title == "-") {
+            //remove it
+            elem.removeAttribute("title");
+        } else if(!elem.title) {
+            elem.title = "Speak!";
+        }
         var voices = window.speechSynthesis.getVoices();
         var voice = findVoice(idioma, voices);
         this.handler = null;
@@ -67,7 +73,13 @@
             elem.removeAttribute("href");
             return;
         }
-        elem.title = "gTTS Speak!";
+         //decide what to do with the title
+         if(elem.title == "-") {
+            //remove it
+            elem.removeAttribute("title");
+        } else if(!elem.title) {
+            elem.title = "gTTS Speak!";
+        }
         this.url = "https://piworld.es/api/gtts/speak?t="+encodeURIComponent(sText)+"&l="+idioma;
         this.audio = null;
         this.handler = function (evt) {

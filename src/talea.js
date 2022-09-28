@@ -138,15 +138,16 @@
                 console.log(res); 
             });
         }
-        
+        this.container = container;
         var ds = this.container.dataset;
         this.seed = ds.seed || 1;
+        var forceDifferent = JSON.parse(ds.different || "[]");
         this.container = container;
         //skip those tabmenus with class .talea-skip
         var componentContainers = container.querySelectorAll('div.iedib-tabmenu:not(.talea-skip)');
         this.smartMenus = [];
         for(var i=0, len=componentContainers.length; i<len; i++) {
-            this.smartMenus.push(new SmartTabMenu(componentContainers[i], this.pi));
+            this.smartMenus.push(new SmartTabMenu(componentContainers[i], this.pi, forceDifferent));
         }
         if(this.pi.isTeacher) {
             this.setupTeacher();
@@ -214,8 +215,9 @@
         }
     }
 
-    var SmartTabMenu = function (container, pi) {
+    var SmartTabMenu = function (container, pi, forceDifferent) {
         this.pi = pi; 
+        this.forceDifferent = forceDifferent || [];
         container.style.border='none';
         this.theTabMenu = container.querySelector("ul.nav.nav-tabs");
         this.theLinks = this.theTabMenu.querySelector("li");
@@ -230,8 +232,32 @@
         } else {
             this.theTabMenu.remove();
         }
-        var which = Math.floor(random() * this.numOpts);
-        console.log(which);
+
+        // Check if the current user is forced to be different from another one
+        var userId = this.pi.userId;
+        var found = -1;
+        for(var i=0, len= this.forceDifferent.length; i<len; i++) {
+            var alist = this.forceDifferent[i];
+            for(var j=0, len2= alist.length; j<len2; j++) {
+                if(alist[j]==userId) {
+                    console.log("Restriction on ", alist);
+                    found = j;
+                    break;
+                }
+             }
+            if(found>=0) {
+                break;
+            }
+        }
+
+        var which = 0;
+        if(found>=0) {
+            // The option is set based on its position in the list
+            which = found % this.numOpts;
+        } else { 
+            // The option is set at random
+            which = Math.floor(random() * this.numOpts);
+        }
         for (var i = 0, len = this.theContentOpts.length; i < len; i++) {
             var panel = this.theContentOpts[i];
             var link = this.theLinks[i];
