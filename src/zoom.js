@@ -219,11 +219,9 @@ window.wheelzoom = (function () {
     }
     var alias = {author: "Josep Mulet, Pep Mut", version: "1.0", inst: {}};
     window.IB.sd[COMPONENT_NAME] = alias;
-    var bind = function() {
-        var allImgs = document.querySelectorAll('img[role="snptd_zoom"]');
-
-        for(var i=0, len=allImgs.length; i<len; i++) {
-            var elm = allImgs[i];
+    var bindSelectors = function(selectors) {
+        for(var i=0, len=selectors.length; i<len; i++) {
+            var elm = selectors[i];
             if(elm.dataset.active) {
                 continue;
             }
@@ -240,6 +238,17 @@ window.wheelzoom = (function () {
             }
             alias.inst[id] = elm;
         }
+    };
+    var bind = function() {
+        // There is a problem with atto when changing the image, role changes to presentation
+        var allDivs = document.querySelectorAll('div[role="snptd_zoom"]');
+        for(var i=0, len=allDivs.length; i<len; i++) {
+            var imgsInDiv = allDivs[i].querySelectorAll('img');
+            bindSelectors(imgsInDiv);
+        }
+        // Support old markup
+        var allImgs = document.querySelectorAll('img[role="snptd_zoom"]');
+        bindSelectors(allImgs);
     };
     alias.unbind = function() {
         var lInst = Object.values(alias.inst);
