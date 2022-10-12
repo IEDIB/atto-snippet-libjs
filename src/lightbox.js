@@ -1,7 +1,5 @@
 (function () {
-
     'use strict';
-
     var leftArrow = '<span>&#10094;</span>';
     var rightArrow = '<span>&#10095;</span>';
     var MODAL_ID = 'snptModal_lightbox';
@@ -11,51 +9,81 @@
         // Already loaded in page
         // Bind any remaining component
         console.error("Warning: "+COMPONENT_NAME+" loaded twice.");
-        window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
+        //window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
         return;
-    }  
-   
-    var Lightbox = function(container) {
-        // currentIndex in gallery
-        this.currentIndex = parseInt(container.id.split("_")[1]);
-        this.originalIndex = this.currentIndex; 
-        this.$gallery = $('[role="snptd_lightbox"]');
-        this._setup(container);
-    }
+    };
 
-    Lightbox.prototype._setup = function(container) {
-        var self = this; 
-        
-        this.$container = $(container);
-        
-        this.$container.css("cursor", "pointer");
-        this.$container.attr("data-toggle", "modal");
-        this.$container.attr("data-target", '#'+MODAL_ID);
- 
-        //Only one modal per page
-        this.$modal = $("#"+MODAL_ID);
-        if(!this.$modal.length) {
-            this._createModal();
-        } else {
-            this.$img = this.$modal.find('img');
+    // The gallery is a sequence of img tags that participate in the lightbox show
+    var constructGallery = function() {
+         var globalId = 0;
+        var Gallery = [];
+        var allGals = document.querySelectorAll('[data-galery]');
+        for(var i=0, len=allGals.length; i<len; i++) {
+            var el = allGals[i];
+            var tn = (el.tagName || '').toUpperCase();
+            if(tn=='DIV' || tn=='TABLE') {
+                // Must contain the markup for lighbox otherwise continue
+                if(el.dataset.snptd!='lightbox' && el.getAttribute('role')!='snptd_lightbox') {
+                    continue;
+                }
+                // Find all images in this container
+                var allImgs = el.querySelectorAll("img");
+                for(var j=0, lenj=allImgs.length; j<lenj; j++) {
+                    var img = allImgs[j];
+                    img.dataset.lbpos = globalId;
+                    globalId++;
+                    Gallery.push(img);
+                }
+
+            } else if(tn=='IMG') {
+                 // Must contain the markup for lighbox otherwise continue
+                 if(el.dataset.snptd!='lightbox' && el.getAttribute('role')!='snptd_lightbox') {
+                    continue;
+                }
+                //support old markup
+                el.dataset.lbpos = globalId;
+                globalId++;
+                Gallery.push(el);
+            }
         }
+        return Gallery;
+    };
 
-        this.$container.off();
-        this.$container.on("click", function(evt) {
-            self.currentIndex = self.originalIndex; 
+    var LightboxModal = function() {
+        this.$gallery = constructGallery();
+        this._createModal();
+        this.currentIndex = 0; // The index to be shown
+        for(var i=0; i<this.$gallery.length; i++) {
+            this._setupImage(this.$gallery[i]);
+        }
+    };
+    LightboxModal.prototype._setupImage = function(theImg) {
+        var self = this; 
+        var $theImg = $(theImg);
+        if($theImg.attr("data-active")=='1') {
+            return;
+        }
+        $theImg.css("cursor", "pointer");
+        $theImg.attr("data-toggle", "modal");
+        $theImg.attr("data-target", '#'+MODAL_ID);
+        $theImg.attr("data-active", '1');
+        $theImg.off();
+        // Action on clicking the image
+        $theImg.on("click", function(evt) {
+            self.currentIndex = parseInt(this.dataset.lbpos);
             self._loadImageDynamically();
         });
     };
 
-    Lightbox.prototype._loadImageDynamically = function() {
-        var self = this;
+    LightboxModal.prototype._loadImageDynamically = function() {
+        var self = this; 
         //Retrieve container from current index
-        var gallery = $('[role="snptd_lightbox"]');
-        if(!gallery[this.currentIndex]) {
+        if(!this.$gallery[this.currentIndex]) {
             console.error("Nothing at currentIndex", this.currentIndex);
             return;
         }
-        var $container = $(gallery[this.currentIndex]);
+        //Pick image from gallery
+        var $container = $(this.$gallery[this.currentIndex]);
         
         //change src of image in modal
         if(self.$img.length) { 
@@ -75,7 +103,7 @@
         }
     };
 
-    Lightbox.prototype._createModal = function() {
+    LightboxModal.prototype._createModal = function() {
         var self = this;
         var hasGallery = this.$gallery.length > 1;
         var leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);">'+leftArrow+'</a>';
@@ -107,7 +135,6 @@
         });
 
         if(hasGallery) {
-
             this.$modal.find('.navigate-left-arrow').on("click", function(evt) {
                 evt.preventDefault(); 
                 self._navigateLeft();
@@ -117,11 +144,10 @@
                 evt.preventDefault(); 
                 self._navigateRight();
             });
-
         }
     };
 
-    Lightbox.prototype._resize = function(img_width, img_height) {
+    LightboxModal.prototype._resize = function(img_width, img_height) {
         // Resize accordingly to the image
         // Size of browser viewport.
         var img_ratio = 1;
@@ -142,72 +168,80 @@
             this.$img.css("width", "100%"); 
         }
     };
+  
+    LightboxModal.prototype._loadImageDynamically = function() {
+        var self = this;
+        //Retrieve container from current index
+        if(!this.$gallery[this.currentIndex]) {
+            console.error("Nothing at currentIndex", this.currentIndex);
+            return;
+        }
+        var $container = $(this.$gallery[this.currentIndex]);
+        
+        //change src of image in modal
+        if(self.$img.length) { 
+            // Create image dynamically
+            var imgObj = new Image();  
+            var src = $container.attr("data-src") || $container.attr("src");
+            imgObj.onload = function() {
+                self._resize(imgObj.width, imgObj.height);
+                // Can provide a highres in data-src
+                self.$img.attr("src", src);
+            };
+            imgObj.onerror = function(err) {
+                console.error("Cannot load image ", err);
+                self.$img.attr("src", "");
+            }
+            imgObj.src = src;
+        }
+    };
 
-    Lightbox.prototype._navigateLeft = function() {
+    LightboxModal.prototype._navigateLeft = function() {
        if(this.currentIndex==0) {
            this.currentIndex = this.$gallery.length-1;
        } else {
-           this.currentIndex -= 1;
+           this.currentIndex = this.currentIndex - 1;
        } 
        this._loadImageDynamically();
     };
 
-    Lightbox.prototype._navigateRight = function() {
+    LightboxModal.prototype._navigateRight = function() {
         if(this.currentIndex==this.$gallery.length-1) {
             this.currentIndex = 0;
         } else {
-         this.currentIndex += 1;
+         this.currentIndex = this.currentIndex + 1;
         } 
         this._loadImageDynamically();
     };
+ 
+    LightboxModal.prototype.dispose = function() {
+        for(var i=0; i<this.$gallery.length; i++) {
+            var $theImg = $(this.$gallery[i]);
+            $theImg.removeAttr("data-active");
+            $theImg.removeAttr("data-toggle");
+            $theImg.removeAttr("data-target");
 
-    Lightbox.prototype.dispose = function() {
-        this.$container.attr("data-active", '0');
-        this.$container.off();
+            $theImg.css("cursor", 'initial');
+            $theImg.off();
+        }
+        var $modal = $('#'+MODAL_ID);
+        $modal.off();
+        $modal.remove();
     };
 
-    var alias = {author: "Josep Mulet", version: "1.0", inst: {}};
+    var alias = {author: "Josep Mulet", version: "2.1"};
     window.IB.sd[COMPONENT_NAME] = alias;
   
-     var bind = function() {
-         // Find all galleries   
-        // Global to all instances of Lightbox
-        var $gallery = $('[role="snptd_lightbox"]');
-        //Ensure all have a correct id
-        $.each($gallery, function(i, e) {
-            e.id = "imglightbox_"+i;
-        });
-
-        // Cerca tots els contenidors dels components d'aquest tipus
-        var componentContainers = document.querySelectorAll('[role="snptd_' + COMPONENT_NAME + '"]');
-        // Crea una instància de la classe anterior per a cadascun dels components trobats en la pàgina
-        for(var i=0, len=componentContainers.length; i<len; i++) {
-            var container = componentContainers[i];
-            // Evita que un contenidor pugui ésser tractat més d'una vegada degut a múltiples insercions de la llibreria
-            if(container.dataset.active) {
-                continue;
-            }
-            container.dataset.active = "1";
-
-            var instancia = new Lightbox(container);
-            // Exposa l'objecte a window per si es volgués emprar la seva API
-            // Aquesta seria la forma d'utilitzar comunicació entre components (si fos necessari)
-            // s'assegura que el contenidor del component té id, sinó l'assigna
-            var id = container.getAttribute("id");
-            if(!id) {
-                id = "dynamic_"+Math.random().toString(32).substring(2);
-                container.id = id;
-            }
-            window.IB.sd[COMPONENT_NAME].inst[id] = instancia;
-        }
+    var bind = function() {
+        // create an instance per page
+        var lbModal = new LightboxModal();
+        window.IB.sd[COMPONENT_NAME].inst = lbModal;
     }; 
     alias.bind = bind;
     alias.unbind = function() {
-        var lInst = Object.values(alias.inst);
-        for(var i=0, l=lInst.length; i<l; i++) {
-            lInst[i].dispose(); 
-        }
-        alias.inst = {};
+        var inst = Object.values(alias.inst);
+        inst[i].dispose(); 
+        alias.inst = null;
      };
         
     bind();   
