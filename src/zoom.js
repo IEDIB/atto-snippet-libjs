@@ -217,7 +217,7 @@ window.wheelzoom = (function () {
         window.IB.sd[COMPONENT_NAME].bind && window.IB.sd[COMPONENT_NAME].bind();
         return;
     }
-    var alias = {author: "Josep Mulet, Pep Mut", version: "2.0", inst: {}};
+    var alias = {author: "Josep Mulet, Pep Mut", version: "2.2", inst: {}};
     window.IB.sd[COMPONENT_NAME] = alias;
     var bindSelectors = function(selectors) {
         for(var i=0, len=selectors.length; i<len; i++) {

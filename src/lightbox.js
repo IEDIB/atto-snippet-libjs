@@ -17,15 +17,11 @@
     var constructGallery = function() {
          var globalId = 0;
         var Gallery = [];
-        var allGals = document.querySelectorAll('[data-galery]');
+        var allGals = document.querySelectorAll('[role="snptd_lightbox"], [data-snptd="lightbox"]');
         for(var i=0, len=allGals.length; i<len; i++) {
             var el = allGals[i];
             var tn = (el.tagName || '').toUpperCase();
             if(tn=='DIV' || tn=='TABLE') {
-                // Must contain the markup for lighbox otherwise continue
-                if(el.dataset.snptd!='lightbox' && el.getAttribute('role')!='snptd_lightbox') {
-                    continue;
-                }
                 // Find all images in this container
                 var allImgs = el.querySelectorAll("img");
                 for(var j=0, lenj=allImgs.length; j<lenj; j++) {
@@ -229,7 +225,7 @@
         $modal.remove();
     };
 
-    var alias = {author: "Josep Mulet", version: "2.1"};
+    var alias = {author: "Josep Mulet", version: "2.2"};
     window.IB.sd[COMPONENT_NAME] = alias;
   
     var bind = function() {
