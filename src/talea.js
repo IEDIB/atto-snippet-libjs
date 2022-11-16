@@ -1,6 +1,8 @@
 /**
- * Converteix els menús de pestanyes dins la pàgina com 
- * opcions de preguntes aleatòries
+ * Converteix els menús de pestanyes dins la pàgina com a
+ * opcions de preguntes aleatòries.
+ * Cal que els menús estiguin dins un contenidor div amb
+ * role="snptd_talea"
  */
 (function () {
     'use strict';
@@ -111,6 +113,7 @@
         return ranGen;
     }
 
+    /*
     var loadScript = function (src, cb) {
         var s = document.createElement('script');
         s.src = src;
@@ -118,13 +121,20 @@
         s.onload = cb;
         document.head.appendChild(s);
     };
+    */
  
     // Cannot getPageInfo unless the page is completely loaded
  
     var Talea = function(container) {
         var self = this;
         this.pi = getPageInfo();
-        //console.log(this.pi);
+        // Print debug info
+        if(container.dataset.debug) {
+            console.log(this.pi); 
+            var newDiv = document.createElement("div");
+            newDiv.innerHTML = '<p>DEBUG INFO::<br>  '+JSON.stringify(this.pi)+'</p>';
+            container.append(newDiv);
+        }
         //Just for testing
         //pi.isTeacher = 1;
 
@@ -140,15 +150,22 @@
         }
         this.container = container;
         var ds = this.container.dataset;
-        this.seed = ds.seed || 1;
+        this.seed = parseInt(ds.seed || '1');
         var forceDifferent = JSON.parse(ds.different || "[]");
-        this.container = container;
+        
         //skip those tabmenus with class .talea-skip
         var componentContainers = container.querySelectorAll('div.iedib-tabmenu:not(.talea-skip)');
         this.smartMenus = [];
         for(var i=0, len=componentContainers.length; i<len; i++) {
             this.smartMenus.push(new SmartTabMenu(componentContainers[i], this.pi, forceDifferent));
         }
+
+        var headerP = document.createElement("p");
+        headerP.id = 'talea-name'; 
+        headerP.style['font-weight'] = 'bold';
+        headerP.innerText = 'Tasca de ' + (this.pi.userFullname || '???'); 
+        this.container.prepend(headerP);
+
         if(this.pi.isTeacher) {
             this.setupTeacher();
         } else {
@@ -157,12 +174,13 @@
     };
     
     Talea.prototype.showUser = function(idUser) {
-        idUser = parseInt(idUser|| '0');
+        idUser = parseInt(idUser || '0');
         if(this.pi.isTeacher && this.mapStudents && this.mapStudents[idUser]) { 
-            $('#talea-name').text('Tasca de ' + (this.mapStudents[idUser])); 
-        }
+            document.querySelector('#talea-name').innerText = 'Tasca de ' + (this.mapStudents[idUser]); 
+        }  
         var randomGen = pran(idUser*this.seed);
         for(var i=0, len=this.smartMenus.length; i<len; i++) {
+            // Delegate the task to each tabmenu
             this.smartMenus[i].showUser(randomGen);
         }
     };
@@ -184,12 +202,6 @@
         var self = this;
         var controlsDiv = document.createElement('div');
         controlsDiv.id = 'talea-controls';
-        var headerP = document.createElement('p');
-        headerP.id = 'talea-name'; 
-        headerP.style['font-weight'] = 'bold';
-        headerP.innerText = 'Tasca de ' + (this.pi.userFullname || '???'); 
-
-        this.container.prepend(headerP);
         this.container.prepend(controlsDiv);
  
         // crea els controls
@@ -216,9 +228,10 @@
     }
 
     var SmartTabMenu = function (container, pi, forceDifferent) {
+        //Here the container is the tabmenu
         this.pi = pi; 
         this.forceDifferent = forceDifferent || [];
-        container.style.border='none';
+        container.style.border = 'none';
         this.theTabMenu = container.querySelector("ul.nav.nav-tabs");
         this.theLinks = this.theTabMenu.querySelector("li");
         this.theContent = container.querySelector("div.tab-content");
@@ -251,7 +264,7 @@
         }
 
         var which = 0;
-        if(found>=0) {
+        if(found >= 0) {
             // The option is set based on its position in the list
             which = found % this.numOpts;
         } else { 

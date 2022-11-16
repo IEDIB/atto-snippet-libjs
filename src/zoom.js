@@ -227,10 +227,10 @@ window.wheelzoom = (function () {
             }
             //hack to apply after jquery of boostiedib
             setTimeout(function(evt){
-                elm.style.maxWidth="95%"; //Prevent scroll on page
+                elm.style.maxWidth="98%"; //Prevent scroll on page
+                wheelzoom(elm);
             }, 1000);
             elm.dataset.active = "1";
-            wheelzoom(elm);
             var id = elm.getAttribute("id")
             if(!id) {
                 id = "sd_"+Math.random().toString(32).substring(2);
