@@ -129,7 +129,14 @@
         var self = this;
         this.pi = getPageInfo();
         // Print debug info
-        if(container.dataset.debug) {
+        if(this.pi.isTeacher && container.dataset.debug) {
+            var debug = JSON.parse(container.dataset.debug);
+            //Overwrite debug
+            var debugKeys = Object.keys(debug);
+            for(var i = 0, len = debugKeys.length; i<len; i++) {
+                var kk = debugKeys[i];
+                this.pi[kk] = debug[kk];
+            }
             console.log(this.pi); 
             var newDiv = document.createElement("div");
             newDiv.innerHTML = '<p>DEBUG INFO::<br>  '+JSON.stringify(this.pi)+'</p>';
@@ -181,7 +188,7 @@
         var randomGen = pran(idUser*this.seed);
         for(var i=0, len=this.smartMenus.length; i<len; i++) {
             // Delegate the task to each tabmenu
-            this.smartMenus[i].showUser(randomGen);
+            this.smartMenus[i].showUser(randomGen, idUser);
         }
     };
 
@@ -239,7 +246,7 @@
         this.numOpts = this.theContentOpts ? this.theContentOpts.length : 0; 
     };
 
-    SmartTabMenu.prototype.showUser = function (random) {
+    SmartTabMenu.prototype.showUser = function (random, userId) {
         if(this.pi.isTeacher) {
             this.theTabMenu.style.display = 'none';
         } else {
@@ -247,7 +254,7 @@
         }
 
         // Check if the current user is forced to be different from another one
-        var userId = this.pi.userId;
+        //var userId = this.pi.userId;
         var found = -1;
         for(var i=0, len= this.forceDifferent.length; i<len; i++) {
             var alist = this.forceDifferent[i];

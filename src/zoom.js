@@ -156,6 +156,27 @@ window.wheelzoom = (function () {
             img.addEventListener('mousedown', draggable);
         }
 
+        //Added onresize event, requires load first
+        function resize() {
+            if (img.src != transparentSpaceFiller) {
+                return;
+            }
+            var initial = Math.max(settings.initialZoom, 1);
+            var computedStyle = window.getComputedStyle(img, null);
+
+            width = parseInt(computedStyle.width, 10);
+            height = parseInt(computedStyle.height, 10);
+            bgWidth = width * initial;
+            bgHeight = height * initial;
+            bgPosX = -(bgWidth - width) * settings.initialX;
+            bgPosY = -(bgHeight - height) * settings.initialY;
+
+            //setSrcToBackground(img);
+
+            img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
+            img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
+        }
+
         var destroy = function (originalProperties) {
             img.removeEventListener('wheelzoom.destroy', destroy);
             img.removeEventListener('wheelzoom.reset', reset);
@@ -164,6 +185,7 @@ window.wheelzoom = (function () {
             img.removeEventListener('mousemove', drag);
             img.removeEventListener('mousedown', draggable);
             img.removeEventListener('wheel', onwheel);
+            window.removeEventListener('resize', resize);
 
             img.style.backgroundImage = originalProperties.backgroundImage;
             img.style.backgroundRepeat = originalProperties.backgroundRepeat;
@@ -188,6 +210,8 @@ window.wheelzoom = (function () {
         }
 
         img.addEventListener('load', load);
+        //Added
+        window.addEventListener('resize', resize);
     };
 
     // Do nothing in IE9 or below
