@@ -14,13 +14,13 @@
     }
   } 
   .sd-speak-enabled:hover:after {
-    content: "\f0a1";
+    content: "\f025";
     position: absolute;
     left: -5px;
     top: -16px;
     background: white;
     z-index:1000;
-    font-family: 'Font Awesome\ 5 Free'; 
+    font-family: 'FontAwesome'; 
     font-size: 70%;
     margin: 0px 5px;
     font-weight: 700; 

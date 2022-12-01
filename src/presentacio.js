@@ -11,6 +11,8 @@
 
     // DEFAULT CONSTANTS 
     var DEFALT_TIME = 5;
+    var PLAY_ICON = '<i class="fa fa-play"></i>';
+    var PAUSE_ICON = '<i class="fa fa-pause"></i>';
 
     // Cream la classe passant-li el contenidor
     var Presentacio = function (container) {
@@ -114,7 +116,7 @@
         } else if(this.continuarAutomatic) {
             // No s'ha iniciat  
             this.continuarAutomatic = false;
-            this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
+            this.buttonPlay && (this.buttonPlay.innerHTML = PLAY_ICON);
             this._updateCounter();
         } else { 
             this._updateCounter();
@@ -143,14 +145,14 @@
           if(!this.loop && this.n == this.num-1) {
             // stop - end the reproducció
             this.continuarAutomatic = false;
-            this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
+            this.buttonPlay && (this.buttonPlay.innerHTML = PLAY_ICON);
             return;
           }
           var self = this;
           this.currentTimeout = setTimeout(function(){self.seguent();}, this.durada[this.n]*1000);
-          this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-pause"></i>');
+          this.buttonPlay && (this.buttonPlay.innerHTML = PAUSE_ICON);
         } else {
-            this.buttonPlay && (this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>');
+            this.buttonPlay && (this.buttonPlay.innerHTML = PLAY_ICON);
         }
     }; 
 
@@ -207,7 +209,7 @@
             clearTimeout(this.currentTimeout);
             this.currentTimeout = null;
         }
-      this.buttonPlay.innerHTML = '<i class="fas fa-play"></i>';
+      this.buttonPlay.innerHTML = PLAY_ICON;
     }; 
 
     Presentacio.prototype.play = function () {
@@ -215,7 +217,7 @@
         this.continuarAutomatic = true;
         this.currentTimeout = setTimeout(function(){self.seguent()}, this.durada[this.n] * 1000);
       
-        this.buttonPlay.innerHTML = '<i class="fas fa-pause"></i>';
+        this.buttonPlay.innerHTML = PAUSE_ICON;
     };
 
 
@@ -277,24 +279,24 @@
     };
  
     Presentacio.prototype._crearBotons = function () {
-        this.buttonFirst = createButton("btn btn-sm btn-outline-primary btn-first", "fas fa-fast-backward");
+        this.buttonFirst = createButton("btn btn-sm btn-outline-primary btn-first", "fa fa-fast-backward");
         this.button_container.appendChild(this.buttonFirst);
         this.buttonFirst.title = "First";
         
-        this.buttonBack = createButton("btn btn-sm btn-outline-primary btn-step-backward", "fas fa-chevron-left");
+        this.buttonBack = createButton("btn btn-sm btn-outline-primary btn-step-backward", "fa fa-chevron-left");
         this.button_container.appendChild(this.buttonBack);
         this.buttonBack.title = "Previous";
 
-        this.buttonNext = createButton("btn btn-sm btn-outline-primary btn-step-forward", "fas fa-chevron-right");
+        this.buttonNext = createButton("btn btn-sm btn-outline-primary btn-step-forward", "fa fa-chevron-right");
         this.button_container.appendChild(this.buttonNext);
         this.buttonNext.title = "Next";
       
-        this.buttonLast = createButton( "btn btn-sm btn-outline-primary btn-last", "fas fa-fast-forward");
+        this.buttonLast = createButton( "btn btn-sm btn-outline-primary btn-last", "fa fa-fast-forward");
         this.buttonLast.title = "Last";
         this.button_container.appendChild(this.buttonLast);
   
         if(this.continuarAutomatic) {
-            this.buttonPlay = createButton("btn btn-sm btn-primary btn-step-play", "fas fa-pause");
+            this.buttonPlay = createButton("btn btn-sm btn-primary btn-step-play", "fa fa-pause");
             this.buttonPlay.style["margin-left"] = "15px";
             this.buttonPlay.title = "Play/Pause";
             this.button_container.appendChild(this.buttonPlay);

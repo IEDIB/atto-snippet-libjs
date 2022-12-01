@@ -10,6 +10,16 @@
         background: #363640;
         color: whitesmoke;
     }
+
+    div[role="snptd_presentacio"].align-center div.tab-pane {
+        align-self: center;
+        min-height: initial;
+    }
+
+    div[role="snptd_presentacio"].align-bottom div.tab-pane {
+        align-self: flex-end;
+        min-height: initial;
+    }
   }
   
   /* %SKIPALLCSS */
