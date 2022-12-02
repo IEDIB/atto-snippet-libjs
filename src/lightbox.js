@@ -225,10 +225,25 @@
         $modal.remove();
     };
 
-    var alias = {author: "Josep Mulet", version: "2.2"};
+    var alias = {author: "Josep Mulet", version: "2.3"};
     window.IB.sd[COMPONENT_NAME] = alias;
+
+    var waitForJQ = function(cb, nattempt) {
+        nattempt = nattempt || 0;
+        if(window.$ && typeof(window.$)==='function') {
+            cb();
+            return;
+        } else if(nattempt > 15) {
+            console.error("Lightbox:: Cannot find jQuery");
+            return;
+        }
+        window.setTimeout(function(){
+            waitForJQ(cb, nattempt+1);
+        }, 500);
+    };
   
     var bind = function() {
+        // Requires $ ready in page 
         // create an instance per page
         var lbModal = new LightboxModal();
         window.IB.sd[COMPONENT_NAME].inst = lbModal;
@@ -240,7 +255,7 @@
         alias.inst = null;
      };
         
-    bind();   
+    waitForJQ(bind);   
 
 })();
  

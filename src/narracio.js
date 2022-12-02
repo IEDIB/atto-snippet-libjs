@@ -1,5 +1,5 @@
 
-$(function () {
+(function () {
 
     var audiosInPage = {};
 
@@ -92,10 +92,10 @@ $(function () {
         var audioElement = new Audio();
         audioElement.id = settings.id;
         audiosInPage[settings.id] = audioElement;
-        var stop_btn = $('<button class="pw-audible-btn" style="background: none; border: none; margin: 0 5px;" id="' + settings.id + '_stop"><i class="fas fa-sync"></i></button>');
+        var stop_btn = $('<button class="pw-audible-btn" style="background: none; border: none; margin: 0 5px;" id="' + settings.id + '_stop"><i class="fa fas fa-sync"></i></button>');
         var slider = $('<input type="range" value="0" min="0" max="100" style="margin-left:5px;flex-grow:96;"/>');
         var ctime = $('<span style="margin-left:5px;font-family:arial;">00:00</span>');
-        var play_btn = $('<button style="background: none; border: none; margin: 0 5px;" class="pw-audible-btn"><i class="fas fa-play"></i></button>');
+        var play_btn = $('<button style="background: none; border: none; margin: 0 5px;" class="pw-audible-btn"><i class="fa fas fa-play"></i></button>');
         var player_el = $('<div class="audible-media-player audible-' + settings.skin + '" ' + sty + ' id="pwmplayer_' + settings.id + '" title="AudioPlayer by Josep Mulet"></div>');
 
         $.each(settings.src, function (i, url) {
@@ -110,7 +110,7 @@ $(function () {
 
             stop_btn.on('click', function (ev) {
                 audioElement.pause();
-                $(play_btn).html('<i class="fas fa-play"></i>');
+                $(play_btn).html('<i class="fa fas fa-play"></i>');
                 audioElement.currentTime = 0;
                 ctime.html('00:00');
                 slider.val(0);
@@ -124,10 +124,10 @@ $(function () {
                 audioElement.stopped = false;
                 if (audioElement.paused) {
                     audioElement.play();
-                    $(play_btn).html('<i class="fas fa-pause"></i>');
+                    $(play_btn).html('<i class="fa fas fa-pause"></i>');
                 } else {
                     audioElement.pause();
-                    $(play_btn).html('<i class="fas fa-play"></i>');
+                    $(play_btn).html('<i class="fa fas fa-play"></i>');
                 }
             }); //endonplay
 
@@ -163,7 +163,7 @@ $(function () {
             audioElement.addEventListener('ended', function (ev) {
                 var $target = $(ev.target);
                 $target.val(100);
-                $(play_btn).html('<i class="fas fa-play"></i>');
+                $(play_btn).html('<i class="fa fas fa-play"></i>');
                 ctime.html('00:00');
                 slider.val(0);
                 audioElement.stopped = true;
@@ -210,7 +210,7 @@ $(function () {
                 settings.accordion.on("click", function(evt){
                     // when closing the accordion, stop the audio
                     audioElement.pause();
-                    $(play_btn).html('<i class="fas fa-play"></i>');
+                    $(play_btn).html('<i class="fa fas fa-play"></i>');
                 });
             }   
 
@@ -247,7 +247,7 @@ $(function () {
             } else if(lang=='en') {
                 aatgg.append($('<span title="Explanation with audio"> with audio </span>'));
             }
-            aatgg.append($('<i class="fas fa-headphones"></i>'));
+            aatgg.append($('<i class="fa fas fa-headphones"></i>'));
         }
         var innerAccordion = $e.find(".accordion-inner");
         var data_audible = $e.attr('data-audible');
@@ -414,11 +414,28 @@ $(function () {
 
     }; //end audible plugin
 
+    var waitForJQ = function(cb, nattempt) {
+        nattempt = nattempt || 0;
+        if(window.$ && typeof(window.$)==='function') {
+            cb();
+            return;
+        } else if(nattempt > 15) {
+            console.error("Narracio:: Cannot find jQuery");
+            return;
+        }
+        window.setTimeout(function(){
+            waitForJQ(cb, nattempt+1);
+        }, 500);
+    };
 
-    //Automatically activate all audible in page
-    $('[role="snptd_narracio"]').each(function (i, e) {
-        $(e).snpt_narracio();
-    });
+    waitForJQ(
+        function() {
+            //Automatically activate all audible in page
+            $('[role="snptd_narracio"]').each(function (i, e) {
+                $(e).snpt_narracio();
+            });
+        }
+    );
 
-}); //end jquery ready function
+})(); 
 

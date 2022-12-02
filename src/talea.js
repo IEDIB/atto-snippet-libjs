@@ -391,9 +391,21 @@
         alias.inst = {};
     };
 
+    var waitForJQ = function(cb, nattempt) {
+        nattempt = nattempt || 0;
+        if(window.$ && typeof(window.$)==='function') {
+            cb();
+            return;
+        } else if(nattempt > 15) {
+            console.error("Narracio:: Cannot find jQuery");
+            return;
+        }
+        window.setTimeout(function(){
+            waitForJQ(cb, nattempt+1);
+        }, 500);
+    };
+
     // on page ready
-    $(function(){
-        bind();
-    })
+    waitForJQ(bind);
 
 })();
