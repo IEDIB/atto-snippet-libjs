@@ -11,8 +11,8 @@
 
     // DEFAULT CONSTANTS 
     var DEFALT_TIME = 5;
-    var PLAY_ICON = '<i class="fa fa-play"></i>';
-    var PAUSE_ICON = '<i class="fa fa-pause"></i>';
+    var PLAY_ICON = '<i class="fa fas fa-play"></i>';
+    var PAUSE_ICON = '<i class="fa fas fa-pause"></i>';
 
     // Cream la classe passant-li el contenidor
     var Presentacio = function (container) {
@@ -279,24 +279,24 @@
     };
  
     Presentacio.prototype._crearBotons = function () {
-        this.buttonFirst = createButton("btn btn-sm btn-outline-primary btn-first", "fa fa-fast-backward");
+        this.buttonFirst = createButton("btn btn-sm btn-outline-primary btn-first", "fa fas fa-fast-backward");
         this.button_container.appendChild(this.buttonFirst);
         this.buttonFirst.title = "First";
         
-        this.buttonBack = createButton("btn btn-sm btn-outline-primary btn-step-backward", "fa fa-chevron-left");
+        this.buttonBack = createButton("btn btn-sm btn-outline-primary btn-step-backward", "fa fas fa-chevron-left");
         this.button_container.appendChild(this.buttonBack);
         this.buttonBack.title = "Previous";
 
-        this.buttonNext = createButton("btn btn-sm btn-outline-primary btn-step-forward", "fa fa-chevron-right");
+        this.buttonNext = createButton("btn btn-sm btn-outline-primary btn-step-forward", "fa fas fa-chevron-right");
         this.button_container.appendChild(this.buttonNext);
         this.buttonNext.title = "Next";
       
-        this.buttonLast = createButton( "btn btn-sm btn-outline-primary btn-last", "fa fa-fast-forward");
+        this.buttonLast = createButton( "btn btn-sm btn-outline-primary btn-last", "fa fas fa-fast-forward");
         this.buttonLast.title = "Last";
         this.button_container.appendChild(this.buttonLast);
   
         if(this.continuarAutomatic) {
-            this.buttonPlay = createButton("btn btn-sm btn-primary btn-step-play", "fa fa-pause");
+            this.buttonPlay = createButton("btn btn-sm btn-primary btn-step-play", "fa fas fa-pause");
             this.buttonPlay.style["margin-left"] = "15px";
             this.buttonPlay.title = "Play/Pause";
             this.button_container.appendChild(this.buttonPlay);
