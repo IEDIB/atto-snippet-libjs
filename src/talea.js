@@ -406,6 +406,8 @@
     };
 
     // on page ready
-    waitForJQ(bind);
+    waitForJQ(function(){
+        $(function(){bind();});
+    });
 
 })();
