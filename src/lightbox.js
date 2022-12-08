@@ -258,7 +258,7 @@
 
     // on page ready
     waitForRequire(function(){
-        require(['jquery'], function($){
+        require(['jquery'], function($){ 
             $(function(){
                 bind();
             });

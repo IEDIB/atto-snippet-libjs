@@ -13,6 +13,7 @@ window.wheelzoom = (function () {
     };
 
     var main = function (img, options) {
+        //console.error("Called main ", img, options);
         if (!img || !img.nodeName || img.nodeName !== 'IMG') {
             return;
         }
@@ -264,10 +265,9 @@ window.wheelzoom = (function () {
                 continue;
             }
             //hack to apply after jquery of boostiedib
-            setTimeout(function(){
-                elm.style.maxWidth="98%"; //Prevent scroll on page
-                wheelzoom(elm);
-            }, 600);
+            elm.style.maxWidth="98%"; //Prevent scroll on page
+            wheelzoom(elm);
+             
             elm.dataset.active = "1";
             var id = elm.getAttribute("id")
             if(!id) {
@@ -298,6 +298,9 @@ window.wheelzoom = (function () {
         alias.inst = {};
     };
     alias.bind = bind;
-    bind();   
+    setTimeout(function(){
+        bind(); 
+    }, 600);
+      
 })();
 
