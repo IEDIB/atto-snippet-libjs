@@ -214,9 +214,13 @@
 
     Presentacio.prototype.play = function () {
         var self = this;
+        // si pitja play a la darrera diapositiva, ves a la primera
+        if (this.n >= this.num - 1) {
+            this.primer(); 
+        }
         this.continuarAutomatic = true;
+        
         this.currentTimeout = setTimeout(function(){self.seguent()}, this.durada[this.n] * 1000);
-      
         this.buttonPlay.innerHTML = PAUSE_ICON;
     };
 

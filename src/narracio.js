@@ -414,28 +414,31 @@
 
     }; //end audible plugin
 
-    var waitForJQ = function(cb, nattempt) {
+    var waitForRequire = function(cb, nattempt) {
         nattempt = nattempt || 0;
-        if(window.$ && typeof(window.$)==='function') {
+        if(window.require && typeof(window.require)==='function') {
             cb();
             return;
         } else if(nattempt > 15) {
-            console.error("Narracio:: Cannot find jQuery");
+            console.error("Talea:: Cannot find requirejs");
             return;
         }
         window.setTimeout(function(){
-            waitForJQ(cb, nattempt+1);
+            waitForRequire(cb, nattempt+1);
         }, 500);
     };
 
-    waitForJQ(
-        function() {
-            //Automatically activate all audible in page
-            $('[role="snptd_narracio"]').each(function (i, e) {
-                $(e).snpt_narracio();
+    // on page ready
+    waitForRequire(function(){
+        require(['jquery'], function($){
+            $(function(){
+                //Automatically activate all audible in page
+                $('[role="snptd_narracio"]').each(function (i, e) {
+                    $(e).snpt_narracio();
+                });
             });
-        }
-    );
-
+        });
+    });
+  
 })(); 
 

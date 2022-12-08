@@ -152,14 +152,17 @@ window.wheelzoom = (function () {
             img.style.cursor = "nesw-resize";
             img.addEventListener('wheelzoom.reset', reset);
 
+
             img.addEventListener('wheel', onwheel);
             img.addEventListener('mousedown', draggable);
         }
 
         //Added onresize event, requires load first
         function resize() {
-            if (img.src != transparentSpaceFiller) {
-                return;
+            if (img.src
+                 != transparentSpaceFiller) {
+                return
+                ;
             }
             var initial = Math.max(settings.initialZoom, 1);
             var computedStyle = window.getComputedStyle(img, null);
@@ -176,6 +179,7 @@ window.wheelzoom = (function () {
             img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
             img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
         }
+        var resizeObs;
 
         var destroy = function (originalProperties) {
             img.removeEventListener('wheelzoom.destroy', destroy);
@@ -185,9 +189,15 @@ window.wheelzoom = (function () {
             img.removeEventListener('mousemove', drag);
             img.removeEventListener('mousedown', draggable);
             img.removeEventListener('wheel', onwheel);
-            window.removeEventListener('resize', resize);
+            //window. resize does not work, need ResizeObserver on img element
+            //window.removeEventListener('resize', resize);
+            if(resizeObs != null) {
+                resizeObs.unobserve(img);
+            }
 
-            img.style.backgroundImage = originalProperties.backgroundImage;
+
+            img.style.backgroundImage = origina
+            lProperties.backgroundImage;
             img.style.backgroundRepeat = originalProperties.backgroundRepeat;
             img.src = originalProperties.src;
             img.style.cursor = "default";
@@ -211,7 +221,11 @@ window.wheelzoom = (function () {
 
         img.addEventListener('load', load);
         //Added
-        window.addEventListener('resize', resize);
+        //window.addEventListener('resize', resize);
+        if(window.ResizeObserver!=null) {
+            resizeObs = new ResizeObserver(resize);
+            resizeObs.observe(img);
+        }
     };
 
     // Do nothing in IE9 or below
@@ -250,10 +264,10 @@ window.wheelzoom = (function () {
                 continue;
             }
             //hack to apply after jquery of boostiedib
-            setTimeout(function(evt){
+            setTimeout(function(){
                 elm.style.maxWidth="98%"; //Prevent scroll on page
                 wheelzoom(elm);
-            }, 1000);
+            }, 600);
             elm.dataset.active = "1";
             var id = elm.getAttribute("id")
             if(!id) {

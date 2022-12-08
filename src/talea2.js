@@ -1,5 +1,5 @@
 /**
- * Converteix els menús de pestanyes dins la pàgina com a
+ * Converteix els menús de pestanyes div.iedib-tabmenu:not(.talea-skip) dins la pàgina com a
  * opcions de preguntes aleatòries.
  * Cal que els menús estiguin dins un contenidor div amb
  * role="snptd_talea"
@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    var COMPONENT_NAME = 'talea';
+    var COMPONENT_NAME = 'talea2';
     if (window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
         // Bind any remaining component
@@ -350,7 +350,7 @@
         this.clear();
     };
 
-    var alias = { author: "Josep Mulet", version: "1.0", inst: {} };
+    var alias = { author: "Josep Mulet", version: "2.0", inst: {} };
     window.IB.sd[COMPONENT_NAME] = alias;
 
     var bind = function () { 
@@ -413,24 +413,26 @@
         alias.inst = {};
     };
 
-    var waitForJQ = function(cb, nattempt) {
+    var waitForRequire = function(cb, nattempt) {
         nattempt = nattempt || 0;
-        if(window.$ && typeof(window.$)==='function') {
+        if(window.require && typeof(window.require)==='function') {
             cb();
             return;
         } else if(nattempt > 15) {
-            console.error("Talea:: Cannot find jQuery");
+            console.error("Talea:: Cannot find requirejs");
             return;
         }
         window.setTimeout(function(){
-            waitForJQ(cb, nattempt+1);
+            waitForRequire(cb, nattempt+1);
         }, 500);
     };
 
     // on page ready
-    waitForJQ(function(){
-        $(function(){
-            bind();
+    waitForRequire(function(){
+        require(['jquery'], function($){
+            $(function(){
+                bind();
+            });
         });
     });
 

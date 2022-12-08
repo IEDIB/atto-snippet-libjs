@@ -228,20 +228,6 @@
     var alias = {author: "Josep Mulet", version: "2.3"};
     window.IB.sd[COMPONENT_NAME] = alias;
 
-    var waitForJQ = function(cb, nattempt) {
-        nattempt = nattempt || 0;
-        if(window.$ && typeof(window.$)==='function') {
-            cb();
-            return;
-        } else if(nattempt > 15) {
-            console.error("Lightbox:: Cannot find jQuery");
-            return;
-        }
-        window.setTimeout(function(){
-            waitForJQ(cb, nattempt+1);
-        }, 500);
-    };
-  
     var bind = function() {
         // Requires $ ready in page 
         // create an instance per page
@@ -253,9 +239,31 @@
         var inst = Object.values(alias.inst);
         inst[i].dispose(); 
         alias.inst = null;
-     };
-        
-    waitForJQ(bind);   
+    };
+
+
+    var waitForRequire = function(cb, nattempt) {
+        nattempt = nattempt || 0;
+        if(window.require && typeof(window.require)==='function') {
+            cb();
+            return;
+        } else if(nattempt > 15) {
+            console.error("Talea:: Cannot find requirejs");
+            return;
+        }
+        window.setTimeout(function(){
+            waitForRequire(cb, nattempt+1);
+        }, 500);
+    };
+
+    // on page ready
+    waitForRequire(function(){
+        require(['jquery'], function($){
+            $(function(){
+                bind();
+            });
+        });
+    });
 
 })();
  
