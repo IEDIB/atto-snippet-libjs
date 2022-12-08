@@ -157,14 +157,15 @@
         }
         this.container = container;
         var ds = this.container.dataset;
-        this.seed = parseInt(ds.seed || '1');
+        this.seed = parseInt(ds.seed || '1') || 1;
         var forceDifferent = JSON.parse(ds.different || "[]");
+        var workingMode = ds.mode || 'urandom'; //fixed: 0-n; urandom; lrandom
         
         //skip those tabmenus with class .talea-skip
         var componentContainers = container.querySelectorAll('div.iedib-tabmenu:not(.talea-skip)');
         this.smartMenus = [];
         for(var i=0, len=componentContainers.length; i<len; i++) {
-            this.smartMenus.push(new SmartTabMenu(componentContainers[i], this.pi, forceDifferent));
+            this.smartMenus.push(new SmartTabMenu(componentContainers[i], this.pi, forceDifferent, workingMode, this.seed));
         }
 
         var headerP = document.createElement("p");
@@ -185,7 +186,12 @@
         if(this.pi.isTeacher && this.mapStudents && this.mapStudents[idUser]) { 
             document.querySelector('#talea-name').innerText = 'Tasca de ' + (this.mapStudents[idUser]); 
         }  
-        var randomGen = pran(idUser*this.seed);
+        var randomGen = null;
+        if(this.workingMode === "urandom") {
+            randomGen = pran(idUser*this.seed);
+        } else if(this.workingMode === "lrandom") {
+            randomGen = pran(this.seed);
+        } 
         for(var i=0, len=this.smartMenus.length; i<len; i++) {
             // Delegate the task to each tabmenu
             this.smartMenus[i].showUser(randomGen, idUser);
@@ -234,19 +240,24 @@
         }
     }
 
-    var SmartTabMenu = function (container, pi, forceDifferent) {
+    var SmartTabMenu = function (container, pi, forceDifferent, workingMode, seed) {
         //Here the container is the tabmenu
         this.pi = pi; 
         this.forceDifferent = forceDifferent || [];
+        this.workingMode = workingMode || 'urandom';
+        this.seed = seed || 1;
         container.style.border = 'none';
-        this.theTabMenu = container.querySelector("ul.nav.nav-tabs");
+        this.theTabMenu = container.querySelector("ul.nav.nav-tabs"); 
         this.theLinks = this.theTabMenu.querySelector("li");
-        this.theContent = container.querySelector("div.tab-content");
-        this.theContentOpts = this.theContent.querySelectorAll("div.iedib-tabpane");
-        this.numOpts = this.theContentOpts ? this.theContentOpts.length : 0; 
+        this.theContentOpts = container.querySelectorAll("div.tab-content > div");
+        this.numOpts = this.theContentOpts.length; 
+        if(this.numOpts === 0) {
+            console.error("ERROR: theContentOpts is Empty!");
+            this.numOpts = 1; //Avoid NAN
+        }
     };
 
-    SmartTabMenu.prototype.showUser = function (random, userId) {
+    SmartTabMenu.prototype.showUser = function (random, userId) { 
         if(this.pi.isTeacher) {
             this.theTabMenu.style.display = 'none';
         } else {
@@ -259,8 +270,7 @@
         for(var i=0, len= this.forceDifferent.length; i<len; i++) {
             var alist = this.forceDifferent[i];
             for(var j=0, len2= alist.length; j<len2; j++) {
-                if(alist[j]==userId) {
-                    console.log("Restriction on ", alist);
+                if(alist[j]==userId) { 
                     found = j;
                     break;
                 }
@@ -271,13 +281,25 @@
         }
 
         var which = 0;
-        if(found >= 0) {
-            // The option is set based on its position in the list
-            which = found % this.numOpts;
-        } else { 
-            // The option is set at random
-            which = Math.floor(random() * this.numOpts);
+        if(this.workingMode === 'urandom' || this.workingMode === 'lrandom') {
+            if(found >= 0) { 
+                // The option is set based on its position in the list
+                which = found % this.numOpts; 
+            } else { 
+                // The option is set at random
+                which = Math.floor(random() * this.numOpts); 
+            }
+        } else if(this.workingMode.startsWith('fixed')) {
+            if(this.workingMode.indexOf(":")>0) {
+                var val = this.workingMode.split(":")[1].trim();
+                if(val) {
+                    which = parseInt(val) || 0;
+                }
+            }
+        } else {
+            console.error("ERROR: Unknown working mode ", this.workingMode, ", choosing first element");
         }
+        
         for (var i = 0, len = this.theContentOpts.length; i < len; i++) {
             var panel = this.theContentOpts[i];
             var link = this.theLinks[i];
@@ -407,7 +429,9 @@
 
     // on page ready
     waitForJQ(function(){
-        $(function(){bind();});
+        $(function(){
+            bind();
+        });
     });
 
 })();
