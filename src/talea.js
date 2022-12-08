@@ -419,7 +419,7 @@
             cb();
             return;
         } else if(nattempt > 15) {
-            console.error("Narracio:: Cannot find jQuery");
+            console.error("Talea:: Cannot find jQuery");
             return;
         }
         window.setTimeout(function(){
