@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    var COMPONENT_NAME = 'talea2';
+    var COMPONENT_NAME = 'talea';
     if (window.IB.sd[COMPONENT_NAME]) {
         // Already loaded in page
         // Bind any remaining component
@@ -44,6 +44,12 @@
         var userText = document.getElementsByClassName("usertext");
         if (userText && userText.length) {
             userFullname = userText[0].innerText;
+        } else {
+            //Moodle4.1
+            var logininfo = document.querySelector("div.logininfo > a");
+            if(logininfo) {
+                userFullname = logininfo.innerText;
+            }
         }
 
         if (!userId) {
@@ -56,6 +62,10 @@
         if (!isTeacher) {
             // Boost theme
             isTeacher = document.querySelector('.teacherdash.nav-item.nav-link') != null ? 1 : 0;
+        } 
+        if(!isTeacher) {
+            //Moodle 4.1
+            isTeacher = document.querySelector('form.editmode-switch-form') != null ? 1 : 0;
         }
 
         // Get information about the course
@@ -69,7 +79,16 @@
             var hrefVal = "?" + (footer.href.split("?")[1] || "");
             courseId = parseUrlParams(hrefVal).id;
         } else {
-            console.error("Cannot find footer in document");
+            //Moodle 4.1
+            if(window.M && M.cfg) {
+                courseId = M.cfg.courseId;
+            }
+            var nav = document.querySelector("#page-navbar ol > li:first-child > a");
+            if(nav) {
+                courseName = nav.innerText; //short name
+            } else {
+                console.error("Cannot find footer in document");
+            }
         }
 
 
@@ -159,13 +178,13 @@
         var ds = this.container.dataset;
         this.seed = parseInt(ds.seed || '1') || 1;
         var forceDifferent = JSON.parse(ds.different || "[]");
-        var workingMode = ds.mode || 'urandom'; //fixed: 0-n; urandom; lrandom
+        this.workingMode = ds.mode || 'urandom'; //fixed: 0-n; urandom; lrandom
         
         //skip those tabmenus with class .talea-skip
         var componentContainers = container.querySelectorAll('div.iedib-tabmenu:not(.talea-skip)');
         this.smartMenus = [];
         for(var i=0, len=componentContainers.length; i<len; i++) {
-            this.smartMenus.push(new SmartTabMenu(componentContainers[i], this.pi, forceDifferent, workingMode, this.seed));
+            this.smartMenus.push(new SmartTabMenu(componentContainers[i], this.pi, forceDifferent, this.workingMode, this.seed));
         }
 
         var headerP = document.createElement("p");
