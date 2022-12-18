@@ -1,6 +1,5 @@
-# iedib-atto-snippets-dynamic
-
-Equip de millora de l'IEDIB curs 2021-22
+# atto-snippet-libjs
+ 
 
 ## Estructura de directoris
 
