@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    talea2: './ts/talea2.ts',
+    talea: './ts/talea/talea.ts',
   },
   module: {
     rules: [
@@ -10,6 +10,10 @@ module.exports = {
         test: /\.ts$/,
         exclude: /node_modules/,
         loader: "babel-loader",
+      },
+      {
+        test: /\.css$/,
+        use:['style-loader','css-loader']
       },
     ],
   },
