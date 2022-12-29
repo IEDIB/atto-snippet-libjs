@@ -1,4 +1,4 @@
-export abstract class BaseComponent {
+export abstract class BaseComponent implements IBComponentInstance {
     parent: HTMLElement;
     
     constructor(parent: HTMLElement) {

@@ -1,12 +1,5 @@
 import Loader from '../loader';
-import TaleaComponent from './taleaComponent';
 import './talea.css';
+import TaleaComponent from './taleaComponent';
 
-Loader.bootstrap(
-    {
-        name: 'talea',
-        author: 'Josep Mulet Pol',
-        version: '2.0',
-        class: TaleaComponent,
-    },
-    true);
+Loader.bootstrap(TaleaComponent);

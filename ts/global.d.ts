@@ -5,8 +5,18 @@ declare interface IBComponentInstance {
     dispose(): void
 }
 
+declare interface ComponentMeta {
+    name: string,
+    author: string,
+    version: string,
+    use$?: boolean | undefined,
+    query?: string | undefined
+}
+ 
+declare type IBComponentClass = new(parent: Element) => IBComponentInstance;
+   
 declare interface IBComponentNS {
-    _class: new(parent: Element) => IBComponentInstance,
+    _class: IBComponentClass,
     inst: {[key: string]: IBComponentInstance}
 }
 
@@ -16,9 +26,11 @@ declare interface IBType {
 
 interface Window {
     IB: IBType,
-    M: any
+    M: any,
+    wheelzoom: any
 }
 
+ 
 declare interface PageInfo {
     userId: number,
     userFullname: string,

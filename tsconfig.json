@@ -8,7 +8,7 @@
       "noImplicitAny": false,
       "removeComments": true,
       "inlineSourceMap": false,
-      "moduleResolution": "node",
+      "moduleResolution": "node" 
     },
     "include": ["./ts/**/*.ts"]
 }

@@ -1,9 +1,15 @@
 const path = require('path');
+const fs = require('fs');
+
+// Build all entry points
+const entries = {}
+fs.readdirSync("./ts", {withFileTypes: true}).filter(dirent => dirent.isDirectory()==true).forEach( dirent => {
+  const modName = dirent.name;
+  entries[modName] = "./ts/"+modName+"/"+modName+".ts";
+});
 
 module.exports = {
-  entry: {
-    talea: './ts/talea/talea.ts',
-  },
+  entry: entries,
   module: {
     rules: [
       {

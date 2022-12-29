@@ -1,0 +1,30 @@
+.modal-fullscreen-xl .modal-header {
+    padding: 0rem 1rem;
+    border: none;
+}
+.modal-fullscreen-xl .close {
+    font-size: 200%;
+    border-radius: 50%;
+    background: black;
+}
+.modal-fullscreen-xl .modal-dialog {
+    width: 95%;
+    height: 95%;
+    max-width: none;
+    margin: auto;
+}
+.modal-fullscreen-xl .modal-content {
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    background: rgba(0,0,0,0);
+}
+.modal-fullscreen-xl .modal-body {
+    width: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0);
+}
+.navigate-left-arrow, .navigate-right-arrow {
+    font-size: 300%;
+    color: whitesmoke;
+}

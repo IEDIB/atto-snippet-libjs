@@ -1,4 +1,3 @@
-import { ComponentDef } from "./types";
 import { waitForRequire } from "./utils";
 
 function genID() {
@@ -9,18 +8,18 @@ function findContainers(query: string): NodeListOf<Element> {
     return document.querySelectorAll(query);
 }
 
-function _bootstrap(defs: ComponentDef[]) {
-    defs.forEach((def) => {
+function _bootstrap(classes: IBComponentClass[]) {
+    classes.forEach((clazz) => {
         const IB = window.IB;
-        if (IB.sd[def.name]) {
-            console.error("Warning: " + def.name + " loaded twice.");
+        const meta: ComponentMeta = clazz["meta"];
+        if (IB.sd[meta.name]) {
+            console.error("Warning: " + meta.name + " loaded twice.");
             //TODO: Simply bind missing components?
         }
-        IB.sd[def.name] = IB.sd[def.name] || {inst:{}, _class: def.class};
-        const query = def.query || `div[role="snptd_${def.name}'"], div[data-snptd="${def.name}"]`;
+        IB.sd[meta.name] = IB.sd[meta.name] || {inst:{}, _class: clazz};
+        const query = meta.query || `div[role="snptd_${meta.name}'"], div[data-snptd="${meta.name}"]`;
         const containers = findContainers(query);
-        containers.forEach((parent) => {
-            const clazz = def.class;
+        containers.forEach((parent) => { 
             // Create instance of clazz
             let id = parent.getAttribute("id");
             if (!id) {
@@ -31,18 +30,21 @@ function _bootstrap(defs: ComponentDef[]) {
             // Delay binding in case of jquery...
             instance.bind();
             // add to the shared variable
-            window.IB.sd[def.name][id] = instance;
+            window.IB.sd[meta.name][id] = instance;
         });
     });
 }
 
 export default {
 
-    bootstrap: function (defs: ComponentDef | ComponentDef[], use$: boolean | undefined) {
+    bootstrap: function (defs: IBComponentClass | IBComponentClass[]) {
         window.IB = window.IB || { sd: {} };
         if(!Array.isArray(defs)) {
             defs = [defs];
         }
+        //check if some of the components to be bootstrap need jQuery
+        let use$ = defs.map( (d) => d["meta"].use$ || false).reduce((pv, cv)=> cv && pv);
+
         if (use$) {
             //wait for requirejs
             waitForRequire(() => {
@@ -50,12 +52,12 @@ export default {
                 requirejs(['jquery'], function($){
                     //wait for document ready
                     $(function(){
-                        _bootstrap(defs as ComponentDef[]);
+                        _bootstrap(defs as IBComponentClass[]);
                     });                        
                 })                    
             }, 15);
         } else {
-            _bootstrap(defs as ComponentDef[]);
+            _bootstrap(defs as IBComponentClass[]);
         }
     }
 
