@@ -9,7 +9,9 @@ function findContainers(query: string): NodeListOf<Element> {
 }
 
 function _bootstrap(classes: IBComponentClass[]) {
+    console.log("_boostrap");
     classes.forEach((clazz) => {
+        console.log(clazz);
         const IB = window.IB;
         const meta: ComponentMeta = clazz["meta"];
         if (IB.sd[meta.name]) {
@@ -17,8 +19,10 @@ function _bootstrap(classes: IBComponentClass[]) {
             //TODO: Simply bind missing components?
         }
         IB.sd[meta.name] = IB.sd[meta.name] || {inst:{}, _class: clazz};
-        const query = meta.query || `div[role="snptd_${meta.name}'"], div[data-snptd="${meta.name}"]`;
+        const query = meta.query || `div[role="snptd_${meta.name}"], div[data-snptd="${meta.name}"]`;
+        console.log(query);
         const containers = findContainers(query);
+        console.log(containers);
         containers.forEach((parent) => { 
             // Create instance of clazz
             let id = parent.getAttribute("id");
@@ -26,9 +30,8 @@ function _bootstrap(classes: IBComponentClass[]) {
                 id = genID();
                 parent.setAttribute("id", id);
             }
-            const instance = new clazz(parent);
-            // Delay binding in case of jquery...
-            instance.bind();
+            const instance = new clazz(parent); 
+            instance.init();
             // add to the shared variable
             window.IB.sd[meta.name][id] = instance;
         });
@@ -48,10 +51,13 @@ export default {
         if (use$) {
             //wait for requirejs
             waitForRequire(() => {
+                console.log("Require ready");
                 //wait for jquery
                 requirejs(['jquery'], function($){
+                    console.log("jquery ready", $);
                     //wait for document ready
                     $(function(){
+                        console.log("Page ready");
                         _bootstrap(defs as IBComponentClass[]);
                     });                        
                 })                    

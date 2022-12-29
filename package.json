@@ -4,6 +4,7 @@
   "description": "Dynamic snippets @ IEDIB",
   "main": "index.js",
   "scripts": {
+    "check": "tsc --noEmit",
     "test": "jest",
     "build": "webpack --mode=production",
     "build0": "node build.js"

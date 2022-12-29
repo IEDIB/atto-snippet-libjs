@@ -5,7 +5,7 @@ export abstract class BaseComponent implements IBComponentInstance {
         this.parent = parent;
     }
 
-    abstract bind(): void;
+    abstract init(): void;
 
     abstract dispose(): void;
 

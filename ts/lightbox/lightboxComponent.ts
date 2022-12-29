@@ -17,7 +17,7 @@ export default class LightboxComponent extends BaseComponent {
         super(parent);
     }
 
-    bind(): void {
+    init(): void {
         throw new Error("Method not implemented.");
     }
     dispose(): void {

@@ -8,6 +8,7 @@ const path = require('path')
 const fs = require('fs')
 
 app.use('/assets', express.static('./build/'));
+app.use('/dist', express.static('./dist/'));
 app.use('/assets2', express.static('../iedib-atto-snippets-misc/styles/'));
 
 app.get('/guiaus/:page', (req, res) => {
@@ -81,6 +82,9 @@ app.get('/guiaus/:page', (req, res) => {
 
 
 app.use('/', express.static(__dirname + '/guiaus/html'));
+['talea', 'zoom', 'lightbox'].forEach( c => {
+    app.use('/'+c, express.static(__dirname + '/test/'+c+'.html'))
+}); 
 
 app.listen(port, () => {
     console.log(`Servidor iniciado en el puerto ${port}`) 

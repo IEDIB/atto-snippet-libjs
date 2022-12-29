@@ -1,7 +1,7 @@
 type Nullable<T> = T | null;
 
 declare interface IBComponentInstance { 
-    bind(): void,
+    init(): void,
     dispose(): void
 }
 
