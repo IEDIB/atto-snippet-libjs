@@ -1,5 +1,5 @@
-import { BaseComponent } from "../base";
-import { PageInfoType, RanGen } from "../types";
+/// <reference path="../global.d.ts" />
+import { BaseComponent } from "../base"; 
 import { getPageInfo, pran } from "../utils";
 
 
@@ -10,7 +10,7 @@ import { getPageInfo, pran } from "../utils";
  * role="snptd_talea"
  */
 export default class TaleaComponent extends BaseComponent {
-    pi: PageInfoType;
+    pi: PageInfo;
     seed: number;
     workingMode: string;
     smartMenus: SmartTabMenu[];
@@ -144,7 +144,7 @@ export default class TaleaComponent extends BaseComponent {
 
 
 class SmartTabMenu {
-    pi: PageInfoType;
+    pi: PageInfo;
     forceDifferent: any[];
     workingMode: string;
     seed: number;
@@ -153,7 +153,7 @@ class SmartTabMenu {
     theContentOpts: NodeListOf<Element>;
     numOpts: number;
 
-    constructor(parent: HTMLElement, pi: PageInfoType,
+    constructor(parent: HTMLElement, pi: PageInfo,
         forceDifferent: any[], workingMode: string, seed: number) {
 
         //Here the parent is the tabmenu
