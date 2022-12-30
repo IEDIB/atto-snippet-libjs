@@ -230,11 +230,11 @@ export default function initPlugins($: any): void {
         const penElements = $e.find('[data-pen]');
         //console.log("Quant elements amb data-from", fromElements);
         //console.log("Quants elements amb laser", laserElements);
-        fromElements.each(function (k, el) {
+        fromElements.each(function (k, el:any) {
             const fromTime = $(el).attr('data-from');
             el.fromTime = fromTime;
         });
-        laserElements.each(function (k, el) {
+        laserElements.each(function (k, el:any) {
             const laserRaw = $(el).attr('data-laser');
             //console.log(laserRaw);
             el.lasers = [];
@@ -244,9 +244,9 @@ export default function initPlugins($: any): void {
                 const parts2 = alaser.split(",");
 
                 if (parts2.length >= 2) {
-                    const start = 0;
-                    const end = 0;
-                    const pos = 'md';
+                    let start = 0;
+                    let end = 0;
+                    let pos = 'md';
                     start = parseInt(parts2[0]);
                     end = parseInt(parts2[1]);
                     if (parts2.length > 2) {
@@ -258,12 +258,12 @@ export default function initPlugins($: any): void {
                 }
             }
         });
-        penElements.each(function (k, el) {
+        penElements.each(function (k, el: any) {
             const penRaw = $(el).attr('data-pen');
             //console.log(penRaw);
             el.pen = [];
             const parts = penRaw.split('|');
-            for (const j = 0, len = parts.length; j < len; j++) {
+            for (let j = 0, len = parts.length; j < len; j++) {
                 const apen = parts[j];
                 const parts2 = apen.split(",");
 
@@ -274,7 +274,7 @@ export default function initPlugins($: any): void {
                     start = parseInt(parts2[0]);
                     end = parseInt(parts2[1]);
                     const stys = parts2[2].split(";");
-                    for (const k = 0, lenk = stys.length; k < lenk; k++) {
+                    for (let k = 0, lenk = stys.length; k < lenk; k++) {
                         const sty = stys[k];
                         const kvpair = sty.split(":");
                         if (kvpair.length == 2) {
@@ -304,8 +304,8 @@ export default function initPlugins($: any): void {
             }
 
 
-            for (const i = 0, len = fromElements.length; i < len; i++) {
-                const elem = fromElements[i];
+            for (let i = 0, len = fromElements.length; i < len; i++) {
+                const elem = fromElements[i] as any;
                 if (elem.fromTime > tsec) {
                     $(elem).fadeTo('fast', 0);
                 } else {
@@ -313,7 +313,7 @@ export default function initPlugins($: any): void {
                 }
             }
             for (let i = 0, len = laserElements.length; i < len; i++) {
-                const elem = laserElements[i];
+                const elem = laserElements[i] as any; 
                 //todo
                 let tobeshown = null;
                 for (let k = 0, len2 = elem.lasers.length; k < len2; k++) {
@@ -333,7 +333,7 @@ export default function initPlugins($: any): void {
             }
 
             for (let i = 0, len = penElements.length; i < len; i++) {
-                const elem = penElements[i];
+                const elem = penElements[i] as any;
 
                 const $elem = $(elem);
                 $elem.each(function (i, pel) {

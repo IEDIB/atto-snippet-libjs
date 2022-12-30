@@ -1,6 +1,7 @@
 import { BaseComponent } from "../base";
 import GTTSPlayer from "./gttsPlayer";
 import NavigatorPlayer from "./navigatorPlayer";
+import UrlPlayer from "./urlPlayer";
 import WordReferencePlayer from "./wordreferencePlayer";
  
 let allVoices: SpeechSynthesisVoice[] = null;
@@ -38,6 +39,10 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
             return;
         }
         ds.active = "1";
+        if(ds.src) {
+            this.audioPlayer = new UrlPlayer(this.parent);
+            return;
+        }
         if(ds.wr==="1" || ds.wr==="true") {
             //use wordreference
             this.audioPlayer = new WordReferencePlayer(this.parent);

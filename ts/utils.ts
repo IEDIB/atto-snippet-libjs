@@ -141,3 +141,38 @@ export function convertInt(str: string, def: number): number {
     return def;
 }
 
+
+/**
+ * Safely joins two parts of an url
+ * @param a 
+ * @param b 
+ * @returns 
+ */
+export function pathJoin(a: string, b?: string): string {
+    a = (a || "").trim();
+    b = (b || "").trim();
+    if (!a.endsWith('/')) {
+        a = a + '/';
+    }
+    if (b.startsWith('/')) {
+        b = b.substring(1);
+    }
+    return a + b;
+};
+
+/**
+ * Adds the baseurl if the passed url does not start with http or https
+ */
+export function addBaseToUrl(base: string, url: string): string {
+    url = (url || "").trim();
+    if (url.toLowerCase().startsWith("http")) {
+        return url;
+    }
+    // Afegir la base
+    var out = pathJoin(base, url);
+    return out;
+};
+
+export function genID(): string {
+    return "i" + Math.random().toString(32).substring(2);
+}
