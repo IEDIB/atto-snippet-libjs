@@ -83,7 +83,7 @@ app.get('/guiaus/:page', (req, res) => {
 
 
 app.use('/', express.static(__dirname + '/guiaus/html'));
-['talea', 'zoom', 'lightbox', 'presentacio', 'speak', 'narracio'].forEach( c => {
+['talea', 'zoom', 'lightbox', 'presentacio', 'speak', 'narracio', 'wordreference'].forEach( c => {
     app.use('/'+c, express.static(__dirname + '/test/'+c+'.html'))
 }); 
 

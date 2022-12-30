@@ -30,8 +30,10 @@ declare interface IBType {
 interface Window {
     IB: IBType,
     M: any,
-    wheelzoom: any
+    wheelzoom: any,
+    audiosInPage: any[]
 }
+ 
 
 declare interface PageInfo {
     userId: number,

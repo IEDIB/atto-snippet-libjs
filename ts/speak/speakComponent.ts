@@ -1,6 +1,7 @@
 import { BaseComponent } from "../base";
 import GTTSPlayer from "./gttsPlayer";
 import NavigatorPlayer from "./navigatorPlayer";
+import WordReferencePlayer from "./wordreferencePlayer";
  
 let allVoices: SpeechSynthesisVoice[] = null;
 
@@ -23,7 +24,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
         name: 'speak',
         author: 'Josep Mulet Pol',
         version: '2.4',
-        query: 'a[href^="#speak_"]',
+        query: 'a[href^="#speak_"],[role="snptd_speak"],[data-snptd="speak"]',
         use$: true, //May require $ajax
     };
     private audioPlayer: VoicePlayer;
@@ -37,6 +38,11 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
             return;
         }
         ds.active = "1";
+        if(ds.wr==="1" || ds.wr==="true") {
+            //use wordreference
+            this.audioPlayer = new WordReferencePlayer(this.parent);
+            return;
+        }
         const synth = window.speechSynthesis;
         const supported = synth != null && window.SpeechSynthesisUtterance != null;
         this.audioPlayer = null;

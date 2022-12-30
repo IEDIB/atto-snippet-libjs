@@ -10,7 +10,8 @@ export default class GTTSPlayer implements VoicePlayer {
     constructor(elem: HTMLElement) {
         const self = this;
         this._elem = elem;
-        const idioma = elem.getAttribute("href").split("_")[1];
+        let idioma = elem.getAttribute("href") || elem.dataset.lang || "en_us";
+        idioma = idioma.replace("#speak_", "");
         const sText = elem.innerText.trim();
         if (sText.length > MAX_GTTS_LEN) {
             console.log("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
