@@ -1,5 +1,9 @@
 const path = require('path');
 const fs = require('fs');
+ 
+ 
+const isDev = process.argv.indexOf('--mode=development')>0;
+console.log(isDev?"Webpack DEVELOPMENT mode": "Webpack PRODUCTION mode")
 
 // Build all entry points
 const entries = {}
@@ -27,11 +31,11 @@ module.exports = {
     extensions: ['.ts'],
   },
   output: {
-    filename: '[name].min.js',
-    path: path.resolve(__dirname, './dist'),
+    filename: isDev?'[name].js':'[name].min.js',
+    path: path.resolve(__dirname, './dist'+(isDev?'-dev':'')),
   },
   target: ["web", "es5"], 
   optimization: {
-    minimize: true
+    minimize: !isDev, 
   },
 };

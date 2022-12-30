@@ -83,9 +83,7 @@ export  function getPageInfo(): PageInfo {
         const nav = document.querySelector("#page-navbar ol > li:first-child > a");
         if(nav != null) {
             courseName = (nav as HTMLElement).innerText; //short name
-        } else {
-            console.error("Cannot find footer in document");
-        }
+        } 
     }
 
 
@@ -129,4 +127,17 @@ export function waitForRequire(cb: ()=>void, nattempt: number) {
     }, 500);
 };
 
+
+export function convertInt(str: string, def: number): number {
+    if(!str || !str.trim()) {
+        return def;
+    }
+    try {
+        const val: number = parseInt(str);
+        if(!isNaN(val)) {
+            return val;
+        }
+    } catch(ex) {}
+    return def;
+}
 

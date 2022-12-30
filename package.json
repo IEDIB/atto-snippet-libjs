@@ -6,7 +6,8 @@
   "scripts": {
     "check": "tsc --noEmit",
     "test": "jest",
-    "build": "webpack --mode=production",
+    "build-dev": "npm run check && webpack --mode=development",
+    "build": "npm run check && webpack --mode=production",
     "build0": "node build.js"
   },
   "repository": {

@@ -17,7 +17,10 @@ declare type IBComponentClass = new(parent: Element) => IBComponentInstance;
    
 declare interface IBComponentNS {
     _class: IBComponentClass,
-    inst: {[key: string]: IBComponentInstance}
+    _init(): void,
+    _dispose(): void,
+    inst?: {[key: string]: IBComponentInstance} | undefined,
+    singl?: IBComponentInstance | undefined
 }
 
 declare interface IBType {
@@ -41,3 +44,11 @@ declare interface PageInfo {
 }
 
 declare type RanGen = () => number;
+
+declare interface ZoomwheelDefaults {
+    zoom: number,
+    maxZoom: number,
+    initialZoom: number,
+    initialX: number,
+    initialY: number,
+}

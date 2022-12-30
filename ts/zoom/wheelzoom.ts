@@ -3,8 +3,10 @@
   license: MIT
   http://www.jacklmoore.com/wheelzoom
 */
-window.wheelzoom = (function () {
-    var defaults = {
+
+export default (function () {
+
+    var defaults: ZoomwheelDefaults = {
         zoom: 0.03,
         maxZoom: 10,
         initialZoom: 1,
@@ -12,8 +14,7 @@ window.wheelzoom = (function () {
         initialY: 0.5,
     };
 
-    var main = function (img, options) {
-        //console.error("Called main ", img, options);
+    var main = function (img: HTMLImageElement, options: Partial<ZoomwheelDefaults> | undefined) {
         if (!img || !img.nodeName || img.nodeName !== 'IMG') {
             return;
         }
@@ -28,7 +29,7 @@ window.wheelzoom = (function () {
         var previousEvent;
         var transparentSpaceFiller;
 
-        function setSrcToBackground(img) {
+        function setSrcToBackground(img: HTMLImageElement) {
             img.style.backgroundRepeat = 'no-repeat';
             img.style.backgroundImage = 'url("' + img.src + '")';
             transparentSpaceFiller = 'data:image/svg+xml;base64,' + window.btoa('<svg xmlns="http://www.w3.org/2000/svg" width="' + img.naturalWidth + '" height="' + img.naturalHeight + '"></svg>');
@@ -182,7 +183,7 @@ window.wheelzoom = (function () {
         }
         var resizeObs;
 
-        var destroy = function (originalProperties) {
+        var destroy = function (originalProperties: any) {
             img.removeEventListener('wheelzoom.destroy', destroy);
             img.removeEventListener('wheelzoom.reset', reset);
             img.removeEventListener('load', load);
@@ -227,22 +228,12 @@ window.wheelzoom = (function () {
             resizeObs.observe(img);
         }
     };
-
-    // Do nothing in IE9 or below
-    if (typeof window.btoa !== 'function') {
-        return function (elements) {
-            return elements;
-        };
-    } else {
-        return function (elements, options) {
-            if (elements && elements.length) {
-                Array.prototype.forEach.call(elements, function (node) {
-                    main(node, options);
-                });
-            } else if (elements && elements.nodeName) {
-                main(elements, options);
-            }
-            return elements;
-        };
+    
+    return function (elem: HTMLImageElement, options?: Partial<ZoomwheelDefaults> | undefined): void {
+        if (typeof window.btoa !== 'function') {
+            // Do nothing in IE9 or below
+            return;
+        }
+        main(elem, options);        
     }
 }());

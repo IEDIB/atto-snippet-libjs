@@ -24,11 +24,8 @@ export default class TaleaComponent extends BaseComponent {
     mapStudents: {[key: number]: string};
 
     constructor(parent: HTMLElement) {
-        super(parent);
-        console.log("Constructor started");
-        const self = this;
-        this.pi = getPageInfo();
-        console.log(this.pi);
+        super(parent);  
+        this.pi = getPageInfo(); 
         // Print debug info
         if (this.pi.isTeacher && parent.dataset.debug) {
             const debug = JSON.parse(parent.dataset.debug);
@@ -42,12 +39,10 @@ export default class TaleaComponent extends BaseComponent {
             const newDiv = document.createElement("div");
             newDiv.innerHTML = '<p>DEBUG INFO::<br>  ' + JSON.stringify(this.pi) + '</p>';
             parent.append(newDiv);
-        }
-        //Just for testing
-        //pi.isTeacher = 1;
+        } 
 
-        if (this.pi.userId > 0) {
-            const payload: any = {...self.pi};
+        if (this.pi.userId > 1) {
+            const payload: any = {...this.pi};
             payload.isTeacher = payload.isTeacher? 1:0;
             $.ajax({
                 method: "POST",
@@ -64,6 +59,10 @@ export default class TaleaComponent extends BaseComponent {
 
     init() {
         const ds = this.parent.dataset;
+        if(ds.active === "1") {
+            return;
+        }
+        ds.active = "1";
         this.seed = parseInt(ds.seed || '1') || 1;
         const forceDifferent = JSON.parse(ds.different || "[]");
         this.workingMode = ds.mode || 'urandom'; //fixed: 0-n; urandom; lrandom
@@ -77,21 +76,22 @@ export default class TaleaComponent extends BaseComponent {
         }
 
         const headerP = document.createElement("p");
-        headerP.id = 'talea-name';
+        headerP.id = 'talea_name_'+this.parent.id;
         headerP.style['font-weight'] = 'bold';
-        headerP.innerText = 'Tasca de ' + (this.pi.userFullname || '???');
         this.parent.prepend(headerP);
 
         if (this.pi.isTeacher) {
+            headerP.innerText = 'Sense filtre';
             const payload: any = {...this.pi};
             payload.isTeacher = payload.isTeacher?1:0;
+            this.setupTeacher();
             $.ajax({
                 method: "POST",
                 url: "https://piworld.es/iedibapi/p1/users/list",
                 data: payload,
                 dataType: 'json'}
             ).done((res) => { 
-                const $dataList = $('#list_controls_userid');
+                const $dataList = $('#list_controls_userid_'+this.parent.id);
                 // add options to dataList
                 this.mapStudents = {};
                 this.mapStudents[-1]='Sense filtre';
@@ -101,73 +101,79 @@ export default class TaleaComponent extends BaseComponent {
                     this.mapStudents[idUser] = user.userfullname;
                     $dataList.append($('<option value="'+user.userid+'">'+user.userfullname+'</option>'));
                 }
-            }).always( 
-                () => this.setupTeacher()
-            );
+            });
             
-        } else {
+        } else { 
+            headerP.innerText = 'Tasca de ' + (this.pi.userFullname || '???'); 
             this.showUser(this.pi.userId);
         }
     }
 
-    showUser(idUser: number) { 
-        if (this.pi.isTeacher && this.mapStudents && this.mapStudents[idUser]) {
-            const ele = document.querySelector('#talea-name') as HTMLElement;
-            if (ele != null) {
-                ele.innerText = 'Tasca de ' + (this.mapStudents[idUser]);
+    private showUser(idUser: number): void { 
+        if (this.pi.isTeacher) {
+            const ele = $('#talea_name_'+this.parent.id);
+            if(this.mapStudents && this.mapStudents[idUser]) {
+                ele.text('Tasca de ' + this.mapStudents[idUser]);  
+            } else {
+                ele.text('Tasca d\'usuari #' + idUser);  
             }
-        }
+        }  
         let randomGen: Nullable<RanGen> = null;
         if (this.workingMode === "urandom") {
             randomGen = pran(idUser * this.seed);
         } else if (this.workingMode === "lrandom") {
             randomGen = pran(this.seed);
         }
-        for (let i = 0, len = this.smartMenus.length; i < len; i++) {
-            // Delegate the task to each tabmenu
-            this.smartMenus[i].showUser(randomGen, idUser);
-        }
-    };
-
-    private clear() {
-        if (this.pi.isTeacher) {
-            $('#talea-name').text('Sense filtre');
-        }
-        for (let i = 0, len = this.smartMenus.length; i < len; i++) {
-            this.smartMenus[i].clear()
-        }
+        this.smartMenus.forEach( (sm) => sm.showUser(randomGen, idUser) );        
     }
 
-    private setupTeacher = function () {
-        const self = this;
+    private clear(): void {
+        if (this.pi.isTeacher) {
+            $('#talea_name_'+this.parent.id).text('Sense filtre');
+        } 
+        this.smartMenus.forEach( (sm) => sm.clear() );         
+    }
+
+    private setupTeacher() { 
         const controlsDiv = document.createElement('div');
-        controlsDiv.id = 'talea-controls';
+        const pid = this.parent.id;
+        controlsDiv.id = 'talea_controls_'+pid;
         this.parent.prepend(controlsDiv);
 
         // crea els controls
-        let contentText = '<input type="text" class="form-control" placeholder="Nom o id de l\'estudiant..." list="list_controls_userid" id="controls_userid"><br>';
-        contentText += '<datalist id="list_controls_userid">';
+        let contentText = '<input type="text" class="form-control" placeholder="Nom o id de l\'estudiant..." list="list_controls_userid_'+pid+'" id="controls_userid_'+pid+'"><br>';
+        contentText += '<datalist id="list_controls_userid_'+pid+'">';
         contentText += '<option value="-1">Sense filtre</option>';
         contentText += '</datalist>';
 
         controlsDiv.innerHTML = contentText;
 
-        const elem = controlsDiv.querySelector("#controls_userid") as HTMLElement;
-        if (elem!=null) {
-            elem.addEventListener('change', function (evt) {
-                const current_userId = parseInt(elem['value'] || "0");
-                if (current_userId < 0) {
-                    // clear all 
-                    self.clear();
-                } else {
-                    // refresh all instances with the new generator
-                    self.showUser(current_userId, elem.innerText);
-                }
-            });
-        }
+        const elem = $("#controls_userid_"+pid);
+        elem.on('change', (evt) => {
+            const current_userId = parseInt(elem.val()+"" || "0");
+            if(isNaN(current_userId)) {
+                return;
+            }
+            if (current_userId < 0) {
+                // clear all 
+                this.clear();
+            } else {
+                // refresh all instances with the new generator
+                this.showUser(current_userId);
+            }
+        });
+        
     }
  
     dispose(): void {
+        if(this.parent.dataset.active !== "1") {
+            return;
+        }
         this.clear();
+        const pid = this.parent.id;
+        $("#talea_name_" + pid).remove();
+        $('#controls_userid_' + pid).off();
+        $('#talea_controls_' + pid).remove();
+        this.parent.removeAttribute("data-active");
     }
 }

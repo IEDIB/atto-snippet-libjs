@@ -23,7 +23,7 @@ export default class SmartTabMenu {
         this.theContentOpts = parent.querySelectorAll("div.tab-content > div");
         this.numOpts = this.theContentOpts.length;
         if (this.numOpts === 0) {
-            console.error("ERROR: theContentOpts is Empty!");
+            console.error("ERROR: SmartTabMenu, theContentOpts is Empty!");
             this.numOpts = 1; //Avoid NAN
         }
     }

@@ -9,6 +9,7 @@ const fs = require('fs')
 
 app.use('/assets', express.static('./build/'));
 app.use('/dist', express.static('./dist/'));
+app.use('/dist-dev', express.static('./dist-dev/'));
 app.use('/assets2', express.static('../iedib-atto-snippets-misc/styles/'));
 
 app.get('/guiaus/:page', (req, res) => {
