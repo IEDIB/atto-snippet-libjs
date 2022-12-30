@@ -1,5 +1,6 @@
 /// <reference path="../global.d.ts" />
 import { BaseComponent } from "../base";   
+import { convertInt } from "../utils";
 import wheelzoom from "./wheelzoom";
 
 const INIT_DELAY = 600; 
@@ -13,7 +14,7 @@ export default class ZoomComponent extends BaseComponent {
         use$: false,
         query: '[role="snptd_zoom"], [data-snptd="zoom"]'
     }; 
-    allImgs: HTMLImageElement[];
+    private allImgs: HTMLImageElement[];
 
     constructor(parent: HTMLElement) {
         super(parent);
@@ -35,10 +36,10 @@ export default class ZoomComponent extends BaseComponent {
             return;
         }
         ds.active = "1";
-        const opts: Partial<ZoomwheelDefaults> = {};
-        if(ds.maxzoom) {
-            opts.maxZoom = parseInt(ds.maxzoom);
-        }
+        const opts: Partial<ZoomwheelDefaults> = {
+            maxZoom: convertInt(ds.maxzoom, 10)
+        };
+        
         // Delay initialization to fix image max-width
         window.setTimeout( () => {
             if(this.parent.nodeName==='IMG') {

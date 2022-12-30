@@ -24,25 +24,25 @@ export default class PresentacioComponent extends BaseComponent {
         version: '2.0',
         use$: false
     };
-    loop: boolean;
-    button_container: HTMLDivElement;
-    diapositives: NodeListOf<HTMLElement>;
-    num: number;
-    n: number;
-    continuarAutomatic: boolean;
-    durada: number[];
-    currentTimeout: NodeJS.Timeout;
-    buttonPlay: HTMLElement;
-    boxComptador: HTMLElement;
-    buttonLast: HTMLElement;
-    buttonFirst: HTMLElement;
-    buttonNext: HTMLElement;
-    buttonBack: HTMLElement;
-    evListener1: any;
-    evListener2: any;
-    evListener3: any;
-    evListener4: any;
-    evListener5: any;
+    private loop: boolean;
+    private  button_container: HTMLDivElement;
+    private diapositives: NodeListOf<HTMLElement>;
+    private num: number;
+    private n: number;
+    private continuarAutomatic: boolean;
+    private durada: number[];
+    private currentTimeout: NodeJS.Timeout;
+    private buttonPlay: HTMLElement;
+    private boxComptador: HTMLElement;
+    private buttonLast: HTMLElement;
+    private buttonFirst: HTMLElement;
+    private buttonNext: HTMLElement;
+    private buttonBack: HTMLElement;
+    private evListener1: any;
+    private evListener2: any;
+    private evListener3: any;
+    private evListener4: any;
+    private evListener5: any;
 
     constructor(parent: HTMLElement) {
         super(parent);
@@ -68,15 +68,7 @@ export default class PresentacioComponent extends BaseComponent {
         this.num = this.diapositives.length;
 
         // Determine which is the current diapositiva (by default the first one)
-        this.n = 0; // By default the first one
-
-        if (ds.start) {
-            try {
-                this.n = (parseInt(ds.start) - 1) % this.num;
-            } catch (ex) {
-                console.error(ex);
-            }
-        }
+        this.n = (convertInt(ds.start, 1) - 1) % this.num;
 
         const mustFade = (ds.transition == 'fade');
         for (let i = 0; i < this.num; i++) {
@@ -104,14 +96,7 @@ export default class PresentacioComponent extends BaseComponent {
         // If only one time is set, then all slides have the same duration
         if (tempsDiapositiva.length == 1) {
             // Set as default time
-            try {
-                defaultTime = parseInt(tempsDiapositiva[0]);
-                if(isNaN(defaultTime)) {
-                    defaultTime = DEFALT_TIME;
-                }
-            } catch (ex) {
-                console.error(ex);
-            }
+            defaultTime = convertInt(tempsDiapositiva[0], defaultTime);
         }
         this.durada = [];
         const len_td = tempsDiapositiva.length;
@@ -121,14 +106,8 @@ export default class PresentacioComponent extends BaseComponent {
                 this.durada.push(t);
                 continue;
             }
-            try {
-                t = parseInt(tempsDiapositiva[j]);
-                if (t != null) {
-                    this.durada.push(t);
-                }
-            } catch (ex) {
-                console.error(ex);
-            }
+            t = convertInt(tempsDiapositiva[j], defaultTime);
+            this.durada.push(t);            
         }
 
         this.crearBotons();

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+  body {
+    margin:auto;
+    max-width: 700px;
+  }
+</style>
+<body>
+ 
+
+  <!--if(!isTeacher) {
+    //Moodle 4.1
+    isTeacher = document.querySelector('form.editmode-switch-form') != null ? 1 : 0;
+ }
+ -->
+<form class="editmode-switch-form">
+  TEACHER
+</form>
+
+ 
+<!--ini menu pestanyes-->
+<div class="tabbable iedib-tabmenu" role="snptd_presentacio" data-transition="slide" class="theme-dark" 
+data-start="3" data-durades="5" data-loop="1" style="max-width:100%">
+  <ul class="nav nav-tabs">
+  <li class="active"><a href="#d41e4gg0jhf8_0" data-toggle="tab"><span>&nbsp;</span><span>Pestanya0</span></a></li><li><a href="#d41e4gg0jhf8_1" data-toggle="tab"><span>&nbsp;</span><span>Pestanya1</span></a></li><li><a href="#d41e4gg0jhf8_2" data-toggle="tab"><span>&nbsp;</span><span>Pestanya2</span></a></li> 
+  </ul>
+  <div class="tab-content">
+  <div class="tab-pane  active  iedib-tabpane" id="d41e4gg0jhf8_0">
+  <p>0) Lorem  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat.  </p>
+  </div><div class="tab-pane  iedib-tabpane" id="d41e4gg0jhf8_1">
+  <p>1) Lorem  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </div><div class="tab-pane  iedib-tabpane" id="d41e4gg0jhf8_2">
+  <p>2) Lorem  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </div>
+  </div>
+  </div> 
+  <!--fi menu pestanyes-->
+  <p><br></p><br>
+
+
+ 
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<script>
+  //fake requirejs
+  window.require = function(deps, cb) {
+    cb(jQuery);
+  };
+  window.requirejs = window.require;
+</script> 
+
+ 
+<script src="../dist-dev/presentacio.js"></script>
+</body>
+</html>

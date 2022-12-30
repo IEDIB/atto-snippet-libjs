@@ -1,6 +1,6 @@
 /// <reference path="../global.d.ts" />
 import { BaseComponent } from "../base";   
-import { getPageInfo, pran } from "../utils";
+import { convertInt, getPageInfo, pran } from "../utils";
 import SmartTabMenu from "./smartTabMenu";
 
 
@@ -17,11 +17,11 @@ export default class TaleaComponent extends BaseComponent {
         version: '2.0',
         use$: true
     };
-    pi: PageInfo;
-    seed: number;
-    workingMode: string;
-    smartMenus: SmartTabMenu[];
-    mapStudents: {[key: number]: string};
+    private pi: PageInfo;
+    private seed: number;
+    private workingMode: string;
+    private smartMenus: SmartTabMenu[];
+    private mapStudents: {[key: number]: string};
 
     constructor(parent: HTMLElement) {
         super(parent);  
@@ -63,7 +63,7 @@ export default class TaleaComponent extends BaseComponent {
             return;
         }
         ds.active = "1";
-        this.seed = parseInt(ds.seed || '1') || 1;
+        this.seed = convertInt(ds.seed, 1);
         const forceDifferent = JSON.parse(ds.different || "[]");
         this.workingMode = ds.mode || 'urandom'; //fixed: 0-n; urandom; lrandom
 
@@ -97,7 +97,7 @@ export default class TaleaComponent extends BaseComponent {
                 this.mapStudents[-1]='Sense filtre';
                 for(let i=0, len=res.length; i<len; i++) {
                     const user = res[i];
-                    const idUser = parseInt(user.userid|| '0');
+                    const idUser = convertInt(user.userid, 0);
                     this.mapStudents[idUser] = user.userfullname;
                     $dataList.append($('<option value="'+user.userid+'">'+user.userfullname+'</option>'));
                 }
@@ -150,8 +150,8 @@ export default class TaleaComponent extends BaseComponent {
 
         const elem = $("#controls_userid_"+pid);
         elem.on('change', (evt) => {
-            const current_userId = parseInt(elem.val()+"" || "0");
-            if(isNaN(current_userId)) {
+            const current_userId = convertInt(elem.val()+"", -2);
+            if(current_userId === -2) {
                 return;
             }
             if (current_userId < 0) {

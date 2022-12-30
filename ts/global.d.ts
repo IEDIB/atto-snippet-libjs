@@ -33,7 +33,6 @@ interface Window {
     wheelzoom: any
 }
 
- 
 declare interface PageInfo {
     userId: number,
     userFullname: string,
@@ -51,4 +50,10 @@ declare interface ZoomwheelDefaults {
     initialZoom: number,
     initialX: number,
     initialY: number,
+}
+
+declare interface VoicePlayer {
+    play(): void,
+    pause(): void,
+    dispose(): void
 }

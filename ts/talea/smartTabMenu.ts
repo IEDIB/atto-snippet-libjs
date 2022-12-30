@@ -1,3 +1,4 @@
+import { convertInt } from "../utils";
 
 export default class SmartTabMenu {
     pi: PageInfo;
@@ -63,9 +64,7 @@ export default class SmartTabMenu {
         } else if (this.workingMode.startsWith('fixed')) {
             if (this.workingMode.indexOf(":") > 0) {
                 var val = this.workingMode.split(":")[1].trim();
-                if (val) {
-                    which = parseInt(val) || 0;
-                }
+                which = convertInt(val,  0);
             }
         } else {
             console.error("ERROR: Unknown working mode ", this.workingMode, ", choosing first element");

@@ -89,12 +89,12 @@ export  function getPageInfo(): PageInfo {
 
     const site = (location.href.split("?")[0] || "").replace("/mod/book/view.php", "");
     return {
-        userId: parseInt(userId || '1'),
+        userId: convertInt(userId, 1),
         userFullname: userFullname || 'test-user',
         isTeacher: isTeacher > 0,
         site: site,
         courseName: courseName || 'test-course',
-        courseId: parseInt(courseId || '1')
+        courseId: convertInt(courseId, 1)
     };
 
 };

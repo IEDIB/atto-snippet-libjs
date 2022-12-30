@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+  body {
+    margin:auto;
+    max-width: 700px;
+  }
+</style>
+<body>
+ 
+ <p>This is <a href="#speak_en-US">awesome</a>!</p>
+ <p><a href="#speak_en-US">As part of the Complete Clean Pledge®, our ongoing commitment to increase safety measures for our customers and employees, National is a member of the Clorox® Safer Today Alliance™.  As a member we receive ongoing support and guidance around enhanced safety measures from experts at the CDC Foundation and Cleveland Clinic.</a></p>
+ 
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<script>
+  //fake requirejs
+  window.require = function(deps, cb) {
+    cb(jQuery);
+  };
+  window.requirejs = window.require;
+</script> 
+
+ 
+<script src="../dist-dev/speak.js"></script>
+</body>
+</html>

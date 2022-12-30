@@ -1,5 +1,6 @@
 /// <reference path="../global.d.ts" />
 import { BaseComponent } from "../base";
+import { convertInt } from "../utils";
 
 const leftArrow = '<span>&#10094;</span>';
 const rightArrow = '<span>&#10095;</span>';
@@ -49,11 +50,11 @@ export default class LightboxComponent extends BaseComponent {
         use$: true
     };
 
-    currentIndex: number;
-    $gallery: HTMLImageElement[];
-    $modal: JQuery<HTMLElement>;
-    $img: JQuery<HTMLImageElement>;
-    $close: JQuery<HTMLButtonElement>;
+    private currentIndex: number;
+    private $gallery: HTMLImageElement[];
+    private $modal: JQuery<HTMLElement>;
+    private $img: JQuery<HTMLImageElement>;
+    private $close: JQuery<HTMLButtonElement>;
 
     constructor(parent: HTMLElement) {
         super(parent);
@@ -79,7 +80,7 @@ export default class LightboxComponent extends BaseComponent {
         $theImg.off();
         // Action on clicking the image
         $theImg.on("click", function (evt) {
-            self.currentIndex = parseInt(this.dataset.lbpos);
+            self.currentIndex = convertInt(this.dataset.lbpos, 0);
             self.loadImageDynamically();
         });
     }
