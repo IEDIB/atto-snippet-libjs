@@ -6,7 +6,7 @@
 
 export default (function () {
 
-    var defaults: ZoomwheelDefaults = {
+    const defaults: ZoomwheelDefaults = {
         zoom: 0.03,
         maxZoom: 10,
         initialZoom: 1,
@@ -14,20 +14,20 @@ export default (function () {
         initialY: 0.5,
     };
 
-    var main = function (img: HTMLImageElement, options: Partial<ZoomwheelDefaults> | undefined) {
+    const main = function (img: HTMLImageElement, options: Partial<ZoomwheelDefaults> | undefined) {
         if (!img || !img.nodeName || img.nodeName !== 'IMG') {
             return;
         }
 
-        var settings: any = {};
-        var width;
-        var height;
-        var bgWidth;
-        var bgHeight;
-        var bgPosX;
-        var bgPosY;
-        var previousEvent;
-        var transparentSpaceFiller;
+        const settings: any = {};
+        let width;
+        let height;
+        let bgWidth;
+        let bgHeight;
+        let bgPosX;
+        let bgPosY;
+        let previousEvent;
+        let transparentSpaceFiller;
 
         function setSrcToBackground(img: HTMLImageElement) {
             img.style.backgroundRepeat = 'no-repeat';
@@ -61,7 +61,7 @@ export default (function () {
         }
 
         function onwheel(e) {
-            var deltaY = 0;
+            let deltaY = 0;
 
             e.preventDefault();
 
@@ -74,17 +74,17 @@ export default (function () {
             // As far as I know, there is no good cross-browser way to get the cursor position relative to the event target.
             // We have to calculate the target element's position relative to the document, and subtrack that from the
             // cursor's position relative to the document.
-            var rect = img.getBoundingClientRect();
-            var offsetX = e.pageX - rect.left - window.pageXOffset;
-            var offsetY = e.pageY - rect.top - window.pageYOffset;
+            const rect = img.getBoundingClientRect();
+            const offsetX = e.pageX - rect.left - window.pageXOffset;
+            const offsetY = e.pageY - rect.top - window.pageYOffset;
 
             // Record the offset between the bg edge and cursor:
-            var bgCursorX = offsetX - bgPosX;
-            var bgCursorY = offsetY - bgPosY;
+            const bgCursorX = offsetX - bgPosX;
+            const bgCursorY = offsetY - bgPosY;
 
             // Use the previous offset to get the percent offset between the bg edge and cursor:
-            var bgRatioX = bgCursorX / bgWidth;
-            var bgRatioY = bgCursorY / bgHeight;
+            const bgRatioX = bgCursorX / bgWidth;
+            const bgRatioY = bgCursorY / bgHeight;
 
             // Update the bg size:
             if (deltaY < 0) {
@@ -134,11 +134,11 @@ export default (function () {
         }
 
         function load() {
-            var initial = Math.max(settings.initialZoom, 1);
+            const initial = Math.max(settings.initialZoom, 1);
 
             if (img.src === transparentSpaceFiller) return;
 
-            var computedStyle = window.getComputedStyle(img, null);
+            const computedStyle = window.getComputedStyle(img, null);
 
             width = parseInt(computedStyle.width, 10);
             height = parseInt(computedStyle.height, 10);
@@ -166,8 +166,8 @@ export default (function () {
                 return
                 ;
             }
-            var initial = Math.max(settings.initialZoom, 1);
-            var computedStyle = window.getComputedStyle(img, null);
+            const initial = Math.max(settings.initialZoom, 1);
+            const computedStyle = window.getComputedStyle(img, null);
 
             width = parseInt(computedStyle.width, 10);
             height = parseInt(computedStyle.height, 10);
@@ -181,9 +181,9 @@ export default (function () {
             img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
             img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
         }
-        var resizeObs;
+        let resizeObs;
 
-        var destroy = function (originalProperties: any) {
+        const destroy = function (originalProperties: any) {
             img.removeEventListener('wheelzoom.destroy', destroy);
             img.removeEventListener('wheelzoom.reset', reset);
             img.removeEventListener('load', load);

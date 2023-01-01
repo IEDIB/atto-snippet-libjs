@@ -1,4 +1,3 @@
-/// <reference path="../global.d.ts" />
 import { BaseComponent } from "../base";   
 import { convertInt } from "../utils";
 import wheelzoom from "./wheelzoom";

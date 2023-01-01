@@ -8,7 +8,7 @@ export function parseUrlParams(url: string): {[key: string]: string} {
         params[nv[0]] = nv[1] || true;
     }
     return params;
-};
+}
 
 export function querySelectorProp(query: string, prop: string, def?: string): string {
     const ele = document.querySelector(query);
@@ -97,7 +97,7 @@ export  function getPageInfo(): PageInfo {
         courseId: convertInt(courseId, 1)
     };
 
-};
+}
   
 
 //Seeded random number generator
@@ -125,7 +125,7 @@ export function waitForRequire(cb: ()=>void, nattempt: number) {
     window.setTimeout(function(){
         waitForRequire(cb, nattempt+1);
     }, 500);
-};
+}
 
 
 export function convertInt(str: string, def: number): number {
@@ -137,7 +137,9 @@ export function convertInt(str: string, def: number): number {
         if(!isNaN(val)) {
             return val;
         }
-    } catch(ex) {}
+    } catch(ex) {
+        //pass
+    }
     return def;
 }
 
@@ -158,7 +160,7 @@ export function pathJoin(a: string, b?: string): string {
         b = b.substring(1);
     }
     return a + b;
-};
+}
 
 /**
  * Adds the baseurl if the passed url does not start with http or https
@@ -168,10 +170,9 @@ export function addBaseToUrl(base: string, url: string): string {
     if (url.toLowerCase().startsWith("http")) {
         return url;
     }
-    // Afegir la base
-    var out = pathJoin(base, url);
-    return out;
-};
+    // Afegir la base 
+    return pathJoin(base, url);
+}
 
 export function genID(): string {
     return "i" + Math.random().toString(32).substring(2);

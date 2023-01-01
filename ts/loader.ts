@@ -83,7 +83,7 @@ export default {
             defs = [defs];
         }
         //check if some of the components to be bootstrap need jQuery
-        let use$ = defs.map( (d) => d["meta"].use$ || false).reduce((pv, cv)=> cv && pv);
+        const use$ = defs.map( (d) => d["meta"].use$ || false).reduce((pv, cv)=> cv && pv);
 
         if (use$) {
             //wait for requirejs
