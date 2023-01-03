@@ -115,7 +115,7 @@ export function pran(seed: number): RanGen {
 
 export function waitForRequire(cb: ()=>void, nattempt: number) {
     nattempt = nattempt || 0;
-    if(window.require && typeof(window.require)==='function') {
+    if(window.require && typeof window.require ==='function') {
         cb();
         return;
     } else if(nattempt > 15) {

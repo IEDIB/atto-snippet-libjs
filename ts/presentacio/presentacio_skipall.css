@@ -1,0 +1,115 @@
+/* %SKIPALLCSS */
+div[role="snptd_presentacio"] .nav.nav-tabs {
+    display: none;
+}
+
+@media not print {
+    div[role="snptd_presentacio"]>.tab-content {
+        border: none;
+        display: flex;
+        padding: 10px;
+    }
+
+    div[role="snptd_presentacio"] .tab-pane {
+        display: block;
+        border: none;
+        min-height: 100px;
+        margin-right: -100%;
+        width: 100%;
+        opacity: 0;
+    }
+
+    div[role="snptd_presentacio"] .tab-pane.fade {
+        transition-delay: 300ms;
+        transition-duration: 500ms;
+    }
+
+    div[role="snptd_presentacio"][data-transition="slide"] .tab-pane {
+        transition: transform .55s linear, opacity 0.55s ease-out;
+    }
+
+    div[role="snptd_presentacio"] .tab-pane.active {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    div[role="snptd_presentacio"] .tab-pane:not(.active) {
+        transform: translate(-110%, 0);
+    }
+
+    div[role="snptd_presentacio"] .snpt_container {
+        margin: 20px 400px;
+        height: 300px;
+        width: 50%;
+        background-color: #d4ebee;
+    }
+
+    div[role="snptd_presentacio"] .box_continguts {
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 20px;
+        height: 250px;
+        background-color: #d4ebee;
+    }
+
+    div[role="snptd_presentacio"] .box_botons {
+        padding-left: 10px;
+        padding-top: 6px;
+        font-size: 18px;
+        height: 40px;
+        background-color: #d4ebee;
+    }
+
+    div[role="snptd_presentacio"] .box_botons button {
+        margin: 0 1px;
+    }
+
+    div[role="snptd_presentacio"] .box_comptador {
+        display: inline;
+        float: right;
+        padding-right: 15px;
+        padding-top: 5px;
+        font-size: 16px;
+        height: 30px;
+        color: #0069d9;
+    }
+}
+
+@media print {
+    div[role="snptd_presentacio"] {
+        width: 99%;
+        margin: auto;
+        border: 1px solid #eee;
+        display: flex;
+    }
+
+    div[role="snptd_presentacio"] .box_botons {
+        display: none;
+    }
+
+    div[role="snptd_presentacio"] .fade {
+        opacity: 1;
+    }
+
+    div[role="snptd_presentacio"] .nav>li>a {
+        min-width: 80px;
+        color: #555;
+    }
+
+    div[role="snptd_presentacio"] .tab-pane {
+        opacity: 1;
+        width: 100%;
+        display: inline-block !important;
+    }
+
+    div[role="snptd_presentacio"] .tab-pane::before {
+        content: attr(data-label);
+        width: 100%;
+        display: block;
+        margin-bottom: 10px;
+        background-color: #d4ebee;
+        text-align: right;
+        padding-right: 5px;
+    }
+}
