@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+const uglifycss = require('uglifycss');
+const TerserPlugin = require("terser-webpack-plugin");
  
  
 const isDev = process.argv.indexOf('--mode=development')>0;
@@ -7,10 +9,23 @@ console.log(isDev?"Webpack DEVELOPMENT mode": "Webpack PRODUCTION mode")
 
 // Build all entry points
 const entries = {}
+const allCssFiles = []
 fs.readdirSync("./ts", {withFileTypes: true}).filter(dirent => dirent.isDirectory()==true).forEach( dirent => {
   const modName = dirent.name;
   entries[modName] = "./ts/"+modName+"/"+modName+".ts";
+  const cssFile = path.resolve("./ts/"+modName+"/"+modName+".css");
+  if(fs.existsSync(cssFile)) {
+    allCssFiles.push(cssFile);
+  }
 });
+
+// Bundle all css minified
+if(allCssFiles.length) {
+  const miniCss = uglifycss.processFiles(allCssFiles);
+  const targetCss = path.resolve("./dist", "all.min.css");
+  fs.writeFileSync(targetCss, miniCss, {encoding: "utf8"});
+}
+
 
 module.exports = {
   entry: entries,
@@ -36,6 +51,15 @@ module.exports = {
   },
   target: ["web", "es5"], 
   optimization: {
-    minimize: !isDev, 
+    minimize: !isDev,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+          format: {
+              comments: false,
+          },
+          compress:{ pure_funcs: ['console.info', 'console.debug', 'console.log'] }
+      },
+      extractComments: false,
+    })],
   },
 };
