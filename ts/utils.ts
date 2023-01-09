@@ -1,11 +1,11 @@
 export function parseUrlParams(url: string): {[key: string]: string} {
-    const params = {};
+    const params: {[key: string]: string} = {};
     const parts = url.substring(1).split('&');
 
     for (let i = 0; i < parts.length; i++) {
         const nv = parts[i].split('=');
         if (!nv[0]) continue;
-        params[nv[0]] = nv[1] || true;
+        params[nv[0]] = nv[1] || "true";
     }
     return params;
 }
@@ -73,7 +73,8 @@ export  function getPageInfo(): PageInfo {
 
     if (footer != null) {
         courseName = footer.innerText;
-        const hrefVal = "?" + (footer.getAttribute('href').split("?")[1] || "");
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const hrefVal = "?" + ((footer!.getAttribute('href')|| " ? ").split("?")[1] || "");
         courseId = parseUrlParams(hrefVal).id;
     } else {
         //Moodle 4.1
@@ -128,12 +129,15 @@ export function waitForRequire(cb: ()=>void, nattempt: number) {
 }
 
 
-export function convertInt(str: string, def: number): number {
-    if(!str || !str.trim()) {
+export function convertInt(str: string | undefined | null, def: number): number {
+    if(str && typeof str === 'number') {
+        return str;
+    }
+    if(!str || !(str+"").trim()) {
         return def;
     }
     try {
-        const val: number = parseInt(str);
+        const val: number = parseInt(str+"");
         if(!isNaN(val)) {
             return val;
         }

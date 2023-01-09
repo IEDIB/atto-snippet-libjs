@@ -1,5 +1,5 @@
 
-const findVoice = function (lang: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice  {
+const findVoice = function (lang: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
     lang = (lang || "").toLowerCase();
     let k = 0;
     let voice = null;
@@ -14,14 +14,13 @@ const findVoice = function (lang: string, voices: SpeechSynthesisVoice[]): Speec
 }; 
  
 export default class NavigatorPlayer implements VoicePlayer {
-    utterance: SpeechSynthesisUtterance;
+    utterance: SpeechSynthesisUtterance | null | undefined;
     private _elem: HTMLElement;
     private handler: any;
 
-    constructor(elem: HTMLElement, voices: SpeechSynthesisVoice[]) {
-        const self = this;
+    constructor(elem: HTMLElement, voices: SpeechSynthesisVoice[]) { 
         this._elem = elem;
-        const idioma = elem.getAttribute("href").split("_")[1];
+        const idioma = (elem.getAttribute("href") || "_").split("_")[1];
         //decide what to do with the title
         if(elem.title == "-") {
             //remove it
@@ -32,13 +31,13 @@ export default class NavigatorPlayer implements VoicePlayer {
         const voice = findVoice(idioma, voices);
         this.handler = null;
         if (voice) { 
-            const idioma = this._elem.getAttribute("href").split("_")[1];
+            //const idioma = (this._elem.getAttribute("href") || "_").split("_")[1];
             this.utterance = new SpeechSynthesisUtterance(elem.innerText);
             this.utterance.voice = voice;
             elem.classList.add("sd-speak-enabled");
-            this.handler = function (evt) {
+            this.handler = (evt: Event) => {
                 evt.preventDefault(); // Evita que executi el link    
-                self.play();
+                this.play();
             }; 
             elem.addEventListener("click", this.handler);
         } else {
@@ -48,8 +47,8 @@ export default class NavigatorPlayer implements VoicePlayer {
     }
     play(): void {
        // call abort pending...
-       window.speechSynthesis.cancel();
-       window.speechSynthesis.speak(this.utterance); 
+       window.speechSynthesis.cancel(); 
+       this.utterance && window.speechSynthesis.speak(this.utterance); 
     }
     pause(): void {
         window.speechSynthesis.cancel();

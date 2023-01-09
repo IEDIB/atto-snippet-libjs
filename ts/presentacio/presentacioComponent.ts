@@ -1,4 +1,3 @@
-/// <reference path="../global.d.ts" />
 import { BaseComponent } from "../base";
 import { convertInt } from "../utils";
 
@@ -7,14 +6,14 @@ const DEFALT_TIME = 5;
 const PLAY_ICON = '<i class="fa fas fa-play"></i>';
 const PAUSE_ICON = '<i class="fa fas fa-pause"></i>';
 
-const createButton = function (classNames: string, classFawesome: string): HTMLButtonElement {
+function createButton(classNames: string, classFawesome: string): HTMLButtonElement {
     const botonet1 = document.createElement("button") as HTMLButtonElement;
     botonet1.className = classNames;
     const inc1 = document.createElement("i");
     inc1.className = classFawesome;
     botonet1.appendChild(inc1);
     return botonet1;
-};
+}
 
 export default class PresentacioComponent extends BaseComponent {
 
@@ -24,32 +23,31 @@ export default class PresentacioComponent extends BaseComponent {
         version: '2.0',
         use$: false
     };
-    private loop: boolean;
-    private  button_container: HTMLDivElement;
-    private diapositives: NodeListOf<HTMLElement>;
-    private num: number;
-    private n: number;
-    private continuarAutomatic: boolean;
-    private durada: number[];
-    private currentTimeout: NodeJS.Timeout;
-    private buttonPlay: HTMLElement;
-    private boxComptador: HTMLElement;
-    private buttonLast: HTMLElement;
-    private buttonFirst: HTMLElement;
-    private buttonNext: HTMLElement;
-    private buttonBack: HTMLElement;
-    private evListener1: any;
-    private evListener2: any;
-    private evListener3: any;
-    private evListener4: any;
-    private evListener5: any;
+    private loop = false;
+    private button_container: HTMLDivElement | undefined;
+    private diapositives: NodeListOf<HTMLElement> | undefined;
+    private num = 0;
+    private n = 0;
+    private continuarAutomatic = false;
+    private durada: number[] = [];
+    private currentTimeout: NodeJS.Timeout | undefined | null;
+    private buttonPlay: HTMLElement | undefined;
+    private boxComptador: HTMLElement | undefined;
+    private buttonLast: HTMLElement | undefined;
+    private buttonFirst: HTMLElement | undefined;
+    private buttonNext: HTMLElement | undefined;
+    private buttonBack: HTMLElement | undefined;
+    private evListener1: EventListener | undefined;
+    private evListener2: EventListener | undefined;
+    private evListener3: EventListener | undefined;
+    private evListener4: EventListener | undefined;
+    private evListener5: EventListener | undefined;
 
     constructor(parent: HTMLElement) {
         super(parent);
     }
 
-    init() {
-        const self = this;
+    init() { 
         const ds = this.parent.dataset;
         this.loop = (ds.loop == "1" || ds.loop == "true");
         //override tabs names to 1/n, 2/n etc. Useful for printing
@@ -68,7 +66,7 @@ export default class PresentacioComponent extends BaseComponent {
         this.num = this.diapositives.length;
 
         // Determine which is the current diapositiva (by default the first one)
-        this.n = (convertInt(ds.start, 1) - 1) % this.num;
+        this.n = (convertInt(ds?.start || '1', 1) - 1) % this.num;
 
         const mustFade = (ds.transition == 'fade');
         for (let i = 0; i < this.num; i++) {
@@ -124,7 +122,7 @@ export default class PresentacioComponent extends BaseComponent {
             if (this.continuarAutomatic && this.n < this.num) {
                 //Show the counter
                 this.updateCounter();
-                this.currentTimeout = setTimeout(function () { self.seguent(); }, this.durada[this.n] * 1000);
+                this.currentTimeout = setTimeout( () => { this.seguent(); }, this.durada[this.n] * 1000);
             }
         } else if (this.continuarAutomatic) {
             // No s'ha iniciat  
@@ -140,12 +138,18 @@ export default class PresentacioComponent extends BaseComponent {
 
     // Funcions de canvi de diapositiva
     private eliminarActive() {
+        if(!this.diapositives) {
+            return;
+        }
         for (let i = 0; i < this.num; i++) {
             this.diapositives[i].classList.remove("active");
         }
     }
 
     private updateCounter() {
+        if(!this.boxComptador) {
+            return;
+        }
         this.boxComptador.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp; " + (this.n + 1) + " / " + this.num;
 
 
@@ -159,9 +163,8 @@ export default class PresentacioComponent extends BaseComponent {
                 this.continuarAutomatic = false;
                 this.buttonPlay && (this.buttonPlay.innerHTML = PLAY_ICON);
                 return;
-            }
-            const self = this;
-            this.currentTimeout = setTimeout(function () { self.seguent(); }, this.durada[this.n] * 1000);
+            } 
+            this.currentTimeout = setTimeout(() => { this.seguent(); }, this.durada[this.n] * 1000);
             this.buttonPlay && (this.buttonPlay.innerHTML = PAUSE_ICON);
         } else {
             this.buttonPlay && (this.buttonPlay.innerHTML = PLAY_ICON);
@@ -169,6 +172,9 @@ export default class PresentacioComponent extends BaseComponent {
     }
 
     seguent() {
+        if(!this.diapositives) {
+            return;
+        }
         if (this.n >= this.num - 1) {
             if (this.loop) {
                 this.n = -1;
@@ -184,6 +190,9 @@ export default class PresentacioComponent extends BaseComponent {
 
 
     anterior() {
+        if(!this.diapositives) {
+            return;
+        }
         if (this.n == 0) {
             if (this.loop) {
                 this.n = this.num;
@@ -195,10 +204,13 @@ export default class PresentacioComponent extends BaseComponent {
         this.n -= 1;
         this.diapositives[this.n].classList.add("active");
         this.updateCounter();
-    };
+    }
 
 
     primer() {
+        if(!this.diapositives) {
+            return;
+        }
         this.eliminarActive();
         this.n = 0;
         this.diapositives[this.n].classList.add("active");
@@ -208,14 +220,20 @@ export default class PresentacioComponent extends BaseComponent {
 
 
     darrer() {
+        if(!this.diapositives) {
+            return;
+        }
         this.eliminarActive();
         this.n = this.num - 1;
         this.diapositives[this.n].classList.add("active");
         this.continuarAutomatic = false;
         this.updateCounter();
-    };
+    }
 
     pausa() {
+        if(!this.buttonPlay) {
+            return;
+        }
         this.continuarAutomatic = false;
         if (this.currentTimeout != null) {
             clearTimeout(this.currentTimeout);
@@ -224,15 +242,17 @@ export default class PresentacioComponent extends BaseComponent {
         this.buttonPlay.innerHTML = PLAY_ICON;
     }
 
-    play() {
-        const self = this;
+    play() { 
+        if(!this.buttonPlay) {
+            return;
+        }
         // si pitja play a la darrera diapositiva, ves a la primera
         if (this.n >= this.num - 1) {
             this.primer();
         }
         this.continuarAutomatic = true;
 
-        this.currentTimeout = setTimeout(function () { self.seguent() }, this.durada[this.n] * 1000);
+        this.currentTimeout = setTimeout( () => { this.seguent() }, this.durada[this.n] * 1000);
         this.buttonPlay.innerHTML = PAUSE_ICON;
     }
 
@@ -241,20 +261,29 @@ export default class PresentacioComponent extends BaseComponent {
     // detecció de pulsació dels botons i cridades a les funcions
 
     private carregaListeners() {
-        
-        this.evListener1 = this.buttonFirst.addEventListener("click", (evt) => this.primer() );
-        this.evListener2 = this.buttonLast.addEventListener("click", (evt) => this.darrer() );
-        this.evListener3 = this.buttonNext.addEventListener("click", (evt) => this.seguent() );
-        this.evListener4 = this.buttonBack.addEventListener("click", (evt) => this.anterior() );
+        if(!this.buttonBack || !this.buttonFirst || !this.buttonLast || !this.buttonNext || !this.buttonPlay) {
+            return;
+        }
+        this.evListener1 = (evt: Event) => this.primer();
+        this.evListener2 = (evt: Event) => this.darrer();
+        this.evListener3 = (evt: Event) => this.seguent();
+        this.evListener4 = (evt: Event) => this.anterior();
+
+
+        this.buttonFirst.addEventListener("click", this.evListener1);
+        this.buttonLast.addEventListener("click",  this.evListener2);
+        this.buttonNext.addEventListener("click",  this.evListener3);
+        this.buttonBack.addEventListener("click",  this.evListener4);
 
         if (this.continuarAutomatic) {
-            this.evListener5 = this.buttonPlay.addEventListener("click", (evt) => {
+            this.evListener5 = (evt: Event) => {
                 if (!this.continuarAutomatic) {
                     this.play();
                 } else {
                     this.pausa();
                 }
-            });
+            };
+            this.buttonPlay.addEventListener("click", this.evListener5);
         }
     }
 
@@ -268,10 +297,13 @@ export default class PresentacioComponent extends BaseComponent {
         this.evListener5 && window.removeEventListener("click", this.evListener5);
 
         this.parent.dataset.active = '0';
-        this.button_container.remove();
+        this.button_container && this.button_container.remove();
     }
 
     private crearBotons() {
+        if(!this.button_container) {
+            return;
+        }
         this.buttonFirst = createButton("btn btn-sm btn-outline-primary btn-first", "fa fas fa-fast-backward");
         this.button_container.appendChild(this.buttonFirst);
         this.buttonFirst.title = "First";
@@ -290,7 +322,7 @@ export default class PresentacioComponent extends BaseComponent {
 
         if (this.continuarAutomatic) {
             this.buttonPlay = createButton("btn btn-sm btn-primary btn-step-play", "fa fas fa-pause");
-            this.buttonPlay.style["margin-left"] = "15px";
+            this.buttonPlay.style.setProperty("margin-left", "15px");
             this.buttonPlay.title = "Play/Pause";
             this.button_container.appendChild(this.buttonPlay);
         }

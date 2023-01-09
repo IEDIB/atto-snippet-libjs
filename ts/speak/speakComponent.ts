@@ -4,7 +4,7 @@ import NavigatorPlayer from "./navigatorPlayer";
 import UrlPlayer from "./urlPlayer";
 import WordReferencePlayer from "./wordreferencePlayer";
  
-let allVoices: SpeechSynthesisVoice[] = null;
+let allVoices: SpeechSynthesisVoice[] | null = null;
 
 function getNavigatorVoices(): Promise<SpeechSynthesisVoice[]> {
     return new Promise( (resolve, reject) => {
@@ -28,7 +28,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
         query: 'a[href^="#speak_"],[role="snptd_speak"],[data-snptd="speak"]',
         use$: true, //May require $ajax
     };
-    private audioPlayer: VoicePlayer;
+    private audioPlayer: VoicePlayer | undefined | null;
 
     constructor(parent: HTMLElement) {
         super(parent);

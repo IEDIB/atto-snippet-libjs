@@ -1,5 +1,4 @@
-import { BaseComponent } from "../base";
-import initPlugins from "./plugins";
+import { BaseComponent } from "../base"; 
 
 let plugins_initialized = false;
 
@@ -17,14 +16,14 @@ export default class NarracioComponent extends BaseComponent {
     init(): void {
         if(!plugins_initialized) {
             plugins_initialized = true;
-            initPlugins($);
+            //initPlugins($);
         }
         const ds = this.parent.dataset;
         if(ds.active === "1") {
             return;
         }
         ds.active = "1";
-        $(this.parent)["snpt_narracio"]();
+        //$(this.parent)["snpt_narracio"]();
     }
     dispose(): void {
         if(this.parent.dataset.active !== "1") {

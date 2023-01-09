@@ -1,9 +1,5 @@
 type Nullable<T> = T | null;
-
-declare interface IBComponentInstance { 
-    init(): void,
-    dispose(): void
-}
+type Dict<T> = {[key: string]: T};
 
 declare interface ComponentMeta {
     name: string,
@@ -12,28 +8,6 @@ declare interface ComponentMeta {
     use$?: boolean | undefined,
     query?: string | undefined
 }
- 
-declare type IBComponentClass = new(parent: Element) => IBComponentInstance;
-   
-declare interface IBComponentNS {
-    _class: IBComponentClass,
-    _init(): void,
-    _dispose(): void,
-    inst?: {[key: string]: IBComponentInstance} | undefined,
-    singl?: IBComponentInstance | undefined
-}
-
-declare interface IBType {
-    sd: {[key: string]: IBComponentNS}
-}
-
-interface Window {
-    IB: IBType,
-    M: any,
-    wheelzoom: any,
-    audiosInPage: any[]
-}
- 
 
 declare interface PageInfo {
     userId: number,
@@ -55,6 +29,7 @@ declare interface ZoomwheelDefaults {
 }
 
 declare interface VoicePlayer {
+    src?: string,
     play(): void,
     pause(): void,
     dispose(): void

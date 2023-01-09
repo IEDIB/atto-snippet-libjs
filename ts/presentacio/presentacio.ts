@@ -3,4 +3,4 @@ import './presentacio.css';
 import './presentacio_skipall.css';
 import PresentacioComponent from './presentacioComponent';
 
-Loader.bootstrap(PresentacioComponent);
+Loader.bootstrap([PresentacioComponent]);

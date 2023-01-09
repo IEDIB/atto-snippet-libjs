@@ -20,14 +20,14 @@ export default (function () {
         }
 
         const settings: any = {};
-        let width;
-        let height;
-        let bgWidth;
-        let bgHeight;
-        let bgPosX;
-        let bgPosY;
-        let previousEvent;
-        let transparentSpaceFiller;
+        let width: number;
+        let height: number;
+        let bgWidth: number;
+        let bgHeight: number;
+        let bgPosX: number;
+        let bgPosY: number;
+        let previousEvent: any;
+        let transparentSpaceFiller: string;
 
         function setSrcToBackground(img: HTMLImageElement) {
             img.style.backgroundRepeat = 'no-repeat';
@@ -53,14 +53,14 @@ export default (function () {
             img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
         }
 
-        function reset() {
+        function reset(): void {
             bgWidth = width;
             bgHeight = height;
             bgPosX = bgPosY = 0;
             updateBgStyle();
         }
 
-        function onwheel(e) {
+        function onwheel(e: any): void {
             let deltaY = 0;
 
             e.preventDefault();
@@ -112,7 +112,7 @@ export default (function () {
             }
         }
 
-        function drag(e) {
+        function drag(e: any) {
             e.preventDefault();
             bgPosX += (e.pageX - previousEvent.pageX);
             bgPosY += (e.pageY - previousEvent.pageY);
@@ -126,7 +126,7 @@ export default (function () {
         }
 
         // Make the background draggable
-        function draggable(e) {
+        function draggable(e: any) {
             e.preventDefault();
             previousEvent = e;
             document.addEventListener('mousemove', drag);
@@ -181,7 +181,7 @@ export default (function () {
             img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
             img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
         }
-        let resizeObs;
+        let resizeObs: ResizeObserver;
 
         const destroy = function (originalProperties: any) {
             img.removeEventListener('wheelzoom.destroy', destroy);
@@ -213,6 +213,8 @@ export default (function () {
         options = options || {};
 
         Object.keys(defaults).forEach(function (key) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
             settings[key] = options[key] !== undefined ? options[key] : defaults[key];
         });
 

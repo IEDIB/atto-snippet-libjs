@@ -1,4 +1,3 @@
-/// <reference path="../global.d.ts" />
 import { BaseComponent } from "../base";   
 import { convertInt, getPageInfo, pran } from "../utils";
 import SmartTabMenu from "./smartTabMenu";
@@ -18,22 +17,24 @@ export default class TaleaComponent extends BaseComponent {
         use$: true
     };
     private pi: PageInfo;
-    private seed: number;
-    private workingMode: string;
-    private smartMenus: SmartTabMenu[];
-    private mapStudents: {[key: number]: string};
+    private seed = 1;
+    private workingMode = "urandom";
+    private smartMenus: SmartTabMenu[] = [];
+    private mapStudents: {[key: number]: string} = {};
 
     constructor(parent: HTMLElement) {
         super(parent);  
         this.pi = getPageInfo(); 
         // Print debug info
         if (this.pi.isTeacher && parent.dataset.debug) {
-            const debug = JSON.parse(parent.dataset.debug);
+            const debug = JSON.parse(parent.dataset.debug) as Partial<PageInfo>;
             //Overwrite debug
             const debugKeys = Object.keys(debug);
             for (let i = 0, len = debugKeys.length; i < len; i++) {
                 const kk = debugKeys[i];
-                this.pi[kk] = debug[kk];
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                this.pi[kk] = debug[kk]; 
             }
             console.log(this.pi);
             const newDiv = document.createElement("div");
@@ -63,7 +64,7 @@ export default class TaleaComponent extends BaseComponent {
             return;
         }
         ds.active = "1";
-        this.seed = convertInt(ds.seed, 1);
+        this.seed = convertInt(ds.seed || "1", 1);
         const forceDifferent = JSON.parse(ds.different || "[]");
         this.workingMode = ds.mode || 'urandom'; //fixed: 0-n; urandom; lrandom
 
@@ -77,7 +78,7 @@ export default class TaleaComponent extends BaseComponent {
 
         const headerP = document.createElement("p");
         headerP.id = 'talea_name_'+this.parent.id;
-        headerP.style['font-weight'] = 'bold';
+        headerP.style.setProperty('font-weight', 'bold');
         this.parent.prepend(headerP);
 
         if (this.pi.isTeacher) {

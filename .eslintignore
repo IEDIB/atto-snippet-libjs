@@ -3,3 +3,4 @@ build/
 dist/
 dist-dev/
 webpack.config.js
+src/*

@@ -3,12 +3,11 @@ const GTTS_URL = "https://piworld.es/api/gtts/speak?t=";
 
 export default class GTTSPlayer implements VoicePlayer {
     private _elem: HTMLElement;
-    private url: string;
-    private audio: HTMLAudioElement;
-    private handler: (evt: any) => void;
+    private url = "";
+    private audio: HTMLAudioElement | null | undefined;
+    private handler: null | undefined | EventListener ;
 
-    constructor(elem: HTMLElement) {
-        const self = this;
+    constructor(elem: HTMLElement) { 
         this._elem = elem;
         let idioma = elem.getAttribute("href") || elem.dataset.lang || "en_us";
         idioma = idioma.replace("#speak_", "");
@@ -27,9 +26,9 @@ export default class GTTSPlayer implements VoicePlayer {
         }
         this.url = GTTS_URL + encodeURIComponent(sText) + "&l=" + idioma;
         this.audio = null;
-        this.handler = function (evt) {
+        this.handler = (evt) => {
             evt.preventDefault(); // Evita que executi el link    
-            self.play();
+            this.play();
         };
         elem.addEventListener("click", this.handler);
         if (!this.handler) {
@@ -52,12 +51,15 @@ export default class GTTSPlayer implements VoicePlayer {
         }
     }
     dispose(): void {
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        this.audio.src = null;
-        this.audio = null;
-        if (!this.handler) {
+        if(this.audio!=null) {
+            this.audio.pause();
+            this.audio.currentTime = 0;
+            this.audio.src = "";
+            this.audio = null;
+        }
+        if (this.handler) {
             this._elem.removeEventListener("click", this.handler);
+            this.handler = null;
         }
     }
 

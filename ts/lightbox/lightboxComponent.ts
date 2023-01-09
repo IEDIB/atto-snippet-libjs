@@ -1,4 +1,3 @@
-/// <reference path="../global.d.ts" />
 import { BaseComponent } from "../base";
 import { convertInt } from "../utils";
 
@@ -36,7 +35,7 @@ function constructGallery(): HTMLImageElement[] {
         }
     }
     return Gallery;
-};
+}
 
 
 
@@ -50,11 +49,11 @@ export default class LightboxComponent extends BaseComponent {
         use$: true
     };
 
-    private currentIndex: number;
-    private $gallery: HTMLImageElement[];
-    private $modal: JQuery<HTMLElement>;
-    private $img: JQuery<HTMLImageElement>;
-    private $close: JQuery<HTMLButtonElement>;
+    private currentIndex = 0;
+    private $gallery: HTMLImageElement[] = [];
+    private $modal: JQuery<HTMLElement> | undefined;
+    private $img: JQuery<HTMLImageElement> | undefined;
+    private $close: JQuery<HTMLButtonElement> | undefined;
 
     constructor(parent: HTMLElement) {
         super(parent);
@@ -67,8 +66,7 @@ export default class LightboxComponent extends BaseComponent {
         this.$gallery.forEach((img) => this.setupImage(img));
     }
 
-    private setupImage(theImg: HTMLImageElement) { 
-        const self = this;
+    private setupImage(theImg: HTMLImageElement) {  
         const $theImg = $(theImg);
         if ($theImg.attr("data-active") == '1') {
             return;
@@ -79,9 +77,9 @@ export default class LightboxComponent extends BaseComponent {
         $theImg.attr("data-active", '1');
         $theImg.off();
         // Action on clicking the image
-        $theImg.on("click", function (evt) {
-            self.currentIndex = convertInt(this.dataset.lbpos, 0);
-            self.loadImageDynamically();
+        $theImg.on("click", (evt) => {
+            this.currentIndex = convertInt($theImg.attr("data-lbpos") || "0" , 0);
+            this.loadImageDynamically();
         });
     }
 
@@ -94,25 +92,24 @@ export default class LightboxComponent extends BaseComponent {
         const $container = $(this.$gallery[this.currentIndex]);
 
         //change src of image in modal
-        if (this.$img.length) {
+        if (this.$img?.length) {
             // Create image dynamically
             const imgObj = new Image();
-            const src = $container.attr("data-src") || $container.attr("src");
+            const src = $container.attr("data-src") || $container.attr("src") || "";
             imgObj.onload = () => {
                 this.resize(imgObj.width, imgObj.height);
                 // Can provide a highres in data-src
-                this.$img.attr("src", src);
+                this.$img?.attr("src", src);
             };
             imgObj.onerror = (err) => {
                 console.error("Cannot load image ", err);
-                this.$img.attr("src", "");
+                this.$img?.attr("src", "");
             }
             imgObj.src = src;
         }
-    };
+    }
 
-    createModal() {
-        const self = this;
+    createModal() { 
         const hasGallery = this.$gallery.length > 1;
         const leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);">' + leftArrow + '</a>';
         const rightArrowHTML = '<a class="navigate-right-arrow" href="javascript:void(0);">' + rightArrow + '</a>';
@@ -134,26 +131,26 @@ export default class LightboxComponent extends BaseComponent {
         this.$close = this.$modal.find('button');
         $('body').append(this.$modal);
 
-        this.$modal.on("hide.bs.modal", function () {
-            self.$img.attr("src", "");
+        this.$modal.on("hide.bs.modal",  () => {
+            this.$img?.attr("src", "");
         });
 
-        $("#modalCloseBtn").on("click", function () {
-            self.$img.attr("src", "");
+        $("#modalCloseBtn").on("click",  () => {
+            this.$img?.attr("src", "");
         });
 
         if (hasGallery) {
-            this.$modal.find('.navigate-left-arrow').on("click", function (evt) {
+            this.$modal.find('.navigate-left-arrow').on("click", (evt) => {
                 evt.preventDefault();
-                self.navigateLeft();
+                this.navigateLeft();
             });
 
-            this.$modal.find('.navigate-right-arrow').on("click", function (evt) {
+            this.$modal.find('.navigate-right-arrow').on("click", (evt) => {
                 evt.preventDefault();
-                self.navigateRight();
+                this.navigateRight();
             });
         }
-    };
+    }
 
     private resize(imgwidth: number, imgheight: number) {
         // Resize accordingly to the image
@@ -162,20 +159,20 @@ export default class LightboxComponent extends BaseComponent {
         if (imgheight > 0) {
             imgratio = imgwidth / imgheight;
         }
-        const winwidth = $(window).height();
-        const winheight = $(window).width();
+        const winwidth = $(window).height() || 0;
+        const winheight = $(window).width() || 0;
         let winratio = 1;
         if (winheight > 0) {
             winratio = winwidth / winheight;
         }
         if (imgratio > winratio) {
-            this.$img.css("width", "initial");
-            this.$img.css("height", "100%");
+            this.$img?.css("width", "initial");
+            this.$img?.css("height", "100%");
         } else {
-            this.$img.css("height", "initial");
-            this.$img.css("width", "100%");
+            this.$img?.css("height", "initial");
+            this.$img?.css("width", "100%");
         }
-    };
+    }
 
     private navigateLeft() {
         if (this.currentIndex == 0) {

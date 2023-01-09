@@ -1,6 +1,7 @@
 
 import GTTSPlayer from "./gttsPlayer";
 import { addBaseToUrl, genID } from "../utils";
+import UrlPlayer from "./urlPlayer";
 
 const definition = {
     'en': 'definition',
@@ -21,7 +22,7 @@ const variantNames = {
     "ca": "Catalunya",
     "mexico": "México",
     "argentina": "Argentina",
-};
+} as any;
 
 function nameOfVariant(variant: string): string {
     return variantNames[variant] || variant;
@@ -56,13 +57,19 @@ function parseAudioFiles(extracted: string[],lang: string): {[key:string]: NameU
         }
     });
     return map;
-};
+}
+ 
+declare type ValidLang = "ca" | "en" | "es";
 
 const wr_define = function (from: string, word: string): Promise<{[key:string]: NameUrl}> {
-    const url2 = wordReferencePrefix + definition[from] + '/' + encodeURIComponent(word);
     // Make the request
     return new Promise((resolve, reject) => {
-        if(!definition[from]) {
+        if(!(from in definition)) {
+            reject();
+            return;
+        }
+        const url2 = wordReferencePrefix + definition[from as ValidLang] + '/' + encodeURIComponent(word);
+        if(!definition[from as ValidLang]) {
             reject();
             return;
         }    
@@ -92,8 +99,8 @@ const wr_define = function (from: string, word: string): Promise<{[key:string]: 
 
 export default class WordReferencePlayer implements VoicePlayer {
     private elem: HTMLElement;
-    private audioElement: Partial<VoicePlayer>;
-    handler: (evt: any) => void;
+    private audioElement: VoicePlayer | null | undefined;
+    handler: EventListener | null | undefined;
 
     constructor(elem: HTMLElement) {
         this.elem = elem;
@@ -127,7 +134,7 @@ export default class WordReferencePlayer implements VoicePlayer {
                         theURL = audioMap[variants[0]];
                     }
                     const url = addBaseToUrl(wordReferencePrefix, theURL.url);
-                    this.audioElement = new Audio(url) as Partial<VoicePlayer>;     
+                    this.audioElement = new UrlPlayer(undefined, url);     
                     if(!region && variants.length > 1) {
                         // Add a dropdown to change variant
                         const id = genID();
@@ -145,8 +152,10 @@ export default class WordReferencePlayer implements VoicePlayer {
                             const $menuItem = $(`<a class="dropdown-item" href="#">${varDef.name}</a>`);
                             $menuItem.on("click", (evt) => {
                                 evt.preventDefault();
-                                this.audioElement["src"] = varDef.url;
-                                this.audioElement.play();
+                                if(this.audioElement) {
+                                    this.audioElement.src = varDef.url;
+                                    this.audioElement.play();
+                                }
                             });
                             $menu.append($menuItem);
                         });

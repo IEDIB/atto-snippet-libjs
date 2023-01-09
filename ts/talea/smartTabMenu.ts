@@ -29,7 +29,7 @@ export default class SmartTabMenu {
         }
     }
 
-    showUser(random: RanGen, userId: number) {
+    showUser(random: Nullable<RanGen>, userId: number) {
         if (this.pi.isTeacher) {
             this.theTabMenu.style.display = 'none';
         } else {
@@ -37,11 +37,11 @@ export default class SmartTabMenu {
         }
 
         // Check if the current user is forced to be different from another one
-        //var userId = this.pi.userId;
-        var found = -1;
-        for (var i = 0, len = this.forceDifferent.length; i < len; i++) {
-            var alist = this.forceDifferent[i];
-            for (var j = 0, len2 = alist.length; j < len2; j++) {
+        //const userId = this.pi.userId;
+        let found = -1;
+        for (let i = 0, len = this.forceDifferent.length; i < len; i++) {
+            const alist = this.forceDifferent[i];
+            for (let j = 0, len2 = alist.length; j < len2; j++) {
                 if (alist[j] == userId) {
                     found = j;
                     break;
@@ -52,27 +52,27 @@ export default class SmartTabMenu {
             }
         }
 
-        var which = 0;
+        let which = 0;
         if (this.workingMode === 'urandom' || this.workingMode === 'lrandom') {
             if (found >= 0) {
                 // The option is set based on its position in the list
                 which = found % this.numOpts;
-            } else {
+            } else if(random!=null){
                 // The option is set at random
                 which = Math.floor(random() * this.numOpts);
             }
         } else if (this.workingMode.startsWith('fixed')) {
             if (this.workingMode.indexOf(":") > 0) {
-                var val = this.workingMode.split(":")[1].trim();
+                const val = this.workingMode.split(":")[1].trim();
                 which = convertInt(val,  0);
             }
         } else {
             console.error("ERROR: Unknown working mode ", this.workingMode, ", choosing first element");
         }
 
-        for (var i = 0, len = this.theContentOpts.length; i < len; i++) {
-            var panel = this.theContentOpts[i] as HTMLElement;
-            var link = this.theLinks[i];
+        for (let i = 0, len = this.theContentOpts.length; i < len; i++) {
+            const panel = this.theContentOpts[i] as HTMLElement;
+            const link = this.theLinks[i];
             if (i == which) {
                 panel.classList.add('active');
                 panel.style.display = '';
@@ -95,10 +95,10 @@ export default class SmartTabMenu {
 
     clear() {
         this.theTabMenu.style.display = '';
-        var which = 0;
-        for (var i = 0, len = this.theContentOpts.length; i < len; i++) {
-            var panel = this.theContentOpts[i] as HTMLElement;
-            var link = this.theLinks[i];
+        const which = 0;
+        for (let i = 0, len = this.theContentOpts.length; i < len; i++) {
+            const panel = this.theContentOpts[i] as HTMLElement;
+            const link = this.theLinks[i];
             panel.style.display = '';
             if (i == which) {
                 panel.classList.add('active');
@@ -114,7 +114,7 @@ export default class SmartTabMenu {
                 }
             }
         }
-    };
+    }
 
     dispose() {
         this.clear();
