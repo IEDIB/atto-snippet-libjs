@@ -1,10 +1,7 @@
 import { BaseComponent } from "./base";
 
-export interface IBaseConstructor {
+export interface IBase {
     new(parent: HTMLElement): BaseComponent
-}
-
-export interface IBase extends IBaseConstructor {
     meta: ComponentMeta
 }
 

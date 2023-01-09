@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { BaseComponent } from "./base";
-import { IBase, IBaseConstructor } from "./types";
+import { IBase } from "./types";
 import { waitForRequire } from "./utils";
 
 function genID() {
@@ -89,7 +88,7 @@ function _bootstrap(classes: IBase[]) {
 
 export default {
 
-    bootstrap: function(defs: IBaseConstructor[]) {
+    bootstrap: function(defs: IBase[]) {
         window.IB = window.IB || { sd: {} };
         const arrayDefs = defs as unknown as IBase[]; 
         //check if some of the components to be bootstrap need jQuery
