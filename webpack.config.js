@@ -22,7 +22,7 @@ fs.readdirSync("./ts", {withFileTypes: true}).filter(dirent => dirent.isDirector
 // Bundle all css minified
 if(allCssFiles.length) {
   const miniCss = uglifycss.processFiles(allCssFiles);
-  const targetCss = path.resolve("./dist", "all.min.css");
+  const targetCss = path.resolve("./dist", "all.css");
   fs.writeFileSync(targetCss, miniCss, {encoding: "utf8"});
 }
 
