@@ -92,7 +92,7 @@ export default {
         window.IB = window.IB || { sd: {} };
         const arrayDefs = defs as unknown as IBase[]; 
         //check if some of the components to be bootstrap need jQuery
-        const use$ = arrayDefs.map( (d) => d.meta.use$ || false).reduce((pv, cv)=> cv && pv);
+        const use$ = arrayDefs.map( (d) => d.meta.use$ || false).reduce((pv, cv)=> cv || pv);
 
         if (use$) {
             //wait for requirejs
