@@ -69,18 +69,18 @@ function _bootstrap(classes) {
       return;
     }
     var meta = clazz.meta;
-    if (IB.sd[meta.name] && typeof IB.sd[meta.name]._init === 'function') {
+    if (IB.sd[meta.name] && typeof IB.sd[meta.name].init === 'function') {
       console.error("Warning: component '".concat(meta.name, "' loaded twice."));
       //Simply bind possibly missing components
-      IB.sd[meta.name]._init();
+      IB.sd[meta.name].init();
       return;
     }
     var _init = function _init() {
       IB.sd[meta.name] = IB.sd[meta.name] || {
         inst: {},
         _class: clazz,
-        _init: _init,
-        _dispose: null
+        init: _init,
+        dispose: null
       };
       var query = meta.query || "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
       //Check if is defined as a singleton
@@ -141,7 +141,7 @@ function _bootstrap(classes) {
       });
       console.log("_dispose: Destroyed ".concat(counter, " '").concat(meta.name, "' instances."));
     };
-    IB.sd[meta.name]._dispose = _dispose;
+    IB.sd[meta.name].dispose = _dispose;
   });
 }
 /* harmony default export */ __webpack_exports__["default"] = ({

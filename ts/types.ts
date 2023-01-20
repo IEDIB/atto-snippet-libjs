@@ -7,8 +7,8 @@ export interface IBase {
 
 export interface IBComponentNS {
     _class: IBase,
-    _init(): void,
-    _dispose(): void,
+    init(): void,
+    dispose(): void,
     inst?: Dict<BaseComponent> | undefined,
     singl?: BaseComponent | undefined
 }

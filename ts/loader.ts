@@ -19,14 +19,14 @@ function _bootstrap(classes: IBase[]) {
             return;
         }
         const meta: ComponentMeta = clazz.meta;
-        if (IB.sd[meta.name] && typeof IB.sd[meta.name]._init==='function') {
+        if (IB.sd[meta.name] && typeof IB.sd[meta.name].init==='function') {
             console.error(`Warning: component '${meta.name}' loaded twice.`);
             //Simply bind possibly missing components
-            IB.sd[meta.name]._init();
+            IB.sd[meta.name].init();
             return;
         }
         const _init = function() {
-            IB.sd[meta.name] = IB.sd[meta.name] || {inst:{}, _class: clazz, _init: _init, _dispose: null};
+            IB.sd[meta.name] = IB.sd[meta.name] || {inst:{}, _class: clazz, init: _init, dispose: null};
             const query = meta.query || `div[role="snptd_${meta.name}"], div[data-snptd="${meta.name}"]`;
             //Check if is defined as a singleton
             if(query==='body') {
@@ -86,7 +86,7 @@ function _bootstrap(classes: IBase[]) {
             });
             console.log(`_dispose: Destroyed ${counter} '${meta.name}' instances.`);
         };
-        IB.sd[meta.name]._dispose = _dispose;
+        IB.sd[meta.name].dispose = _dispose;
     });
 }
 
