@@ -14,6 +14,10 @@ function findContainers(query: string): NodeListOf<Element> {
 function _bootstrap(classes: IBase[]) { 
     classes.forEach((clazz) => { 
         const IB = window.IB;
+        if(!clazz.meta) {
+            console.error("Missing meta in class ",clazz, ". Annotate it with @Component")
+            return;
+        }
         const meta: ComponentMeta = clazz.meta;
         if (IB.sd[meta.name] && typeof IB.sd[meta.name]._init==='function') {
             console.error(`Warning: component '${meta.name}' loaded twice.`);
@@ -92,7 +96,7 @@ export default {
         window.IB = window.IB || { sd: {} };
         const arrayDefs = defs as unknown as IBase[]; 
         //check if some of the components to be bootstrap need jQuery
-        const use$ = arrayDefs.map( (d) => d.meta.use$ || false).reduce((pv, cv)=> cv || pv);
+        const use$ = arrayDefs.map( (d) => d.meta?.use$ || false).reduce((pv, cv)=> cv || pv);
 
         if (use$) {
             //wait for requirejs

@@ -4,7 +4,7 @@ const uglifycss = require('uglifycss');
 const TerserPlugin = require("terser-webpack-plugin");
  
  
-const isDev = process.argv.indexOf('--mode=development')>0;
+const isDev = process.argv.indexOf('--mode=none')>0; //should be development
 console.log(isDev?"Webpack DEVELOPMENT mode": "Webpack PRODUCTION mode")
 
 // Build all entry points

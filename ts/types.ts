@@ -2,7 +2,7 @@ import { BaseComponent } from "./base";
 
 export interface IBase {
     new(parent: HTMLElement): BaseComponent
-    meta: ComponentMeta
+    meta?: ComponentMeta
 }
 
 export interface IBComponentNS {

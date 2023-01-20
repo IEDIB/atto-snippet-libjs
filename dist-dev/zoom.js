@@ -1,72 +1,678 @@
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 /******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./ts/base.ts":
-/*!********************!*\
-  !*** ./ts/base.ts ***!
-  \********************/
+/***/ 22:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"BaseComponent\": function() { return /* binding */ BaseComponent; }\n/* harmony export */ });\nfunction _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && \"function\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }, _typeof(obj); }\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\nfunction _toPropertyKey(arg) { var key = _toPrimitive(arg, \"string\"); return _typeof(key) === \"symbol\" ? key : String(key); }\nfunction _toPrimitive(input, hint) { if (_typeof(input) !== \"object\" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || \"default\"); if (_typeof(res) !== \"object\") return res; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (hint === \"string\" ? String : Number)(input); }\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\nvar BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {\n  _classCallCheck(this, BaseComponent);\n  this.parent = parent;\n});\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/base.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BaseComponent": function() { return /* binding */ BaseComponent; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
+  _classCallCheck(this, BaseComponent);
+  this.parent = parent;
+});
 
 /***/ }),
 
-/***/ "./ts/loader.ts":
-/*!**********************!*\
-  !*** ./ts/loader.ts ***!
-  \**********************/
+/***/ 23:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ \"./ts/utils.ts\");\n\nfunction genID() {\n  return \"sd_\" + Math.random().toString(32).substring(2);\n}\nfunction findContainers(query) {\n  return document.querySelectorAll(query);\n}\nfunction _bootstrap(classes) {\n  classes.forEach(function (clazz) {\n    var IB = window.IB;\n    var meta = clazz[\"meta\"];\n    if (IB.sd[meta.name] && typeof IB.sd[meta.name]._init === 'function') {\n      console.error(\"Warning: component '\".concat(meta.name, \"' loaded twice.\"));\n      //Simply bind possibly missing components\n      IB.sd[meta.name]._init();\n      return;\n    }\n    var _init = function _init() {\n      IB.sd[meta.name] = IB.sd[meta.name] || {\n        inst: {},\n        _class: clazz,\n        _init: _init,\n        _dispose: null\n      };\n      var query = meta.query || \"div[role=\\\"snptd_\".concat(meta.name, \"\\\"], div[data-snptd=\\\"\").concat(meta.name, \"\\\"]\");\n      //Check if is defined as a singleton\n      if (query === 'body') {\n        if (window.IB.sd[meta.name].singl) {\n          console.error(\"Singleton already defined\");\n          return;\n        }\n        //Singleton instance\n        var parent = document.querySelector(\"body\");\n        var singleton = new clazz(parent);\n        singleton.init();\n        // add to the shared variable\n        window.IB.sd[meta.name].singl = singleton;\n        console.log(\"_init: Initialized singleton '\".concat(meta.name, \"' instance.\"));\n      } else {\n        //Multiple instances with parent's\n        var containers = findContainers(query);\n        var counter = 0;\n        containers.forEach(function (parent) {\n          // Create instance of clazz\n          var id = parent.getAttribute(\"id\");\n          if (!id) {\n            id = genID();\n            parent.setAttribute(\"id\", id);\n          }\n          if (parent.dataset.active === \"1\") {\n            console.warn(\"Warning: Element '\".concat(meta.name, \"' \").concat(id, \" already processed.\"));\n            return;\n          }\n          var instance = new clazz(parent);\n          instance.init();\n          // add to the shared variable\n          window.IB.sd[meta.name].inst[id] = instance;\n          counter++;\n        });\n        console.log(\"_init: Initialized \".concat(counter, \" '\").concat(meta.name, \"' instances.\"));\n      }\n    };\n    _init();\n    var _dispose = function _dispose() {\n      var counter = 0;\n      Object.keys(window.IB.sd[meta.name].inst).forEach(function (key) {\n        var instance = window.IB.sd[meta.name].inst[key];\n        if (instance) {\n          instance.dispose();\n          counter++;\n          delete window.IB.sd[meta.name].inst[key];\n        }\n      });\n      console.log(\"_dispose: Destroyed \".concat(counter, \" '\").concat(meta.name, \"' instances.\"));\n    };\n    IB.sd[meta.name]._dispose = _dispose;\n  });\n}\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  bootstrap: function bootstrap(defs) {\n    window.IB = window.IB || {\n      sd: {}\n    };\n    if (!Array.isArray(defs)) {\n      defs = [defs];\n    }\n    //check if some of the components to be bootstrap need jQuery\n    var use$ = defs.map(function (d) {\n      return d[\"meta\"].use$ || false;\n    }).reduce(function (pv, cv) {\n      return cv && pv;\n    });\n    if (use$) {\n      //wait for requirejs\n      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {\n        //wait for jquery\n        requirejs(['jquery'], function ($) {\n          //wait for document ready\n          $(function () {\n            _bootstrap(defs);\n          });\n        });\n      }, 15);\n    } else {\n      _bootstrap(defs);\n    }\n  }\n});\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/loader.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Component": function() { return /* binding */ Component; }
+/* harmony export */ });
+var componentMetaDefaults = {
+  name: "",
+  author: "",
+  version: "1.0",
+  use$: false
+};
+function Component(_meta) {
+  var meta = Object.assign({}, componentMetaDefaults, _meta);
+  if (!meta.query) {
+    meta.query = "[role=\"snptd_".concat(meta.name, "\"],[data-snptd=\"").concat(meta.name, "\"]");
+  }
+  return function (target) {
+    target.meta = meta;
+  };
+}
 
 /***/ }),
 
-/***/ "./ts/utils.ts":
-/*!*********************!*\
-  !*** ./ts/utils.ts ***!
-  \*********************/
+/***/ 1:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addBaseToUrl\": function() { return /* binding */ addBaseToUrl; },\n/* harmony export */   \"convertInt\": function() { return /* binding */ convertInt; },\n/* harmony export */   \"genID\": function() { return /* binding */ genID; },\n/* harmony export */   \"getPageInfo\": function() { return /* binding */ getPageInfo; },\n/* harmony export */   \"parseUrlParams\": function() { return /* binding */ parseUrlParams; },\n/* harmony export */   \"pathJoin\": function() { return /* binding */ pathJoin; },\n/* harmony export */   \"pran\": function() { return /* binding */ pran; },\n/* harmony export */   \"querySelectorProp\": function() { return /* binding */ querySelectorProp; },\n/* harmony export */   \"waitForRequire\": function() { return /* binding */ waitForRequire; }\n/* harmony export */ });\nfunction parseUrlParams(url) {\n  var params = {};\n  var parts = url.substring(1).split('&');\n  for (var i = 0; i < parts.length; i++) {\n    var nv = parts[i].split('=');\n    if (!nv[0]) continue;\n    params[nv[0]] = nv[1] || true;\n  }\n  return params;\n}\n;\nfunction querySelectorProp(query, prop, def) {\n  var ele = document.querySelector(query);\n  if (ele != null) {\n    return ele.getAttribute(prop) || def || '';\n  }\n  return def || '';\n}\n\n// Identifies the user and role from page\nfunction getPageInfo() {\n  if (!document.querySelector) {\n    return {\n      userId: 1,\n      userFullname: '',\n      courseId: 1,\n      isTeacher: false,\n      courseName: '',\n      site: ''\n    };\n  }\n  // Get current user information\n  var userId = null;\n  var userFullname = null;\n  var dataUserId = document.querySelector('[data-userid]');\n  if (dataUserId) {\n    userId = dataUserId.getAttribute('data-userid');\n  }\n  var userText = document.getElementsByClassName(\"usertext\");\n  if (userText && userText.length) {\n    userFullname = userText[0].innerText;\n  } else {\n    //Moodle4.1\n    var logininfo = document.querySelector(\"div.logininfo > a\");\n    if (logininfo) {\n      userFullname = logininfo.innerText;\n    }\n  }\n  if (!userId) {\n    //TODO:: check if the current user is guest\n    userId = '1';\n    userFullname = \"Usuari convidat\";\n  }\n  var isTeacher = document.querySelector('.usermenu li a[href*=\"switchrole\"]') != null ? 1 : 0;\n  if (!isTeacher) {\n    //Moodle 4.1\n    isTeacher = document.querySelector('form.editmode-switch-form') != null ? 1 : 0;\n  }\n  if (!isTeacher) {\n    // Boost theme\n    isTeacher = document.querySelector('.teacherdash.nav-item.nav-link') != null ? 1 : 0;\n  }\n\n  // Get information about the course\n  var courseId = '';\n  var courseName = '';\n  var footer = document.querySelector(\".homelink > a\");\n  if (footer != null) {\n    courseName = footer.innerText;\n    var hrefVal = \"?\" + (footer.getAttribute('href').split(\"?\")[1] || \"\");\n    courseId = parseUrlParams(hrefVal).id;\n  } else {\n    //Moodle 4.1\n    if (window.M && window.M.cfg) {\n      courseId = window.M.cfg.courseId;\n    }\n    var nav = document.querySelector(\"#page-navbar ol > li:first-child > a\");\n    if (nav != null) {\n      courseName = nav.innerText; //short name\n    }\n  }\n\n  var site = (location.href.split(\"?\")[0] || \"\").replace(\"/mod/book/view.php\", \"\");\n  return {\n    userId: convertInt(userId, 1),\n    userFullname: userFullname || 'test-user',\n    isTeacher: isTeacher > 0,\n    site: site,\n    courseName: courseName || 'test-course',\n    courseId: convertInt(courseId, 1)\n  };\n}\n;\n\n//Seeded random number generator\n// https://gist.github.com/blixt/f17b47c62508be59987b\nfunction pran(seed) {\n  seed = seed % 2147483647;\n  var ranGen = function ranGen() {\n    seed = seed * 16807 % 2147483647;\n    return (seed - 1) / 2147483646;\n  };\n  ranGen();\n  ranGen();\n  ranGen();\n  return ranGen;\n}\nfunction waitForRequire(cb, nattempt) {\n  nattempt = nattempt || 0;\n  if (window.require && typeof window.require === 'function') {\n    cb();\n    return;\n  } else if (nattempt > 15) {\n    console.error(\"ERROR: Cannot find requirejs\");\n    return;\n  }\n  window.setTimeout(function () {\n    waitForRequire(cb, nattempt + 1);\n  }, 500);\n}\n;\nfunction convertInt(str, def) {\n  if (!str || !str.trim()) {\n    return def;\n  }\n  try {\n    var val = parseInt(str);\n    if (!isNaN(val)) {\n      return val;\n    }\n  } catch (ex) {}\n  return def;\n}\n\n/**\n * Safely joins two parts of an url\n * @param a \n * @param b \n * @returns \n */\nfunction pathJoin(a, b) {\n  a = (a || \"\").trim();\n  b = (b || \"\").trim();\n  if (!a.endsWith('/')) {\n    a = a + '/';\n  }\n  if (b.startsWith('/')) {\n    b = b.substring(1);\n  }\n  return a + b;\n}\n;\n\n/**\n * Adds the baseurl if the passed url does not start with http or https\n */\nfunction addBaseToUrl(base, url) {\n  url = (url || \"\").trim();\n  if (url.toLowerCase().startsWith(\"http\")) {\n    return url;\n  }\n  // Afegir la base\n  var out = pathJoin(base, url);\n  return out;\n}\n;\nfunction genID() {\n  return \"i\" + Math.random().toString(32).substring(2);\n}\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/utils.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+
+function genID() {
+  return "sd_" + Math.random().toString(32).substring(2);
+}
+function findContainers(query) {
+  return document.querySelectorAll(query);
+}
+function _bootstrap(classes) {
+  classes.forEach(function (clazz) {
+    var IB = window.IB;
+    if (!clazz.meta) {
+      console.error("Missing meta in class ", clazz, ". Annotate it with @Component");
+      return;
+    }
+    var meta = clazz.meta;
+    if (IB.sd[meta.name] && typeof IB.sd[meta.name]._init === 'function') {
+      console.error("Warning: component '".concat(meta.name, "' loaded twice."));
+      //Simply bind possibly missing components
+      IB.sd[meta.name]._init();
+      return;
+    }
+    var _init = function _init() {
+      IB.sd[meta.name] = IB.sd[meta.name] || {
+        inst: {},
+        _class: clazz,
+        _init: _init,
+        _dispose: null
+      };
+      var query = meta.query || "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
+      //Check if is defined as a singleton
+      if (query === 'body') {
+        if (IB.sd[meta.name].singl) {
+          console.error("Singleton already defined");
+          return;
+        }
+        //Singleton instance
+        var parent = document.querySelector("body");
+        var singleton = new clazz(parent);
+        singleton.init();
+        // add to the shared variable
+        IB.sd[meta.name].singl = singleton;
+        console.log("_init: Initialized singleton '".concat(meta.name, "' instance."));
+      } else {
+        //Multiple instances with parent's
+        var containers = findContainers(query);
+        var counter = 0;
+        containers.forEach(function (p) {
+          var parent = p;
+          // Create instance of clazz
+          var id = parent.getAttribute("id");
+          if (!id) {
+            id = genID();
+            parent.setAttribute("id", id);
+          }
+          if (parent.dataset.active === "1") {
+            console.warn("Warning: Element '".concat(meta.name, "' ").concat(id, " already processed."));
+            return;
+          }
+          var instance = new clazz(parent);
+          instance.init();
+          // add to the shared variable
+          if (IB.sd[meta.name].inst != null) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            IB.sd[meta.name].inst[id] = instance;
+          }
+          counter++;
+        });
+        console.log("_init: Initialized ".concat(counter, " '").concat(meta.name, "' instances."));
+      }
+    };
+    _init();
+    var _dispose = function _dispose() {
+      var counter = 0;
+      if (!window.IB || !window.IB.sd || !window.IB.sd[meta.name] || !window.IB.sd[meta.name].inst) {
+        return;
+      }
+      Object.keys(window.IB.sd[meta.name].inst).forEach(function (key) {
+        var instance = window.IB.sd[meta.name].inst[key];
+        if (instance) {
+          instance.dispose();
+          counter++;
+          delete IB.sd[meta.name].inst[key];
+        }
+      });
+      console.log("_dispose: Destroyed ".concat(counter, " '").concat(meta.name, "' instances."));
+    };
+    IB.sd[meta.name]._dispose = _dispose;
+  });
+}
+/* harmony default export */ __webpack_exports__["default"] = ({
+  bootstrap: function bootstrap(defs) {
+    window.IB = window.IB || {
+      sd: {}
+    };
+    var arrayDefs = defs;
+    //check if some of the components to be bootstrap need jQuery
+    var use$ = arrayDefs.map(function (d) {
+      var _d$meta;
+      return ((_d$meta = d.meta) === null || _d$meta === void 0 ? void 0 : _d$meta.use$) || false;
+    }).reduce(function (pv, cv) {
+      return cv || pv;
+    });
+    if (use$) {
+      //wait for requirejs
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {
+        //wait for jquery
+        requirejs(['jquery'], function () {
+          //wait for document ready
+          $(function () {
+            _bootstrap(arrayDefs);
+          });
+        });
+      }, 15);
+    } else {
+      _bootstrap(arrayDefs);
+    }
+  }
+});
 
 /***/ }),
 
-/***/ "./ts/zoom/wheelzoom.ts":
-/*!******************************!*\
-  !*** ./ts/zoom/wheelzoom.ts ***!
-  \******************************/
+/***/ 2:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/*!\n  Wheelzoom 4.0.1\n  license: MIT\n  http://www.jacklmoore.com/wheelzoom\n*/\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ((function () {\n  var defaults = {\n    zoom: 0.03,\n    maxZoom: 10,\n    initialZoom: 1,\n    initialX: 0.5,\n    initialY: 0.5\n  };\n  var main = function main(img, options) {\n    if (!img || !img.nodeName || img.nodeName !== 'IMG') {\n      return;\n    }\n    var settings = {};\n    var width;\n    var height;\n    var bgWidth;\n    var bgHeight;\n    var bgPosX;\n    var bgPosY;\n    var previousEvent;\n    var transparentSpaceFiller;\n    function setSrcToBackground(img) {\n      img.style.backgroundRepeat = 'no-repeat';\n      img.style.backgroundImage = 'url(\"' + img.src + '\")';\n      transparentSpaceFiller = 'data:image/svg+xml;base64,' + window.btoa('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"' + img.naturalWidth + '\" height=\"' + img.naturalHeight + '\"></svg>');\n      img.src = transparentSpaceFiller;\n    }\n    function updateBgStyle() {\n      if (bgPosX > 0) {\n        bgPosX = 0;\n      } else if (bgPosX < width - bgWidth) {\n        bgPosX = width - bgWidth;\n      }\n      if (bgPosY > 0) {\n        bgPosY = 0;\n      } else if (bgPosY < height - bgHeight) {\n        bgPosY = height - bgHeight;\n      }\n      img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';\n      img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';\n    }\n    function reset() {\n      bgWidth = width;\n      bgHeight = height;\n      bgPosX = bgPosY = 0;\n      updateBgStyle();\n    }\n    function onwheel(e) {\n      var deltaY = 0;\n      e.preventDefault();\n      if (e.deltaY) {\n        // FireFox 17+ (IE9+, Chrome 31+?)\n        deltaY = e.deltaY;\n      } else if (e.wheelDelta) {\n        deltaY = -e.wheelDelta;\n      }\n\n      // As far as I know, there is no good cross-browser way to get the cursor position relative to the event target.\n      // We have to calculate the target element's position relative to the document, and subtrack that from the\n      // cursor's position relative to the document.\n      var rect = img.getBoundingClientRect();\n      var offsetX = e.pageX - rect.left - window.pageXOffset;\n      var offsetY = e.pageY - rect.top - window.pageYOffset;\n\n      // Record the offset between the bg edge and cursor:\n      var bgCursorX = offsetX - bgPosX;\n      var bgCursorY = offsetY - bgPosY;\n\n      // Use the previous offset to get the percent offset between the bg edge and cursor:\n      var bgRatioX = bgCursorX / bgWidth;\n      var bgRatioY = bgCursorY / bgHeight;\n\n      // Update the bg size:\n      if (deltaY < 0) {\n        bgWidth += bgWidth * settings.zoom;\n        bgHeight += bgHeight * settings.zoom;\n      } else {\n        bgWidth -= bgWidth * settings.zoom;\n        bgHeight -= bgHeight * settings.zoom;\n      }\n      if (settings.maxZoom) {\n        bgWidth = Math.min(width * settings.maxZoom, bgWidth);\n        bgHeight = Math.min(height * settings.maxZoom, bgHeight);\n      }\n\n      // Take the percent offset and apply it to the new size:\n      bgPosX = offsetX - bgWidth * bgRatioX;\n      bgPosY = offsetY - bgHeight * bgRatioY;\n\n      // Prevent zooming out beyond the starting size\n      if (bgWidth <= width || bgHeight <= height) {\n        reset();\n      } else {\n        updateBgStyle();\n      }\n    }\n    function drag(e) {\n      e.preventDefault();\n      bgPosX += e.pageX - previousEvent.pageX;\n      bgPosY += e.pageY - previousEvent.pageY;\n      previousEvent = e;\n      updateBgStyle();\n    }\n    function removeDrag() {\n      document.removeEventListener('mouseup', removeDrag);\n      document.removeEventListener('mousemove', drag);\n    }\n\n    // Make the background draggable\n    function draggable(e) {\n      e.preventDefault();\n      previousEvent = e;\n      document.addEventListener('mousemove', drag);\n      document.addEventListener('mouseup', removeDrag);\n    }\n    function load() {\n      var initial = Math.max(settings.initialZoom, 1);\n      if (img.src === transparentSpaceFiller) return;\n      var computedStyle = window.getComputedStyle(img, null);\n      width = parseInt(computedStyle.width, 10);\n      height = parseInt(computedStyle.height, 10);\n      bgWidth = width * initial;\n      bgHeight = height * initial;\n      bgPosX = -(bgWidth - width) * settings.initialX;\n      bgPosY = -(bgHeight - height) * settings.initialY;\n      setSrcToBackground(img);\n      img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';\n      img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';\n      img.style.cursor = \"nesw-resize\";\n      img.addEventListener('wheelzoom.reset', reset);\n      img.addEventListener('wheel', onwheel);\n      img.addEventListener('mousedown', draggable);\n    }\n\n    //Added onresize event, requires load first\n    function resize() {\n      if (img.src != transparentSpaceFiller) {\n        return;\n      }\n      var initial = Math.max(settings.initialZoom, 1);\n      var computedStyle = window.getComputedStyle(img, null);\n      width = parseInt(computedStyle.width, 10);\n      height = parseInt(computedStyle.height, 10);\n      bgWidth = width * initial;\n      bgHeight = height * initial;\n      bgPosX = -(bgWidth - width) * settings.initialX;\n      bgPosY = -(bgHeight - height) * settings.initialY;\n\n      //setSrcToBackground(img);\n\n      img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';\n      img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';\n    }\n    var resizeObs;\n    var destroy = function (originalProperties) {\n      img.removeEventListener('wheelzoom.destroy', destroy);\n      img.removeEventListener('wheelzoom.reset', reset);\n      img.removeEventListener('load', load);\n      img.removeEventListener('mouseup', removeDrag);\n      img.removeEventListener('mousemove', drag);\n      img.removeEventListener('mousedown', draggable);\n      img.removeEventListener('wheel', onwheel);\n      //window. resize does not work, need ResizeObserver on img element\n      //window.removeEventListener('resize', resize);\n      if (resizeObs != null) {\n        resizeObs.unobserve(img);\n      }\n      img.style.backgroundImage = originalProperties.backgroundImage;\n      img.style.backgroundRepeat = originalProperties.backgroundRepeat;\n      img.src = originalProperties.src;\n      img.style.cursor = \"default\";\n    }.bind(null, {\n      backgroundImage: img.style.backgroundImage,\n      backgroundRepeat: img.style.backgroundRepeat,\n      src: img.src\n    });\n    img.addEventListener('wheelzoom.destroy', destroy);\n    options = options || {};\n    Object.keys(defaults).forEach(function (key) {\n      settings[key] = options[key] !== undefined ? options[key] : defaults[key];\n    });\n    if (img.complete) {\n      load();\n    }\n    img.addEventListener('load', load);\n    //Added\n    //window.addEventListener('resize', resize);\n    if (window.ResizeObserver != null) {\n      resizeObs = new ResizeObserver(resize);\n      resizeObs.observe(img);\n    }\n  };\n  return function (elem, options) {\n    if (typeof window.btoa !== 'function') {\n      // Do nothing in IE9 or below\n      return;\n    }\n    main(elem, options);\n  };\n})());\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/zoom/wheelzoom.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addBaseToUrl": function() { return /* binding */ addBaseToUrl; },
+/* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
+/* harmony export */   "genID": function() { return /* binding */ genID; },
+/* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
+/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
+/* harmony export */   "pathJoin": function() { return /* binding */ pathJoin; },
+/* harmony export */   "pran": function() { return /* binding */ pran; },
+/* harmony export */   "querySelectorProp": function() { return /* binding */ querySelectorProp; },
+/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
+/* harmony export */ });
+function parseUrlParams(url) {
+  var params = {};
+  var parts = url.substring(1).split('&');
+  for (var i = 0; i < parts.length; i++) {
+    var nv = parts[i].split('=');
+    if (!nv[0]) continue;
+    params[nv[0]] = nv[1] || "true";
+  }
+  return params;
+}
+function querySelectorProp(query, prop, def) {
+  var ele = document.querySelector(query);
+  if (ele != null) {
+    return ele.getAttribute(prop) || def || '';
+  }
+  return def || '';
+}
+
+// Identifies the user and role from page
+function getPageInfo() {
+  if (!document.querySelector) {
+    return {
+      userId: 1,
+      userFullname: '',
+      courseId: 1,
+      isTeacher: false,
+      courseName: '',
+      site: ''
+    };
+  }
+  // Get current user information
+  var userId = null;
+  var userFullname = null;
+  var dataUserId = document.querySelector('[data-userid]');
+  if (dataUserId) {
+    userId = dataUserId.getAttribute('data-userid');
+  }
+  var userText = document.getElementsByClassName("usertext");
+  if (userText && userText.length) {
+    userFullname = userText[0].innerText;
+  } else {
+    //Moodle4.1
+    var logininfo = document.querySelector("div.logininfo > a");
+    if (logininfo) {
+      userFullname = logininfo.innerText;
+    }
+  }
+  if (!userId) {
+    //TODO:: check if the current user is guest
+    userId = '1';
+    userFullname = "Usuari convidat";
+  }
+  var isTeacher = document.querySelector('.usermenu li a[href*="switchrole"]') != null ? 1 : 0;
+  if (!isTeacher) {
+    //Moodle 4.1
+    isTeacher = document.querySelector('form.editmode-switch-form') != null ? 1 : 0;
+  }
+  if (!isTeacher) {
+    // Boost theme
+    isTeacher = document.querySelector('.teacherdash.nav-item.nav-link') != null ? 1 : 0;
+  }
+
+  // Get information about the course
+  var courseId = '';
+  var courseName = '';
+  var footer = document.querySelector(".homelink > a");
+  if (footer != null) {
+    courseName = footer.innerText;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    var hrefVal = "?" + ((footer.getAttribute('href') || " ? ").split("?")[1] || "");
+    courseId = parseUrlParams(hrefVal).id;
+  } else {
+    //Moodle 4.1
+    if (window.M && window.M.cfg) {
+      courseId = window.M.cfg.courseId;
+    }
+    var nav = document.querySelector("#page-navbar ol > li:first-child > a");
+    if (nav != null) {
+      courseName = nav.innerText; //short name
+    }
+  }
+
+  var site = (location.href.split("?")[0] || "").replace("/mod/book/view.php", "");
+  return {
+    userId: convertInt(userId, 1),
+    userFullname: userFullname || 'test-user',
+    isTeacher: isTeacher > 0,
+    site: site,
+    courseName: courseName || 'test-course',
+    courseId: convertInt(courseId, 1)
+  };
+}
+
+//Seeded random number generator
+// https://gist.github.com/blixt/f17b47c62508be59987b
+function pran(seed) {
+  seed = seed % 2147483647;
+  var ranGen = function ranGen() {
+    seed = seed * 16807 % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+  ranGen();
+  ranGen();
+  ranGen();
+  return ranGen;
+}
+function waitForRequire(cb, nattempt) {
+  nattempt = nattempt || 0;
+  if (window.require && typeof window.require === 'function') {
+    cb();
+    return;
+  } else if (nattempt > 15) {
+    console.error("ERROR: Cannot find requirejs");
+    return;
+  }
+  window.setTimeout(function () {
+    waitForRequire(cb, nattempt + 1);
+  }, 500);
+}
+function convertInt(str, def) {
+  if (str && typeof str === 'number') {
+    return str;
+  }
+  if (!str || !(str + "").trim()) {
+    return def;
+  }
+  try {
+    var val = parseInt(str + "");
+    if (!isNaN(val)) {
+      return val;
+    }
+  } catch (ex) {
+    //pass
+  }
+  return def;
+}
+
+/**
+ * Safely joins two parts of an url
+ * @param a 
+ * @param b 
+ * @returns 
+ */
+function pathJoin(a, b) {
+  a = (a || "").trim();
+  b = (b || "").trim();
+  if (!a.endsWith('/')) {
+    a = a + '/';
+  }
+  if (b.startsWith('/')) {
+    b = b.substring(1);
+  }
+  return a + b;
+}
+
+/**
+ * Adds the baseurl if the passed url does not start with http or https
+ */
+function addBaseToUrl(base, url) {
+  url = (url || "").trim();
+  if (url.toLowerCase().startsWith("http")) {
+    return url;
+  }
+  // Afegir la base 
+  return pathJoin(base, url);
+}
+function genID() {
+  return "i" + Math.random().toString(32).substring(2);
+}
 
 /***/ }),
 
-/***/ "./ts/zoom/zoom.ts":
-/*!*************************!*\
-  !*** ./ts/zoom/zoom.ts ***!
-  \*************************/
+/***/ 25:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../loader */ \"./ts/loader.ts\");\n/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wheelzoom */ \"./ts/zoom/wheelzoom.ts\");\n/* harmony import */ var _zoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./zoomComponent */ \"./ts/zoom/zoomComponent.ts\");\n\n\n\n_loader__WEBPACK_IMPORTED_MODULE_0__[\"default\"].bootstrap(_zoomComponent__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/zoom/zoom.ts?");
+__webpack_require__.r(__webpack_exports__);
+/*!
+  Wheelzoom 4.0.1
+  license: MIT
+  http://www.jacklmoore.com/wheelzoom
+*/
+
+/* harmony default export */ __webpack_exports__["default"] = ((function () {
+  var defaults = {
+    zoom: 0.03,
+    maxZoom: 10,
+    initialZoom: 1,
+    initialX: 0.5,
+    initialY: 0.5
+  };
+  var main = function main(img, options) {
+    if (!img || !img.nodeName || img.nodeName !== 'IMG') {
+      return;
+    }
+    var settings = {};
+    var width;
+    var height;
+    var bgWidth;
+    var bgHeight;
+    var bgPosX;
+    var bgPosY;
+    var previousEvent;
+    var transparentSpaceFiller;
+    function setSrcToBackground(img) {
+      img.style.backgroundRepeat = 'no-repeat';
+      img.style.backgroundImage = 'url("' + img.src + '")';
+      transparentSpaceFiller = 'data:image/svg+xml;base64,' + window.btoa('<svg xmlns="http://www.w3.org/2000/svg" width="' + img.naturalWidth + '" height="' + img.naturalHeight + '"></svg>');
+      img.src = transparentSpaceFiller;
+    }
+    function updateBgStyle() {
+      if (bgPosX > 0) {
+        bgPosX = 0;
+      } else if (bgPosX < width - bgWidth) {
+        bgPosX = width - bgWidth;
+      }
+      if (bgPosY > 0) {
+        bgPosY = 0;
+      } else if (bgPosY < height - bgHeight) {
+        bgPosY = height - bgHeight;
+      }
+      img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
+      img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
+    }
+    function reset() {
+      bgWidth = width;
+      bgHeight = height;
+      bgPosX = bgPosY = 0;
+      updateBgStyle();
+    }
+    function onwheel(e) {
+      var deltaY = 0;
+      e.preventDefault();
+      if (e.deltaY) {
+        // FireFox 17+ (IE9+, Chrome 31+?)
+        deltaY = e.deltaY;
+      } else if (e.wheelDelta) {
+        deltaY = -e.wheelDelta;
+      }
+
+      // As far as I know, there is no good cross-browser way to get the cursor position relative to the event target.
+      // We have to calculate the target element's position relative to the document, and subtrack that from the
+      // cursor's position relative to the document.
+      var rect = img.getBoundingClientRect();
+      var offsetX = e.pageX - rect.left - window.pageXOffset;
+      var offsetY = e.pageY - rect.top - window.pageYOffset;
+
+      // Record the offset between the bg edge and cursor:
+      var bgCursorX = offsetX - bgPosX;
+      var bgCursorY = offsetY - bgPosY;
+
+      // Use the previous offset to get the percent offset between the bg edge and cursor:
+      var bgRatioX = bgCursorX / bgWidth;
+      var bgRatioY = bgCursorY / bgHeight;
+
+      // Update the bg size:
+      if (deltaY < 0) {
+        bgWidth += bgWidth * settings.zoom;
+        bgHeight += bgHeight * settings.zoom;
+      } else {
+        bgWidth -= bgWidth * settings.zoom;
+        bgHeight -= bgHeight * settings.zoom;
+      }
+      if (settings.maxZoom) {
+        bgWidth = Math.min(width * settings.maxZoom, bgWidth);
+        bgHeight = Math.min(height * settings.maxZoom, bgHeight);
+      }
+
+      // Take the percent offset and apply it to the new size:
+      bgPosX = offsetX - bgWidth * bgRatioX;
+      bgPosY = offsetY - bgHeight * bgRatioY;
+
+      // Prevent zooming out beyond the starting size
+      if (bgWidth <= width || bgHeight <= height) {
+        reset();
+      } else {
+        updateBgStyle();
+      }
+    }
+    function drag(e) {
+      e.preventDefault();
+      bgPosX += e.pageX - previousEvent.pageX;
+      bgPosY += e.pageY - previousEvent.pageY;
+      previousEvent = e;
+      updateBgStyle();
+    }
+    function removeDrag() {
+      document.removeEventListener('mouseup', removeDrag);
+      document.removeEventListener('mousemove', drag);
+    }
+
+    // Make the background draggable
+    function draggable(e) {
+      e.preventDefault();
+      previousEvent = e;
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', removeDrag);
+    }
+    function load() {
+      var initial = Math.max(settings.initialZoom, 1);
+      if (img.src === transparentSpaceFiller) return;
+      var computedStyle = window.getComputedStyle(img, null);
+      width = parseInt(computedStyle.width, 10);
+      height = parseInt(computedStyle.height, 10);
+      bgWidth = width * initial;
+      bgHeight = height * initial;
+      bgPosX = -(bgWidth - width) * settings.initialX;
+      bgPosY = -(bgHeight - height) * settings.initialY;
+      setSrcToBackground(img);
+      img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
+      img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
+      img.style.cursor = "nesw-resize";
+      img.addEventListener('wheelzoom.reset', reset);
+      img.addEventListener('wheel', onwheel);
+      img.addEventListener('mousedown', draggable);
+    }
+
+    //Added onresize event, requires load first
+    function resize() {
+      if (img.src != transparentSpaceFiller) {
+        return;
+      }
+      var initial = Math.max(settings.initialZoom, 1);
+      var computedStyle = window.getComputedStyle(img, null);
+      width = parseInt(computedStyle.width, 10);
+      height = parseInt(computedStyle.height, 10);
+      bgWidth = width * initial;
+      bgHeight = height * initial;
+      bgPosX = -(bgWidth - width) * settings.initialX;
+      bgPosY = -(bgHeight - height) * settings.initialY;
+
+      //setSrcToBackground(img);
+
+      img.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
+      img.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
+    }
+    var resizeObs;
+    var destroy = function (originalProperties) {
+      img.removeEventListener('wheelzoom.destroy', destroy);
+      img.removeEventListener('wheelzoom.reset', reset);
+      img.removeEventListener('load', load);
+      img.removeEventListener('mouseup', removeDrag);
+      img.removeEventListener('mousemove', drag);
+      img.removeEventListener('mousedown', draggable);
+      img.removeEventListener('wheel', onwheel);
+      //window. resize does not work, need ResizeObserver on img element
+      //window.removeEventListener('resize', resize);
+      if (resizeObs != null) {
+        resizeObs.unobserve(img);
+      }
+      img.style.backgroundImage = originalProperties.backgroundImage;
+      img.style.backgroundRepeat = originalProperties.backgroundRepeat;
+      img.src = originalProperties.src;
+      img.style.cursor = "default";
+    }.bind(null, {
+      backgroundImage: img.style.backgroundImage,
+      backgroundRepeat: img.style.backgroundRepeat,
+      src: img.src
+    });
+    img.addEventListener('wheelzoom.destroy', destroy);
+    options = options || {};
+    Object.keys(defaults).forEach(function (key) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      settings[key] = options[key] !== undefined ? options[key] : defaults[key];
+    });
+    if (img.complete) {
+      load();
+    }
+    img.addEventListener('load', load);
+    //Added
+    //window.addEventListener('resize', resize);
+    if (window.ResizeObserver != null) {
+      resizeObs = new ResizeObserver(resize);
+      resizeObs.observe(img);
+    }
+  };
+  return function (elem, options) {
+    if (typeof window.btoa !== 'function') {
+      // Do nothing in IE9 or below
+      return;
+    }
+    main(elem, options);
+  };
+})());
 
 /***/ }),
 
-/***/ "./ts/zoom/zoomComponent.ts":
-/*!**********************************!*\
-  !*** ./ts/zoom/zoomComponent.ts ***!
-  \**********************************/
+/***/ 24:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ ZoomComponent; }\n/* harmony export */ });\n/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base */ \"./ts/base.ts\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ \"./ts/utils.ts\");\n/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./wheelzoom */ \"./ts/zoom/wheelzoom.ts\");\nfunction _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && \"function\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }, _typeof(obj); }\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function\"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, \"prototype\", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }\nfunction _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }\nfunction _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }\nfunction _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === \"object\" || typeof call === \"function\")) { return call; } else if (call !== void 0) { throw new TypeError(\"Derived constructors may only return object or undefined\"); } return _assertThisInitialized(self); }\nfunction _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return self; }\nfunction _isNativeReflectConstruct() { if (typeof Reflect === \"undefined\" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === \"function\") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }\nfunction _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }\nfunction _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\nfunction _toPropertyKey(arg) { var key = _toPrimitive(arg, \"string\"); return _typeof(key) === \"symbol\" ? key : String(key); }\nfunction _toPrimitive(input, hint) { if (_typeof(input) !== \"object\" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || \"default\"); if (_typeof(res) !== \"object\") return res; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (hint === \"string\" ? String : Number)(input); }\n/// <reference path=\"../global.d.ts\" />\n\n\n\nvar INIT_DELAY = 600;\nvar ZoomComponent = /*#__PURE__*/function (_BaseComponent) {\n  _inherits(ZoomComponent, _BaseComponent);\n  var _super = _createSuper(ZoomComponent);\n  function ZoomComponent(parent) {\n    var _this;\n    _classCallCheck(this, ZoomComponent);\n    _this = _super.call(this, parent);\n    _this.allImgs = [];\n    return _this;\n  }\n  _createClass(ZoomComponent, [{\n    key: \"initImage\",\n    value: function initImage(img, options) {\n      this.allImgs.push(img);\n      img.style.maxWidth = \"98%\";\n      if (img.dataset.active !== \"1\") {\n        img.dataset.active = \"1\";\n        (0,_wheelzoom__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(img, options);\n      }\n    }\n  }, {\n    key: \"init\",\n    value: function init() {\n      var _this2 = this;\n      var ds = this.parent.dataset;\n      if (ds.active === \"1\") {\n        return;\n      }\n      ds.active = \"1\";\n      var opts = {\n        maxZoom: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.convertInt)(ds.maxzoom, 10)\n      };\n\n      // Delay initialization to fix image max-width\n      window.setTimeout(function () {\n        if (_this2.parent.nodeName === 'IMG') {\n          _this2.initImage(_this2.parent, opts);\n        } else {\n          var allImgs = _this2.parent.querySelectorAll(\"img\");\n          allImgs.forEach(function (el) {\n            return _this2.initImage(el, opts);\n          });\n        }\n      }, INIT_DELAY);\n    }\n  }, {\n    key: \"dispose\",\n    value: function dispose() {\n      if (this.parent.dataset.active !== \"1\") {\n        return;\n      }\n      this.parent.removeAttribute(\"data-active\");\n      this.allImgs.forEach(function (img) {\n        img.dispatchEvent(new Event('wheelzoom.destroy'));\n        img.removeAttribute(\"data-active\");\n      });\n    }\n  }]);\n  return ZoomComponent;\n}(_base__WEBPACK_IMPORTED_MODULE_0__.BaseComponent);\n_defineProperty(ZoomComponent, \"meta\", {\n  name: 'zoom',\n  author: 'Josep Mulet Pol',\n  version: '2.0',\n  use$: false,\n  query: '[role=\"snptd_zoom\"], [data-snptd=\"zoom\"]'\n});\n\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/zoom/zoomComponent.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ ZoomComponent; }
+/* harmony export */ });
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var INIT_DELAY = 600;
+var ZoomComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Component)({
+  name: 'zoom',
+  author: 'Josep Mulet Pol',
+  version: '2.0'
+}), _dec(_class = /*#__PURE__*/function (_BaseComponent) {
+  _inherits(ZoomComponent, _BaseComponent);
+  var _super = _createSuper(ZoomComponent);
+  function ZoomComponent(parent) {
+    var _this;
+    _classCallCheck(this, ZoomComponent);
+    _this = _super.call(this, parent);
+    _this.allImgs = [];
+    return _this;
+  }
+  _createClass(ZoomComponent, [{
+    key: "initImage",
+    value: function initImage(img, options) {
+      this.allImgs.push(img);
+      img.style.maxWidth = "98%";
+      if (img.dataset.active !== "1") {
+        img.dataset.active = "1";
+        (0,_wheelzoom__WEBPACK_IMPORTED_MODULE_3__["default"])(img, options);
+      }
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var _this2 = this;
+      var ds = this.parent.dataset;
+      if (ds.active === "1") {
+        return;
+      }
+      ds.active = "1";
+      var opts = {
+        maxZoom: (0,_utils__WEBPACK_IMPORTED_MODULE_2__.convertInt)(ds.maxzoom, 10)
+      };
+
+      // Delay initialization to fix image max-width
+      window.setTimeout(function () {
+        if (_this2.parent.nodeName === 'IMG') {
+          _this2.initImage(_this2.parent, opts);
+        } else {
+          var allImgs = _this2.parent.querySelectorAll("img");
+          allImgs.forEach(function (el) {
+            return _this2.initImage(el, opts);
+          });
+        }
+      }, INIT_DELAY);
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      if (this.parent.dataset.active !== "1") {
+        return;
+      }
+      this.parent.removeAttribute("data-active");
+      this.allImgs.forEach(function (img) {
+        img.dispatchEvent(new Event('wheelzoom.destroy'));
+        img.removeAttribute("data-active");
+      });
+    }
+  }]);
+  return ZoomComponent;
+}(_base__WEBPACK_IMPORTED_MODULE_0__.BaseComponent)) || _class);
+
 
 /***/ })
 
@@ -126,11 +732,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	}();
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./ts/zoom/zoom.ts");
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+/* harmony import */ var _zoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+
+
+
+_loader__WEBPACK_IMPORTED_MODULE_0__["default"].bootstrap([_zoomComponent__WEBPACK_IMPORTED_MODULE_2__["default"]]);
+}();
 /******/ })()
 ;

@@ -1,196 +1,1425 @@
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 /******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
-
-/***/ "./ts/base.ts":
-/*!********************!*\
-  !*** ./ts/base.ts ***!
-  \********************/
+/******/ 	var __webpack_modules__ = ([
+/* 0 */,
+/* 1 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"BaseComponent\": function() { return /* binding */ BaseComponent; }\n/* harmony export */ });\nfunction _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && \"function\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }, _typeof(obj); }\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\nfunction _toPropertyKey(arg) { var key = _toPrimitive(arg, \"string\"); return _typeof(key) === \"symbol\" ? key : String(key); }\nfunction _toPrimitive(input, hint) { if (_typeof(input) !== \"object\" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || \"default\"); if (_typeof(res) !== \"object\") return res; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (hint === \"string\" ? String : Number)(input); }\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\nvar BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {\n  _classCallCheck(this, BaseComponent);\n  this.parent = parent;\n});\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/base.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+
+function genID() {
+  return "sd_" + Math.random().toString(32).substring(2);
+}
+function findContainers(query) {
+  return document.querySelectorAll(query);
+}
+function _bootstrap(classes) {
+  classes.forEach(function (clazz) {
+    var IB = window.IB;
+    if (!clazz.meta) {
+      console.error("Missing meta in class ", clazz, ". Annotate it with @Component");
+      return;
+    }
+    var meta = clazz.meta;
+    if (IB.sd[meta.name] && typeof IB.sd[meta.name]._init === 'function') {
+      console.error("Warning: component '".concat(meta.name, "' loaded twice."));
+      //Simply bind possibly missing components
+      IB.sd[meta.name]._init();
+      return;
+    }
+    var _init = function _init() {
+      IB.sd[meta.name] = IB.sd[meta.name] || {
+        inst: {},
+        _class: clazz,
+        _init: _init,
+        _dispose: null
+      };
+      var query = meta.query || "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
+      //Check if is defined as a singleton
+      if (query === 'body') {
+        if (IB.sd[meta.name].singl) {
+          console.error("Singleton already defined");
+          return;
+        }
+        //Singleton instance
+        var parent = document.querySelector("body");
+        var singleton = new clazz(parent);
+        singleton.init();
+        // add to the shared variable
+        IB.sd[meta.name].singl = singleton;
+        console.log("_init: Initialized singleton '".concat(meta.name, "' instance."));
+      } else {
+        //Multiple instances with parent's
+        var containers = findContainers(query);
+        var counter = 0;
+        containers.forEach(function (p) {
+          var parent = p;
+          // Create instance of clazz
+          var id = parent.getAttribute("id");
+          if (!id) {
+            id = genID();
+            parent.setAttribute("id", id);
+          }
+          if (parent.dataset.active === "1") {
+            console.warn("Warning: Element '".concat(meta.name, "' ").concat(id, " already processed."));
+            return;
+          }
+          var instance = new clazz(parent);
+          instance.init();
+          // add to the shared variable
+          if (IB.sd[meta.name].inst != null) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            IB.sd[meta.name].inst[id] = instance;
+          }
+          counter++;
+        });
+        console.log("_init: Initialized ".concat(counter, " '").concat(meta.name, "' instances."));
+      }
+    };
+    _init();
+    var _dispose = function _dispose() {
+      var counter = 0;
+      if (!window.IB || !window.IB.sd || !window.IB.sd[meta.name] || !window.IB.sd[meta.name].inst) {
+        return;
+      }
+      Object.keys(window.IB.sd[meta.name].inst).forEach(function (key) {
+        var instance = window.IB.sd[meta.name].inst[key];
+        if (instance) {
+          instance.dispose();
+          counter++;
+          delete IB.sd[meta.name].inst[key];
+        }
+      });
+      console.log("_dispose: Destroyed ".concat(counter, " '").concat(meta.name, "' instances."));
+    };
+    IB.sd[meta.name]._dispose = _dispose;
+  });
+}
+/* harmony default export */ __webpack_exports__["default"] = ({
+  bootstrap: function bootstrap(defs) {
+    window.IB = window.IB || {
+      sd: {}
+    };
+    var arrayDefs = defs;
+    //check if some of the components to be bootstrap need jQuery
+    var use$ = arrayDefs.map(function (d) {
+      var _d$meta;
+      return ((_d$meta = d.meta) === null || _d$meta === void 0 ? void 0 : _d$meta.use$) || false;
+    }).reduce(function (pv, cv) {
+      return cv || pv;
+    });
+    if (use$) {
+      //wait for requirejs
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {
+        //wait for jquery
+        requirejs(['jquery'], function () {
+          //wait for document ready
+          $(function () {
+            _bootstrap(arrayDefs);
+          });
+        });
+      }, 15);
+    } else {
+      _bootstrap(arrayDefs);
+    }
+  }
+});
 
 /***/ }),
-
-/***/ "./ts/loader.ts":
-/*!**********************!*\
-  !*** ./ts/loader.ts ***!
-  \**********************/
+/* 2 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ \"./ts/utils.ts\");\n\nfunction genID() {\n  return \"sd_\" + Math.random().toString(32).substring(2);\n}\nfunction findContainers(query) {\n  return document.querySelectorAll(query);\n}\nfunction _bootstrap(classes) {\n  classes.forEach(function (clazz) {\n    var IB = window.IB;\n    var meta = clazz[\"meta\"];\n    if (IB.sd[meta.name] && typeof IB.sd[meta.name]._init === 'function') {\n      console.error(\"Warning: component '\".concat(meta.name, \"' loaded twice.\"));\n      //Simply bind possibly missing components\n      IB.sd[meta.name]._init();\n      return;\n    }\n    var _init = function _init() {\n      IB.sd[meta.name] = IB.sd[meta.name] || {\n        inst: {},\n        _class: clazz,\n        _init: _init,\n        _dispose: null\n      };\n      var query = meta.query || \"div[role=\\\"snptd_\".concat(meta.name, \"\\\"], div[data-snptd=\\\"\").concat(meta.name, \"\\\"]\");\n      //Check if is defined as a singleton\n      if (query === 'body') {\n        if (window.IB.sd[meta.name].singl) {\n          console.error(\"Singleton already defined\");\n          return;\n        }\n        //Singleton instance\n        var parent = document.querySelector(\"body\");\n        var singleton = new clazz(parent);\n        singleton.init();\n        // add to the shared variable\n        window.IB.sd[meta.name].singl = singleton;\n        console.log(\"_init: Initialized singleton '\".concat(meta.name, \"' instance.\"));\n      } else {\n        //Multiple instances with parent's\n        var containers = findContainers(query);\n        var counter = 0;\n        containers.forEach(function (parent) {\n          // Create instance of clazz\n          var id = parent.getAttribute(\"id\");\n          if (!id) {\n            id = genID();\n            parent.setAttribute(\"id\", id);\n          }\n          if (parent.dataset.active === \"1\") {\n            console.warn(\"Warning: Element '\".concat(meta.name, \"' \").concat(id, \" already processed.\"));\n            return;\n          }\n          var instance = new clazz(parent);\n          instance.init();\n          // add to the shared variable\n          window.IB.sd[meta.name].inst[id] = instance;\n          counter++;\n        });\n        console.log(\"_init: Initialized \".concat(counter, \" '\").concat(meta.name, \"' instances.\"));\n      }\n    };\n    _init();\n    var _dispose = function _dispose() {\n      var counter = 0;\n      Object.keys(window.IB.sd[meta.name].inst).forEach(function (key) {\n        var instance = window.IB.sd[meta.name].inst[key];\n        if (instance) {\n          instance.dispose();\n          counter++;\n          delete window.IB.sd[meta.name].inst[key];\n        }\n      });\n      console.log(\"_dispose: Destroyed \".concat(counter, \" '\").concat(meta.name, \"' instances.\"));\n    };\n    IB.sd[meta.name]._dispose = _dispose;\n  });\n}\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  bootstrap: function bootstrap(defs) {\n    window.IB = window.IB || {\n      sd: {}\n    };\n    if (!Array.isArray(defs)) {\n      defs = [defs];\n    }\n    //check if some of the components to be bootstrap need jQuery\n    var use$ = defs.map(function (d) {\n      return d[\"meta\"].use$ || false;\n    }).reduce(function (pv, cv) {\n      return cv && pv;\n    });\n    if (use$) {\n      //wait for requirejs\n      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {\n        //wait for jquery\n        requirejs(['jquery'], function ($) {\n          //wait for document ready\n          $(function () {\n            _bootstrap(defs);\n          });\n        });\n      }, 15);\n    } else {\n      _bootstrap(defs);\n    }\n  }\n});\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/loader.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addBaseToUrl": function() { return /* binding */ addBaseToUrl; },
+/* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
+/* harmony export */   "genID": function() { return /* binding */ genID; },
+/* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
+/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
+/* harmony export */   "pathJoin": function() { return /* binding */ pathJoin; },
+/* harmony export */   "pran": function() { return /* binding */ pran; },
+/* harmony export */   "querySelectorProp": function() { return /* binding */ querySelectorProp; },
+/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
+/* harmony export */ });
+function parseUrlParams(url) {
+  var params = {};
+  var parts = url.substring(1).split('&');
+  for (var i = 0; i < parts.length; i++) {
+    var nv = parts[i].split('=');
+    if (!nv[0]) continue;
+    params[nv[0]] = nv[1] || "true";
+  }
+  return params;
+}
+function querySelectorProp(query, prop, def) {
+  var ele = document.querySelector(query);
+  if (ele != null) {
+    return ele.getAttribute(prop) || def || '';
+  }
+  return def || '';
+}
+
+// Identifies the user and role from page
+function getPageInfo() {
+  if (!document.querySelector) {
+    return {
+      userId: 1,
+      userFullname: '',
+      courseId: 1,
+      isTeacher: false,
+      courseName: '',
+      site: ''
+    };
+  }
+  // Get current user information
+  var userId = null;
+  var userFullname = null;
+  var dataUserId = document.querySelector('[data-userid]');
+  if (dataUserId) {
+    userId = dataUserId.getAttribute('data-userid');
+  }
+  var userText = document.getElementsByClassName("usertext");
+  if (userText && userText.length) {
+    userFullname = userText[0].innerText;
+  } else {
+    //Moodle4.1
+    var logininfo = document.querySelector("div.logininfo > a");
+    if (logininfo) {
+      userFullname = logininfo.innerText;
+    }
+  }
+  if (!userId) {
+    //TODO:: check if the current user is guest
+    userId = '1';
+    userFullname = "Usuari convidat";
+  }
+  var isTeacher = document.querySelector('.usermenu li a[href*="switchrole"]') != null ? 1 : 0;
+  if (!isTeacher) {
+    //Moodle 4.1
+    isTeacher = document.querySelector('form.editmode-switch-form') != null ? 1 : 0;
+  }
+  if (!isTeacher) {
+    // Boost theme
+    isTeacher = document.querySelector('.teacherdash.nav-item.nav-link') != null ? 1 : 0;
+  }
+
+  // Get information about the course
+  var courseId = '';
+  var courseName = '';
+  var footer = document.querySelector(".homelink > a");
+  if (footer != null) {
+    courseName = footer.innerText;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    var hrefVal = "?" + ((footer.getAttribute('href') || " ? ").split("?")[1] || "");
+    courseId = parseUrlParams(hrefVal).id;
+  } else {
+    //Moodle 4.1
+    if (window.M && window.M.cfg) {
+      courseId = window.M.cfg.courseId;
+    }
+    var nav = document.querySelector("#page-navbar ol > li:first-child > a");
+    if (nav != null) {
+      courseName = nav.innerText; //short name
+    }
+  }
+
+  var site = (location.href.split("?")[0] || "").replace("/mod/book/view.php", "");
+  return {
+    userId: convertInt(userId, 1),
+    userFullname: userFullname || 'test-user',
+    isTeacher: isTeacher > 0,
+    site: site,
+    courseName: courseName || 'test-course',
+    courseId: convertInt(courseId, 1)
+  };
+}
+
+//Seeded random number generator
+// https://gist.github.com/blixt/f17b47c62508be59987b
+function pran(seed) {
+  seed = seed % 2147483647;
+  var ranGen = function ranGen() {
+    seed = seed * 16807 % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+  ranGen();
+  ranGen();
+  ranGen();
+  return ranGen;
+}
+function waitForRequire(cb, nattempt) {
+  nattempt = nattempt || 0;
+  if (window.require && typeof window.require === 'function') {
+    cb();
+    return;
+  } else if (nattempt > 15) {
+    console.error("ERROR: Cannot find requirejs");
+    return;
+  }
+  window.setTimeout(function () {
+    waitForRequire(cb, nattempt + 1);
+  }, 500);
+}
+function convertInt(str, def) {
+  if (str && typeof str === 'number') {
+    return str;
+  }
+  if (!str || !(str + "").trim()) {
+    return def;
+  }
+  try {
+    var val = parseInt(str + "");
+    if (!isNaN(val)) {
+      return val;
+    }
+  } catch (ex) {
+    //pass
+  }
+  return def;
+}
+
+/**
+ * Safely joins two parts of an url
+ * @param a 
+ * @param b 
+ * @returns 
+ */
+function pathJoin(a, b) {
+  a = (a || "").trim();
+  b = (b || "").trim();
+  if (!a.endsWith('/')) {
+    a = a + '/';
+  }
+  if (b.startsWith('/')) {
+    b = b.substring(1);
+  }
+  return a + b;
+}
+
+/**
+ * Adds the baseurl if the passed url does not start with http or https
+ */
+function addBaseToUrl(base, url) {
+  url = (url || "").trim();
+  if (url.toLowerCase().startsWith("http")) {
+    return url;
+  }
+  // Afegir la base 
+  return pathJoin(base, url);
+}
+function genID() {
+  return "i" + Math.random().toString(32).substring(2);
+}
 
 /***/ }),
-
-/***/ "./ts/speak/gttsPlayer.ts":
-/*!********************************!*\
-  !*** ./ts/speak/gttsPlayer.ts ***!
-  \********************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ GTTSPlayer; }\n/* harmony export */ });\nfunction _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && \"function\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }, _typeof(obj); }\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\nfunction _toPropertyKey(arg) { var key = _toPrimitive(arg, \"string\"); return _typeof(key) === \"symbol\" ? key : String(key); }\nfunction _toPrimitive(input, hint) { if (_typeof(input) !== \"object\" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || \"default\"); if (_typeof(res) !== \"object\") return res; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (hint === \"string\" ? String : Number)(input); }\nvar MAX_GTTS_LEN = 1000;\nvar GTTS_URL = \"https://piworld.es/api/gtts/speak?t=\";\nvar GTTSPlayer = /*#__PURE__*/function () {\n  function GTTSPlayer(elem) {\n    _classCallCheck(this, GTTSPlayer);\n    var self = this;\n    this._elem = elem;\n    var idioma = elem.getAttribute(\"href\") || elem.dataset.lang || \"en_us\";\n    idioma = idioma.replace(\"#speak_\", \"\");\n    var sText = elem.innerText.trim();\n    if (sText.length > MAX_GTTS_LEN) {\n      console.log(\"GTTS: Max length supported is \" + MAX_GTTS_LEN + \" characters.\");\n      elem.removeAttribute(\"href\");\n      return;\n    }\n    //decide what to do with the title\n    if (elem.title == \"-\") {\n      //remove it\n      elem.removeAttribute(\"title\");\n    } else if (!elem.title) {\n      elem.title = \"gTTS Speak!\";\n    }\n    this.url = GTTS_URL + encodeURIComponent(sText) + \"&l=\" + idioma;\n    this.audio = null;\n    this.handler = function (evt) {\n      evt.preventDefault(); // Evita que executi el link    \n      self.play();\n    };\n    elem.addEventListener(\"click\", this.handler);\n    if (!this.handler) {\n      this._elem.removeEventListener(\"click\", this.handler);\n    }\n  }\n  _createClass(GTTSPlayer, [{\n    key: \"play\",\n    value: function play() {\n      if (!this.audio) {\n        this.audio = new Audio(this.url);\n      } else {\n        this.audio.pause();\n        this.audio.currentTime = 0;\n      }\n      this.audio.src = this.url;\n      this.audio.play();\n    }\n  }, {\n    key: \"pause\",\n    value: function pause() {\n      if (this.audio) {\n        this.audio.pause();\n      }\n    }\n  }, {\n    key: \"dispose\",\n    value: function dispose() {\n      this.audio.pause();\n      this.audio.currentTime = 0;\n      this.audio.src = null;\n      this.audio = null;\n      if (!this.handler) {\n        this._elem.removeEventListener(\"click\", this.handler);\n      }\n    }\n  }]);\n  return GTTSPlayer;\n}();\n\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/speak/gttsPlayer.ts?");
-
-/***/ }),
-
-/***/ "./ts/speak/navigatorPlayer.ts":
-/*!*************************************!*\
-  !*** ./ts/speak/navigatorPlayer.ts ***!
-  \*************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ NavigatorPlayer; }\n/* harmony export */ });\nfunction _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && \"function\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }, _typeof(obj); }\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\nfunction _toPropertyKey(arg) { var key = _toPrimitive(arg, \"string\"); return _typeof(key) === \"symbol\" ? key : String(key); }\nfunction _toPrimitive(input, hint) { if (_typeof(input) !== \"object\" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || \"default\"); if (_typeof(res) !== \"object\") return res; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (hint === \"string\" ? String : Number)(input); }\nvar findVoice = function findVoice(lang, voices) {\n  lang = (lang || \"\").toLowerCase();\n  var k = 0;\n  var voice = null;\n  var len = (voices || []).length;\n  while (k < len && voice == null) {\n    if (voices[k].lang.toLowerCase() == lang) {\n      voice = voices[k];\n    }\n    k++;\n  }\n  return voice;\n};\nvar NavigatorPlayer = /*#__PURE__*/function () {\n  function NavigatorPlayer(elem, voices) {\n    _classCallCheck(this, NavigatorPlayer);\n    var self = this;\n    this._elem = elem;\n    var idioma = elem.getAttribute(\"href\").split(\"_\")[1];\n    //decide what to do with the title\n    if (elem.title == \"-\") {\n      //remove it\n      elem.removeAttribute(\"title\");\n    } else if (!elem.title) {\n      elem.title = \"Speak!\";\n    }\n    var voice = findVoice(idioma, voices);\n    this.handler = null;\n    if (voice) {\n      var _idioma = this._elem.getAttribute(\"href\").split(\"_\")[1];\n      this.utterance = new SpeechSynthesisUtterance(elem.innerText);\n      this.utterance.voice = voice;\n      elem.classList.add(\"sd-speak-enabled\");\n      this.handler = function (evt) {\n        evt.preventDefault(); // Evita que executi el link    \n        self.play();\n      };\n      elem.addEventListener(\"click\", this.handler);\n    } else {\n      //Get rid of the a link since browser does not support this feature\n      elem.removeAttribute(\"href\");\n    }\n  }\n  _createClass(NavigatorPlayer, [{\n    key: \"play\",\n    value: function play() {\n      // call abort pending...\n      window.speechSynthesis.cancel();\n      window.speechSynthesis.speak(this.utterance);\n    }\n  }, {\n    key: \"pause\",\n    value: function pause() {\n      window.speechSynthesis.cancel();\n    }\n  }, {\n    key: \"dispose\",\n    value: function dispose() {\n      this._elem.removeEventListener(\"click\", this.handler);\n      this._elem.classList.remove(\"sd-speak-enabled\");\n      this._elem.removeAttribute('data-active');\n      this._elem.removeAttribute('title');\n    }\n  }]);\n  return NavigatorPlayer;\n}();\n\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/speak/navigatorPlayer.ts?");
-
-/***/ }),
-
-/***/ "./ts/speak/speak.ts":
-/*!***************************!*\
-  !*** ./ts/speak/speak.ts ***!
-  \***************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../loader */ \"./ts/loader.ts\");\n/* harmony import */ var _speak_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./speak.css */ \"./ts/speak/speak.css\");\n/* harmony import */ var _speakComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./speakComponent */ \"./ts/speak/speakComponent.ts\");\n\n\n\n_loader__WEBPACK_IMPORTED_MODULE_0__[\"default\"].bootstrap(_speakComponent__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/speak/speak.ts?");
-
-/***/ }),
-
-/***/ "./ts/speak/speakComponent.ts":
-/*!************************************!*\
-  !*** ./ts/speak/speakComponent.ts ***!
-  \************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ SpeakComponent; }\n/* harmony export */ });\n/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base */ \"./ts/base.ts\");\n/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gttsPlayer */ \"./ts/speak/gttsPlayer.ts\");\n/* harmony import */ var _navigatorPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navigatorPlayer */ \"./ts/speak/navigatorPlayer.ts\");\n/* harmony import */ var _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./wordreferencePlayer */ \"./ts/speak/wordreferencePlayer.ts\");\nfunction _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && \"function\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }, _typeof(obj); }\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function\"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, \"prototype\", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }\nfunction _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }\nfunction _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }\nfunction _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === \"object\" || typeof call === \"function\")) { return call; } else if (call !== void 0) { throw new TypeError(\"Derived constructors may only return object or undefined\"); } return _assertThisInitialized(self); }\nfunction _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return self; }\nfunction _isNativeReflectConstruct() { if (typeof Reflect === \"undefined\" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === \"function\") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }\nfunction _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }\nfunction _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\nfunction _toPropertyKey(arg) { var key = _toPrimitive(arg, \"string\"); return _typeof(key) === \"symbol\" ? key : String(key); }\nfunction _toPrimitive(input, hint) { if (_typeof(input) !== \"object\" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || \"default\"); if (_typeof(res) !== \"object\") return res; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (hint === \"string\" ? String : Number)(input); }\n\n\n\n\nvar allVoices = null;\nfunction getNavigatorVoices() {\n  return new Promise(function (resolve, reject) {\n    if (allVoices != null) {\n      resolve(allVoices);\n      return;\n    }\n    // wait until the voices have been loaded asyncronously\n    window.speechSynthesis.addEventListener(\"voiceschanged\", function () {\n      allVoices = window.speechSynthesis.getVoices();\n      resolve(allVoices);\n    });\n  });\n}\nvar SpeakComponent = /*#__PURE__*/function (_BaseComponent) {\n  _inherits(SpeakComponent, _BaseComponent);\n  var _super = _createSuper(SpeakComponent);\n  function SpeakComponent(parent) {\n    _classCallCheck(this, SpeakComponent);\n    return _super.call(this, parent);\n  }\n  _createClass(SpeakComponent, [{\n    key: \"init\",\n    value: function init() {\n      var _this = this;\n      var ds = this.parent.dataset;\n      if (ds.active === \"1\") {\n        return;\n      }\n      ds.active = \"1\";\n      if (ds.wr === \"1\" || ds.wr === \"true\") {\n        //use wordreference\n        this.audioPlayer = new _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_3__[\"default\"](this.parent);\n        return;\n      }\n      var synth = window.speechSynthesis;\n      var supported = synth != null && window.SpeechSynthesisUtterance != null;\n      this.audioPlayer = null;\n      if (supported) {\n        getNavigatorVoices().then(function (voices) {\n          _this.audioPlayer = new _navigatorPlayer__WEBPACK_IMPORTED_MODULE_2__[\"default\"](_this.parent, voices);\n        }, function () {\n          //On error, rely on GTTS\n          _this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_1__[\"default\"](_this.parent);\n        });\n        //Stop voices on page change\n        window.addEventListener('unload', function (evt) {\n          window.speechSynthesis.cancel();\n        });\n      } else {\n        // If no navigator support, rely on GTTS\n        this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_1__[\"default\"](this.parent);\n      }\n    }\n  }, {\n    key: \"dispose\",\n    value: function dispose() {\n      if (this.parent.dataset.active !== \"1\") {\n        return;\n      }\n      this.parent.removeAttribute(\"data-active\");\n      this.audioPlayer && this.audioPlayer.dispose();\n      this.audioPlayer = null;\n    }\n  }, {\n    key: \"play\",\n    value: function play() {\n      this.audioPlayer && this.audioPlayer.play();\n    }\n  }, {\n    key: \"pause\",\n    value: function pause() {\n      this.audioPlayer && this.audioPlayer.pause();\n    }\n  }]);\n  return SpeakComponent;\n}(_base__WEBPACK_IMPORTED_MODULE_0__.BaseComponent);\n_defineProperty(SpeakComponent, \"meta\", {\n  name: 'speak',\n  author: 'Josep Mulet Pol',\n  version: '2.4',\n  query: 'a[href^=\"#speak_\"],[role=\"snptd_speak\"],[data-snptd=\"speak\"]',\n  use$: true //May require $ajax\n});\n\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/speak/speakComponent.ts?");
-
-/***/ }),
-
-/***/ "./ts/speak/wordreferencePlayer.ts":
-/*!*****************************************!*\
-  !*** ./ts/speak/wordreferencePlayer.ts ***!
-  \*****************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ WordReferencePlayer; }\n/* harmony export */ });\n/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gttsPlayer */ \"./ts/speak/gttsPlayer.ts\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ \"./ts/utils.ts\");\nfunction _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && \"function\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }, _typeof(obj); }\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, \"prototype\", { writable: false }); return Constructor; }\nfunction _toPropertyKey(arg) { var key = _toPrimitive(arg, \"string\"); return _typeof(key) === \"symbol\" ? key : String(key); }\nfunction _toPrimitive(input, hint) { if (_typeof(input) !== \"object\" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || \"default\"); if (_typeof(res) !== \"object\") return res; throw new TypeError(\"@@toPrimitive must return a primitive value.\"); } return (hint === \"string\" ? String : Number)(input); }\n\n\nvar definition = {\n  'en': 'definition',\n  'ca': 'definicio',\n  'es': 'definicion'\n};\nvar wordReferencePrefix = 'https://www.wordreference.com/';\nvar variantNames = {\n  \"us\": \"United States\",\n  \"uk\": \"United Kingdom\",\n  \"irish\": \"Irish\",\n  \"scot\": \"Scottish\",\n  \"jamaica\": \"Jamaica\",\n  \"es\": \"España\",\n  \"castellano\": \"España\",\n  \"ca\": \"Catalunya\",\n  \"mexico\": \"México\",\n  \"argentina\": \"Argentina\"\n};\nfunction nameOfVariant(variant) {\n  return variantNames[variant] || variant;\n}\nfunction parseAudioFiles(extracted, lang) {\n  var map = {};\n  extracted.forEach(function (asource) {\n    //asource\n    /*[\n        \"/audio/en/us/us/en005736.mp3\",\n        \"/audio/en/uk/general/en005736.mp3\",\n        \"/audio/en/uk/rp/en005736.mp3\",\n        \"/audio/en/uk/Yorkshire/en005736-55.mp3\",\n        \"/audio/en/Irish/en005736.mp3\",\n        \"/audio/en/scot/en005736.mp3\",\n        \"/audio/en/Jamaica/en005736.mp3\"\n    ]*/\n    var parts = asource.split(\"/\");\n    var variant = parts[parts.indexOf(lang) + 1].toLowerCase();\n    if (!map[variant]) {\n      map[variant] = {\n        name: nameOfVariant(variant),\n        url: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, asource)\n      };\n    }\n  });\n  return map;\n}\n;\nvar wr_define = function wr_define(from, word) {\n  var url2 = wordReferencePrefix + definition[from] + '/' + encodeURIComponent(word);\n  // Make the request\n  return new Promise(function (resolve, reject) {\n    if (!definition[from]) {\n      reject();\n      return;\n    }\n    $.ajax({\n      method: 'GET',\n      dataType: 'html',\n      url: url2\n    }).done(function (data) {\n      var matches = data.match(/<script>var\\s+audioFiles\\s+=(.*?)\\]/m);\n      if (matches && matches.length == 2) {\n        var found = matches[1].trim().replace(/'/g, '\"');\n        if (found.endsWith(\",\")) {\n          found = found.substring(0, found.length - 1);\n        }\n        var audioList = JSON.parse(found + \"]\");\n        var audioMap = parseAudioFiles(audioList, from);\n        resolve(audioMap);\n        return;\n      }\n      reject(\"cannot find audioFiles in page\");\n    }).fail(function (err) {\n      reject(err);\n    });\n  });\n};\nvar WordReferencePlayer = /*#__PURE__*/function () {\n  function WordReferencePlayer(elem) {\n    _classCallCheck(this, WordReferencePlayer);\n    this.elem = elem;\n    this.init();\n  }\n  _createClass(WordReferencePlayer, [{\n    key: \"init\",\n    value: function init() {\n      var _this = this;\n      this.handler = function (evt) {\n        evt.preventDefault(); // Evita que executi el link  \n        if (_this.audioElement != null) {\n          _this.play();\n          return;\n        }\n        // Defer the search of sources until the first click\n        //TODO if no region specified show dropdown with variants\n        var lang = _this.elem.getAttribute(\"href\") || _this.elem.dataset.lang || \"en\";\n        var region = \"\";\n        lang = lang.replace(\"#speak_\", \"\");\n        if (lang.indexOf(\"-\") > 0) {\n          var parts = lang.split(\"-\");\n          lang = parts[0].toLowerCase().trim();\n          region = parts[1].toLowerCase().trim();\n        }\n        wr_define(lang, _this.elem.innerText).then(function (audioMap) {\n          console.log(audioMap);\n          var variants = Object.keys(audioMap);\n          if (variants.length > 0) {\n            //use the one that matches \"region\"\n            var theURL = audioMap[region];\n            if (!theURL) {\n              theURL = audioMap[variants[0]];\n            }\n            var url = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, theURL.url);\n            _this.audioElement = new Audio(url);\n            if (!region && variants.length > 1) {\n              // Add a dropdown to change variant\n              var id = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.genID)();\n              var $dropdown = $(\"\\n<div class=\\\"dropdown\\\" style=\\\"display:inline-block;\\\">\\n  <button class=\\\"btn btn-secondary btn-sm\\\" style=\\\"margin:2px;padding:4px;height:15px;\\\" type=\\\"button\\\" id=\\\"dmb_\".concat(id, \"\\\" data-toggle=\\\"dropdown\\\" aria-haspopup=\\\"true\\\" aria-expanded=\\\"false\\\">\\n  <i class=\\\"fas fa fa-globe\\\" style=\\\"transform: translateY(-9px);\\\"></i>\\n  </button>\\n  <div class=\\\"dropdown-menu\\\" aria-labelledby=\\\"dmb_\").concat(id, \"\\\"> \\n  </div>\\n</div>\"));\n              var $menu = $dropdown.find(\".dropdown-menu\");\n              variants.forEach(function (variant) {\n                var varDef = audioMap[variant];\n                var $menuItem = $(\"<a class=\\\"dropdown-item\\\" href=\\\"#\\\">\".concat(varDef.name, \"</a>\"));\n                $menuItem.on(\"click\", function (evt) {\n                  evt.preventDefault();\n                  _this.audioElement[\"src\"] = varDef.url;\n                  _this.audioElement.play();\n                });\n                $menu.append($menuItem);\n              });\n              $dropdown.insertAfter($(_this.elem));\n            }\n          } else {\n            // Fallback on google\n            _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__[\"default\"](_this.elem);\n          }\n          _this.audioElement.play();\n        }, function (err) {\n          // Fallback on google\n          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__[\"default\"](_this.elem);\n          _this.audioElement.play();\n        });\n      };\n      this.elem.addEventListener(\"click\", this.handler);\n      this.elem.title = \"wordReference\";\n    }\n  }, {\n    key: \"play\",\n    value: function play() {\n      this.audioElement && this.audioElement.play();\n    }\n  }, {\n    key: \"pause\",\n    value: function pause() {\n      this.audioElement && this.audioElement.pause();\n    }\n  }, {\n    key: \"dispose\",\n    value: function dispose() {\n      this.pause();\n      if (this.handler) {\n        this.elem.removeEventListener(\"click\", this.handler);\n        this.handler = null;\n      }\n    }\n  }]);\n  return WordReferencePlayer;\n}();\n/*\nconst wr_translate = function (from: string, to: string, word: string): Promise<string[]> {\n    const url2 = 'https://www.wordreference.com/' + from + to + '/' + encodeURIComponent(word);\n    console.log(url2);\n    // Make the request\n    return new Promise((resolve, reject) => {\n        $.ajax({\n            method: 'GET',\n            dataType: 'html',\n            url: url2\n        }).done(function (data) {\n            console.log(\"Processing \", data);\n            let audioList = []\n            const matches = data.match(/<script>const audioFiles =(.*?)\\]/m);\n            console.log(\"matches audioFiles \", matches);\n            if (matches && matches.length == 2) {\n                const found = matches[1].trim().replace(/'/g, '\"');\n                if (found.endsWith(\",\")) {\n                    found = found.substring(0, found.length - 1);\n                }\n                audioList = JSON.parse(found + \"]\")\n                console.log(audioList);\n                resolve(audioList);\n                return;\n            }\n            /*\n            matches = data.match(/<div\\s+class='entry'>((.|\\n)*?)<\\/div>/m);\n            console.log(\"matches entry \", matches);\n            if (matches && matches.length > 0) {\n                const text = $(matches[0]).text();\n                console.log(text);\n            }\n\n            console.log(data.indexOf(\"<table class='WRD'\"));\n            const reg = /<table\\s+class='WRD'((.|\\n)*?)<\\/table>/gi;\n            matches = data.match(reg);\n            console.log(\"matches table \", matches);\n            if (matches && matches.length > 0) {\n                const text = $(matches[0]).text();\n                console.log(text);\n            }\n             \n           reject();\n        }).fail(function (err) {\n            reject();\n        });\n    });\n};\n*/\n\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/speak/wordreferencePlayer.ts?");
-
-/***/ }),
-
-/***/ "./ts/utils.ts":
-/*!*********************!*\
-  !*** ./ts/utils.ts ***!
-  \*********************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addBaseToUrl\": function() { return /* binding */ addBaseToUrl; },\n/* harmony export */   \"convertInt\": function() { return /* binding */ convertInt; },\n/* harmony export */   \"genID\": function() { return /* binding */ genID; },\n/* harmony export */   \"getPageInfo\": function() { return /* binding */ getPageInfo; },\n/* harmony export */   \"parseUrlParams\": function() { return /* binding */ parseUrlParams; },\n/* harmony export */   \"pathJoin\": function() { return /* binding */ pathJoin; },\n/* harmony export */   \"pran\": function() { return /* binding */ pran; },\n/* harmony export */   \"querySelectorProp\": function() { return /* binding */ querySelectorProp; },\n/* harmony export */   \"waitForRequire\": function() { return /* binding */ waitForRequire; }\n/* harmony export */ });\nfunction parseUrlParams(url) {\n  var params = {};\n  var parts = url.substring(1).split('&');\n  for (var i = 0; i < parts.length; i++) {\n    var nv = parts[i].split('=');\n    if (!nv[0]) continue;\n    params[nv[0]] = nv[1] || true;\n  }\n  return params;\n}\n;\nfunction querySelectorProp(query, prop, def) {\n  var ele = document.querySelector(query);\n  if (ele != null) {\n    return ele.getAttribute(prop) || def || '';\n  }\n  return def || '';\n}\n\n// Identifies the user and role from page\nfunction getPageInfo() {\n  if (!document.querySelector) {\n    return {\n      userId: 1,\n      userFullname: '',\n      courseId: 1,\n      isTeacher: false,\n      courseName: '',\n      site: ''\n    };\n  }\n  // Get current user information\n  var userId = null;\n  var userFullname = null;\n  var dataUserId = document.querySelector('[data-userid]');\n  if (dataUserId) {\n    userId = dataUserId.getAttribute('data-userid');\n  }\n  var userText = document.getElementsByClassName(\"usertext\");\n  if (userText && userText.length) {\n    userFullname = userText[0].innerText;\n  } else {\n    //Moodle4.1\n    var logininfo = document.querySelector(\"div.logininfo > a\");\n    if (logininfo) {\n      userFullname = logininfo.innerText;\n    }\n  }\n  if (!userId) {\n    //TODO:: check if the current user is guest\n    userId = '1';\n    userFullname = \"Usuari convidat\";\n  }\n  var isTeacher = document.querySelector('.usermenu li a[href*=\"switchrole\"]') != null ? 1 : 0;\n  if (!isTeacher) {\n    //Moodle 4.1\n    isTeacher = document.querySelector('form.editmode-switch-form') != null ? 1 : 0;\n  }\n  if (!isTeacher) {\n    // Boost theme\n    isTeacher = document.querySelector('.teacherdash.nav-item.nav-link') != null ? 1 : 0;\n  }\n\n  // Get information about the course\n  var courseId = '';\n  var courseName = '';\n  var footer = document.querySelector(\".homelink > a\");\n  if (footer != null) {\n    courseName = footer.innerText;\n    var hrefVal = \"?\" + (footer.getAttribute('href').split(\"?\")[1] || \"\");\n    courseId = parseUrlParams(hrefVal).id;\n  } else {\n    //Moodle 4.1\n    if (window.M && window.M.cfg) {\n      courseId = window.M.cfg.courseId;\n    }\n    var nav = document.querySelector(\"#page-navbar ol > li:first-child > a\");\n    if (nav != null) {\n      courseName = nav.innerText; //short name\n    }\n  }\n\n  var site = (location.href.split(\"?\")[0] || \"\").replace(\"/mod/book/view.php\", \"\");\n  return {\n    userId: convertInt(userId, 1),\n    userFullname: userFullname || 'test-user',\n    isTeacher: isTeacher > 0,\n    site: site,\n    courseName: courseName || 'test-course',\n    courseId: convertInt(courseId, 1)\n  };\n}\n;\n\n//Seeded random number generator\n// https://gist.github.com/blixt/f17b47c62508be59987b\nfunction pran(seed) {\n  seed = seed % 2147483647;\n  var ranGen = function ranGen() {\n    seed = seed * 16807 % 2147483647;\n    return (seed - 1) / 2147483646;\n  };\n  ranGen();\n  ranGen();\n  ranGen();\n  return ranGen;\n}\nfunction waitForRequire(cb, nattempt) {\n  nattempt = nattempt || 0;\n  if (window.require && typeof window.require === 'function') {\n    cb();\n    return;\n  } else if (nattempt > 15) {\n    console.error(\"ERROR: Cannot find requirejs\");\n    return;\n  }\n  window.setTimeout(function () {\n    waitForRequire(cb, nattempt + 1);\n  }, 500);\n}\n;\nfunction convertInt(str, def) {\n  if (!str || !str.trim()) {\n    return def;\n  }\n  try {\n    var val = parseInt(str);\n    if (!isNaN(val)) {\n      return val;\n    }\n  } catch (ex) {}\n  return def;\n}\n\n/**\n * Safely joins two parts of an url\n * @param a \n * @param b \n * @returns \n */\nfunction pathJoin(a, b) {\n  a = (a || \"\").trim();\n  b = (b || \"\").trim();\n  if (!a.endsWith('/')) {\n    a = a + '/';\n  }\n  if (b.startsWith('/')) {\n    b = b.substring(1);\n  }\n  return a + b;\n}\n;\n\n/**\n * Adds the baseurl if the passed url does not start with http or https\n */\nfunction addBaseToUrl(base, url) {\n  url = (url || \"\").trim();\n  if (url.toLowerCase().startsWith(\"http\")) {\n    return url;\n  }\n  // Afegir la base\n  var out = pathJoin(base, url);\n  return out;\n}\n;\nfunction genID() {\n  return \"i\" + Math.random().toString(32).substring(2);\n}\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/utils.ts?");
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./ts/speak/speak.css":
-/*!******************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./ts/speak/speak.css ***!
-  \******************************************************************/
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ \"./node_modules/css-loader/dist/runtime/noSourceMaps.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\");\n/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);\n// Imports\n\n\nvar ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));\n// Module\n___CSS_LOADER_EXPORT___.push([module.id, \".sd-speak-enabled {\\n    position: relative;\\n    background: whitesmoke;\\n    text-decoration: none;  \\n  } \\n  @keyframes speakicon_anim {\\n    0% {\\n      opacity: 0;\\n      left: -10px;\\n    }\\n    100% {\\n      opacity: 1;\\n      left: -5px;\\n    }\\n  } \\n  .sd-speak-enabled:hover:after {\\n    content: \\\"\\\\f025\\\";\\n    position: absolute;\\n    left: -5px;\\n    top: -16px;\\n    background: white;\\n    z-index:1000;\\n    font-family: 'FontAwesome'; \\n    font-size: 70%;\\n    margin: 0px 5px;\\n    font-weight: 700; \\n    vertical-align:top; \\n    animation: speakicon_anim 1s ease;\\n  }\", \"\"]);\n// Exports\n/* harmony default export */ __webpack_exports__[\"default\"] = (___CSS_LOADER_EXPORT___);\n\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/speak/speak.css?./node_modules/css-loader/dist/cjs.js");
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/runtime/api.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
-  \*****************************************************/
+/* 3 */,
+/* 4 */
 /***/ (function(module) {
 
-eval("\n\n/*\n  MIT License http://www.opensource.org/licenses/mit-license.php\n  Author Tobias Koppers @sokra\n*/\nmodule.exports = function (cssWithMappingToString) {\n  var list = [];\n\n  // return the list of modules as css string\n  list.toString = function toString() {\n    return this.map(function (item) {\n      var content = \"\";\n      var needLayer = typeof item[5] !== \"undefined\";\n      if (item[4]) {\n        content += \"@supports (\".concat(item[4], \") {\");\n      }\n      if (item[2]) {\n        content += \"@media \".concat(item[2], \" {\");\n      }\n      if (needLayer) {\n        content += \"@layer\".concat(item[5].length > 0 ? \" \".concat(item[5]) : \"\", \" {\");\n      }\n      content += cssWithMappingToString(item);\n      if (needLayer) {\n        content += \"}\";\n      }\n      if (item[2]) {\n        content += \"}\";\n      }\n      if (item[4]) {\n        content += \"}\";\n      }\n      return content;\n    }).join(\"\");\n  };\n\n  // import a list of modules into the list\n  list.i = function i(modules, media, dedupe, supports, layer) {\n    if (typeof modules === \"string\") {\n      modules = [[null, modules, undefined]];\n    }\n    var alreadyImportedModules = {};\n    if (dedupe) {\n      for (var k = 0; k < this.length; k++) {\n        var id = this[k][0];\n        if (id != null) {\n          alreadyImportedModules[id] = true;\n        }\n      }\n    }\n    for (var _k = 0; _k < modules.length; _k++) {\n      var item = [].concat(modules[_k]);\n      if (dedupe && alreadyImportedModules[item[0]]) {\n        continue;\n      }\n      if (typeof layer !== \"undefined\") {\n        if (typeof item[5] === \"undefined\") {\n          item[5] = layer;\n        } else {\n          item[1] = \"@layer\".concat(item[5].length > 0 ? \" \".concat(item[5]) : \"\", \" {\").concat(item[1], \"}\");\n          item[5] = layer;\n        }\n      }\n      if (media) {\n        if (!item[2]) {\n          item[2] = media;\n        } else {\n          item[1] = \"@media \".concat(item[2], \" {\").concat(item[1], \"}\");\n          item[2] = media;\n        }\n      }\n      if (supports) {\n        if (!item[4]) {\n          item[4] = \"\".concat(supports);\n        } else {\n          item[1] = \"@supports (\".concat(item[4], \") {\").concat(item[1], \"}\");\n          item[4] = supports;\n        }\n      }\n      list.push(item);\n    }\n  };\n  return list;\n};\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/css-loader/dist/runtime/api.js?");
+
+
+var stylesInDOM = [];
+
+function getIndexByIdentifier(identifier) {
+  var result = -1;
+
+  for (var i = 0; i < stylesInDOM.length; i++) {
+    if (stylesInDOM[i].identifier === identifier) {
+      result = i;
+      break;
+    }
+  }
+
+  return result;
+}
+
+function modulesToDom(list, options) {
+  var idCountMap = {};
+  var identifiers = [];
+
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var id = options.base ? item[0] + options.base : item[0];
+    var count = idCountMap[id] || 0;
+    var identifier = "".concat(id, " ").concat(count);
+    idCountMap[id] = count + 1;
+    var indexByIdentifier = getIndexByIdentifier(identifier);
+    var obj = {
+      css: item[1],
+      media: item[2],
+      sourceMap: item[3],
+      supports: item[4],
+      layer: item[5]
+    };
+
+    if (indexByIdentifier !== -1) {
+      stylesInDOM[indexByIdentifier].references++;
+      stylesInDOM[indexByIdentifier].updater(obj);
+    } else {
+      var updater = addElementStyle(obj, options);
+      options.byIndex = i;
+      stylesInDOM.splice(i, 0, {
+        identifier: identifier,
+        updater: updater,
+        references: 1
+      });
+    }
+
+    identifiers.push(identifier);
+  }
+
+  return identifiers;
+}
+
+function addElementStyle(obj, options) {
+  var api = options.domAPI(options);
+  api.update(obj);
+
+  var updater = function updater(newObj) {
+    if (newObj) {
+      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
+        return;
+      }
+
+      api.update(obj = newObj);
+    } else {
+      api.remove();
+    }
+  };
+
+  return updater;
+}
+
+module.exports = function (list, options) {
+  options = options || {};
+  list = list || [];
+  var lastIdentifiers = modulesToDom(list, options);
+  return function update(newList) {
+    newList = newList || [];
+
+    for (var i = 0; i < lastIdentifiers.length; i++) {
+      var identifier = lastIdentifiers[i];
+      var index = getIndexByIdentifier(identifier);
+      stylesInDOM[index].references--;
+    }
+
+    var newLastIdentifiers = modulesToDom(newList, options);
+
+    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
+      var _identifier = lastIdentifiers[_i];
+
+      var _index = getIndexByIdentifier(_identifier);
+
+      if (stylesInDOM[_index].references === 0) {
+        stylesInDOM[_index].updater();
+
+        stylesInDOM.splice(_index, 1);
+      }
+    }
+
+    lastIdentifiers = newLastIdentifiers;
+  };
+};
 
 /***/ }),
-
-/***/ "./node_modules/css-loader/dist/runtime/noSourceMaps.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/noSourceMaps.js ***!
-  \**************************************************************/
+/* 5 */
 /***/ (function(module) {
 
-eval("\n\nmodule.exports = function (i) {\n  return i[1];\n};\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/css-loader/dist/runtime/noSourceMaps.js?");
+
+
+/* istanbul ignore next  */
+function apply(styleElement, options, obj) {
+  var css = "";
+
+  if (obj.supports) {
+    css += "@supports (".concat(obj.supports, ") {");
+  }
+
+  if (obj.media) {
+    css += "@media ".concat(obj.media, " {");
+  }
+
+  var needLayer = typeof obj.layer !== "undefined";
+
+  if (needLayer) {
+    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
+  }
+
+  css += obj.css;
+
+  if (needLayer) {
+    css += "}";
+  }
+
+  if (obj.media) {
+    css += "}";
+  }
+
+  if (obj.supports) {
+    css += "}";
+  }
+
+  var sourceMap = obj.sourceMap;
+
+  if (sourceMap && typeof btoa !== "undefined") {
+    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
+  } // For old IE
+
+  /* istanbul ignore if  */
+
+
+  options.styleTagTransform(css, styleElement, options.options);
+}
+
+function removeStyleElement(styleElement) {
+  // istanbul ignore if
+  if (styleElement.parentNode === null) {
+    return false;
+  }
+
+  styleElement.parentNode.removeChild(styleElement);
+}
+/* istanbul ignore next  */
+
+
+function domAPI(options) {
+  var styleElement = options.insertStyleElement(options);
+  return {
+    update: function update(obj) {
+      apply(styleElement, options, obj);
+    },
+    remove: function remove() {
+      removeStyleElement(styleElement);
+    }
+  };
+}
+
+module.exports = domAPI;
 
 /***/ }),
-
-/***/ "./ts/speak/speak.css":
-/*!****************************!*\
-  !*** ./ts/speak/speak.css ***!
-  \****************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ \"./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ \"./node_modules/style-loader/dist/runtime/styleDomAPI.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertBySelector.js */ \"./node_modules/style-loader/dist/runtime/insertBySelector.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ \"./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ \"./node_modules/style-loader/dist/runtime/insertStyleElement.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ \"./node_modules/style-loader/dist/runtime/styleTagTransform.js\");\n/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!./speak.css */ \"./node_modules/css-loader/dist/cjs.js!./ts/speak/speak.css\");\n\n      \n      \n      \n      \n      \n      \n      \n      \n      \n\nvar options = {};\n\noptions.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());\noptions.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());\n\n      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, \"head\");\n    \noptions.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());\noptions.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());\n\nvar update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"], options);\n\n\n\n\n       /* harmony default export */ __webpack_exports__[\"default\"] = (_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"] && _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"].locals ? _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__[\"default\"].locals : undefined);\n\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./ts/speak/speak.css?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
-  \****************************************************************************/
+/* 6 */
 /***/ (function(module) {
 
-eval("\n\nvar stylesInDOM = [];\n\nfunction getIndexByIdentifier(identifier) {\n  var result = -1;\n\n  for (var i = 0; i < stylesInDOM.length; i++) {\n    if (stylesInDOM[i].identifier === identifier) {\n      result = i;\n      break;\n    }\n  }\n\n  return result;\n}\n\nfunction modulesToDom(list, options) {\n  var idCountMap = {};\n  var identifiers = [];\n\n  for (var i = 0; i < list.length; i++) {\n    var item = list[i];\n    var id = options.base ? item[0] + options.base : item[0];\n    var count = idCountMap[id] || 0;\n    var identifier = \"\".concat(id, \" \").concat(count);\n    idCountMap[id] = count + 1;\n    var indexByIdentifier = getIndexByIdentifier(identifier);\n    var obj = {\n      css: item[1],\n      media: item[2],\n      sourceMap: item[3],\n      supports: item[4],\n      layer: item[5]\n    };\n\n    if (indexByIdentifier !== -1) {\n      stylesInDOM[indexByIdentifier].references++;\n      stylesInDOM[indexByIdentifier].updater(obj);\n    } else {\n      var updater = addElementStyle(obj, options);\n      options.byIndex = i;\n      stylesInDOM.splice(i, 0, {\n        identifier: identifier,\n        updater: updater,\n        references: 1\n      });\n    }\n\n    identifiers.push(identifier);\n  }\n\n  return identifiers;\n}\n\nfunction addElementStyle(obj, options) {\n  var api = options.domAPI(options);\n  api.update(obj);\n\n  var updater = function updater(newObj) {\n    if (newObj) {\n      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {\n        return;\n      }\n\n      api.update(obj = newObj);\n    } else {\n      api.remove();\n    }\n  };\n\n  return updater;\n}\n\nmodule.exports = function (list, options) {\n  options = options || {};\n  list = list || [];\n  var lastIdentifiers = modulesToDom(list, options);\n  return function update(newList) {\n    newList = newList || [];\n\n    for (var i = 0; i < lastIdentifiers.length; i++) {\n      var identifier = lastIdentifiers[i];\n      var index = getIndexByIdentifier(identifier);\n      stylesInDOM[index].references--;\n    }\n\n    var newLastIdentifiers = modulesToDom(newList, options);\n\n    for (var _i = 0; _i < lastIdentifiers.length; _i++) {\n      var _identifier = lastIdentifiers[_i];\n\n      var _index = getIndexByIdentifier(_identifier);\n\n      if (stylesInDOM[_index].references === 0) {\n        stylesInDOM[_index].updater();\n\n        stylesInDOM.splice(_index, 1);\n      }\n    }\n\n    lastIdentifiers = newLastIdentifiers;\n  };\n};\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js?");
+
+
+var memo = {};
+/* istanbul ignore next  */
+
+function getTarget(target) {
+  if (typeof memo[target] === "undefined") {
+    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+
+    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+      try {
+        // This will throw an exception if access to iframe is blocked
+        // due to cross-origin restrictions
+        styleTarget = styleTarget.contentDocument.head;
+      } catch (e) {
+        // istanbul ignore next
+        styleTarget = null;
+      }
+    }
+
+    memo[target] = styleTarget;
+  }
+
+  return memo[target];
+}
+/* istanbul ignore next  */
+
+
+function insertBySelector(insert, style) {
+  var target = getTarget(insert);
+
+  if (!target) {
+    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
+  }
+
+  target.appendChild(style);
+}
+
+module.exports = insertBySelector;
 
 /***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/insertBySelector.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/insertBySelector.js ***!
-  \********************************************************************/
-/***/ (function(module) {
-
-eval("\n\nvar memo = {};\n/* istanbul ignore next  */\n\nfunction getTarget(target) {\n  if (typeof memo[target] === \"undefined\") {\n    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself\n\n    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {\n      try {\n        // This will throw an exception if access to iframe is blocked\n        // due to cross-origin restrictions\n        styleTarget = styleTarget.contentDocument.head;\n      } catch (e) {\n        // istanbul ignore next\n        styleTarget = null;\n      }\n    }\n\n    memo[target] = styleTarget;\n  }\n\n  return memo[target];\n}\n/* istanbul ignore next  */\n\n\nfunction insertBySelector(insert, style) {\n  var target = getTarget(insert);\n\n  if (!target) {\n    throw new Error(\"Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.\");\n  }\n\n  target.appendChild(style);\n}\n\nmodule.exports = insertBySelector;\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/style-loader/dist/runtime/insertBySelector.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/insertStyleElement.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/insertStyleElement.js ***!
-  \**********************************************************************/
-/***/ (function(module) {
-
-eval("\n\n/* istanbul ignore next  */\nfunction insertStyleElement(options) {\n  var element = document.createElement(\"style\");\n  options.setAttributes(element, options.attributes);\n  options.insert(element, options.options);\n  return element;\n}\n\nmodule.exports = insertStyleElement;\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/style-loader/dist/runtime/insertStyleElement.js?");
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js ***!
-  \**********************************************************************************/
+/* 7 */
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
-eval("\n\n/* istanbul ignore next  */\nfunction setAttributesWithoutAttributes(styleElement) {\n  var nonce =  true ? __webpack_require__.nc : 0;\n\n  if (nonce) {\n    styleElement.setAttribute(\"nonce\", nonce);\n  }\n}\n\nmodule.exports = setAttributesWithoutAttributes;\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js?");
+
+
+/* istanbul ignore next  */
+function setAttributesWithoutAttributes(styleElement) {
+  var nonce =  true ? __webpack_require__.nc : 0;
+
+  if (nonce) {
+    styleElement.setAttribute("nonce", nonce);
+  }
+}
+
+module.exports = setAttributesWithoutAttributes;
 
 /***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/styleDomAPI.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/styleDomAPI.js ***!
-  \***************************************************************/
+/* 8 */
 /***/ (function(module) {
 
-eval("\n\n/* istanbul ignore next  */\nfunction apply(styleElement, options, obj) {\n  var css = \"\";\n\n  if (obj.supports) {\n    css += \"@supports (\".concat(obj.supports, \") {\");\n  }\n\n  if (obj.media) {\n    css += \"@media \".concat(obj.media, \" {\");\n  }\n\n  var needLayer = typeof obj.layer !== \"undefined\";\n\n  if (needLayer) {\n    css += \"@layer\".concat(obj.layer.length > 0 ? \" \".concat(obj.layer) : \"\", \" {\");\n  }\n\n  css += obj.css;\n\n  if (needLayer) {\n    css += \"}\";\n  }\n\n  if (obj.media) {\n    css += \"}\";\n  }\n\n  if (obj.supports) {\n    css += \"}\";\n  }\n\n  var sourceMap = obj.sourceMap;\n\n  if (sourceMap && typeof btoa !== \"undefined\") {\n    css += \"\\n/*# sourceMappingURL=data:application/json;base64,\".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), \" */\");\n  } // For old IE\n\n  /* istanbul ignore if  */\n\n\n  options.styleTagTransform(css, styleElement, options.options);\n}\n\nfunction removeStyleElement(styleElement) {\n  // istanbul ignore if\n  if (styleElement.parentNode === null) {\n    return false;\n  }\n\n  styleElement.parentNode.removeChild(styleElement);\n}\n/* istanbul ignore next  */\n\n\nfunction domAPI(options) {\n  var styleElement = options.insertStyleElement(options);\n  return {\n    update: function update(obj) {\n      apply(styleElement, options, obj);\n    },\n    remove: function remove() {\n      removeStyleElement(styleElement);\n    }\n  };\n}\n\nmodule.exports = domAPI;\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/style-loader/dist/runtime/styleDomAPI.js?");
+
+
+/* istanbul ignore next  */
+function insertStyleElement(options) {
+  var element = document.createElement("style");
+  options.setAttributes(element, options.attributes);
+  options.insert(element, options.options);
+  return element;
+}
+
+module.exports = insertStyleElement;
 
 /***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/styleTagTransform.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/style-loader/dist/runtime/styleTagTransform.js ***!
-  \*********************************************************************/
+/* 9 */
 /***/ (function(module) {
 
-eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElement) {\n  if (styleElement.styleSheet) {\n    styleElement.styleSheet.cssText = css;\n  } else {\n    while (styleElement.firstChild) {\n      styleElement.removeChild(styleElement.firstChild);\n    }\n\n    styleElement.appendChild(document.createTextNode(css));\n  }\n}\n\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack://iedib-atto-snippets-dynamic/./node_modules/style-loader/dist/runtime/styleTagTransform.js?");
+
+
+/* istanbul ignore next  */
+function styleTagTransform(css, styleElement) {
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css;
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild);
+    }
+
+    styleElement.appendChild(document.createTextNode(css));
+  }
+}
+
+module.exports = styleTagTransform;
+
+/***/ }),
+/* 10 */,
+/* 11 */
+/***/ (function(module) {
+
+
+
+module.exports = function (i) {
+  return i[1];
+};
+
+/***/ }),
+/* 12 */
+/***/ (function(module) {
+
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+module.exports = function (cssWithMappingToString) {
+  var list = [];
+
+  // return the list of modules as css string
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = "";
+      var needLayer = typeof item[5] !== "undefined";
+      if (item[4]) {
+        content += "@supports (".concat(item[4], ") {");
+      }
+      if (item[2]) {
+        content += "@media ".concat(item[2], " {");
+      }
+      if (needLayer) {
+        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
+      }
+      content += cssWithMappingToString(item);
+      if (needLayer) {
+        content += "}";
+      }
+      if (item[2]) {
+        content += "}";
+      }
+      if (item[4]) {
+        content += "}";
+      }
+      return content;
+    }).join("");
+  };
+
+  // import a list of modules into the list
+  list.i = function i(modules, media, dedupe, supports, layer) {
+    if (typeof modules === "string") {
+      modules = [[null, modules, undefined]];
+    }
+    var alreadyImportedModules = {};
+    if (dedupe) {
+      for (var k = 0; k < this.length; k++) {
+        var id = this[k][0];
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+    for (var _k = 0; _k < modules.length; _k++) {
+      var item = [].concat(modules[_k]);
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        continue;
+      }
+      if (typeof layer !== "undefined") {
+        if (typeof item[5] === "undefined") {
+          item[5] = layer;
+        } else {
+          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
+          item[5] = layer;
+        }
+      }
+      if (media) {
+        if (!item[2]) {
+          item[2] = media;
+        } else {
+          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
+          item[2] = media;
+        }
+      }
+      if (supports) {
+        if (!item[4]) {
+          item[4] = "".concat(supports);
+        } else {
+          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
+          item[4] = supports;
+        }
+      }
+      list.push(item);
+    }
+  };
+  return list;
+};
+
+/***/ }),
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(18);
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ __webpack_exports__["default"] = (_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".sd-speak-enabled {\n    position: relative;\n    background: whitesmoke;\n    text-decoration: none;  \n  } \n  @keyframes speakicon_anim {\n    0% {\n      opacity: 0;\n      left: -10px;\n    }\n    100% {\n      opacity: 1;\n      left: -5px;\n    }\n  } \n  .sd-speak-enabled:hover:after {\n    content: \"\\f025\";\n    position: absolute;\n    left: -5px;\n    top: -16px;\n    background: white;\n    z-index:1000;\n    font-family: 'FontAwesome'; \n    font-size: 70%;\n    margin: 0px 5px;\n    font-weight: 700; \n    vertical-align:top; \n    animation: speakicon_anim 1s ease;\n  }", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BaseComponent": function() { return /* binding */ BaseComponent; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
+  _classCallCheck(this, BaseComponent);
+  this.parent = parent;
+});
+
+/***/ }),
+/* 23 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Component": function() { return /* binding */ Component; }
+/* harmony export */ });
+var componentMetaDefaults = {
+  name: "",
+  author: "",
+  version: "1.0",
+  use$: false
+};
+function Component(_meta) {
+  var meta = Object.assign({}, componentMetaDefaults, _meta);
+  if (!meta.query) {
+    meta.query = "[role=\"snptd_".concat(meta.name, "\"],[data-snptd=\"").concat(meta.name, "\"]");
+  }
+  return function (target) {
+    target.meta = meta;
+  };
+}
+
+/***/ }),
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ SpeakComponent; }
+/* harmony export */ });
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _navigatorPlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(29);
+/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(30);
+/* harmony import */ var _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(31);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var allVoices = null;
+function getNavigatorVoices() {
+  return new Promise(function (resolve, reject) {
+    if (allVoices != null) {
+      resolve(allVoices);
+      return;
+    }
+    // wait until the voices have been loaded asyncronously
+    window.speechSynthesis.addEventListener("voiceschanged", function () {
+      allVoices = window.speechSynthesis.getVoices();
+      resolve(allVoices);
+    });
+  });
+}
+var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Component)({
+  name: 'speak',
+  author: 'Josep Mulet Pol',
+  version: '2.5',
+  query: 'a[href^="#speak_"],[role="snptd_speak"],[data-snptd="speak"]',
+  use$: true //May require $ajax
+}), _dec(_class = /*#__PURE__*/function (_BaseComponent) {
+  _inherits(SpeakComponent, _BaseComponent);
+  var _super = _createSuper(SpeakComponent);
+  function SpeakComponent(parent) {
+    _classCallCheck(this, SpeakComponent);
+    return _super.call(this, parent);
+  }
+  _createClass(SpeakComponent, [{
+    key: "init",
+    value: function init() {
+      var _this = this;
+      var ds = this.parent.dataset;
+      if (ds.active === "1") {
+        return;
+      }
+      ds.active = "1";
+      if (ds.src) {
+        this.audioPlayer = new _urlPlayer__WEBPACK_IMPORTED_MODULE_4__["default"](this.parent);
+        return;
+      }
+      if (ds.wr === "1" || ds.wr === "true") {
+        //use wordreference
+        this.audioPlayer = new _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_5__["default"](this.parent);
+        return;
+      }
+      var synth = window.speechSynthesis;
+      var supported = synth != null && window.SpeechSynthesisUtterance != null;
+      this.audioPlayer = null;
+      if (supported) {
+        getNavigatorVoices().then(function (voices) {
+          _this.audioPlayer = new _navigatorPlayer__WEBPACK_IMPORTED_MODULE_3__["default"](_this.parent, voices);
+        }, function () {
+          //On error, rely on GTTS
+          _this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.parent);
+        });
+        //Stop voices on page change
+        window.addEventListener('unload', function (evt) {
+          window.speechSynthesis.cancel();
+        });
+      } else {
+        // If no navigator support, rely on GTTS
+        this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.parent);
+      }
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      if (this.parent.dataset.active !== "1") {
+        return;
+      }
+      this.parent.removeAttribute("data-active");
+      this.audioPlayer && this.audioPlayer.dispose();
+      this.audioPlayer = null;
+    }
+  }, {
+    key: "play",
+    value: function play() {
+      this.audioPlayer && this.audioPlayer.play();
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.audioPlayer && this.audioPlayer.pause();
+    }
+  }]);
+  return SpeakComponent;
+}(_base__WEBPACK_IMPORTED_MODULE_0__.BaseComponent)) || _class);
+
+
+/***/ }),
+/* 28 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ GTTSPlayer; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var MAX_GTTS_LEN = 1000;
+var GTTS_URL = "https://piworld.es/api/gtts/speak?t=";
+var GTTSPlayer = /*#__PURE__*/function () {
+  function GTTSPlayer(elem) {
+    var _this = this;
+    _classCallCheck(this, GTTSPlayer);
+    _defineProperty(this, "url", "");
+    this._elem = elem;
+    var idioma = elem.getAttribute("href") || elem.dataset.lang || "en_us";
+    idioma = idioma.replace("#speak_", "");
+    var sText = elem.innerText.trim();
+    if (sText.length > MAX_GTTS_LEN) {
+      console.log("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
+      elem.removeAttribute("href");
+      return;
+    }
+    //decide what to do with the title
+    if (elem.title == "-") {
+      //remove it
+      elem.removeAttribute("title");
+    } else if (!elem.title) {
+      elem.title = "gTTS Speak!";
+    }
+    this.url = GTTS_URL + encodeURIComponent(sText) + "&l=" + idioma;
+    this.audio = null;
+    this.handler = function (evt) {
+      evt.preventDefault(); // Evita que executi el link    
+      _this.play();
+    };
+    elem.addEventListener("click", this.handler);
+    if (!this.handler) {
+      this._elem.removeEventListener("click", this.handler);
+    }
+  }
+  _createClass(GTTSPlayer, [{
+    key: "play",
+    value: function play() {
+      if (!this.audio) {
+        this.audio = new Audio(this.url);
+      } else {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+      }
+      this.audio.src = this.url;
+      this.audio.play();
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      if (this.audio) {
+        this.audio.pause();
+      }
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      if (this.audio != null) {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audio.src = "";
+        this.audio = null;
+      }
+      if (this.handler) {
+        this._elem.removeEventListener("click", this.handler);
+        this.handler = null;
+      }
+    }
+  }]);
+  return GTTSPlayer;
+}();
+
+
+/***/ }),
+/* 29 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ NavigatorPlayer; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var findVoice = function findVoice(lang, voices) {
+  lang = (lang || "").toLowerCase();
+  var k = 0;
+  var voice = null;
+  var len = (voices || []).length;
+  while (k < len && voice == null) {
+    if (voices[k].lang.toLowerCase() == lang) {
+      voice = voices[k];
+    }
+    k++;
+  }
+  return voice;
+};
+var NavigatorPlayer = /*#__PURE__*/function () {
+  function NavigatorPlayer(elem, voices) {
+    var _this = this;
+    _classCallCheck(this, NavigatorPlayer);
+    this._elem = elem;
+    var idioma = (elem.getAttribute("href") || "_").split("_")[1];
+    //decide what to do with the title
+    if (elem.title == "-") {
+      //remove it
+      elem.removeAttribute("title");
+    } else if (!elem.title) {
+      elem.title = "Speak!";
+    }
+    var voice = findVoice(idioma, voices);
+    this.handler = null;
+    if (voice) {
+      //const idioma = (this._elem.getAttribute("href") || "_").split("_")[1];
+      this.utterance = new SpeechSynthesisUtterance(elem.innerText);
+      this.utterance.voice = voice;
+      elem.classList.add("sd-speak-enabled");
+      this.handler = function (evt) {
+        evt.preventDefault(); // Evita que executi el link    
+        _this.play();
+      };
+      elem.addEventListener("click", this.handler);
+    } else {
+      //Get rid of the a link since browser does not support this feature
+      elem.removeAttribute("href");
+    }
+  }
+  _createClass(NavigatorPlayer, [{
+    key: "play",
+    value: function play() {
+      // call abort pending...
+      window.speechSynthesis.cancel();
+      this.utterance && window.speechSynthesis.speak(this.utterance);
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      window.speechSynthesis.cancel();
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      this._elem.removeEventListener("click", this.handler);
+      this._elem.classList.remove("sd-speak-enabled");
+      this._elem.removeAttribute('data-active');
+      this._elem.removeAttribute('title');
+    }
+  }]);
+  return NavigatorPlayer;
+}();
+
+
+/***/ }),
+/* 30 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ UrlPlayer; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var UrlPlayer = /*#__PURE__*/function () {
+  function UrlPlayer(elem, src) {
+    _classCallCheck(this, UrlPlayer);
+    this.src = "";
+    if (elem != null) {
+      var ds = elem.dataset;
+      this.src = ds.src || "";
+    }
+    if (!this.src && src) {
+      this.src = src;
+    }
+    this.elem = elem;
+  }
+  _createClass(UrlPlayer, [{
+    key: "play",
+    value: function play() {
+      if (this.audioElement) {
+        this.audioElement.play();
+        return;
+      }
+      this.audioElement = new Audio(this.src);
+      this.audioElement.play();
+      if (!this.elem) {
+        this.bindHandler();
+      }
+    }
+  }, {
+    key: "bindHandler",
+    value: function bindHandler() {
+      var _this = this;
+      this.handler = function (evt) {
+        evt.preventDefault();
+        _this.play();
+      };
+      this.elem && this.elem.addEventListener("click", this.handler);
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.audioElement && this.audioElement.pause();
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      this.audioElement = null;
+      this.handler && this.elem && this.elem.removeEventListener("click", this.handler);
+    }
+  }]);
+  return UrlPlayer;
+}();
+
+
+/***/ }),
+/* 31 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ WordReferencePlayer; }
+/* harmony export */ });
+/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+var definition = {
+  'en': 'definition',
+  'ca': 'definicio',
+  'es': 'definicion'
+};
+var wordReferencePrefix = 'https://www.wordreference.com/';
+var variantNames = {
+  "us": "United States",
+  "uk": "United Kingdom",
+  "irish": "Irish",
+  "scot": "Scottish",
+  "jamaica": "Jamaica",
+  "es": "España",
+  "castellano": "España",
+  "ca": "Catalunya",
+  "mexico": "México",
+  "argentina": "Argentina"
+};
+function nameOfVariant(variant) {
+  return variantNames[variant] || variant;
+}
+function parseAudioFiles(extracted, lang) {
+  var map = {};
+  extracted.forEach(function (asource) {
+    //asource
+    /*[
+        "/audio/en/us/us/en005736.mp3",
+        "/audio/en/uk/general/en005736.mp3",
+        "/audio/en/uk/rp/en005736.mp3",
+        "/audio/en/uk/Yorkshire/en005736-55.mp3",
+        "/audio/en/Irish/en005736.mp3",
+        "/audio/en/scot/en005736.mp3",
+        "/audio/en/Jamaica/en005736.mp3"
+    ]*/
+    var parts = asource.split("/");
+    var variant = parts[parts.indexOf(lang) + 1].toLowerCase();
+    if (!map[variant]) {
+      map[variant] = {
+        name: nameOfVariant(variant),
+        url: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, asource)
+      };
+    }
+  });
+  return map;
+}
+var wr_define = function wr_define(from, word) {
+  // Make the request
+  return new Promise(function (resolve, reject) {
+    if (!(from in definition)) {
+      reject();
+      return;
+    }
+    var url2 = wordReferencePrefix + definition[from] + '/' + encodeURIComponent(word);
+    if (!definition[from]) {
+      reject();
+      return;
+    }
+    $.ajax({
+      method: 'GET',
+      dataType: 'html',
+      url: url2
+    }).done(function (data) {
+      var matches = data.match(/<script>var\s+audioFiles\s+=(.*?)\]/m);
+      if (matches && matches.length == 2) {
+        var found = matches[1].trim().replace(/'/g, '"');
+        if (found.endsWith(",")) {
+          found = found.substring(0, found.length - 1);
+        }
+        var audioList = JSON.parse(found + "]");
+        var audioMap = parseAudioFiles(audioList, from);
+        resolve(audioMap);
+        return;
+      }
+      reject("cannot find audioFiles in page");
+    }).fail(function (err) {
+      reject(err);
+    });
+  });
+};
+var WordReferencePlayer = /*#__PURE__*/function () {
+  function WordReferencePlayer(elem) {
+    _classCallCheck(this, WordReferencePlayer);
+    this.elem = elem;
+    this.init();
+  }
+  _createClass(WordReferencePlayer, [{
+    key: "init",
+    value: function init() {
+      var _this = this;
+      this.handler = function (evt) {
+        evt.preventDefault(); // Evita que executi el link  
+        if (_this.audioElement != null) {
+          _this.play();
+          return;
+        }
+        // Defer the search of sources until the first click
+        //TODO if no region specified show dropdown with variants
+        var lang = _this.elem.getAttribute("href") || _this.elem.dataset.lang || "en";
+        var region = "";
+        lang = lang.replace("#speak_", "");
+        if (lang.indexOf("-") > 0) {
+          var parts = lang.split("-");
+          lang = parts[0].toLowerCase().trim();
+          region = parts[1].toLowerCase().trim();
+        }
+        wr_define(lang, _this.elem.innerText).then(function (audioMap) {
+          console.log(audioMap);
+          var variants = Object.keys(audioMap);
+          if (variants.length > 0) {
+            //use the one that matches "region"
+            var theURL = audioMap[region];
+            if (!theURL) {
+              theURL = audioMap[variants[0]];
+            }
+            var url = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, theURL.url);
+            _this.audioElement = new _urlPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](undefined, url);
+            if (!region && variants.length > 1) {
+              // Add a dropdown to change variant
+              var id = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.genID)();
+              var $dropdown = $("\n<div class=\"dropdown\" style=\"display:inline-block;\">\n  <button class=\"btn btn-secondary btn-sm\" style=\"margin:2px;padding:4px;height:15px;\" type=\"button\" id=\"dmb_".concat(id, "\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n  <i class=\"fas fa fa-globe\" style=\"transform: translateY(-9px);font-size:90%;\"></i>\n  </button>\n  <div class=\"dropdown-menu\" aria-labelledby=\"dmb_").concat(id, "\"> \n  </div>\n</div>"));
+              var $menu = $dropdown.find(".dropdown-menu");
+              variants.forEach(function (variant) {
+                var varDef = audioMap[variant];
+                var $menuItem = $("<a class=\"dropdown-item\" href=\"#\">".concat(varDef.name, "</a>"));
+                $menuItem.on("click", function (evt) {
+                  evt.preventDefault();
+                  if (_this.audioElement) {
+                    _this.audioElement.src = varDef.url;
+                    _this.audioElement.play();
+                  }
+                });
+                $menu.append($menuItem);
+              });
+              $dropdown.insertAfter($(_this.elem));
+            }
+          } else {
+            // Fallback on google
+            _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__["default"](_this.elem);
+          }
+          _this.audioElement.play();
+        }, function (err) {
+          // Fallback on google
+          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__["default"](_this.elem);
+          _this.audioElement.play();
+        });
+      };
+      this.elem.addEventListener("click", this.handler);
+      this.elem.title = "wordReference";
+    }
+  }, {
+    key: "play",
+    value: function play() {
+      this.audioElement && this.audioElement.play();
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.audioElement && this.audioElement.pause();
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      this.pause();
+      if (this.handler) {
+        this.elem.removeEventListener("click", this.handler);
+        this.handler = null;
+      }
+    }
+  }]);
+  return WordReferencePlayer;
+}();
+/*
+const wr_translate = function (from: string, to: string, word: string): Promise<string[]> {
+    const url2 = 'https://www.wordreference.com/' + from + to + '/' + encodeURIComponent(word);
+    console.log(url2);
+    // Make the request
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            method: 'GET',
+            dataType: 'html',
+            url: url2
+        }).done(function (data) {
+            console.log("Processing ", data);
+            let audioList = []
+            const matches = data.match(/<script>const audioFiles =(.*?)\]/m);
+            console.log("matches audioFiles ", matches);
+            if (matches && matches.length == 2) {
+                const found = matches[1].trim().replace(/'/g, '"');
+                if (found.endsWith(",")) {
+                    found = found.substring(0, found.length - 1);
+                }
+                audioList = JSON.parse(found + "]")
+                console.log(audioList);
+                resolve(audioList);
+                return;
+            }
+            /*
+            matches = data.match(/<div\s+class='entry'>((.|\n)*?)<\/div>/m);
+            console.log("matches entry ", matches);
+            if (matches && matches.length > 0) {
+                const text = $(matches[0]).text();
+                console.log(text);
+            }
+
+            console.log(data.indexOf("<table class='WRD'"));
+            const reg = /<table\s+class='WRD'((.|\n)*?)<\/table>/gi;
+            matches = data.match(reg);
+            console.log("matches table ", matches);
+            if (matches && matches.length > 0) {
+                const text = $(matches[0]).text();
+                console.log(text);
+            }
+             
+           reject();
+        }).fail(function (err) {
+            reject();
+        });
+    });
+};
+*/
+
 
 /***/ })
-
-/******/ 	});
+/******/ 	]);
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
@@ -263,11 +1492,17 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 /******/ 	}();
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./ts/speak/speak.ts");
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _speak_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _speakComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(27);
+
+
+
+_loader__WEBPACK_IMPORTED_MODULE_0__["default"].bootstrap([_speakComponent__WEBPACK_IMPORTED_MODULE_2__["default"]]);
+}();
 /******/ })()
 ;

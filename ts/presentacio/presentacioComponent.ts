@@ -1,4 +1,5 @@
 import { BaseComponent } from "../base";
+import { Component } from "../decorators";
 import { convertInt } from "../utils";
 
 // DEFAULT CONSTANTS 
@@ -15,14 +16,13 @@ function createButton(classNames: string, classFawesome: string): HTMLButtonElem
     return botonet1;
 }
 
+@Component({
+    name: 'presentacio',
+    author: 'Tomeu Fiol, Josep Mulet',
+    version: '2.1' 
+})
 export default class PresentacioComponent extends BaseComponent {
 
-    static meta: ComponentMeta = {
-        name: 'presentacio',
-        author: 'Tomeu Fiol, Josep Mulet',
-        version: '2.0',
-        use$: false
-    };
     private loop = false;
     private button_container: HTMLDivElement | undefined;
     private diapositives: NodeListOf<HTMLElement> | undefined;

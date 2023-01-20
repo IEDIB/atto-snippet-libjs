@@ -1,4 +1,5 @@
 import { BaseComponent } from "../base";
+import { Component } from "../decorators";
 import { convertInt } from "../utils";
 
 const leftArrow = '<span>&#10094;</span>';
@@ -38,17 +39,14 @@ function constructGallery(): HTMLImageElement[] {
 }
 
 
-
+@Component({
+    name: 'lightbox',
+    author: 'Josep Mulet Pol',
+    version: '2.3',
+    query: 'body',  // Define as singleton instance
+    use$: true
+})
 export default class LightboxComponent extends BaseComponent {
-
-    static meta: ComponentMeta = {
-        name: 'lightbox',
-        author: 'Josep Mulet Pol',
-        version: '2.3',
-        query: 'body',  // Define as singleton instance
-        use$: true
-    };
-
     private currentIndex = 0;
     private $gallery: HTMLImageElement[] = [];
     private $modal: JQuery<HTMLElement> | undefined;

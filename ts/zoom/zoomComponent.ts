@@ -1,18 +1,17 @@
 import { BaseComponent } from "../base";   
+import { Component } from "../decorators";
 import { convertInt } from "../utils";
 import wheelzoom from "./wheelzoom";
 
 const INIT_DELAY = 600; 
 
+@Component({
+    name: 'zoom',
+    author: 'Josep Mulet Pol',
+    version: '2.0'
+})
 export default class ZoomComponent extends BaseComponent {
    
-    static meta: ComponentMeta  = {
-        name: 'zoom',
-        author: 'Josep Mulet Pol',
-        version: '2.0',
-        use$: false,
-        query: '[role="snptd_zoom"], [data-snptd="zoom"]'
-    }; 
     private allImgs: HTMLImageElement[];
 
     constructor(parent: HTMLElement) {

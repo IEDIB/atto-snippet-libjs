@@ -1,15 +1,16 @@
 import { BaseComponent } from "../base"; 
+import { Component } from "../decorators";
 
 let plugins_initialized = false;
 
-export default class NarracioComponent extends BaseComponent {
-    static meta: ComponentMeta = {
+@Component({
         name: 'narracio',
         author: 'Josep Mulet Pol',
         version: '1.4', 
         use$: true
-    }; 
-
+})
+export default class NarracioComponent extends BaseComponent {
+    
     constructor(parent: HTMLElement) {
         super(parent);
     }

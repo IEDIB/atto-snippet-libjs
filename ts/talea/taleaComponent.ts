@@ -1,4 +1,5 @@
 import { BaseComponent } from "../base";   
+import { Component } from "../decorators";
 import { convertInt, getPageInfo, pran } from "../utils";
 import SmartTabMenu from "./smartTabMenu";
 
@@ -9,13 +10,13 @@ import SmartTabMenu from "./smartTabMenu";
  * Cal que els menús estiguin dins un contenidor div amb
  * role="snptd_talea"
  */
+@Component({
+    name: 'talea',
+    author: 'Josep Mulet Pol',
+    version: '2.1',
+    use$: true
+})
 export default class TaleaComponent extends BaseComponent {
-    static meta: ComponentMeta  = {
-        name: 'talea',
-        author: 'Josep Mulet Pol',
-        version: '2.0',
-        use$: true
-    };
     private pi: PageInfo;
     private seed = 1;
     private workingMode = "urandom";
