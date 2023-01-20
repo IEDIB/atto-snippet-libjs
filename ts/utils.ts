@@ -181,3 +181,35 @@ export function addBaseToUrl(base: string, url: string): string {
 export function genID(): string {
     return "i" + Math.random().toString(32).substring(2);
 }
+
+export function createElement(nodeType: string, opts: {[key:string]:string}): HTMLElement {
+    const elem = document.createElement(nodeType);
+    Object.keys(opts).forEach(optName => {
+        const value = opts[optName];
+        if(optName === "class") {
+            value.trim().split(/\s+/).forEach((cName)=> {
+                elem.classList.add(cName)
+            });
+        } else if(optName === "html") {
+            elem.innerHTML = value;
+        } else {
+            elem.setAttribute(optName, value);
+        }
+    });
+    return elem;
+}
+
+export function shuffleArray(array: any[], index: number): number {
+    TODO CHECK SHUFFLE
+    let out = 0;
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        if(i===index) {
+            out = j;
+        }
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return out;
+}

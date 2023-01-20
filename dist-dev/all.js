@@ -137,12 +137,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addBaseToUrl": function() { return /* binding */ addBaseToUrl; },
 /* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
+/* harmony export */   "createElement": function() { return /* binding */ createElement; },
 /* harmony export */   "genID": function() { return /* binding */ genID; },
 /* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
 /* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
 /* harmony export */   "pathJoin": function() { return /* binding */ pathJoin; },
 /* harmony export */   "pran": function() { return /* binding */ pran; },
 /* harmony export */   "querySelectorProp": function() { return /* binding */ querySelectorProp; },
+/* harmony export */   "shuffleArray": function() { return /* binding */ shuffleArray; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
 function parseUrlParams(url) {
@@ -313,6 +315,35 @@ function addBaseToUrl(base, url) {
 }
 function genID() {
   return "i" + Math.random().toString(32).substring(2);
+}
+function createElement(nodeType, opts) {
+  var elem = document.createElement(nodeType);
+  Object.keys(opts).forEach(function (optName) {
+    var value = opts[optName];
+    if (optName === "class") {
+      value.trim().split(/\s+/).forEach(function (cName) {
+        elem.classList.add(cName);
+      });
+    } else if (optName === "html") {
+      elem.innerHTML = value;
+    } else {
+      elem.setAttribute(optName, value);
+    }
+  });
+  return elem;
+}
+function shuffleArray(array, index) {
+  var out = 0;
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    if (i === index) {
+      out = j;
+    }
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return out;
 }
 
 /***/ }),
@@ -1290,8 +1321,15 @@ var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Component": function() { return /* binding */ Component; }
+/* harmony export */   "Component": function() { return /* binding */ Component; },
+/* harmony export */   "ComponentHTML": function() { return /* binding */ ComponentHTML; }
 /* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 var componentMetaDefaults = {
   name: "",
   author: "",
@@ -1305,6 +1343,29 @@ function Component(_meta) {
   }
   return function (target) {
     target.meta = meta;
+  };
+}
+// Decorator
+function ComponentHTML(componentOptions) {
+  return function (target) {
+    var originalMethod = target.prototype.connectedCallback;
+    var elementName = componentOptions.elementName,
+      classes = componentOptions.classes,
+      styles = componentOptions.styles;
+
+    // function() rather than () => is important because of the scoping of 'this'
+    target.prototype.connectedCallback = function () {
+      if (classes) {
+        var _this$classList;
+        (_this$classList = this.classList).add.apply(_this$classList, _toConsumableArray(classes));
+      }
+      if (styles) {
+        Object.assign(this.style, styles);
+      }
+      originalMethod && originalMethod.apply(this);
+    };
+    console.log("Calling customElements define for ", elementName, target);
+    customElements.define(elementName, target);
   };
 }
 

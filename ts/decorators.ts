@@ -14,3 +14,30 @@ export function Component(_meta: ComponentMeta) {
         target.meta = meta;
     }
 }
+
+export interface ComponentHTMLOptions {
+    elementName: string,
+    classes?: string[],
+    styles?: {[key:string]:string} 
+}
+
+// Decorator
+export function ComponentHTML(componentOptions: ComponentHTMLOptions) {
+    return function (target: any) {
+        const originalMethod = target.prototype.connectedCallback;
+        const {elementName, classes, styles} = componentOptions;
+    
+        // function() rather than () => is important because of the scoping of 'this'
+        target.prototype.connectedCallback = function () {
+            if (classes) {
+                this.classList.add(...classes)
+            }
+            if (styles) {
+                Object.assign(this.style, styles);
+            }
+            originalMethod && originalMethod.apply(this);
+        };
+        console.log("Calling customElements define for ", elementName, target);
+        customElements.define(elementName, target);
+    }
+}

@@ -1,0 +1,20 @@
+.ib-quizz-ok {
+    margin-left: 8px;
+    border-radius:50%;
+    background-color: lightgreen;
+    color: white;
+    width: 23px;
+    display: inline-block;
+    height: 23px;
+    text-align: center;
+}
+.ib-quizz-wrong {
+    margin-left: 8px;
+    border-radius:50%;
+    background-color: lightcoral;
+    color: white;
+    width: 23px;
+    display: inline-block;
+    height: 23px;
+    text-align: center;
+}
