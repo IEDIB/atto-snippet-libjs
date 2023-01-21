@@ -34,7 +34,14 @@ class IBQuizzDropdown extends WidgetElement {
       }
     } 
     enable(state: boolean): void {
-        this.button?.setAttribute("disabled", !state+"");
+        if(!this.button) {
+            return;
+        }
+        if(state) {
+            this.button.disabled = false;
+        } else {
+            this.button.disabled = true;
+        } 
     }
     getUserInput(): string {
         return this.userAns+"";
@@ -45,7 +52,8 @@ class IBQuizzDropdown extends WidgetElement {
     }
     check(): boolean {
         const result = this.widgetConfig?.ans === this.userAns+"";
-        this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);        
+        this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);  
+        this.enable(!result);      
         return result;
     }
     setLang(lang: string): void { 
@@ -104,7 +112,7 @@ class IBQuizzDropdown extends WidgetElement {
 
         super.init(this.widgetConfig.pre); 
         this.append(this.dropdown);
-        this.append(this.statusDisplay);
+        this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {

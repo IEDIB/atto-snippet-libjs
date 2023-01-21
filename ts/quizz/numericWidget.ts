@@ -28,7 +28,14 @@ class IBQuizzNumeric extends WidgetElement {
         });
     }
     enable(state: boolean): void {
-        this.input.setAttribute("disabled", !state + "");
+        if(!this.input) {
+            return;
+        }
+        if(state) {
+            this.input.disabled = false;
+        } else {
+            this.input.disabled = true;
+        }   
     }
     getUserInput(): string {
         return this.input.value;
@@ -71,6 +78,7 @@ class IBQuizzNumeric extends WidgetElement {
         } 
         this.setStatus(result ? WidgetStatus.RIGHT : WidgetStatus.WRONG);
         console.log("Numeric, ", this.getUserInput(), result);
+        this.enable(!result);
         return result;
     }
     connectedCallback() {
@@ -88,7 +96,7 @@ class IBQuizzNumeric extends WidgetElement {
         }
         super.init(this.widgetConfig.pre); 
         this.append(this.input);
-        this.append(this.statusDisplay);
+        this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {

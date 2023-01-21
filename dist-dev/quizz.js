@@ -1114,8 +1114,14 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
   _createClass(IBQuizzDropdown, [{
     key: "enable",
     value: function enable(state) {
-      var _this$button;
-      (_this$button = this.button) === null || _this$button === void 0 ? void 0 : _this$button.setAttribute("disabled", !state + "");
+      if (!this.button) {
+        return;
+      }
+      if (state) {
+        this.button.disabled = false;
+      } else {
+        this.button.disabled = true;
+      }
     }
   }, {
     key: "getUserInput",
@@ -1133,6 +1139,7 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
       var _this$widgetConfig;
       var result = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) === this.userAns + "";
       this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_3__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_3__.WidgetStatus.WRONG);
+      this.enable(!result);
       return result;
     }
   }, {
@@ -1196,7 +1203,7 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
       this.dropdown.append(this.options);
       _get(_getPrototypeOf(IBQuizzDropdown.prototype), "init", this).call(this, this.widgetConfig.pre);
       this.append(this.dropdown);
-      this.append(this.statusDisplay);
+      this.append(this.statusDisplay.getElement());
       this.reflowLatex();
     }
   }, {
@@ -1227,16 +1234,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
-function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
@@ -1251,51 +1248,48 @@ var WidgetStatus;
 var ICON_RIGHT = "fa fas fa-check";
 var ICON_WRONG = "fa fas fa-times";
 var ICON_ERROR = "fa fas fa-exclamation";
-var StatusDisplay = /*#__PURE__*/function (_HTMLSpanElement) {
-  _inherits(StatusDisplay, _HTMLSpanElement);
-  var _super = _createSuper(StatusDisplay);
+var StatusDisplay = /*#__PURE__*/function () {
   function StatusDisplay() {
-    var _this;
     _classCallCheck(this, StatusDisplay);
-    _this = _super.call(this);
-    _defineProperty(_assertThisInitialized(_this), "status", WidgetStatus.UNSET);
-    _this.setAttribute("data-toggle", "tooltip");
-    return _this;
+    _defineProperty(this, "status", WidgetStatus.UNSET);
+    _defineProperty(this, "lang", "ca");
+    this.span = document.createElement("span");
+    this.span.setAttribute("data-toggle", "tooltip");
   }
   _createClass(StatusDisplay, [{
     key: "setStatus",
     value: function setStatus(status, msg) {
       this.status = status;
-      var cl = this.classList;
+      var cl = this.span.classList;
       var msg2 = msg;
       switch (status) {
         case WidgetStatus.UNSET:
           cl.remove("ib-quizz-right", "ib-quizz-wrong", "ib-quizz-error");
-          this.innerHTML = "";
+          this.span.innerHTML = "";
           break;
         case WidgetStatus.RIGHT:
           cl.add("ib-quizz-right");
           if (!msg2) {
             msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])(this.lang, 'right');
           }
-          this.innerHTML = "<i class=\"".concat(ICON_RIGHT, "\"></i>");
+          this.span.innerHTML = "<i class=\"".concat(ICON_RIGHT, "\"></i>");
           break;
         case WidgetStatus.WRONG:
           cl.add("ib-quizz-wrong");
           if (!msg2) {
             msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])(this.lang, 'wrong');
           }
-          this.innerHTML = "<i class=\"".concat(ICON_WRONG, "\"></i>");
+          this.span.innerHTML = "<i class=\"".concat(ICON_WRONG, "\"></i>");
           break;
         default:
           cl.add("ib-quizz-error");
           if (!msg2) {
             msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])(this.lang, 'error');
           }
-          this.innerHTML = "<i class=\"".concat(ICON_ERROR, "\"></i>");
+          this.span.innerHTML = "<i class=\"".concat(ICON_ERROR, "\"></i>");
           break;
       }
-      msg2 && this.setAttribute("title", msg2);
+      msg2 && this.span.setAttribute("title", msg2);
     }
   }, {
     key: "getStatus",
@@ -1307,9 +1301,14 @@ var StatusDisplay = /*#__PURE__*/function (_HTMLSpanElement) {
     value: function setLang(lang) {
       this.lang = lang;
     }
+  }, {
+    key: "getElement",
+    value: function getElement() {
+      return this.span;
+    }
   }]);
   return StatusDisplay;
-}( /*#__PURE__*/_wrapNativeSuper(HTMLSpanElement));
+}();
 
 /***/ }),
 /* 48 */
@@ -1431,7 +1430,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
   elementName: "ib-quizz-mchoice",
-  classes: ["iedib-quizz-widget"]
+  classes: ["iedib-quizz-widget"],
+  styles: {
+    display: "flex",
+    "align-items": "center"
+  }
 }), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
   _inherits(IBQuizzMchoice, _WidgetElement);
   var _super = _createSuper(IBQuizzMchoice);
@@ -1443,6 +1446,7 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     _defineProperty(_assertThisInitialized(_this), "userAns", -1);
     console.log("Calling IBQuizzMchoice constructor");
     _this.form = document.createElement("form");
+    _this.form.style.setProperty("display", "inline-block");
     // Make sure that has data-src field
     var src = _this.dataset.src || "";
     try {
@@ -1458,7 +1462,15 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     value: function enable(state) {
       var _this$radios;
       (_this$radios = this.radios) === null || _this$radios === void 0 ? void 0 : _this$radios.forEach(function (radio) {
-        radio.setAttribute("disabled", !state + "");
+        if (state) {
+          var _radio$parentElement;
+          radio.disabled = false;
+          (_radio$parentElement = radio.parentElement) === null || _radio$parentElement === void 0 ? void 0 : _radio$parentElement.classList.remove("disabled");
+        } else {
+          var _radio$parentElement2;
+          radio.disabled = true;
+          (_radio$parentElement2 = radio.parentElement) === null || _radio$parentElement2 === void 0 ? void 0 : _radio$parentElement2.classList.add("disabled");
+        }
       });
     }
   }, {
@@ -1477,6 +1489,7 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       var _this$widgetConfig;
       var result = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) === this.userAns + "";
       this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.WRONG);
+      this.enable(!result);
       return result;
     }
   }, {
@@ -1528,6 +1541,7 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       });
       _get(_getPrototypeOf(IBQuizzMchoice.prototype), "init", this).call(this, this.widgetConfig.pre);
       this.append(this.form);
+      this.append(this.statusDisplay.getElement());
       this.reflowLatex();
     }
   }, {
@@ -1602,7 +1616,14 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   _createClass(IBQuizzNumeric, [{
     key: "enable",
     value: function enable(state) {
-      this.input.setAttribute("disabled", !state + "");
+      if (!this.input) {
+        return;
+      }
+      if (state) {
+        this.input.disabled = false;
+      } else {
+        this.input.disabled = true;
+      }
     }
   }, {
     key: "getUserInput",
@@ -1654,6 +1675,7 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       }
       this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.WRONG);
       console.log("Numeric, ", this.getUserInput(), result);
+      this.enable(!result);
       return result;
     }
   }, {
@@ -1673,7 +1695,7 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       }
       _get(_getPrototypeOf(IBQuizzNumeric.prototype), "init", this).call(this, this.widgetConfig.pre);
       this.append(this.input);
-      this.append(this.statusDisplay);
+      this.append(this.statusDisplay.getElement());
       this.reflowLatex();
     }
   }, {

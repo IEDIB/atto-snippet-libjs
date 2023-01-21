@@ -8,47 +8,49 @@ const ICON_RIGHT = "fa fas fa-check";
 const ICON_WRONG = "fa fas fa-times";
 const ICON_ERROR = "fa fas fa-exclamation";
 
-export class StatusDisplay extends HTMLSpanElement {
+export class StatusDisplay {
     private status: WidgetStatus = WidgetStatus.UNSET;
+    private span: HTMLSpanElement;
+    private lang = "ca";
 
-    constructor() {
-        super();
-        this.setAttribute("data-toggle", "tooltip");
+    constructor() { 
+        this.span = document.createElement("span");
+        this.span.setAttribute("data-toggle", "tooltip");
     }
 
     setStatus(status: WidgetStatus, msg?: string | undefined) {
         this.status = status;
-        const cl = this.classList;
+        const cl = this.span.classList;
         let msg2 = msg; 
         switch(status) {
             case(WidgetStatus.UNSET):
                 cl.remove("ib-quizz-right", "ib-quizz-wrong", "ib-quizz-error");
-                this.innerHTML="";
+                this.span.innerHTML="";
                 break;
             case(WidgetStatus.RIGHT):
                 cl.add("ib-quizz-right");
                 if(!msg2) {
                     msg2 = getI18n(this.lang, 'right');
                 }
-                this.innerHTML=`<i class="${ICON_RIGHT}"></i>`;
+                this.span.innerHTML=`<i class="${ICON_RIGHT}"></i>`;
                 break;
             case(WidgetStatus.WRONG): 
                 cl.add("ib-quizz-wrong");          
                 if(!msg2) {
                     msg2 = getI18n(this.lang, 'wrong');
                 }
-                this.innerHTML=`<i class="${ICON_WRONG}"></i>`;  
+                this.span.innerHTML=`<i class="${ICON_WRONG}"></i>`;  
                 break;
             default:
                 cl.add("ib-quizz-error");          
                 if(!msg2) {
                     msg2 = getI18n(this.lang, 'error');
                 }
-                this.innerHTML=`<i class="${ICON_ERROR}"></i>`;  
+                this.span.innerHTML=`<i class="${ICON_ERROR}"></i>`;  
                 break;
         } 
         
-        msg2 && this.setAttribute("title", msg2);
+        msg2 && this.span.setAttribute("title", msg2);
     }   
 
     getStatus(): WidgetStatus {
@@ -57,6 +59,10 @@ export class StatusDisplay extends HTMLSpanElement {
 
     setLang(lang: string): void {
         this.lang = lang;
+    }
+
+    getElement(): HTMLSpanElement {
+        return this.span;
     }
 
 }

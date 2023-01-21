@@ -6,18 +6,20 @@ import { WidgetElement } from "./widgetElement";
 
 @ComponentHTML({
     elementName: "ib-quizz-mchoice",
-    classes: ["iedib-quizz-widget"] 
+    classes: ["iedib-quizz-widget"],
+    styles: {display: "flex", "align-items": "center"}
 })
 class IBQuizzMchoice extends WidgetElement { 
     private radios: HTMLInputElement[] = [];
     private widgetConfig: WidgetConfig | undefined;
     private userAns = -1; 
-    form: HTMLFormElement;
+    form: HTMLElement;
 
     constructor() {
       super();
       console.log("Calling IBQuizzMchoice constructor");
-      this.form = document.createElement("form") as HTMLFormElement;  
+      this.form = document.createElement("form"); 
+      this.form.style.setProperty("display", "inline-block");
       // Make sure that has data-src field
       let src = this.dataset.src || "";
       try {
@@ -29,19 +31,25 @@ class IBQuizzMchoice extends WidgetElement {
     } 
     enable(state: boolean): void {
         this.radios?.forEach((radio) => {
-            radio.setAttribute("disabled", !state+"");
+            if(state) {
+                radio.disabled=false;
+                radio.parentElement?.classList.remove("disabled");
+            } else {
+                radio.disabled = true;
+                radio.parentElement?.classList.add("disabled");
+            }
         });
     }
     getUserInput(): string {
         return this.userAns+"";
     }
-    displayRightAnswer(): void {
-        
+    displayRightAnswer(): void { 
         this.enable(false);
     }
     check(): boolean {
         const result = this.widgetConfig?.ans === this.userAns+"";
-        this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);        
+        this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);   
+        this.enable(!result);     
         return result;
     } 
     connectedCallback(){
@@ -90,6 +98,7 @@ class IBQuizzMchoice extends WidgetElement {
         });   
         super.init(this.widgetConfig.pre); 
         this.append(this.form);
+        this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
