@@ -34,3 +34,7 @@ declare interface VoicePlayer {
     pause(): void,
     dispose(): void
 }
+
+interface Window {
+    MathJax: any
+}

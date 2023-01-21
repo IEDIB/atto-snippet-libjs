@@ -2,14 +2,15 @@ import { ComponentHTML } from "../decorators";
 import { createElement, shuffleArray } from "../utils";
 import getI18n from "./i18n";
 import { WidgetConfig } from "./quizzTypes";
-import { WidgetElement, WidgetStatus } from "./widgetElement"; 
+import { WidgetStatus } from "./statusDisplay";
+import { WidgetElement } from "./widgetElement"; 
 
 @ComponentHTML({
-    elementName: "ib-quizz-mchoice",
+    elementName: "ib-quizz-dropdown",
     classes: ["iedib-quizz-widget"],
     styles: {"display": "inline-block"}
 })
-class IBQuizzMchoice extends WidgetElement {
+class IBQuizzDropdown extends WidgetElement {
     private options: HTMLDivElement | undefined;
     private widgetConfig: WidgetConfig | undefined;
     private userAns = -1;
@@ -18,7 +19,7 @@ class IBQuizzMchoice extends WidgetElement {
 
     constructor() {
       super();
-      console.log("Calling IBQuizzMChoice constructor");
+      console.log("Calling IBQuizzDropdown constructor");
       this.dropdown = createElement("div", {
         class: "dropdown",
         style: "display:inline-block;"
@@ -100,8 +101,11 @@ class IBQuizzMchoice extends WidgetElement {
         });
         this.dropdown.append(this.button);
         this.dropdown.append(this.options);   
-        this.setWidget(this.dropdown, this.widgetConfig.pre);
-        super.init();
+
+        super.init(this.widgetConfig.pre); 
+        this.append(this.dropdown);
+        this.append(this.statusDisplay);
+        this.reflowLatex();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
         console.log('The ', name, ' has changed to', newValue); 

@@ -6,6 +6,7 @@ import getI18n from "./i18n";
 
 //Manually import the customElements that should be loaded
 import "./dropdownWidget"; 
+import "./mchoiceWidget"; 
 import "./numericWidget"; 
 import { createElement } from "../utils";
 
@@ -29,7 +30,7 @@ export default class QuizzComponent extends BaseComponent {
         this.lang = parent.getAttribute("data-lang") || "ca";
         this.allQuizzElements = this.parent.querySelectorAll(SEARCH_QUERY) as NodeListOf<WidgetElement>;
         this.checkButton = createElement("button", {
-            class: "btn btn-primary",
+            class: "btn btn-primary d-print-none",
             html: '<i class="fa fas fa-check"></i> '+getI18n(this.lang, 'check')
         }) as HTMLButtonElement;
         

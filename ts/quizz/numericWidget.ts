@@ -1,7 +1,8 @@
 import { ComponentHTML } from "../decorators";
 import { createElement } from "../utils";
 import { WidgetConfig } from "./quizzTypes";
-import { WidgetElement, WidgetStatus } from "./widgetElement";
+import { WidgetStatus } from "./statusDisplay";
+import { WidgetElement } from "./widgetElement";
 
 @ComponentHTML({
     elementName: "ib-quizz-numeric",
@@ -85,8 +86,10 @@ class IBQuizzNumeric extends WidgetElement {
         if (!this.widgetConfig) {
             return;
         }
-        this.setWidget(this.input, this.widgetConfig.pre);
-        super.init();
+        super.init(this.widgetConfig.pre); 
+        this.append(this.input);
+        this.append(this.statusDisplay);
+        this.reflowLatex();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
         console.log('The ', name, ' has changed to', newValue);
