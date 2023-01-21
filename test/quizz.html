@@ -15,12 +15,12 @@
 <body>
 
 
- <div class="iedib-quizz-group">
+ <div class="iedib-quizz-group" data-lang="en">
   <p>sdflsdkfmsdflkms</p>
   <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd
   <ib-quizz-mchoice data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19"></ib-quizz-mchoice>
 <br>
-  1+1=<ib-quizz-numeric data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19"></ib-quizz-numeric>
+  1+1=<ib-quizz-numeric data-src="eyJhbnMiOiIyLjM1NiIsICJvcHRzIjogeyJlcnIiOiA1LCAiZXJydW5pdCI6IiUifSwgInByZSI6Ij0iLCAiZmJrIjoiUmVjb3JkYSBxdWUgY2FsIGVtcHJhciB0b3RzIGVscyBkZWNpbWFscyJ9"></ib-quizz-numeric>
 </p>
   <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd</p>
  </div>
@@ -38,5 +38,10 @@
 
 
 <script src="./dist-dev/quizz.js"></script>
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 </body>
 </html>

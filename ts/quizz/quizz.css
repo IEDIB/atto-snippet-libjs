@@ -1,7 +1,7 @@
-.ib-quizz-ok {
+.ib-quizz-right {
     margin-left: 8px;
     border-radius:50%;
-    background-color: lightgreen;
+    background-color: rgb(67, 140, 67);
     color: white;
     width: 23px;
     display: inline-block;
@@ -11,7 +11,17 @@
 .ib-quizz-wrong {
     margin-left: 8px;
     border-radius:50%;
-    background-color: lightcoral;
+    background-color: rgb(164, 60, 60);
+    color: white;
+    width: 23px;
+    display: inline-block;
+    height: 23px;
+    text-align: center;
+}
+.ib-quizz-error {
+    margin-left: 8px;
+    border-radius:50%;
+    background-color: rgb(114, 57, 90);
     color: white;
     width: 23px;
     display: inline-block;

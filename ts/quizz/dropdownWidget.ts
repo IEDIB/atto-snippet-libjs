@@ -1,7 +1,8 @@
 import { ComponentHTML } from "../decorators";
 import { createElement, shuffleArray } from "../utils";
+import getI18n from "./i18n";
 import { WidgetConfig } from "./quizzTypes";
-import { WidgetElement } from "./widgetElement"; 
+import { WidgetElement, WidgetStatus } from "./widgetElement"; 
 
 @ComponentHTML({
     elementName: "ib-quizz-mchoice",
@@ -43,8 +44,14 @@ class IBQuizzMchoice extends WidgetElement {
     }
     check(): boolean {
         const result = this.widgetConfig?.ans === this.userAns+"";
-        this.setStatus(result?WidgetElement.RIGHT:WidgetElement.WRONG);        
+        this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);        
         return result;
+    }
+    setLang(lang: string): void { 
+        super.setLang(lang);
+        if(this.button) {
+            this.button.innerHTML = getI18n(lang, "chooseone");
+        }        
     }
     connectedCallback(){
         console.log("connectedCallback ", this.widgetConfig);
@@ -57,7 +64,7 @@ class IBQuizzMchoice extends WidgetElement {
             "data-toggle": "dropdown",
             "aria-haspopup": "true",
             "aria-expanded": "false",
-            "html": "Tria una opció"
+            "html": getI18n(this.lang, "chooseone")
         }) as HTMLButtonElement;
         
         this.options = createElement("div", {
@@ -87,13 +94,13 @@ class IBQuizzMchoice extends WidgetElement {
                 this.userAns = index;
                 evt.preventDefault();
                 this.button && (this.button.innerHTML = opt);
-                this.setStatus(WidgetElement.UNSET);
+                this.setStatus(WidgetStatus.UNSET);
             });
             this.options?.append(anchor);
         });
         this.dropdown.append(this.button);
         this.dropdown.append(this.options);   
-        this.setWidget(this.dropdown);
+        this.setWidget(this.dropdown, this.widgetConfig.pre);
         super.init();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {

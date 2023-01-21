@@ -1,7 +1,7 @@
 import { ComponentHTML } from "../decorators";
 import { createElement } from "../utils";
 import { WidgetConfig } from "./quizzTypes";
-import { WidgetElement } from "./widgetElement";
+import { WidgetElement, WidgetStatus } from "./widgetElement";
 
 @ComponentHTML({
     elementName: "ib-quizz-numeric",
@@ -23,7 +23,7 @@ class IBQuizzNumeric extends WidgetElement {
             style: "display:inline-block;width:100px;"
         }) as HTMLInputElement;
         this.input.addEventListener("change", (evt) => {
-            this.setStatus(WidgetElement.UNSET);
+            this.setStatus(WidgetStatus.UNSET);
         });
     }
     enable(state: boolean): void {
@@ -43,18 +43,32 @@ class IBQuizzNumeric extends WidgetElement {
             const userFloat = parseFloat(this.getUserInput());
             const ansFloat = parseFloat(this.widgetConfig?.ans || "0");
             if(!isNaN(userFloat) && !isNaN(ansFloat)) {
-                const tolerance = this.widgetConfig?.opts?.tolerance || 0;
-                result = Math.abs(userFloat-ansFloat) <= tolerance;
+                let tolerance: number = this.widgetConfig?.opts?.err || 0;
+                let units = this.widgetConfig?.opts?.errunit || 'absolute';
+                if(units==='%') {
+                    tolerance = 0.01*tolerance;
+                }
+                if(ansFloat===0) {
+                    units = 'absolute';
+                }
+                switch(units) {
+                    case('absolute'):
+                        result = Math.abs(userFloat-ansFloat) <= tolerance;
+                        break;
+                    default:
+                        // Assume relative
+                        result = Math.abs(userFloat/ansFloat-1) <= tolerance;
+                }                   
             } else {
-                this.setStatus(WidgetElement.ERROR);
+                this.setStatus(WidgetStatus.ERROR);
                 return false;
             }
         } catch(ex) {
             //Error
-            this.setStatus(WidgetElement.ERROR);
+            this.setStatus(WidgetStatus.ERROR);
             return false;
         } 
-        this.setStatus(result ? WidgetElement.RIGHT : WidgetElement.WRONG);
+        this.setStatus(result ? WidgetStatus.RIGHT : WidgetStatus.WRONG);
         console.log("Numeric, ", this.getUserInput(), result);
         return result;
     }
@@ -71,7 +85,7 @@ class IBQuizzNumeric extends WidgetElement {
         if (!this.widgetConfig) {
             return;
         }
-        this.setWidget(this.input);
+        this.setWidget(this.input, this.widgetConfig.pre);
         super.init();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {

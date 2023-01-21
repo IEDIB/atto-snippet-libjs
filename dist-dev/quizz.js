@@ -889,7 +889,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".ib-quizz-ok {\n    margin-left: 8px;\n    border-radius:50%;\n    background-color: lightgreen;\n    color: white;\n    width: 23px;\n    display: inline-block;\n    height: 23px;\n    text-align: center;\n}\n.ib-quizz-wrong {\n    margin-left: 8px;\n    border-radius:50%;\n    background-color: lightcoral;\n    color: white;\n    width: 23px;\n    display: inline-block;\n    height: 23px;\n    text-align: center;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".ib-quizz-right {\n    margin-left: 8px;\n    border-radius:50%;\n    background-color: rgb(67, 140, 67);\n    color: white;\n    width: 23px;\n    display: inline-block;\n    height: 23px;\n    text-align: center;\n}\n.ib-quizz-wrong {\n    margin-left: 8px;\n    border-radius:50%;\n    background-color: rgb(164, 60, 60);\n    color: white;\n    width: 23px;\n    display: inline-block;\n    height: 23px;\n    text-align: center;\n}\n.ib-quizz-error {\n    margin-left: 8px;\n    border-radius:50%;\n    background-color: rgb(114, 57, 90);\n    color: white;\n    width: 23px;\n    display: inline-block;\n    height: 23px;\n    text-align: center;\n}", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -904,9 +904,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(45);
-/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(45);
+/* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(46);
+/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(48);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -921,6 +922,8 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 //Manually import the customElements that should be loaded
@@ -941,10 +944,11 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
     var _this;
     _classCallCheck(this, QuizzComponent);
     _this = _super.call(this, parent);
+    _this.lang = parent.getAttribute("data-lang") || "ca";
     _this.allQuizzElements = _this.parent.querySelectorAll(SEARCH_QUERY);
-    _this.checkButton = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.createElement)("button", {
+    _this.checkButton = (0,_utils__WEBPACK_IMPORTED_MODULE_5__.createElement)("button", {
       "class": "btn btn-primary",
-      html: '<i class="fa fas fa-check"></i> Comprova'
+      html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(_this.lang, 'check')
     });
     _this.parent.append(_this.checkButton);
     _this.listener = function (evt) {
@@ -964,12 +968,17 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
   _createClass(QuizzComponent, [{
     key: "init",
     value: function init() {
+      var _this2 = this;
       var ds = this.parent.dataset;
       if (ds.active === "1") {
         return;
       }
       ds.active = "1";
       this.checkButton.addEventListener("click", this.listener);
+      //Pass language to all QuizzElements
+      this.allQuizzElements.forEach(function (quizzElem) {
+        quizzElem.setLang(_this2.lang);
+      });
     }
   }, {
     key: "dispose",
@@ -991,9 +1000,63 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ getI18n; }
+/* harmony export */ });
+var I18n = {
+  "ca": {
+    "check": "Comprova",
+    "chooseone": "Tria una opció",
+    "right": "Ben fet!",
+    "wrong": "Ho sento. Intentau-ho de nou",
+    "error": "Hi ha hagut un error processant la resposta"
+  },
+  "es": {
+    "check": "Comprueba",
+    "chooseone": "Elige una opción",
+    "right": "¡Bien hecho!",
+    "wrong": "Lo siento. Inténtalo de nuevo.",
+    "error": "Ha habido un error procesando la respuesta"
+  },
+  "en": {
+    "check": "Check",
+    "chooseone": "Choose one",
+    "right": "Well done!",
+    "wrong": "Try it again.",
+    "error": "There has been an error processing the answer"
+  },
+  "fr": {
+    "check": "Vérifier",
+    "chooseone": "Choisis une option",
+    "right": "",
+    "wrong": "",
+    "error": ""
+  },
+  "de": {
+    "check": "Prüfen",
+    "chooseone": "Wähle eine option",
+    "right": "",
+    "wrong": "",
+    "error": ""
+  }
+};
+function getI18n(lang, key) {
+  var locale = I18n[lang];
+  if (!locale) {
+    locale = I18n["en"];
+  }
+  return locale[key] || key;
+}
+
+/***/ }),
+/* 46 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(45);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1011,6 +1074,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -1064,8 +1128,16 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     value: function check() {
       var _this$widgetConfig;
       var result = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) === this.userAns + "";
-      this.setStatus(result ? _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.RIGHT : _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.WRONG);
+      this.setStatus(result ? _widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetStatus.RIGHT : _widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetStatus.WRONG);
       return result;
+    }
+  }, {
+    key: "setLang",
+    value: function setLang(lang) {
+      _get(_getPrototypeOf(IBQuizzMchoice.prototype), "setLang", this).call(this, lang);
+      if (this.button) {
+        this.button.innerHTML = (0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(lang, "chooseone");
+      }
     }
   }, {
     key: "connectedCallback",
@@ -1085,7 +1157,7 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         "data-toggle": "dropdown",
         "aria-haspopup": "true",
         "aria-expanded": "false",
-        "html": "Tria una opció"
+        "html": (0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(this.lang, "chooseone")
       });
       this.options = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
         "class": "dropdown-menu",
@@ -1112,13 +1184,13 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
           _this2.userAns = index;
           evt.preventDefault();
           _this2.button && (_this2.button.innerHTML = opt);
-          _this2.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.UNSET);
+          _this2.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetStatus.UNSET);
         });
         (_this2$options = _this2.options) === null || _this2$options === void 0 ? void 0 : _this2$options.append(anchor);
       });
       this.dropdown.append(this.button);
       this.dropdown.append(this.options);
-      this.setWidget(this.dropdown);
+      this.setWidget(this.dropdown, this.widgetConfig.pre);
       _get(_getPrototypeOf(IBQuizzMchoice.prototype), "init", this).call(this);
     }
   }, {
@@ -1133,16 +1205,18 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     }
   }]);
   return IBQuizzMchoice;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetElement)) || _class);
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "WidgetElement": function() { return /* binding */ WidgetElement; }
+/* harmony export */   "WidgetElement": function() { return /* binding */ WidgetElement; },
+/* harmony export */   "WidgetStatus": function() { return /* binding */ WidgetStatus; }
 /* harmony export */ });
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(45);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -1162,6 +1236,21 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var ICON_RIGHT = "fa fas fa-check";
 var ICON_WRONG = "fa fas fa-times";
+var ICON_ERROR = "fa fas fa-alert";
+
+var WidgetStatus;
+(function (WidgetStatus) {
+  WidgetStatus[WidgetStatus["ERROR"] = 0] = "ERROR";
+  WidgetStatus[WidgetStatus["UNSET"] = 1] = "UNSET";
+  WidgetStatus[WidgetStatus["WRONG"] = 2] = "WRONG";
+  WidgetStatus[WidgetStatus["RIGHT"] = 3] = "RIGHT";
+})(WidgetStatus || (WidgetStatus = {}));
+function msgWrapper(msg) {
+  if (!msg) {
+    return '';
+  }
+  return " data-toggle=\"tooltip\" title=\"".concat(msg, "\"");
+}
 var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
   _inherits(WidgetElement, _HTMLElement);
   var _super = _createSuper(WidgetElement);
@@ -1169,6 +1258,8 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
     var _this;
     _classCallCheck(this, WidgetElement);
     _this = _super.call(this);
+    _defineProperty(_assertThisInitialized(_this), "lang", "ca");
+    _this.classList.add("d-print-none");
     _this.statusDisplay = document.createElement("span");
     _this.append(_this.statusDisplay);
     return _this;
@@ -1179,44 +1270,66 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
       // TODO Mathjax
     }
   }, {
+    key: "setLang",
+    value: function setLang(lang) {
+      this.lang = lang;
+      console.log("Setting lang ", lang);
+    }
+  }, {
     key: "setStatus",
-    value: function setStatus(status) {
+    value: function setStatus(status, msg) {
       var cl = this.statusDisplay.classList;
+      var msg2 = msg;
       switch (status) {
-        case WidgetElement.UNSET:
-          cl.remove("ib-quizz-ok", "ib-quizz-wrong", "ib-quizz-error");
+        case WidgetStatus.UNSET:
+          cl.remove("ib-quizz-right", "ib-quizz-wrong", "ib-quizz-error");
           this.statusDisplay.innerHTML = "";
           break;
-        case WidgetElement.RIGHT:
-          cl.add("ib-quizz-ok");
-          this.statusDisplay.innerHTML = "<i class=\"".concat(ICON_RIGHT, "\"></i>");
+        case WidgetStatus.RIGHT:
+          cl.add("ib-quizz-right");
+          if (!msg2) {
+            msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])(this.lang, 'right');
+          }
+          this.statusDisplay.innerHTML = "<i class=\"".concat(ICON_RIGHT, "\"").concat(msgWrapper(msg2), "></i>");
           break;
-        case WidgetElement.WRONG:
+        case WidgetStatus.WRONG:
           cl.add("ib-quizz-wrong");
-          this.statusDisplay.innerHTML = "<i class=\"".concat(ICON_WRONG, "\"></i>");
+          if (!msg2) {
+            msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])(this.lang, 'wrong');
+          }
+          this.statusDisplay.innerHTML = "<i class=\"".concat(ICON_WRONG, "\"").concat(msgWrapper(msg2), "></i>");
+          break;
+        default:
+          cl.add("ib-quizz-error");
+          if (!msg2) {
+            msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])(this.lang, 'error');
+          }
+          this.statusDisplay.innerHTML = "<i class=\"".concat(ICON_ERROR, "\"").concat(msgWrapper(msg2), "></i>");
+          break;
       }
     }
   }, {
     key: "setWidget",
-    value: function setWidget(htmlElement) {
+    value: function setWidget(htmlElement, pre) {
       this.prepend(htmlElement);
+      if (pre) {
+        var spanPre = document.createElement("span");
+        spanPre.innerHTML = pre;
+        this.prepend(spanPre);
+      }
     }
   }]);
   return WidgetElement;
 }( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
-_defineProperty(WidgetElement, "RIGHT", 1);
-_defineProperty(WidgetElement, "WRONG", 0);
-_defineProperty(WidgetElement, "UNSET", -1);
-_defineProperty(WidgetElement, "ERROR", -2);
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(47);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1258,7 +1371,7 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       style: "display:inline-block;width:100px;"
     });
     _this.input.addEventListener("change", function (evt) {
-      _this.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.UNSET);
+      _this.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.UNSET);
     });
     return _this;
   }
@@ -1282,10 +1395,40 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   }, {
     key: "check",
     value: function check() {
-      var _this$widgetConfig2;
       //TODO set tolerance
-      var result = ((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.ans) === this.getUserInput();
-      this.setStatus(result ? _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.RIGHT : _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.WRONG);
+      var result = false;
+      try {
+        var _this$widgetConfig2;
+        var userFloat = parseFloat(this.getUserInput());
+        var ansFloat = parseFloat(((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.ans) || "0");
+        if (!isNaN(userFloat) && !isNaN(ansFloat)) {
+          var _this$widgetConfig3, _this$widgetConfig3$o, _this$widgetConfig4, _this$widgetConfig4$o;
+          var tolerance = ((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : (_this$widgetConfig3$o = _this$widgetConfig3.opts) === null || _this$widgetConfig3$o === void 0 ? void 0 : _this$widgetConfig3$o.err) || 0;
+          var units = ((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : (_this$widgetConfig4$o = _this$widgetConfig4.opts) === null || _this$widgetConfig4$o === void 0 ? void 0 : _this$widgetConfig4$o.errunit) || 'absolute';
+          if (units === '%') {
+            tolerance = 0.01 * tolerance;
+          }
+          if (ansFloat === 0) {
+            units = 'absolute';
+          }
+          switch (units) {
+            case 'absolute':
+              result = Math.abs(userFloat - ansFloat) <= tolerance;
+              break;
+            default:
+              // Assume relative
+              result = Math.abs(userFloat / ansFloat - 1) <= tolerance;
+          }
+        } else {
+          this.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.ERROR);
+          return false;
+        }
+      } catch (ex) {
+        //Error
+        this.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.ERROR);
+        return false;
+      }
+      this.setStatus(result ? _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.RIGHT : _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.WRONG);
       console.log("Numeric, ", this.getUserInput(), result);
       return result;
     }
@@ -1304,7 +1447,7 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       if (!this.widgetConfig) {
         return;
       }
-      this.setWidget(this.input);
+      this.setWidget(this.input, this.widgetConfig.pre);
       _get(_getPrototypeOf(IBQuizzNumeric.prototype), "init", this).call(this);
     }
   }, {
