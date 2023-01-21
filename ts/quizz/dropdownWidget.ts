@@ -8,7 +8,7 @@ import { WidgetElement } from "./widgetElement";
     classes: ["iedib-quizz-widget"],
     styles: {"display": "inline-block"}
 })
-class IBQuizzMChoice extends WidgetElement {
+class IBQuizzMchoice extends WidgetElement {
     private options: HTMLDivElement | undefined;
     private widgetConfig: WidgetConfig | undefined;
     private userAns = -1;
@@ -26,21 +26,11 @@ class IBQuizzMChoice extends WidgetElement {
       let src = this.dataset.src || "";
       try {
         src = atob(src);
-        this.widgetConfig = JSON.parse(src) as WidgetConfig;
-        if(this.widgetConfig.opts?.shuffle) {
-            this.shuffle();
-        }
-        this.init();
+        this.widgetConfig = JSON.parse(src) as WidgetConfig; 
       } catch(ex) {
         console.error(ex);
       }
-    }
-    private shuffle(): void {
-       if (this.widgetConfig && this.widgetConfig.vars) {
-            const newAnsKey = shuffleArray(this.widgetConfig?.vars, parseInt(this.widgetConfig?.ans));
-            this.widgetConfig.ans = newAnsKey+"";
-       }
-    }
+    } 
     enable(state: boolean): void {
         this.button?.setAttribute("disabled", !state+"");
     }
@@ -56,8 +46,11 @@ class IBQuizzMChoice extends WidgetElement {
         this.setStatus(result?WidgetElement.RIGHT:WidgetElement.WRONG);        
         return result;
     }
-
-    init() {
+    connectedCallback(){
+        console.log("connectedCallback ", this.widgetConfig);
+        if(!this.widgetConfig) {
+            return;
+        } 
         this.button = createElement("button", {
             "class": "btn btn-outline-primary dropdown-toggle",
             "type": "button",
@@ -72,15 +65,26 @@ class IBQuizzMChoice extends WidgetElement {
             "aria-labelledby": "dropdownMenuButton"
         }) as HTMLDivElement;  
   
-        (this.widgetConfig?.vars || []).forEach( (opt: string, i: number) => {
+        const n = this.widgetConfig?.vars?.length || 0;
+        const permutationIndices: number[] = new Array(n);
+        for (let i=0; i < n; i++) {
+            permutationIndices[i] = i;
+        } 
+        if(this.widgetConfig?.opts?.shuffle) {
+            shuffleArray(permutationIndices);
+        }
+
+        permutationIndices.forEach( (index: number) => {
+            const opt = (this.widgetConfig?.vars || [])[index];
             const anchor =  createElement("a", {
                 "class": "dropdown-item",
                 "href": "#",
-                "data-index": i+"",
+                "data-index": index+"",
                 "html": opt
             }); 
+
             anchor.addEventListener("click", (evt) => {
-                this.userAns = i;
+                this.userAns = index;
                 evt.preventDefault();
                 this.button && (this.button.innerHTML = opt);
                 this.setStatus(WidgetElement.UNSET);
@@ -92,5 +96,10 @@ class IBQuizzMChoice extends WidgetElement {
         this.setWidget(this.dropdown);
         super.init();
     }
-
+    attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
+        console.log('The ', name, ' has changed to', newValue); 
+    }
+    static get observedAttributes(): string[] {
+         return ['data-src']; 
+    }
 }

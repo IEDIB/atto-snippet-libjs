@@ -332,18 +332,16 @@ function createElement(nodeType, opts) {
   });
   return elem;
 }
-function shuffleArray(array, index) {
-  var out = 0;
+
+// Algorithm called Fisher-Yates shuffle. 
+// The idea is to walk the array in the reverse order and swap each element with a random one before it:
+function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     var temp = array[i];
-    if (i === index) {
-      out = j;
-    }
     array[i] = array[j];
     array[j] = temp;
   }
-  return out;
 }
 
 /***/ }),

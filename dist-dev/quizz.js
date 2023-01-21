@@ -332,18 +332,16 @@ function createElement(nodeType, opts) {
   });
   return elem;
 }
-function shuffleArray(array, index) {
-  var out = 0;
+
+// Algorithm called Fisher-Yates shuffle. 
+// The idea is to walk the array in the reverse order and swap each element with a random one before it:
+function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     var temp = array[i];
-    if (i === index) {
-      out = j;
-    }
     array[i] = array[j];
     array[j] = temp;
   }
-  return out;
 }
 
 /***/ }),
@@ -907,7 +905,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
 /* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(45);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(2);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -927,6 +926,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 //Manually import the customElements that should be loaded
 
 
+
 var SEARCH_QUERY = ".iedib-quizz-widget";
 var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Component)({
   name: "quizz",
@@ -942,16 +942,17 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
     _classCallCheck(this, QuizzComponent);
     _this = _super.call(this, parent);
     _this.allQuizzElements = _this.parent.querySelectorAll(SEARCH_QUERY);
-    _this.checkButton = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.createElement)("button", {
+    _this.checkButton = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.createElement)("button", {
       "class": "btn btn-primary",
-      html: "Comprova"
+      html: '<i class="fa fas fa-check"></i> Comprova'
     });
     _this.parent.append(_this.checkButton);
     _this.listener = function (evt) {
       evt.preventDefault();
       var check = true;
       _this.allQuizzElements.forEach(function (quizzElem) {
-        check = check && quizzElem.check();
+        var partial = quizzElem.check();
+        check = check && partial;
       });
       if (check) {
         // All widgets are correct. Then disable the check button
@@ -1013,18 +1014,18 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
-var IBQuizzMChoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
   elementName: "ib-quizz-mchoice",
   classes: ["iedib-quizz-widget"],
   styles: {
     "display": "inline-block"
   }
 }), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
-  _inherits(IBQuizzMChoice, _WidgetElement);
-  var _super = _createSuper(IBQuizzMChoice);
-  function IBQuizzMChoice() {
+  _inherits(IBQuizzMchoice, _WidgetElement);
+  var _super = _createSuper(IBQuizzMchoice);
+  function IBQuizzMchoice() {
     var _this;
-    _classCallCheck(this, IBQuizzMChoice);
+    _classCallCheck(this, IBQuizzMchoice);
     _this = _super.call(this);
     _defineProperty(_assertThisInitialized(_this), "userAns", -1);
     console.log("Calling IBQuizzMChoice constructor");
@@ -1035,28 +1036,14 @@ var IBQuizzMChoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     // Make sure that has data-src field
     var src = _this.dataset.src || "";
     try {
-      var _this$widgetConfig$op;
       src = atob(src);
       _this.widgetConfig = JSON.parse(src);
-      if ((_this$widgetConfig$op = _this.widgetConfig.opts) !== null && _this$widgetConfig$op !== void 0 && _this$widgetConfig$op.shuffle) {
-        _this.shuffle();
-      }
-      _this.init();
     } catch (ex) {
       console.error(ex);
     }
     return _this;
   }
-  _createClass(IBQuizzMChoice, [{
-    key: "shuffle",
-    value: function shuffle() {
-      if (this.widgetConfig && this.widgetConfig.vars) {
-        var _this$widgetConfig, _this$widgetConfig2;
-        var newAnsKey = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.shuffleArray)((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.vars, parseInt((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.ans));
-        this.widgetConfig.ans = newAnsKey + "";
-      }
-    }
-  }, {
+  _createClass(IBQuizzMchoice, [{
     key: "enable",
     value: function enable(state) {
       var _this$button;
@@ -1075,16 +1062,23 @@ var IBQuizzMChoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   }, {
     key: "check",
     value: function check() {
-      var _this$widgetConfig3;
-      var result = ((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.ans) === this.userAns + "";
+      var _this$widgetConfig;
+      var result = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) === this.userAns + "";
       this.setStatus(result ? _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.RIGHT : _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.WRONG);
       return result;
     }
   }, {
-    key: "init",
-    value: function init() {
-      var _this$widgetConfig4,
+    key: "connectedCallback",
+    value: function connectedCallback() {
+      var _this$widgetConfig2,
+        _this$widgetConfig2$v,
+        _this$widgetConfig3,
+        _this$widgetConfig3$o,
         _this2 = this;
+      console.log("connectedCallback ", this.widgetConfig);
+      if (!this.widgetConfig) {
+        return;
+      }
       this.button = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
         "class": "btn btn-outline-primary dropdown-toggle",
         "type": "button",
@@ -1097,16 +1091,25 @@ var IBQuizzMChoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         "class": "dropdown-menu",
         "aria-labelledby": "dropdownMenuButton"
       });
-      (((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : _this$widgetConfig4.vars) || []).forEach(function (opt, i) {
-        var _this2$options;
+      var n = ((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : (_this$widgetConfig2$v = _this$widgetConfig2.vars) === null || _this$widgetConfig2$v === void 0 ? void 0 : _this$widgetConfig2$v.length) || 0;
+      var permutationIndices = new Array(n);
+      for (var i = 0; i < n; i++) {
+        permutationIndices[i] = i;
+      }
+      if ((_this$widgetConfig3 = this.widgetConfig) !== null && _this$widgetConfig3 !== void 0 && (_this$widgetConfig3$o = _this$widgetConfig3.opts) !== null && _this$widgetConfig3$o !== void 0 && _this$widgetConfig3$o.shuffle) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.shuffleArray)(permutationIndices);
+      }
+      permutationIndices.forEach(function (index) {
+        var _this2$widgetConfig, _this2$options;
+        var opt = (((_this2$widgetConfig = _this2.widgetConfig) === null || _this2$widgetConfig === void 0 ? void 0 : _this2$widgetConfig.vars) || [])[index];
         var anchor = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", {
           "class": "dropdown-item",
           "href": "#",
-          "data-index": i + "",
+          "data-index": index + "",
           "html": opt
         });
         anchor.addEventListener("click", function (evt) {
-          _this2.userAns = i;
+          _this2.userAns = index;
           evt.preventDefault();
           _this2.button && (_this2.button.innerHTML = opt);
           _this2.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.UNSET);
@@ -1116,10 +1119,20 @@ var IBQuizzMChoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       this.dropdown.append(this.button);
       this.dropdown.append(this.options);
       this.setWidget(this.dropdown);
-      _get(_getPrototypeOf(IBQuizzMChoice.prototype), "init", this).call(this);
+      _get(_getPrototypeOf(IBQuizzMchoice.prototype), "init", this).call(this);
+    }
+  }, {
+    key: "attributeChangedCallback",
+    value: function attributeChangedCallback(name, oldValue, newValue) {
+      console.log('The ', name, ' has changed to', newValue);
+    }
+  }], [{
+    key: "observedAttributes",
+    get: function get() {
+      return ['data-src'];
     }
   }]);
-  return IBQuizzMChoice;
+  return IBQuizzMchoice;
 }(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement)) || _class);
 
 /***/ }),
@@ -1195,6 +1208,118 @@ _defineProperty(WidgetElement, "RIGHT", 1);
 _defineProperty(WidgetElement, "WRONG", 0);
 _defineProperty(WidgetElement, "UNSET", -1);
 _defineProperty(WidgetElement, "ERROR", -2);
+
+/***/ }),
+/* 47 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-numeric",
+  classes: ["iedib-quizz-widget"],
+  styles: {
+    "display": "inline-block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzNumeric, _WidgetElement);
+  var _super = _createSuper(IBQuizzNumeric);
+  function IBQuizzNumeric() {
+    var _this;
+    _classCallCheck(this, IBQuizzNumeric);
+    _this = _super.call(this);
+    _defineProperty(_assertThisInitialized(_this), "userAns", -1);
+    console.log("Calling IBQuizzNumeric constructor");
+    _this.input = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", {
+      "class": "form-control",
+      type: "number",
+      style: "display:inline-block;width:100px;"
+    });
+    _this.input.addEventListener("change", function (evt) {
+      _this.setStatus(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.UNSET);
+    });
+    return _this;
+  }
+  _createClass(IBQuizzNumeric, [{
+    key: "enable",
+    value: function enable(state) {
+      this.input.setAttribute("disabled", !state + "");
+    }
+  }, {
+    key: "getUserInput",
+    value: function getUserInput() {
+      return this.input.value;
+    }
+  }, {
+    key: "displayRightAnswer",
+    value: function displayRightAnswer() {
+      var _this$widgetConfig;
+      this.input.value = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) || "";
+      this.enable(false);
+    }
+  }, {
+    key: "check",
+    value: function check() {
+      var _this$widgetConfig2;
+      //TODO set tolerance
+      var result = ((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.ans) === this.getUserInput();
+      this.setStatus(result ? _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.RIGHT : _widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement.WRONG);
+      console.log("Numeric, ", this.getUserInput(), result);
+      return result;
+    }
+  }, {
+    key: "connectedCallback",
+    value: function connectedCallback() {
+      // Make sure that has data-src field
+      var src = this.dataset.src || "";
+      try {
+        src = atob(src);
+        this.widgetConfig = JSON.parse(src);
+      } catch (ex) {
+        console.error(ex);
+      }
+      console.log("connectedCallback ", this.widgetConfig);
+      if (!this.widgetConfig) {
+        return;
+      }
+      this.setWidget(this.input);
+      _get(_getPrototypeOf(IBQuizzNumeric.prototype), "init", this).call(this);
+    }
+  }, {
+    key: "attributeChangedCallback",
+    value: function attributeChangedCallback(name, oldValue, newValue) {
+      console.log('The ', name, ' has changed to', newValue);
+    }
+  }], [{
+    key: "observedAttributes",
+    get: function get() {
+      return ['data-src'];
+    }
+  }]);
+  return IBQuizzNumeric;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement)) || _class);
 
 /***/ })
 /******/ 	]);

@@ -199,17 +199,13 @@ export function createElement(nodeType: string, opts: {[key:string]:string}): HT
     return elem;
 }
 
-export function shuffleArray(array: any[], index: number): number {
-    TODO CHECK SHUFFLE
-    let out = 0;
+// Algorithm called Fisher-Yates shuffle. 
+// The idea is to walk the array in the reverse order and swap each element with a random one before it:
+export function shuffleArray(array: number[]): void { 
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        const temp = array[i];
-        if(i===index) {
-            out = j;
-        }
+        const temp = array[i]; 
         array[i] = array[j];
         array[j] = temp;
-    }
-    return out;
+    } 
 }

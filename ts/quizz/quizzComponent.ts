@@ -4,6 +4,7 @@ import { WidgetElement } from "./widgetElement";
 
 //Manually import the customElements that should be loaded
 import "./dropdownWidget"; 
+import "./numericWidget"; 
 import { createElement } from "../utils";
 
 const SEARCH_QUERY = ".iedib-quizz-widget";
@@ -25,7 +26,7 @@ export default class QuizzComponent extends BaseComponent {
         this.allQuizzElements = this.parent.querySelectorAll(SEARCH_QUERY) as NodeListOf<WidgetElement>;
         this.checkButton = createElement("button", {
             class: "btn btn-primary",
-            html: "Comprova"
+            html: '<i class="fa fas fa-check"></i> Comprova'
         }) as HTMLButtonElement;
         
         this.parent.append(this.checkButton);
@@ -33,7 +34,8 @@ export default class QuizzComponent extends BaseComponent {
             evt.preventDefault();
             let check = true;
             this.allQuizzElements.forEach((quizzElem) => {
-                check = check && quizzElem.check();
+                const partial = quizzElem.check();
+                check = check && partial;
             });
             if(check) {
                 // All widgets are correct. Then disable the check button
