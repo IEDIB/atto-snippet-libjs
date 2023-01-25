@@ -10,13 +10,13 @@ import "./mchoiceWidget";
 import "./numericWidget"; 
 import { createElement } from "../utils";
 
-const SEARCH_QUERY = ".iedib-quizz-widget";
+const SEARCH_QUERY = ".ib-quizz-elem";
 
 @Component({
     name: "quizz",
     author: "Josep Mulet Pol",
     version: "1.0",
-    query: ".iedib-quizz-group",
+    query: "[data-quizz-group]",
     use$: false
 })
 export default class QuizzComponent extends BaseComponent {
@@ -27,8 +27,13 @@ export default class QuizzComponent extends BaseComponent {
 
     constructor(parent: HTMLElement) {
         super(parent);
-        this.lang = parent.getAttribute("data-lang") || "ca";
+        let searchLang: string | null = parent.getAttribute("data-lang");
+        if(!searchLang) {
+            searchLang = parent.parentElement?.getAttribute("data-lang") || null;
+        }
+        this.lang = searchLang || "ca";
         this.allQuizzElements = this.parent.querySelectorAll(SEARCH_QUERY) as NodeListOf<WidgetElement>;
+        console.log(this.allQuizzElements);
         this.checkButton = createElement("button", {
             class: "btn btn-primary d-print-none",
             html: '<i class="fa fas fa-check"></i> '+getI18n(this.lang, 'check')
@@ -67,6 +72,6 @@ export default class QuizzComponent extends BaseComponent {
         }
         this.parent.removeAttribute("data-active");
         this.checkButton.removeEventListener("click", this.listener);
-    }
+    } 
     
 }

@@ -12,6 +12,10 @@ const entries = {}
 const allCssFiles = []
 fs.readdirSync("./ts", {withFileTypes: true}).filter(dirent => dirent.isDirectory()==true).forEach( dirent => {
   const modName = dirent.name;
+  if(modName.startsWith("_") && isDev) {
+    //Do not include in production build
+    return;
+  }
   entries[modName] = "./ts/"+modName+"/"+modName+".ts";
   const cssFile = path.resolve("./ts/"+modName+"/"+modName+".css");
   if(fs.existsSync(cssFile)) {

@@ -3,6 +3,7 @@ import { createElement } from "../utils";
 import { WidgetConfig } from "./quizzTypes";
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement";
+import { NumericEditor } from "./numericEditor";
 
 @ComponentHTML({
     elementName: "ib-quizz-numeric",
@@ -13,20 +14,9 @@ class IBQuizzNumeric extends WidgetElement {
     private options: HTMLDivElement | undefined;
     private widgetConfig: WidgetConfig | undefined;
     private userAns = -1;
-    input: HTMLInputElement;
+    input: HTMLInputElement | undefined;
 
-    constructor() {
-        super();
-        console.log("Calling IBQuizzNumeric constructor");
-        this.input = createElement("input", {
-            class: "form-control",
-            type: "number",
-            style: "display:inline-block;width:100px;"
-        }) as HTMLInputElement;
-        this.input.addEventListener("change", (evt) => {
-            this.setStatus(WidgetStatus.UNSET);
-        });
-    }
+     
     enable(state: boolean): void {
         if(!this.input) {
             return;
@@ -38,11 +28,13 @@ class IBQuizzNumeric extends WidgetElement {
         }   
     }
     getUserInput(): string {
-        return this.input.value;
+        return this.input?.value || "";
     }
     displayRightAnswer(): void {
-        this.input.value = this.widgetConfig?.ans || "";
-        this.enable(false);
+        if(this.input) {
+            this.input.value = this.widgetConfig?.ans || "";
+            this.enable(false);
+        }
     }
     check(): boolean {
         //TODO set tolerance
@@ -82,6 +74,18 @@ class IBQuizzNumeric extends WidgetElement {
         return result;
     }
     connectedCallback() {
+        if(this.editMode) {
+             this.attoId = this.discoverAttoId();
+            return;
+        } 
+        this.input = createElement("input", {
+            class: "form-control",
+            type: "number",
+            style: "display:inline-block;width:100px;"
+        }) as HTMLInputElement;
+        this.input.addEventListener("change", (evt) => {
+            this.setStatus(WidgetStatus.UNSET);
+        });
         // Make sure that has data-src field
         let src = this.dataset.src || "";
         try {
@@ -104,5 +108,20 @@ class IBQuizzNumeric extends WidgetElement {
     }
     static get observedAttributes(): string[] {
         return ['data-src'];
+    }
+    edit(): void {
+        const editor = document.getElementById(this.attoId||"");
+        alert("Editing numeric at atto "+ this.attoId + " "+ editor);
+        if(editor) {
+            NumericEditor.show(this.getAttribute("data-src"), 
+                (output: string) => {
+                    if(output) {
+                        this.setAttribute("data-src", output);
+                        const event = new Event('updated');
+                        editor?.dispatchEvent(event);
+                        console.info("Event dispatched");
+                    }
+                });
+        }
     }
 }

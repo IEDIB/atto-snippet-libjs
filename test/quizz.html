@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title></title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
       max-width: 700px;
@@ -12,38 +16,59 @@
     }
   </style>
 </head>
-<body>
+
+<body class="editing">
+
+  <div id="content-editor-mock" class="editor_atto_content">
+  
+  <div data-quizz-group data-lang="en">
+    <p data-toggle="tooltip" title="Una prova">sdflsdkfmsdflkms</p>
+    <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd
+      <ib-quizz-mchoice class="ib-quizz-elem"
+        data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19">
+        
+      </ib-quizz-mchoice>
+
+      <ib-quizz-mchoice class="ib-quizz-elem"
+      data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19">
+       
+    </ib-quizz-mchoice>
+      <br>
+      <ib-quizz-dropdown class="ib-quizz-elem"
+        data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19">
+        
+      </ib-quizz-dropdown>
+      <br>
+      1+1=<ib-quizz-numeric class="ib-quizz-elem"
+        data-src="eyJhbnMiOiIyLjM1NiIsICJvcHRzIjogeyJlcnIiOiA1LCAiZXJydW5pdCI6IiUifSwgInByZSI6Ij0iLCAiZmJrIjoiUmVjb3JkYSBxdWUgY2FsIGVtcHJhciB0b3RzIGVscyBkZWNpbWFscyJ9">
+        <input class="form-control" type="number" style="display:inline-block; width:100px;">
+      </ib-quizz-numeric>
+    </p>
+    <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd</p>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+    crossorigin="anonymous"></script>
+  
+  <script>
+    //fake requirejs
+    window.require = function (deps, cb) {
+      cb(jQuery);
+    };
+    window.requirejs = window.require;
+  </script>
 
 
- <div class="iedib-quizz-group" data-lang="en">
-  <p data-toggle="tooltip" title="Una prova">sdflsdkfmsdflkms</p>
-  <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd
-  <ib-quizz-mchoice data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19"></ib-quizz-mchoice>
-<br>
-<ib-quizz-dropdown data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19"></ib-quizz-dropdown>
-<br>
-  1+1=<ib-quizz-numeric data-src="eyJhbnMiOiIyLjM1NiIsICJvcHRzIjogeyJlcnIiOiA1LCAiZXJydW5pdCI6IiUifSwgInByZSI6Ij0iLCAiZmJrIjoiUmVjb3JkYSBxdWUgY2FsIGVtcHJhciB0b3RzIGVscyBkZWNpbWFscyJ9"></ib-quizz-numeric>
-</p>
-  <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd</p>
- </div>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-
-<script>
-  //fake requirejs
-  window.require = function(deps, cb) {
-    cb(jQuery);
-  };
-  window.requirejs = window.require;
-</script>
-
-
-<script src="./dist-dev/quizz.js"></script>
-<script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-</script>
+  <script src="./dist-dev/atto.js"></script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    }) 
+  </script>
 </body>
+
 </html>

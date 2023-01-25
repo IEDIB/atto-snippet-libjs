@@ -3,70 +3,74 @@ import { createElement, shuffleArray } from "../utils";
 import getI18n from "./i18n";
 import { WidgetConfig } from "./quizzTypes";
 import { WidgetStatus } from "./statusDisplay";
-import { WidgetElement } from "./widgetElement"; 
+import { WidgetElement } from "./widgetElement";
+import {DropdownEditor} from "./dropdownEditor";
 
 @ComponentHTML({
     elementName: "ib-quizz-dropdown",
-    classes: ["iedib-quizz-widget"],
-    styles: {"display": "inline-block"}
+    classes: ["ib-quizz-elem"],
+    styles: { "display": "inline-block" }
 })
 class IBQuizzDropdown extends WidgetElement {
+
     private options: HTMLDivElement | undefined;
     private widgetConfig: WidgetConfig | undefined;
     private userAns = -1;
     button: HTMLButtonElement | undefined;
-    dropdown: HTMLDivElement;
-
-    constructor() {
-      super();
-      console.log("Calling IBQuizzDropdown constructor");
-      this.dropdown = createElement("div", {
-        class: "dropdown",
-        style: "display:inline-block;"
-      }) as HTMLDivElement;  
-      // Make sure that has data-src field
-      let src = this.dataset.src || "";
-      try {
-        src = atob(src);
-        this.widgetConfig = JSON.parse(src) as WidgetConfig; 
-      } catch(ex) {
-        console.error(ex);
-      }
-    } 
+    dropdown: HTMLDivElement | undefined;
+    
     enable(state: boolean): void {
-        if(!this.button) {
+        if (!this.button) {
             return;
         }
-        if(state) {
+        if (state) {
             this.button.disabled = false;
         } else {
             this.button.disabled = true;
-        } 
+        }
     }
     getUserInput(): string {
-        return this.userAns+"";
+        return this.userAns + "";
     }
     displayRightAnswer(): void {
-        
+
         this.enable(false);
     }
     check(): boolean {
-        const result = this.widgetConfig?.ans === this.userAns+"";
-        this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);  
-        this.enable(!result);      
+        const result = this.widgetConfig?.ans === this.userAns + "";
+        this.setStatus(result ? WidgetStatus.RIGHT : WidgetStatus.WRONG);
+        this.enable(!result);
         return result;
     }
-    setLang(lang: string): void { 
+    setLang(lang: string): void {
         super.setLang(lang);
-        if(this.button) {
+        if (this.button) {
             this.button.innerHTML = getI18n(lang, "chooseone");
-        }        
+        }
     }
-    connectedCallback(){
-        console.log("connectedCallback ", this.widgetConfig);
-        if(!this.widgetConfig) {
+    connectedCallback() {
+        if (this.editMode) {
+            this.attoId = this.discoverAttoId();
             return;
-        } 
+        }
+        // Attach editListener of edit pages 
+        this.dropdown = createElement("div", {
+            class: "dropdown",
+            style: "display:inline-block;"
+        }) as HTMLDivElement;
+        // Make sure that has data-src field
+        let src = this.dataset.src || "";
+        try {
+            src = atob(src);
+            this.widgetConfig = JSON.parse(src) as WidgetConfig;
+        } catch (ex) {
+            console.error(ex);
+        }
+
+        console.log("connectedCallback ", this.widgetConfig);
+        if (!this.widgetConfig || this.editMode) {
+            return;
+        }
         this.button = createElement("button", {
             "class": "btn btn-outline-primary dropdown-toggle",
             "type": "button",
@@ -75,29 +79,29 @@ class IBQuizzDropdown extends WidgetElement {
             "aria-expanded": "false",
             "html": getI18n(this.lang, "chooseone")
         }) as HTMLButtonElement;
-        
+
         this.options = createElement("div", {
             "class": "dropdown-menu",
             "aria-labelledby": "dropdownMenuButton"
-        }) as HTMLDivElement;  
-  
+        }) as HTMLDivElement;
+
         const n = this.widgetConfig?.vars?.length || 0;
         const permutationIndices: number[] = new Array(n);
-        for (let i=0; i < n; i++) {
+        for (let i = 0; i < n; i++) {
             permutationIndices[i] = i;
-        } 
-        if(this.widgetConfig?.opts?.shuffle) {
+        }
+        if (this.widgetConfig?.opts?.shuffle) {
             shuffleArray(permutationIndices);
         }
 
-        permutationIndices.forEach( (index: number) => {
+        permutationIndices.forEach((index: number) => {
             const opt = (this.widgetConfig?.vars || [])[index];
-            const anchor =  createElement("a", {
+            const anchor = createElement("a", {
                 "class": "dropdown-item",
                 "href": "#",
-                "data-index": index+"",
+                "data-index": index + "",
                 "html": opt
-            }); 
+            });
 
             anchor.addEventListener("click", (evt) => {
                 this.userAns = index;
@@ -108,17 +112,33 @@ class IBQuizzDropdown extends WidgetElement {
             this.options?.append(anchor);
         });
         this.dropdown.append(this.button);
-        this.dropdown.append(this.options);   
+        this.dropdown.append(this.options);
 
-        super.init(this.widgetConfig.pre); 
+        super.init(this.widgetConfig.pre);
         this.append(this.dropdown);
         this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
-        console.log('The ', name, ' has changed to', newValue); 
+        console.log('The ', name, ' has changed to', newValue);
     }
     static get observedAttributes(): string[] {
-         return ['data-src']; 
+        return ['data-src'];
+    }
+    edit(): void {
+        const editor = document.getElementById(this.attoId||"");
+        alert("Editing dropdown at atto "+ this.attoId + " "+ editor);
+        console.log("aaa")
+        if(editor) {
+            DropdownEditor.show(this.getAttribute("data-src"), 
+                (output: string) => {
+                    if(output) {
+                        this.setAttribute("data-src", output);
+                        const event = new Event('updated');
+                        editor?.dispatchEvent(event);
+                        console.info("Event dispatched");
+                    }
+                });
+        }
     }
 }

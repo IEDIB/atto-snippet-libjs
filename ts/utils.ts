@@ -190,6 +190,13 @@ export function createElement(nodeType: string, opts: {[key:string]:string}): HT
             value.trim().split(/\s+/).forEach((cName)=> {
                 elem.classList.add(cName)
             });
+        } else if(optName === "style") {
+            value.split(";").forEach((pair)=> {
+                const kv = pair.split(":");
+                if(kv.length===2) {
+                    elem.style.setProperty(kv[0].trim(), kv[1].trim());
+                }
+            });
         } else if(optName === "html") {
             elem.innerHTML = value;
         } else {

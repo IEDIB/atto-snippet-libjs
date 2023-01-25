@@ -1,8 +1,8 @@
 
 export interface WidgetConfigOpts {
-    shuffle: boolean,
-    err: number,
-    errunit: string,
+    shuffle?: boolean,
+    err?: number,
+    errunit?: string,
 }
 
 export interface WidgetConfig {

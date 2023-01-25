@@ -324,6 +324,13 @@ function createElement(nodeType, opts) {
       value.trim().split(/\s+/).forEach(function (cName) {
         elem.classList.add(cName);
       });
+    } else if (optName === "style") {
+      value.split(";").forEach(function (pair) {
+        var kv = pair.split(":");
+        if (kv.length === 2) {
+          elem.style.setProperty(kv[0].trim(), kv[1].trim());
+        }
+      });
     } else if (optName === "html") {
       elem.innerHTML = value;
     } else {
