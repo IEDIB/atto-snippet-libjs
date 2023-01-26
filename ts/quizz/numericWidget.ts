@@ -2,8 +2,7 @@ import { ComponentHTML } from "../decorators";
 import { createElement } from "../utils";
 import { WidgetConfig } from "./quizzTypes";
 import { WidgetStatus } from "./statusDisplay";
-import { WidgetElement } from "./widgetElement";
-import { NumericEditor } from "./numericEditor";
+import { WidgetElement } from "./widgetElement"; 
 
 @ComponentHTML({
     elementName: "ib-quizz-numeric",
@@ -73,11 +72,7 @@ class IBQuizzNumeric extends WidgetElement {
         this.enable(!result);
         return result;
     }
-    connectedCallback() {
-        if(this.editMode) {
-             this.attoId = this.discoverAttoId();
-            return;
-        } 
+    connectedCallback() { 
         this.input = createElement("input", {
             class: "form-control",
             type: "number",
@@ -108,20 +103,5 @@ class IBQuizzNumeric extends WidgetElement {
     }
     static get observedAttributes(): string[] {
         return ['data-src'];
-    }
-    edit(): void {
-        const editor = document.getElementById(this.attoId||"");
-        alert("Editing numeric at atto "+ this.attoId + " "+ editor);
-        if(editor) {
-            NumericEditor.show(this.getAttribute("data-src"), 
-                (output: string) => {
-                    if(output) {
-                        this.setAttribute("data-src", output);
-                        const event = new Event('updated');
-                        editor?.dispatchEvent(event);
-                        console.info("Event dispatched");
-                    }
-                });
-        }
-    }
+    } 
 }

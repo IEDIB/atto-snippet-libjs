@@ -2,8 +2,7 @@ import { ComponentHTML } from "../decorators";
 import { createElement, genID, shuffleArray } from "../utils"; 
 import { WidgetConfig } from "./quizzTypes";
 import { WidgetStatus } from "./statusDisplay";
-import { WidgetElement } from "./widgetElement"; 
-import {MchoiceEditor} from "./mchoiceEditor";
+import { WidgetElement } from "./widgetElement";  
 
 @ComponentHTML({
     elementName: "ib-quizz-mchoice",
@@ -13,7 +12,7 @@ import {MchoiceEditor} from "./mchoiceEditor";
 class IBQuizzMchoice extends WidgetElement { 
     private radios: HTMLInputElement[] = [];
     private widgetConfig: WidgetConfig | undefined;
-    private userAns = -1; 
+    private userAnsSet = new Set(); 
     form: HTMLElement | undefined;
  
     enable(state: boolean): void {
@@ -28,22 +27,20 @@ class IBQuizzMchoice extends WidgetElement {
         });
     }
     getUserInput(): string {
-        return this.userAns+"";
+        return [...this.userAnsSet].join(",");
     }
     displayRightAnswer(): void { 
         this.enable(false);
     }
     check(): boolean {
-        const result = this.widgetConfig?.ans === this.userAns+"";
+        const expectedAns = (this.widgetConfig?.ans || '').split(",").map(e => e.trim());
+        const expectedSet = new Set(expectedAns);
+        const result = this.userAnsSet == expectedSet;
         this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);   
         this.enable(!result);     
         return result;
     } 
-    connectedCallback(){
-        if(this.editMode) {
-            this.attoId = this.discoverAttoId();
-            return;
-        }
+    connectedCallback(){ 
         this.form = document.createElement("form"); 
         this.form.style.setProperty("display", "inline-block");
         // Make sure that has data-src field
@@ -59,6 +56,8 @@ class IBQuizzMchoice extends WidgetElement {
         if(!this.widgetConfig) {
             return;
         } 
+
+        const isMultiple = this.widgetConfig?.ans.indexOf(",")>0;
        
         const n = this.widgetConfig?.vars?.length || 0;
         const permutationIndices: number[] = new Array(n);
@@ -79,7 +78,7 @@ class IBQuizzMchoice extends WidgetElement {
 
             const input = createElement("input", {
                 class: "form-check-input",
-                type: "radio",
+                type: isMultiple? "checkbox" : "radio",
                 name: radioName,
                 id: radioName+"_"+index
             }) as HTMLInputElement; 
@@ -94,7 +93,7 @@ class IBQuizzMchoice extends WidgetElement {
             this.radios.push(input);
 
             input.addEventListener("click", (evt) => {
-                this.userAns = index; 
+                input.checked? this.userAnsSet.add(index+'') : this.userAnsSet.delete(index+''); 
                 this.setStatus(WidgetStatus.UNSET);
             }); 
         });   
@@ -108,18 +107,5 @@ class IBQuizzMchoice extends WidgetElement {
     }
     static get observedAttributes(): string[] {
          return ['data-src']; 
-    }
-    edit(): void {
-        const editor = document.getElementById(this.attoId||"");
-        alert("Editing mchoice at atto "+ this.attoId + " "+ editor);
-        if(editor) {
-            const output = MchoiceEditor.show(this.getAttribute("data-src"));
-            if(output) {
-                this.setAttribute("data-src", output);
-                const event = new Event('updated');
-                editor?.dispatchEvent(event);
-                console.info("Event dispatched");
-            }
-        }
-    }
+    } 
 }

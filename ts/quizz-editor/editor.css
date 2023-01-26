@@ -1,0 +1,65 @@
+body.editing .ib-quizz-elem {
+    display: inline-block;
+    position: relative;
+    padding: 4px;
+    background-color: gray;
+}
+body.editing ib-quizz-dropdown::after {
+    content: "Quizz::Dropdown";
+}
+body.editing ib-quizz-mchoice::after {
+    content: "Quizz::Mchoice";
+}
+body.editing ib-quizz-numeric::after {
+    content: "Quizz::Numeric";
+}
+ 
+/* Editor styles */
+.pw-me-dlg {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px solid lightgray;
+    z-index: 100;
+    background: white;
+    box-shadow: 4px 4px 4px #888888;
+    border-radius: 5px;
+}
+
+.pw-me-dlg-header {
+    background: whitesmoke;
+    width: 100%;
+    height: 23px;
+    border-bottom: 2px solid lightgray;
+}
+
+.pw-me-dlg-headertitle {
+    color: black;
+    margin-left: 8px;
+}
+.pw-me-dlg-body {
+    flex-grow: 1;
+    width: 100%;
+    overflow: auto;
+}
+
+.pw-me-dlg-controls {
+    background: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+.pw-me-btn-dlgclose {
+    color: gray;
+    width: 23px;
+    height: 23px;
+    float: right;
+    padding: 0;
+}

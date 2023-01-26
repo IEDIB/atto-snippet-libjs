@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { ComponentHTML } from "../decorators";
+import { WidgetConfig } from "../quizz/quizzTypes";
 import { createElement } from "../utils";
-import { getDialog } from "./dialog";
-import { WidgetConfig } from "./quizzTypes";
+import { getDialog } from "./bs-dialog";
+import { WidgetElement } from "./widgetElement";  
 
-//TODO Must use radio since dropdown has only 1 right answer!!!!
 
 const panel = createElement('div', {
     style: 'width:100%;padding:10px',
@@ -85,29 +85,31 @@ function getValues(): WidgetConfig {
 
  
 
-export const DropdownEditor = {
-    show: function(src: string | null, cbAccept: (out:string)=>void): void {
-        if(!src) {
+@ComponentHTML({
+    elementName: "ib-quizz-mchoice",
+    classes: ["ib-quizz-elem"],
+    styles: { "display": "block" }
+})
+class IBQuizzMchoice extends WidgetElement {
+    private successCb(): void {
+        const updated = getValues();
+        const output = btoa(JSON.stringify(updated))
+        if (output) {
+            this.setAttribute("data-src", output);
+            const event = new Event('updated');
+            this.editor?.dispatchEvent(event);
+            console.info("Event dispatched");
+        } 
+    }
+    edit(): void {
+        if (!this.editor) {
             return;
         }
-        let config: WidgetConfig | undefined;
-        try {
-            config = JSON.parse(atob(src)) as WidgetConfig; 
-            console.log(config);
-            // Update controls with values from config
-            setValues(config);
-            const dialog = getDialog();
-            dialog.setBody($(panel));
-            dialog.show();
-            dialog.setAcceptAction(() => {
-                const updated = getValues();
-                const out = btoa(JSON.stringify(updated))
-                cbAccept(out);
-            });
-        } catch(ex) {
-            //Error
-            console.error("Error parsing:: ", src);
-            console.error(ex);
-        }
+        console.log(this.config);
+        // Update controls with values from config
+        setValues(this.config);
+        const dialog = getDialog('ib-quizz-editor-dlg', 'Editar mchoice');
+        dialog.setBody(panel);
+        dialog.show(this.successCb.bind(this));
     }
 }

@@ -3,8 +3,7 @@ import { createElement, shuffleArray } from "../utils";
 import getI18n from "./i18n";
 import { WidgetConfig } from "./quizzTypes";
 import { WidgetStatus } from "./statusDisplay";
-import { WidgetElement } from "./widgetElement";
-import {DropdownEditor} from "./dropdownEditor";
+import { WidgetElement } from "./widgetElement"; 
 
 @ComponentHTML({
     elementName: "ib-quizz-dropdown",
@@ -49,10 +48,6 @@ class IBQuizzDropdown extends WidgetElement {
         }
     }
     connectedCallback() {
-        if (this.editMode) {
-            this.attoId = this.discoverAttoId();
-            return;
-        }
         // Attach editListener of edit pages 
         this.dropdown = createElement("div", {
             class: "dropdown",
@@ -68,7 +63,7 @@ class IBQuizzDropdown extends WidgetElement {
         }
 
         console.log("connectedCallback ", this.widgetConfig);
-        if (!this.widgetConfig || this.editMode) {
+        if (!this.widgetConfig) {
             return;
         }
         this.button = createElement("button", {
@@ -124,21 +119,5 @@ class IBQuizzDropdown extends WidgetElement {
     }
     static get observedAttributes(): string[] {
         return ['data-src'];
-    }
-    edit(): void {
-        const editor = document.getElementById(this.attoId||"");
-        alert("Editing dropdown at atto "+ this.attoId + " "+ editor);
-        console.log("aaa")
-        if(editor) {
-            DropdownEditor.show(this.getAttribute("data-src"), 
-                (output: string) => {
-                    if(output) {
-                        this.setAttribute("data-src", output);
-                        const event = new Event('updated');
-                        editor?.dispatchEvent(event);
-                        console.info("Event dispatched");
-                    }
-                });
-        }
-    }
+    } 
 }
