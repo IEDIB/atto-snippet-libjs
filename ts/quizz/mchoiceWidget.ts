@@ -4,6 +4,13 @@ import { WidgetConfig } from "./quizzTypes";
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement";  
 
+
+
+const isSameSet = (set1: Set<string>, set2: Set<string>) => {
+    const s: Set<string> = new Set([...set1, ...set2])
+    return s.size == set1.size && s.size == set2.size
+}
+
 @ComponentHTML({
     elementName: "ib-quizz-mchoice",
     classes: ["iedib-quizz-widget"],
@@ -12,7 +19,7 @@ import { WidgetElement } from "./widgetElement";
 class IBQuizzMchoice extends WidgetElement { 
     private radios: HTMLInputElement[] = [];
     private widgetConfig: WidgetConfig | undefined;
-    private userAnsSet = new Set(); 
+    private userAnsSet = new Set<string>(); 
     form: HTMLElement | undefined;
  
     enable(state: boolean): void {
@@ -35,7 +42,7 @@ class IBQuizzMchoice extends WidgetElement {
     check(): boolean {
         const expectedAns = (this.widgetConfig?.ans || '').split(",").map(e => e.trim());
         const expectedSet = new Set(expectedAns);
-        const result = this.userAnsSet == expectedSet;
+        const result = isSameSet(this.userAnsSet, expectedSet);
         this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);   
         this.enable(!result);     
         return result;

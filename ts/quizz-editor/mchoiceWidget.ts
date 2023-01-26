@@ -105,6 +105,7 @@ class IBQuizzMchoice extends WidgetElement {
         if (!this.editor) {
             return;
         }
+        this.updateConfig();
         console.log(this.config);
         // Update controls with values from config
         setValues(this.config);

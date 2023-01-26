@@ -15,8 +15,10 @@ export abstract class WidgetElement extends HTMLElement {
 
     connectedCallback() {
         this.attoId = this.discoverAttoId();
-        this.addEventListener("click", this.edit);
+        this.addEventListener("click", this.edit);  
+    }
 
+    updateConfig() {
         //Parse the data-src property
         try {
             const raw64Src = this.getAttribute("data-src") || '';
