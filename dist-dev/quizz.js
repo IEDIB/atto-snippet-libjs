@@ -992,16 +992,17 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
     } catch (ex) {
       console.error(ex);
     }
+    _this.lang = searchLang || "ca";
     // Must generate an instance of the group vars into map _v
     _this.generateGroup();
 
     // Must find placeholders in the dom by replacing #key by _v[#key]
     _this.findPlaceholders();
-    _this.lang = searchLang || "ca";
     _this.allQuizzElements = _this.parent.querySelectorAll(SEARCH_QUERY);
     console.log(_this.allQuizzElements);
     _this.checkButton = (0,_utils__WEBPACK_IMPORTED_MODULE_6__.createElement)("button", {
-      "class": "btn btn-primary d-print-none",
+      "class": "btn btn-sm btn-primary d-print-none",
+      style: "margin: 10px",
       html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(_this.lang, 'check')
     });
     _this.parent.append(_this.checkButton);
@@ -1054,9 +1055,14 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
       if (this.groupContext.v.length) {
         var noticeDiv = (0,_utils__WEBPACK_IMPORTED_MODULE_6__.createElement)('div', {
           "class": 'alert alert-info',
-          html: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\" style=\"height:20px;\"><path fill=\"#154b5e\" d=\"M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg> \n                <small>Aquestes activitats contenen preguntes aleat\xF2ries que es generen cada vegada que es carrega la p\xE0gina.</small>"
+          html: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\" style=\"height:20px;\"><path fill=\"#154b5e\" d=\"M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg> \n                <small>".concat((0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(this.lang, 'random_msg'), "</small>")
         });
-        this.parent.prepend(noticeDiv);
+        var secondChild = this.parent.querySelector(':nth-child(2)');
+        if ((secondChild === null || secondChild === void 0 ? void 0 : secondChild.nodeName) === 'H4') {
+          this.parent.insertBefore(noticeDiv, secondChild.nextSibling);
+        } else {
+          this.parent.prepend(noticeDiv);
+        }
       }
     }
   }, {
@@ -1123,41 +1129,46 @@ var I18n = {
     "chooseone": "Tria una opció",
     "right": "Ben fet!",
     "wrong": "Ho sento. Intentau-ho de nou",
-    "error": "Hi ha hagut un error processant la resposta"
+    "error": "Hi ha hagut un error processant la resposta",
+    "random_msg": "Aquestes activitats contenen preguntes aleatòries que es generen cada vegada que es carrega la pàgina."
   },
   "es": {
     "check": "Comprueba",
     "chooseone": "Elige una opción",
     "right": "¡Bien hecho!",
     "wrong": "Lo siento. Inténtalo de nuevo.",
-    "error": "Ha habido un error procesando la respuesta"
+    "error": "Ha habido un error procesando la respuesta",
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
   },
   "en": {
     "check": "Check",
     "chooseone": "Choose one",
     "right": "Well done!",
     "wrong": "Try it again.",
-    "error": "There has been an error processing the answer"
+    "error": "There has been an error processing the answer",
+    "random_msg": "These activities contain random questions that are generated at every page load."
   },
   "fr": {
     "check": "Vérifier",
     "chooseone": "Choisis une option",
-    "right": "",
-    "wrong": "",
-    "error": ""
+    "right": "¡Bien hecho!",
+    "wrong": "Lo siento. Inténtalo de nuevo.",
+    "error": "Ha habido un error procesando la respuesta",
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
   },
   "de": {
     "check": "Prüfen",
     "chooseone": "Wähle eine option",
-    "right": "",
-    "wrong": "",
-    "error": ""
+    "right": "¡Bien hecho!",
+    "wrong": "Lo siento. Inténtalo de nuevo.",
+    "error": "Ha habido un error procesando la respuesta",
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
   }
 };
 function getI18n(lang, key) {
   var locale = I18n[lang];
   if (!locale) {
-    locale = I18n["en"];
+    locale = I18n["ca"];
   }
   return locale[key] || key;
 }
