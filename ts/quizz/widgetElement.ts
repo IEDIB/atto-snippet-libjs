@@ -1,12 +1,16 @@
 
  
+import { WidgetGroupContext } from "./quizzTypes";
 import { StatusDisplay } from "./statusDisplay";
 
 export abstract class WidgetElement extends HTMLElement {
     
+    
     statusDisplay: StatusDisplay;
     lang = "ca"; 
     attoId: string | undefined;
+    groupContext: WidgetGroupContext | undefined;
+    _syncCount = 0;
 
     constructor() {
         super();
@@ -26,6 +30,14 @@ export abstract class WidgetElement extends HTMLElement {
             this.prepend(spanPre);
         }
     }
+
+    connectedCallback() {
+        this._syncCount++;
+        if(this._syncCount===3){
+            this.render();
+        } 
+    }
+
     reflowLatex() {
         // Reflow Mathjax if exists in page
         if(window.MathJax) {
@@ -37,7 +49,20 @@ export abstract class WidgetElement extends HTMLElement {
     setLang(lang: string) {
         this.lang = lang;
         this.statusDisplay.setLang(lang);
-        console.log("Setting lang ", lang)
+        console.log("Setting lang ", lang);
+        this._syncCount++;
+        if(this._syncCount===3){
+            this.render();
+        }
+    }
+
+    setGroupContext(groupContext: WidgetGroupContext) {
+        this.groupContext = groupContext;
+        console.log("Setting context ", this.groupContext);
+        this._syncCount++;
+        if(this._syncCount===3){
+            this.render();
+        }
     }
     
     setStatus(status: number, msg?: string | undefined): void {
@@ -48,4 +73,5 @@ export abstract class WidgetElement extends HTMLElement {
     abstract getUserInput(): string
     abstract displayRightAnswer(): void
     abstract check(): boolean 
+    abstract render(): void
 }

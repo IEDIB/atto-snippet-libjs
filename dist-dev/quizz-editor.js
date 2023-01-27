@@ -1,0 +1,1455 @@
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ([
+/* 0 */,
+/* 1 */,
+/* 2 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addBaseToUrl": function() { return /* binding */ addBaseToUrl; },
+/* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
+/* harmony export */   "createElement": function() { return /* binding */ createElement; },
+/* harmony export */   "genID": function() { return /* binding */ genID; },
+/* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
+/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
+/* harmony export */   "pathJoin": function() { return /* binding */ pathJoin; },
+/* harmony export */   "pran": function() { return /* binding */ pran; },
+/* harmony export */   "querySelectorProp": function() { return /* binding */ querySelectorProp; },
+/* harmony export */   "shuffleArray": function() { return /* binding */ shuffleArray; },
+/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
+/* harmony export */ });
+function parseUrlParams(url) {
+  var params = {};
+  var parts = url.substring(1).split('&');
+  for (var i = 0; i < parts.length; i++) {
+    var nv = parts[i].split('=');
+    if (!nv[0]) continue;
+    params[nv[0]] = nv[1] || "true";
+  }
+  return params;
+}
+function querySelectorProp(query, prop, def) {
+  var ele = document.querySelector(query);
+  if (ele != null) {
+    return ele.getAttribute(prop) || def || '';
+  }
+  return def || '';
+}
+
+// Identifies the user and role from page
+function getPageInfo() {
+  if (!document.querySelector) {
+    return {
+      userId: 1,
+      userFullname: '',
+      courseId: 1,
+      isTeacher: false,
+      courseName: '',
+      site: ''
+    };
+  }
+  // Get current user information
+  var userId = null;
+  var userFullname = null;
+  var dataUserId = document.querySelector('[data-userid]');
+  if (dataUserId) {
+    userId = dataUserId.getAttribute('data-userid');
+  }
+  var userText = document.getElementsByClassName("usertext");
+  if (userText && userText.length) {
+    userFullname = userText[0].innerText;
+  } else {
+    //Moodle4.1
+    var logininfo = document.querySelector("div.logininfo > a");
+    if (logininfo) {
+      userFullname = logininfo.innerText;
+    }
+  }
+  if (!userId) {
+    //TODO:: check if the current user is guest
+    userId = '1';
+    userFullname = "Usuari convidat";
+  }
+  var isTeacher = document.querySelector('.usermenu li a[href*="switchrole"]') != null ? 1 : 0;
+  if (!isTeacher) {
+    //Moodle 4.1
+    isTeacher = document.querySelector('form.editmode-switch-form') != null ? 1 : 0;
+  }
+  if (!isTeacher) {
+    // Boost theme
+    isTeacher = document.querySelector('.teacherdash.nav-item.nav-link') != null ? 1 : 0;
+  }
+
+  // Get information about the course
+  var courseId = '';
+  var courseName = '';
+  var footer = document.querySelector(".homelink > a");
+  if (footer != null) {
+    courseName = footer.innerText;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    var hrefVal = "?" + ((footer.getAttribute('href') || " ? ").split("?")[1] || "");
+    courseId = parseUrlParams(hrefVal).id;
+  } else {
+    //Moodle 4.1
+    if (window.M && window.M.cfg) {
+      courseId = window.M.cfg.courseId;
+    }
+    var nav = document.querySelector("#page-navbar ol > li:first-child > a");
+    if (nav != null) {
+      courseName = nav.innerText; //short name
+    }
+  }
+
+  var site = (location.href.split("?")[0] || "").replace("/mod/book/view.php", "");
+  return {
+    userId: convertInt(userId, 1),
+    userFullname: userFullname || 'test-user',
+    isTeacher: isTeacher > 0,
+    site: site,
+    courseName: courseName || 'test-course',
+    courseId: convertInt(courseId, 1)
+  };
+}
+
+//Seeded random number generator
+// https://gist.github.com/blixt/f17b47c62508be59987b
+function pran(seed) {
+  seed = seed % 2147483647;
+  var ranGen = function ranGen() {
+    seed = seed * 16807 % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+  ranGen();
+  ranGen();
+  ranGen();
+  return ranGen;
+}
+function waitForRequire(cb, nattempt) {
+  nattempt = nattempt || 0;
+  if (window.require && typeof window.require === 'function') {
+    cb();
+    return;
+  } else if (nattempt > 15) {
+    console.error("ERROR: Cannot find requirejs");
+    return;
+  }
+  window.setTimeout(function () {
+    waitForRequire(cb, nattempt + 1);
+  }, 500);
+}
+function convertInt(str, def) {
+  if (str && typeof str === 'number') {
+    return str;
+  }
+  if (!str || !(str + "").trim()) {
+    return def;
+  }
+  try {
+    var val = parseInt(str + "");
+    if (!isNaN(val)) {
+      return val;
+    }
+  } catch (ex) {
+    //pass
+  }
+  return def;
+}
+
+/**
+ * Safely joins two parts of an url
+ * @param a 
+ * @param b 
+ * @returns 
+ */
+function pathJoin(a, b) {
+  a = (a || "").trim();
+  b = (b || "").trim();
+  if (!a.endsWith('/')) {
+    a = a + '/';
+  }
+  if (b.startsWith('/')) {
+    b = b.substring(1);
+  }
+  return a + b;
+}
+
+/**
+ * Adds the baseurl if the passed url does not start with http or https
+ */
+function addBaseToUrl(base, url) {
+  url = (url || "").trim();
+  if (url.toLowerCase().startsWith("http")) {
+    return url;
+  }
+  // Afegir la base 
+  return pathJoin(base, url);
+}
+function genID() {
+  return "i" + Math.random().toString(32).substring(2);
+}
+function createElement(nodeType, opts) {
+  var elem = document.createElement(nodeType);
+  Object.keys(opts).forEach(function (optName) {
+    var value = opts[optName];
+    if (optName === "class") {
+      value.trim().split(/\s+/).forEach(function (cName) {
+        elem.classList.add(cName);
+      });
+    } else if (optName === "style") {
+      value.split(";").forEach(function (pair) {
+        var kv = pair.split(":");
+        if (kv.length === 2) {
+          elem.style.setProperty(kv[0].trim(), kv[1].trim());
+        }
+      });
+    } else if (optName === "html") {
+      elem.innerHTML = value;
+    } else {
+      elem.setAttribute(optName, value);
+    }
+  });
+  return elem;
+}
+
+// Algorithm called Fisher-Yates shuffle. 
+// The idea is to walk the array in the reverse order and swap each element with a random one before it:
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
+/***/ }),
+/* 3 */,
+/* 4 */
+/***/ (function(module) {
+
+
+
+var stylesInDOM = [];
+
+function getIndexByIdentifier(identifier) {
+  var result = -1;
+
+  for (var i = 0; i < stylesInDOM.length; i++) {
+    if (stylesInDOM[i].identifier === identifier) {
+      result = i;
+      break;
+    }
+  }
+
+  return result;
+}
+
+function modulesToDom(list, options) {
+  var idCountMap = {};
+  var identifiers = [];
+
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var id = options.base ? item[0] + options.base : item[0];
+    var count = idCountMap[id] || 0;
+    var identifier = "".concat(id, " ").concat(count);
+    idCountMap[id] = count + 1;
+    var indexByIdentifier = getIndexByIdentifier(identifier);
+    var obj = {
+      css: item[1],
+      media: item[2],
+      sourceMap: item[3],
+      supports: item[4],
+      layer: item[5]
+    };
+
+    if (indexByIdentifier !== -1) {
+      stylesInDOM[indexByIdentifier].references++;
+      stylesInDOM[indexByIdentifier].updater(obj);
+    } else {
+      var updater = addElementStyle(obj, options);
+      options.byIndex = i;
+      stylesInDOM.splice(i, 0, {
+        identifier: identifier,
+        updater: updater,
+        references: 1
+      });
+    }
+
+    identifiers.push(identifier);
+  }
+
+  return identifiers;
+}
+
+function addElementStyle(obj, options) {
+  var api = options.domAPI(options);
+  api.update(obj);
+
+  var updater = function updater(newObj) {
+    if (newObj) {
+      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
+        return;
+      }
+
+      api.update(obj = newObj);
+    } else {
+      api.remove();
+    }
+  };
+
+  return updater;
+}
+
+module.exports = function (list, options) {
+  options = options || {};
+  list = list || [];
+  var lastIdentifiers = modulesToDom(list, options);
+  return function update(newList) {
+    newList = newList || [];
+
+    for (var i = 0; i < lastIdentifiers.length; i++) {
+      var identifier = lastIdentifiers[i];
+      var index = getIndexByIdentifier(identifier);
+      stylesInDOM[index].references--;
+    }
+
+    var newLastIdentifiers = modulesToDom(newList, options);
+
+    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
+      var _identifier = lastIdentifiers[_i];
+
+      var _index = getIndexByIdentifier(_identifier);
+
+      if (stylesInDOM[_index].references === 0) {
+        stylesInDOM[_index].updater();
+
+        stylesInDOM.splice(_index, 1);
+      }
+    }
+
+    lastIdentifiers = newLastIdentifiers;
+  };
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module) {
+
+
+
+/* istanbul ignore next  */
+function apply(styleElement, options, obj) {
+  var css = "";
+
+  if (obj.supports) {
+    css += "@supports (".concat(obj.supports, ") {");
+  }
+
+  if (obj.media) {
+    css += "@media ".concat(obj.media, " {");
+  }
+
+  var needLayer = typeof obj.layer !== "undefined";
+
+  if (needLayer) {
+    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
+  }
+
+  css += obj.css;
+
+  if (needLayer) {
+    css += "}";
+  }
+
+  if (obj.media) {
+    css += "}";
+  }
+
+  if (obj.supports) {
+    css += "}";
+  }
+
+  var sourceMap = obj.sourceMap;
+
+  if (sourceMap && typeof btoa !== "undefined") {
+    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
+  } // For old IE
+
+  /* istanbul ignore if  */
+
+
+  options.styleTagTransform(css, styleElement, options.options);
+}
+
+function removeStyleElement(styleElement) {
+  // istanbul ignore if
+  if (styleElement.parentNode === null) {
+    return false;
+  }
+
+  styleElement.parentNode.removeChild(styleElement);
+}
+/* istanbul ignore next  */
+
+
+function domAPI(options) {
+  var styleElement = options.insertStyleElement(options);
+  return {
+    update: function update(obj) {
+      apply(styleElement, options, obj);
+    },
+    remove: function remove() {
+      removeStyleElement(styleElement);
+    }
+  };
+}
+
+module.exports = domAPI;
+
+/***/ }),
+/* 6 */
+/***/ (function(module) {
+
+
+
+var memo = {};
+/* istanbul ignore next  */
+
+function getTarget(target) {
+  if (typeof memo[target] === "undefined") {
+    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+
+    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+      try {
+        // This will throw an exception if access to iframe is blocked
+        // due to cross-origin restrictions
+        styleTarget = styleTarget.contentDocument.head;
+      } catch (e) {
+        // istanbul ignore next
+        styleTarget = null;
+      }
+    }
+
+    memo[target] = styleTarget;
+  }
+
+  return memo[target];
+}
+/* istanbul ignore next  */
+
+
+function insertBySelector(insert, style) {
+  var target = getTarget(insert);
+
+  if (!target) {
+    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
+  }
+
+  target.appendChild(style);
+}
+
+module.exports = insertBySelector;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+
+
+/* istanbul ignore next  */
+function setAttributesWithoutAttributes(styleElement) {
+  var nonce =  true ? __webpack_require__.nc : 0;
+
+  if (nonce) {
+    styleElement.setAttribute("nonce", nonce);
+  }
+}
+
+module.exports = setAttributesWithoutAttributes;
+
+/***/ }),
+/* 8 */
+/***/ (function(module) {
+
+
+
+/* istanbul ignore next  */
+function insertStyleElement(options) {
+  var element = document.createElement("style");
+  options.setAttributes(element, options.attributes);
+  options.insert(element, options.options);
+  return element;
+}
+
+module.exports = insertStyleElement;
+
+/***/ }),
+/* 9 */
+/***/ (function(module) {
+
+
+
+/* istanbul ignore next  */
+function styleTagTransform(css, styleElement) {
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css;
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild);
+    }
+
+    styleElement.appendChild(document.createTextNode(css));
+  }
+}
+
+module.exports = styleTagTransform;
+
+/***/ }),
+/* 10 */,
+/* 11 */
+/***/ (function(module) {
+
+
+
+module.exports = function (i) {
+  return i[1];
+};
+
+/***/ }),
+/* 12 */
+/***/ (function(module) {
+
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+module.exports = function (cssWithMappingToString) {
+  var list = [];
+
+  // return the list of modules as css string
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = "";
+      var needLayer = typeof item[5] !== "undefined";
+      if (item[4]) {
+        content += "@supports (".concat(item[4], ") {");
+      }
+      if (item[2]) {
+        content += "@media ".concat(item[2], " {");
+      }
+      if (needLayer) {
+        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
+      }
+      content += cssWithMappingToString(item);
+      if (needLayer) {
+        content += "}";
+      }
+      if (item[2]) {
+        content += "}";
+      }
+      if (item[4]) {
+        content += "}";
+      }
+      return content;
+    }).join("");
+  };
+
+  // import a list of modules into the list
+  list.i = function i(modules, media, dedupe, supports, layer) {
+    if (typeof modules === "string") {
+      modules = [[null, modules, undefined]];
+    }
+    var alreadyImportedModules = {};
+    if (dedupe) {
+      for (var k = 0; k < this.length; k++) {
+        var id = this[k][0];
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+    for (var _k = 0; _k < modules.length; _k++) {
+      var item = [].concat(modules[_k]);
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        continue;
+      }
+      if (typeof layer !== "undefined") {
+        if (typeof item[5] === "undefined") {
+          item[5] = layer;
+        } else {
+          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
+          item[5] = layer;
+        }
+      }
+      if (media) {
+        if (!item[2]) {
+          item[2] = media;
+        } else {
+          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
+          item[2] = media;
+        }
+      }
+      if (supports) {
+        if (!item[4]) {
+          item[4] = "".concat(supports);
+        } else {
+          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
+          item[4] = supports;
+        }
+      }
+      list.push(item);
+    }
+  };
+  return list;
+};
+
+/***/ }),
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Component": function() { return /* binding */ Component; },
+/* harmony export */   "ComponentHTML": function() { return /* binding */ ComponentHTML; }
+/* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+var componentMetaDefaults = {
+  name: "",
+  author: "",
+  version: "1.0",
+  use$: false
+};
+function Component(_meta) {
+  var meta = Object.assign({}, componentMetaDefaults, _meta);
+  if (!meta.query) {
+    meta.query = "[role=\"snptd_".concat(meta.name, "\"],[data-snptd=\"").concat(meta.name, "\"]");
+  }
+  return function (target) {
+    target.meta = meta;
+  };
+}
+// Decorator
+function ComponentHTML(componentOptions) {
+  return function (target) {
+    var originalMethod = target.prototype.connectedCallback;
+    var elementName = componentOptions.elementName,
+      classes = componentOptions.classes,
+      styles = componentOptions.styles;
+
+    // function() rather than () => is important because of the scoping of 'this'
+    target.prototype.connectedCallback = function () {
+      if (classes) {
+        var _this$classList;
+        (_this$classList = this.classList).add.apply(_this$classList, _toConsumableArray(classes));
+      }
+      if (styles) {
+        Object.assign(this.style, styles);
+      }
+      originalMethod && originalMethod.apply(this);
+    };
+    console.log("Calling customElements define for ", elementName, target);
+    customElements.define(elementName, target);
+  };
+}
+
+/***/ }),
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_editor_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(54);
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_editor_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ __webpack_exports__["default"] = (_node_modules_css_loader_dist_cjs_js_editor_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_editor_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_editor_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(55);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
+// Imports
+
+
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(56), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(57), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(58), __webpack_require__.b);
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
+var ___CSS_LOADER_URL_REPLACEMENT_2___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "body.editing .ib-quizz-elem {\n    display: inline-block;\n    vertical-align: middle;\n    position: relative;\n    padding: 4px;  \n}\nbody.editing ib-quizz-dropdown::after {\n    content: \"\";\n    display: block;\n    width: 133px;\n    height: 39px;\n    background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n    background-size: cover;                      \n    background-repeat: no-repeat;\n    background-position: center center;    \n}\nbody.editing ib-quizz-mchoice::after {\n    content: \"\";\n    display: block;\n    width: 80px;\n    height: 86px;\n    background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n    background-size: cover;                      \n    background-repeat: no-repeat;\n    background-position: center center;    \n}\nbody.editing ib-quizz-numeric::after {\n    content: \"\";\n    display: block;\n    width: 92px;\n    height: 39px;\n    background-image: url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");\n    background-repeat: no-repeat;\n    background-position: center center; \n    background-size: cover;  \n}\n \n/* Editor styles */\n.pw-me-dlg {\n    display: flex;\n    flex-direction: column;\n    position: fixed;\n    margin: auto;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    border: 2px solid lightgray;\n    z-index: 100;\n    background: white;\n    box-shadow: 4px 4px 4px #888888;\n    border-radius: 5px;\n}\n\n.pw-me-dlg-header {\n    background: whitesmoke;\n    width: 100%;\n    height: 23px;\n    border-bottom: 2px solid lightgray;\n}\n\n.pw-me-dlg-headertitle {\n    color: black;\n    margin-left: 8px;\n}\n.pw-me-dlg-body {\n    flex-grow: 1;\n    width: 100%;\n    overflow: auto;\n}\n\n.pw-me-dlg-controls {\n    background: white;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n    margin: 5px;\n}\n\n.pw-me-btn-dlgclose {\n    color: gray;\n    width: 23px;\n    height: 23px;\n    float: right;\n    padding: 0;\n}\n", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module) {
+
+
+
+module.exports = function (url, options) {
+  if (!options) {
+    options = {};
+  }
+  if (!url) {
+    return url;
+  }
+  url = String(url.__esModule ? url.default : url);
+
+  // If url is already wrapped in quotes, remove them
+  if (/^['"].*['"]$/.test(url)) {
+    url = url.slice(1, -1);
+  }
+  if (options.hash) {
+    url += options.hash;
+  }
+
+  // Should url be wrapped?
+  // See https://drafts.csswg.org/css-values-3/#urls
+  if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
+    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
+  }
+  return url;
+};
+
+/***/ }),
+/* 56 */
+/***/ (function(module) {
+
+module.exports = "data:image/png;base64,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";
+
+/***/ }),
+/* 57 */
+/***/ (function(module) {
+
+module.exports = "data:image/png;base64,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";
+
+/***/ }),
+/* 58 */
+/***/ (function(module) {
+
+module.exports = "data:image/png;base64,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";
+
+/***/ }),
+/* 59 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(60);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(61);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var MAX_ELEMS = 6;
+var panel = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.createElement)('div', {
+  style: 'width:100%;padding:10px',
+  html: "\n        Correcte / Opcions<br>\n        <input type=\"radio\" name=\"quizzDDOptRight\" id=\"quizzDDOptRight_0\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_0\"><br>\n        <input type=\"radio\" name=\"quizzDDOptRight\" id=\"quizzDDOptRight_1\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_1\"><br>\n        <input type=\"radio\" name=\"quizzDDOptRight\" id=\"quizzDDOptRight_2\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_2\"><br>\n        <input type=\"radio\" name=\"quizzDDOptRight\" id=\"quizzDDOptRight_3\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_3\"><br>\n        <input type=\"radio\" name=\"quizzDDOptRight\" id=\"quizzDDOptRight_4\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_4\"><br>\n        <input type=\"radio\" name=\"quizzDDOptRight\" id=\"quizzDDOptRight_5\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_5\"><br>\n        <br>\n        <input type=\"checkbox\" id=\"quizzDDshuffle\"> Barreja les opcions<br>\n        <hr>\n        Text abans de l'element<br>\n        <textarea id=\"quizz-numedit-pre\" rows=\"2\" style=\"width:98%\"></textarea>\n        <br>\n        Feedback de la resposta<br>\n        <textarea id=\"quizz-numedit-feedback\" rows=\"2\" style=\"width:98%\"></textarea>\n        <br>\n    "
+});
+var allCheckboxesElems = new Array(MAX_ELEMS);
+var allOptionElems = new Array(MAX_ELEMS);
+for (var i = 0; i < MAX_ELEMS; i++) {
+  allCheckboxesElems[i] = panel.querySelector("#quizzDDOptRight_" + i);
+  allOptionElems[i] = panel.querySelector("#quizzDDOpt_" + i);
+}
+var quizzDDshuffle = panel.querySelector("#quizzDDshuffle");
+var quizzNumeditPre = panel.querySelector("#quizz-numedit-pre");
+var quizzNumeditFeedback = panel.querySelector("#quizz-numedit-feedback");
+function setValues(w) {
+  var _w$opts;
+  // Opcions correctes són
+  var allRight = w.ans.split(",").map(function (e) {
+    return e.trim();
+  });
+  var vars = w.vars || [];
+  vars.forEach(function (s, i) {
+    allCheckboxesElems[i].checked = allRight.indexOf(i + "") >= 0;
+    allOptionElems[i].value = s;
+  });
+  // Clear the remaining inputs
+  for (var _i = vars.length; _i < MAX_ELEMS; _i++) {
+    allCheckboxesElems[_i].checked = false;
+    allOptionElems[_i].value = "";
+  }
+  quizzDDshuffle.checked = ((_w$opts = w.opts) === null || _w$opts === void 0 ? void 0 : _w$opts.shuffle) || false;
+  quizzNumeditFeedback.value = w.fbk || "";
+  quizzNumeditPre.value = w.pre || "";
+}
+function getValues() {
+  var theAns = [];
+  var theVars = [];
+  allOptionElems.forEach(function (e, i) {
+    var v = e.value || "";
+    if (v.trim()) {
+      theVars.push(v);
+      if (allCheckboxesElems[i].checked) {
+        theAns.push(i + "");
+      }
+    }
+  });
+  var updated = {
+    ans: theAns.join(","),
+    vars: theVars,
+    fbk: quizzNumeditFeedback.value || "",
+    pre: quizzNumeditPre.value || "",
+    opts: {
+      shuffle: quizzDDshuffle.checked
+    }
+  };
+  return updated;
+}
+var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-dropdown",
+  classes: ["ib-quizz-elem"],
+  styles: {
+    "display": "inline-block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzDropdown, _WidgetElement);
+  var _super = _createSuper(IBQuizzDropdown);
+  function IBQuizzDropdown() {
+    _classCallCheck(this, IBQuizzDropdown);
+    return _super.apply(this, arguments);
+  }
+  _createClass(IBQuizzDropdown, [{
+    key: "successCb",
+    value: function successCb() {
+      var updated = getValues();
+      var output = btoa(JSON.stringify(updated));
+      if (output) {
+        var _this$editor;
+        this.setAttribute("data-src", output);
+        var event = new Event('updated');
+        (_this$editor = this.editor) === null || _this$editor === void 0 ? void 0 : _this$editor.dispatchEvent(event);
+        console.info("Event dispatched");
+      }
+    }
+  }, {
+    key: "edit",
+    value: function edit() {
+      if (!this.editor) {
+        return;
+      }
+      this.updateConfig();
+      console.log(this.config);
+      // Update controls with values from config
+      setValues(this.config);
+      var dialog = (0,_bs_dialog__WEBPACK_IMPORTED_MODULE_3__.getDialog)('ib-quizz-editor-dlg', 'Editar dropdown');
+      dialog.setBody(panel);
+      dialog.show(this.successCb.bind(this));
+    }
+  }]);
+  return IBQuizzDropdown;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_1__.WidgetElement)) || _class);
+
+/***/ }),
+/* 60 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "WidgetElement": function() { return /* binding */ WidgetElement; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
+  _inherits(WidgetElement, _HTMLElement);
+  var _super = _createSuper(WidgetElement);
+  function WidgetElement() {
+    var _this;
+    _classCallCheck(this, WidgetElement);
+    _this = _super.call(this);
+    _this.innerHTML = "";
+    _this.config = {
+      ans: ''
+    };
+    return _this;
+  }
+  _createClass(WidgetElement, [{
+    key: "connectedCallback",
+    value: function connectedCallback() {
+      this.attoId = this.discoverAttoId();
+      this.addEventListener("click", this.edit);
+    }
+  }, {
+    key: "updateConfig",
+    value: function updateConfig() {
+      //Parse the data-src property
+      try {
+        var raw64Src = this.getAttribute("data-src") || '';
+        var rawSrc = atob(raw64Src) || '{}';
+        this.config = JSON.parse(rawSrc);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+  }, {
+    key: "discoverAttoId",
+    value: function discoverAttoId() {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      var elem = this;
+      while (this.attoId == null && elem != null) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        if (elem.classList.contains("editor_atto_content_wrap") || elem.nodeName === 'body' || elem === window) {
+          break;
+        }
+        if (elem.classList.contains("editor_atto_content")) {
+          this.attoId = elem.getAttribute("id") || "";
+        }
+        elem = elem.parentElement;
+      }
+      console.log("Atto editor discovery ", this.attoId);
+      if (this.attoId) {
+        this.editor = document.getElementById(this.attoId);
+      }
+      return this.attoId;
+    }
+  }]);
+  return WidgetElement;
+}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+/***/ }),
+/* 61 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getDialog": function() { return /* binding */ getDialog; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+var BSDialog = /*#__PURE__*/function () {
+  function BSDialog(id, title) {
+    var _this = this;
+    _classCallCheck(this, BSDialog);
+    this.elem = $("\n            <div class=\"modal fade moodle-dialogue\" id=\"".concat(id, "\" tabindex=\"-1\" aria-labelledby=\"bsdialog\" aria-hidden=\"true\">\n            <div class=\"modal-dialog\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\">").concat(title, "</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancel\xB7lar</button>\n                    <button type=\"button\" class=\"btn btn-primary\">Acceptar</button>\n                   </div>\n                </div>\n                </div>"));
+    this.body = this.elem.find('div.modal-body');
+    this.header = this.elem.find('h5.modal-title');
+    this.secondaryBtn = this.elem.find('button.btn-secondary');
+    this.primaryBtn = this.elem.find('button.btn-primary');
+    this.secondaryBtn.on('click', function () {
+      //@ts-ignore
+      _this.elem.modal('hide');
+    });
+    $('body').append(this.elem);
+  }
+  _createClass(BSDialog, [{
+    key: "clearBody",
+    value: function clearBody() {
+      this.body.html('');
+    }
+  }, {
+    key: "setBody",
+    value: function setBody(htmlElem) {
+      this.clearBody();
+      this.body.append($(htmlElem));
+    }
+  }, {
+    key: "setTitle",
+    value: function setTitle(title) {
+      this.header.html(title);
+    }
+  }, {
+    key: "show",
+    value: function show(cb) {
+      var _this2 = this;
+      //@ts-ignore
+      this.elem.modal('show');
+      this.primaryBtn.off();
+      this.primaryBtn.on('click', function () {
+        cb();
+        //@ts-ignore
+        _this2.elem.modal('hide');
+      });
+    }
+  }]);
+  return BSDialog;
+}();
+var dialogCache = {};
+function getDialog(id, title) {
+  var dlg = dialogCache[id];
+  if (!dlg) {
+    dlg = new BSDialog(id, title);
+    dialogCache[id] = dlg;
+  }
+  dlg.setTitle(title);
+  return dlg;
+}
+
+/***/ }),
+/* 62 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(61);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(60);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var panel = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.createElement)('div', {
+  style: 'width:100%;padding:10px',
+  html: "\n        Resposta correcta<br>\n        <input id=\"quizz-numedit-ans\" type=\"text\"><br>\n        Precisi\xF3 <br>\n        <input id=\"quizz-numedit-precision\" type=\"numeric\" min=0><br>\n        Tipus de precisi\xF3 <br>\n        <select id=\"quizz-numedit-precisiontype\">\n            <option value=\"relative\">Relativa</option>\n            <option value=\"absolute\">Absoluta</option>\n            <option value=\"%\">Percentual</option>\n        </select>\n        <br>\n        <hr>\n        Text abans de l'element<br>\n        <textarea id=\"quizz-numedit-pre\" rows=\"2\" style=\"width:98%\"></textarea>\n        <br>\n        Feedback de la resposta<br>\n        <textarea id=\"quizz-numedit-feedback\" rows=\"2\" style=\"width:98%\"></textarea>\n        <br>\n    "
+});
+var quizzNumEditAns = panel.querySelector("#quizz-numedit-ans");
+var quizzNumeditPrecision = panel.querySelector("#quizz-numedit-precision");
+var quizzNumeditPrecisiontype = panel.querySelector("#quizz-numedit-precisiontype");
+var quizzNumeditPre = panel.querySelector("#quizz-numedit-pre");
+var quizzNumeditFeedback = panel.querySelector("#quizz-numedit-feedback");
+function setValues(w) {
+  var _w$opts, _w$opts2;
+  quizzNumEditAns.value = w.ans || "";
+  quizzNumeditFeedback.value = w.fbk || "";
+  quizzNumeditPre.value = w.pre || "";
+  quizzNumeditPrecision.value = (((_w$opts = w.opts) === null || _w$opts === void 0 ? void 0 : _w$opts.err) || 0) + "";
+  quizzNumeditPrecisiontype.value = ((_w$opts2 = w.opts) === null || _w$opts2 === void 0 ? void 0 : _w$opts2.errunit) || "absolute";
+}
+function getValues() {
+  var updated = {
+    ans: (quizzNumEditAns === null || quizzNumEditAns === void 0 ? void 0 : quizzNumEditAns.value) || "0",
+    fbk: quizzNumeditFeedback.value || "",
+    pre: quizzNumeditPre.value || "",
+    opts: {
+      err: parseFloat((quizzNumeditPrecision === null || quizzNumeditPrecision === void 0 ? void 0 : quizzNumeditPrecision.value) || "0"),
+      errunit: quizzNumeditPrecisiontype === null || quizzNumeditPrecisiontype === void 0 ? void 0 : quizzNumeditPrecisiontype.value
+    }
+  };
+  return updated;
+}
+var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-numeric",
+  classes: ["ib-quizz-elem"],
+  styles: {
+    "display": "inline-block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzNumeric, _WidgetElement);
+  var _super = _createSuper(IBQuizzNumeric);
+  function IBQuizzNumeric() {
+    _classCallCheck(this, IBQuizzNumeric);
+    return _super.apply(this, arguments);
+  }
+  _createClass(IBQuizzNumeric, [{
+    key: "successCb",
+    value: function successCb() {
+      var updated = getValues();
+      var output = btoa(JSON.stringify(updated));
+      if (output) {
+        var _this$editor;
+        this.setAttribute("data-src", output);
+        var event = new Event('updated');
+        (_this$editor = this.editor) === null || _this$editor === void 0 ? void 0 : _this$editor.dispatchEvent(event);
+        console.info("Event dispatched");
+      }
+    }
+  }, {
+    key: "edit",
+    value: function edit() {
+      if (!this.editor) {
+        return;
+      }
+      this.updateConfig();
+      console.log(this.config);
+      // Update controls with values from config
+      setValues(this.config);
+      var dialog = (0,_bs_dialog__WEBPACK_IMPORTED_MODULE_2__.getDialog)('ib-quizz-editor-dlg', 'Editar mchoice');
+      dialog.setBody(panel);
+      dialog.show(this.successCb.bind(this));
+    }
+  }]);
+  return IBQuizzNumeric;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetElement)) || _class);
+
+/***/ }),
+/* 63 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(61);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(60);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var panel = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.createElement)('div', {
+  style: 'width:100%;padding:10px',
+  html: "\n        Correcte / Opcions<br>\n        <input type=\"checkbox\" id=\"quizzDDOptRight_0\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_0\"><br>\n        <input type=\"checkbox\" id=\"quizzDDOptRight_1\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_1\"><br>\n        <input type=\"checkbox\" id=\"quizzDDOptRight_2\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_2\"><br>\n        <input type=\"checkbox\" id=\"quizzDDOptRight_3\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_3\"><br>\n        <input type=\"checkbox\" id=\"quizzDDOptRight_4\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_4\"><br>\n        <input type=\"checkbox\" id=\"quizzDDOptRight_5\"> <input type=\"text\" style=\"width:90%\" id=\"quizzDDOpt_5\"><br>\n        <br>\n        <input type=\"checkbox\" id=\"quizzDDshuffle\"> Barreja les opcions<br>\n        <hr>\n        Text abans de l'element<br>\n        <textarea id=\"quizz-numedit-pre\" rows=\"2\" style=\"width:98%\"></textarea>\n        <br>\n        Feedback de la resposta<br>\n        <textarea id=\"quizz-numedit-feedback\" rows=\"2\" style=\"width:98%\"></textarea>\n        <br>\n    "
+});
+var MAX_ELEMS = 6;
+var allCheckboxesElems = new Array(MAX_ELEMS);
+var allOptionElems = new Array(MAX_ELEMS);
+for (var i = 0; i < MAX_ELEMS; i++) {
+  allCheckboxesElems[i] = panel.querySelector("#quizzDDOptRight_" + i);
+  allOptionElems[i] = panel.querySelector("#quizzDDOpt_" + i);
+}
+var quizzDDshuffle = panel.querySelector("#quizzDDshuffle");
+var quizzNumeditPre = panel.querySelector("#quizz-numedit-pre");
+var quizzNumeditFeedback = panel.querySelector("#quizz-numedit-feedback");
+function setValues(w) {
+  var _w$opts;
+  // Opcions correctes són
+  var allRight = w.ans.split(",").map(function (e) {
+    return e.trim();
+  });
+  var vars = w.vars || [];
+  vars.forEach(function (s, i) {
+    allCheckboxesElems[i].checked = allRight.indexOf(i + "") >= 0;
+    allOptionElems[i].value = s;
+  });
+  // Clear the remaining inputs
+  for (var _i = vars.length; _i < MAX_ELEMS; _i++) {
+    allCheckboxesElems[_i].checked = false;
+    allOptionElems[_i].value = "";
+  }
+  quizzDDshuffle.checked = ((_w$opts = w.opts) === null || _w$opts === void 0 ? void 0 : _w$opts.shuffle) || false;
+  quizzNumeditFeedback.value = w.fbk || "";
+  quizzNumeditPre.value = w.pre || "";
+}
+function getValues() {
+  var theAns = [];
+  var theVars = [];
+  allOptionElems.forEach(function (e, i) {
+    var v = e.value || "";
+    if (v.trim()) {
+      theVars.push(v);
+      if (allCheckboxesElems[i].checked) {
+        theAns.push(i + "");
+      }
+    }
+  });
+  var updated = {
+    ans: theAns.join(","),
+    vars: theVars,
+    fbk: quizzNumeditFeedback.value || "",
+    pre: quizzNumeditPre.value || "",
+    opts: {
+      shuffle: quizzDDshuffle.checked
+    }
+  };
+  return updated;
+}
+var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-mchoice",
+  classes: ["ib-quizz-elem"],
+  styles: {
+    "display": "block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzMchoice, _WidgetElement);
+  var _super = _createSuper(IBQuizzMchoice);
+  function IBQuizzMchoice() {
+    _classCallCheck(this, IBQuizzMchoice);
+    return _super.apply(this, arguments);
+  }
+  _createClass(IBQuizzMchoice, [{
+    key: "successCb",
+    value: function successCb() {
+      var updated = getValues();
+      var output = btoa(JSON.stringify(updated));
+      if (output) {
+        var _this$editor;
+        this.setAttribute("data-src", output);
+        var event = new Event('updated');
+        (_this$editor = this.editor) === null || _this$editor === void 0 ? void 0 : _this$editor.dispatchEvent(event);
+        console.info("Event dispatched");
+      }
+    }
+  }, {
+    key: "edit",
+    value: function edit() {
+      if (!this.editor) {
+        return;
+      }
+      this.updateConfig();
+      console.log(this.config);
+      // Update controls with values from config
+      setValues(this.config);
+      var dialog = (0,_bs_dialog__WEBPACK_IMPORTED_MODULE_2__.getDialog)('ib-quizz-editor-dlg', 'Editar mchoice');
+      dialog.setBody(panel);
+      dialog.show(this.successCb.bind(this));
+    }
+  }]);
+  return IBQuizzMchoice;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetElement)) || _class);
+
+/***/ })
+/******/ 	]);
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	!function() {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			6: 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		// no on chunks loaded
+/******/ 		
+/******/ 		// no jsonp function
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _editor_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(53);
+/* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(59);
+/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(62);
+/* harmony import */ var _mchoiceWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(63);
+
+
+
+
+}();
+/******/ })()
+;

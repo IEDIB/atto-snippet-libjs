@@ -47,9 +47,8 @@ class IBQuizzMchoice extends WidgetElement {
         this.enable(!result);     
         return result;
     } 
-    connectedCallback(){ 
-        this.form = document.createElement("form"); 
-        this.form.style.setProperty("display", "inline-block");
+    render() {
+        console.log("MCHOICE RENDER:: ", this.groupContext, this.widgetConfig);
         // Make sure that has data-src field
         let src = this.dataset.src || "";
         try {
@@ -57,12 +56,32 @@ class IBQuizzMchoice extends WidgetElement {
           this.widgetConfig = JSON.parse(src) as WidgetConfig; 
         } catch(ex) {
           console.error(ex);
+          return;
         }
 
-        console.log("connectedCallback ", this.widgetConfig);
+        console.log("render ", this.widgetConfig);
         if(!this.widgetConfig) {
             return;
         } 
+        // Here groupContext._v map is available and parsed
+        // Must evaluate in the context the rightanswer and all the options
+        if(this.groupContext?.v.length) {
+            const theVars = this.widgetConfig?.vars || [];
+            console.log("The vars,", theVars);
+            theVars.forEach((v: string, i: number)=>{
+                console.log("Searching for # in ", v);
+                if(v.indexOf('#') < 0) {
+                    return;
+                }
+                theVars[i] = v.replace(/#([a-zA-Z0-9_]+)/g, ($0, $1)=>{
+                    return this.groupContext?._v[$1] || $0;
+                });
+            });
+        }
+
+        this.form = document.createElement("form"); 
+        this.form.style.setProperty("display", "inline-block");
+        
 
         const isMultiple = this.widgetConfig?.ans.indexOf(",")>0;
        
@@ -109,10 +128,11 @@ class IBQuizzMchoice extends WidgetElement {
         this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
+    /*
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
         console.log('The ', name, ' has changed to', newValue); 
     }
     static get observedAttributes(): string[] {
          return ['data-src']; 
-    } 
+    }*/ 
 }

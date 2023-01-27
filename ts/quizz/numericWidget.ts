@@ -1,6 +1,7 @@
 import { ComponentHTML } from "../decorators";
 import { createElement } from "../utils";
 import { WidgetConfig } from "./quizzTypes";
+import { scopedEval } from "./quizzUtil";
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
 
@@ -14,7 +15,6 @@ class IBQuizzNumeric extends WidgetElement {
     private widgetConfig: WidgetConfig | undefined;
     private userAns = -1;
     input: HTMLInputElement | undefined;
-
      
     enable(state: boolean): void {
         if(!this.input) {
@@ -72,7 +72,29 @@ class IBQuizzNumeric extends WidgetElement {
         this.enable(!result);
         return result;
     }
-    connectedCallback() { 
+    render() { 
+         // Make sure that has data-src field
+         let src = this.dataset.src || "";
+         try {
+             src = atob(src);
+             this.widgetConfig = JSON.parse(src) as WidgetConfig;
+         } catch (ex) {
+             console.error(ex);
+             return;
+         }
+         console.log("Render numeric ", this.widgetConfig);
+         
+
+        // Here groupContext._v map is available and parsed
+        // Must evaluate in the context the rightanswer
+        if(this.groupContext?.v.length && this.widgetConfig) {
+            let theAns = this.widgetConfig.ans || '';
+            if(theAns.indexOf('#') >= 0) {
+                theAns = theAns.replace(/#/g, '');
+                this.widgetConfig.ans = ''+scopedEval(this.groupContext._v || {}, theAns);
+            } 
+        }
+
         this.input = createElement("input", {
             class: "form-control",
             type: "number",
@@ -81,27 +103,18 @@ class IBQuizzNumeric extends WidgetElement {
         this.input.addEventListener("change", (evt) => {
             this.setStatus(WidgetStatus.UNSET);
         });
-        // Make sure that has data-src field
-        let src = this.dataset.src || "";
-        try {
-            src = atob(src);
-            this.widgetConfig = JSON.parse(src) as WidgetConfig;
-        } catch (ex) {
-            console.error(ex);
-        }
-        console.log("connectedCallback ", this.widgetConfig);
-        if (!this.widgetConfig) {
-            return;
-        }
+       
         super.init(this.widgetConfig.pre); 
         this.append(this.input);
         this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
+    /*
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
         console.log('The ', name, ' has changed to', newValue);
     }
     static get observedAttributes(): string[] {
         return ['data-src'];
     } 
+    */
 }

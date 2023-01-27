@@ -13,3 +13,9 @@ export interface WidgetConfig {
     pre?: string,
     fbk?: string
 }
+
+export interface WidgetGroupContext {
+    v: string[],
+    _v: {[key: string]: any},
+    o: {hint:number, ans: number}
+}

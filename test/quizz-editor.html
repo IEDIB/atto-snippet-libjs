@@ -9,9 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
     integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
   <style>
     body {
       max-width: 700px;
@@ -20,16 +17,15 @@
   </style>
 </head>
 
-<body>
+<body class="editing">
 
   <div id="content-editor-mock" class="editor_atto_content">
   
-  <div data-quizz-group="eyJ2IjogWyJhOj1hbGVhKDMsNCkiLCJiOj1hK2FsZWEoLTQsNCkiLCJjOj1hKmItMSJdfQ==" data-lang="en">
+  <div data-quizz-group data-lang="en">
     <p data-toggle="tooltip" title="Una prova">sdflsdkfmsdflkms</p>
-    <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd #a
+    <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd
       <ib-quizz-mchoice class="ib-quizz-elem"
-        data-src="eyJ2YXJzIjogWyJNb29uICNhIiwiTWFycyAjYiIsIkVhcnRoICNjIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19">
-        
+        data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19">
       </ib-quizz-mchoice>
 
       <ib-quizz-mchoice class="ib-quizz-elem"
@@ -38,16 +34,16 @@
     </ib-quizz-mchoice>
       <br>
       <ib-quizz-dropdown class="ib-quizz-elem"
-        data-src="eyJ2YXJzIjogWyJNb29uIFxcKEU9bWNeMlxcKSIsIk1hcnMiLCJFYXJ0aCIsIkp1cGl0ZXIiLCJTYXR1cm4gXFwoXFxzcXJ0ezJ4LXpeMn1cXCkiXSwgImFucyI6IjMiLCAib3B0cyI6IHsic2h1ZmZsZSI6IHRydWV9fQ==">
+        data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19">
         
       </ib-quizz-dropdown>
       <br>
-      \(#a\cdot #b - 1\)=<ib-quizz-numeric class="ib-quizz-elem"
-        data-src="eyJhbnMiOiIjYyIsICJvcHRzIjogeyJlcnIiOiAwLCAiZXJydW5pdCI6IiUifSwgInByZSI6Ij0iLCAiZmJrIjoiUmVjb3JkYSBxdWUgY2FsIGVtcHJhciB0b3RzIGVscyBkZWNpbWFscyJ9">
+      1+1=<ib-quizz-numeric class="ib-quizz-elem"
+        data-src="eyJhbnMiOiIyLjM1NiIsICJvcHRzIjogeyJlcnIiOiA1LCAiZXJydW5pdCI6IiUifSwgInByZSI6Ij0iLCAiZmJrIjoiUmVjb3JkYSBxdWUgY2FsIGVtcHJhciB0b3RzIGVscyBkZWNpbWFscyJ9">
         <input class="form-control" type="number" style="display:inline-block; width:100px;">
       </ib-quizz-numeric>
     </p>
-    <p> dsfkjsdf d #b fds fdsffdsf ds f<b>#c</b> dsf ds f sd</p>
+    <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd</p>
   </div>
 </div>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -66,7 +62,7 @@
   </script>
 
 
-  <script src="./dist-dev/quizz.js"></script>
+  <script src="./dist-dev/quizz-editor.js"></script>
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()

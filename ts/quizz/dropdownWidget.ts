@@ -46,21 +46,38 @@ class IBQuizzDropdown extends WidgetElement {
         if (this.button) {
             this.button.innerHTML = getI18n(lang, "chooseone");
         }
-    }
-    connectedCallback() {
+    } 
+    render() {
+         // Make sure that has data-src field
+         let src = this.dataset.src || "";
+         try {
+             src = atob(src);
+             this.widgetConfig = JSON.parse(src) as WidgetConfig;
+         } catch (ex) {
+             console.error(ex);
+             return;
+         }
+
+        // Here groupContext._v map is available and parsed
+        // Must evaluate in the context the rightanswer and all the options
+        if(this.groupContext?.v.length) {
+            const theVars = this.widgetConfig?.vars || [];
+            theVars.forEach((v: string, i: number)=>{
+                if(v.indexOf('#') < 0) {
+                    return;
+                }
+                theVars[i] = v.replace(/#([a-zA-Z0-9_]+)/g, ($0, $1)=>{
+                    return this.groupContext?._v[$1] || $0;
+                });
+            });
+        }
+
         // Attach editListener of edit pages 
         this.dropdown = createElement("div", {
             class: "dropdown",
             style: "display:inline-block;"
         }) as HTMLDivElement;
-        // Make sure that has data-src field
-        let src = this.dataset.src || "";
-        try {
-            src = atob(src);
-            this.widgetConfig = JSON.parse(src) as WidgetConfig;
-        } catch (ex) {
-            console.error(ex);
-        }
+       
 
         console.log("connectedCallback ", this.widgetConfig);
         if (!this.widgetConfig) {
@@ -102,6 +119,9 @@ class IBQuizzDropdown extends WidgetElement {
                 this.userAns = index;
                 evt.preventDefault();
                 this.button && (this.button.innerHTML = opt);
+                if(opt.indexOf('\\(')>=0) {
+                    this.reflowLatex();
+                }
                 this.setStatus(WidgetStatus.UNSET);
             });
             this.options?.append(anchor);
@@ -114,10 +134,11 @@ class IBQuizzDropdown extends WidgetElement {
         this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
+    /*
     attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
         console.log('The ', name, ' has changed to', newValue);
     }
     static get observedAttributes(): string[] {
         return ['data-src'];
-    } 
+    }*/
 }
