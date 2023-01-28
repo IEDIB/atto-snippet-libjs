@@ -38,7 +38,8 @@ declare interface VoicePlayer {
 
 interface Window {
     MathJax: any,
-    MathQuill: MQ.MathQuill
+    MathQuill: MQ.MathQuill,
+    ibComponentLoader(): void 
 }
 
 /**

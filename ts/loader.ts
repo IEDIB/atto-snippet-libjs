@@ -104,7 +104,10 @@ export default {
                 //wait for jquery
                 requirejs(['jquery'], function(){ 
                     //wait for document ready
-                    $(function(){ 
+                    $(function(){
+                        if(typeof window.ibComponentLoader === 'function') {
+                            window.ibComponentLoader();
+                        } 
                         _bootstrap(arrayDefs);
                     });                        
                 })                    
