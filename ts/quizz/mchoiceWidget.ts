@@ -1,6 +1,5 @@
 import { ComponentHTML } from "../decorators";
-import { createElement, genID, shuffleArray } from "../utils"; 
-import { WidgetConfig } from "./quizzTypes";
+import { createElement, genID, shuffleArray } from "../utils";  
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement";  
 
@@ -17,8 +16,7 @@ const isSameSet = (set1: Set<string>, set2: Set<string>) => {
     styles: {display: "flex", "align-items": "center"}
 })
 class IBQuizzMchoice extends WidgetElement { 
-    private radios: HTMLInputElement[] = [];
-    private widgetConfig: WidgetConfig | undefined;
+    private radios: HTMLInputElement[] = []; 
     private userAnsSet = new Set<string>(); 
     form: HTMLElement | undefined;
  
@@ -44,28 +42,22 @@ class IBQuizzMchoice extends WidgetElement {
         const expectedSet = new Set(expectedAns);
         const result = isSameSet(this.userAnsSet, expectedSet);
         this.setStatus(result?WidgetStatus.RIGHT:WidgetStatus.WRONG);   
-        this.enable(!result);     
+        this.enable(!result);   
+        if(result) {
+            this.showFeedback();
+        } else {
+            this.incAttempts();
+        }  
         return result;
     } 
     render() {
         console.log("MCHOICE RENDER:: ", this.groupContext, this.widgetConfig);
-        // Make sure that has data-src field
-        let src = this.dataset.src || "";
-        try {
-          src = atob(src);
-          this.widgetConfig = JSON.parse(src) as WidgetConfig; 
-        } catch(ex) {
-          console.error(ex);
-          return;
-        }
-
-        console.log("render ", this.widgetConfig);
         if(!this.widgetConfig) {
             return;
         } 
         // Here groupContext._v map is available and parsed
         // Must evaluate in the context the rightanswer and all the options
-        if(this.groupContext?.v.length) {
+        if(this.groupContext?.s.length) {
             const theVars = this.widgetConfig?.vars || [];
             console.log("The vars,", theVars);
             theVars.forEach((v: string, i: number)=>{
@@ -74,7 +66,7 @@ class IBQuizzMchoice extends WidgetElement {
                     return;
                 }
                 theVars[i] = v.replace(/#([a-zA-Z0-9_]+)/g, ($0, $1)=>{
-                    return this.groupContext?._v[$1] || $0;
+                    return this.groupContext?._s[$1] || $0;
                 });
             });
         }

@@ -9,20 +9,24 @@ const panel = createElement('div', {
     style: 'width:100%;padding:10px',
     html: `
         Correcte / Opcions<br>
-        <input type="checkbox" id="quizzDDOptRight_0"> <input type="text" style="width:90%" id="quizzDDOpt_0"><br>
-        <input type="checkbox" id="quizzDDOptRight_1"> <input type="text" style="width:90%" id="quizzDDOpt_1"><br>
-        <input type="checkbox" id="quizzDDOptRight_2"> <input type="text" style="width:90%" id="quizzDDOpt_2"><br>
-        <input type="checkbox" id="quizzDDOptRight_3"> <input type="text" style="width:90%" id="quizzDDOpt_3"><br>
-        <input type="checkbox" id="quizzDDOptRight_4"> <input type="text" style="width:90%" id="quizzDDOpt_4"><br>
-        <input type="checkbox" id="quizzDDOptRight_5"> <input type="text" style="width:90%" id="quizzDDOpt_5"><br>
+        <input type="checkbox" id="quizzMCOptRight_0"> <input type="text" style="width:90%" id="quizzMCOpt_0"><br>
+        <input type="checkbox" id="quizzMCOptRight_1"> <input type="text" style="width:90%" id="quizzMCOpt_1"><br>
+        <input type="checkbox" id="quizzMCOptRight_2"> <input type="text" style="width:90%" id="quizzMCOpt_2"><br>
+        <input type="checkbox" id="quizzMCOptRight_3"> <input type="text" style="width:90%" id="quizzMCOpt_3"><br>
+        <input type="checkbox" id="quizzMCOptRight_4"> <input type="text" style="width:90%" id="quizzMCOpt_4"><br>
+        <input type="checkbox" id="quizzMCOptRight_5"> <input type="text" style="width:90%" id="quizzMCOpt_5"><br>
         <br>
         <input type="checkbox" id="quizzDDshuffle"> Barreja les opcions<br>
         <hr>
-        Text abans de l'element<br>
-        <textarea id="quizz-numedit-pre" rows="2" style="width:98%"></textarea>
+       
+        Una pista<br>
+        <textarea id="quizz-mchoiceedit-hint" rows="2" style="width:98%"></textarea>
         <br>
-        Feedback de la resposta<br>
-        <textarea id="quizz-numedit-feedback" rows="2" style="width:98%"></textarea>
+        Feedback global<br>
+        <textarea id="quizz-mchoiceedit-feedback" rows="2" style="width:98%"></textarea>
+        <br>
+        Text abans de l'element<br>
+        <textarea id="quizz-mchoiceedit-pre" rows="2" style="width:98%"></textarea>
         <br>
     `
 });
@@ -32,13 +36,14 @@ const MAX_ELEMS = 6;
 const allCheckboxesElems = new Array(MAX_ELEMS) as HTMLInputElement[];
 const allOptionElems = new Array(MAX_ELEMS) as HTMLInputElement[];
 for(let i=0; i<MAX_ELEMS; i++) {
-    allCheckboxesElems[i] = panel.querySelector("#quizzDDOptRight_"+i)!;
-    allOptionElems[i] = panel.querySelector("#quizzDDOpt_"+i)!;
+    allCheckboxesElems[i] = panel.querySelector("#quizzMCOptRight_"+i)!;
+    allOptionElems[i] = panel.querySelector("#quizzMCOpt_"+i)!;
 }
 
 const quizzDDshuffle = panel.querySelector("#quizzDDshuffle") as HTMLInputElement; 
-const quizzNumeditPre = panel.querySelector("#quizz-numedit-pre") as HTMLTextAreaElement;
-const quizzNumeditFeedback = panel.querySelector("#quizz-numedit-feedback") as HTMLTextAreaElement;
+const mchoiceEditPre = panel.querySelector("#quizz-mchoiceedit-pre") as HTMLTextAreaElement;
+const mchoiceEditFeedback = panel.querySelector("#quizz-mchoiceedit-feedback") as HTMLTextAreaElement;
+const mchoiceEditHint = panel.querySelector("#quizz-mchoiceedit-hint") as HTMLTextAreaElement;
 
 function setValues(w: WidgetConfig): void { 
     // Opcions correctes són
@@ -55,8 +60,9 @@ function setValues(w: WidgetConfig): void {
         allOptionElems[i].value = "";
     }
     quizzDDshuffle.checked = w.opts?.shuffle || false;
-    quizzNumeditFeedback.value = w.fbk || "";
-    quizzNumeditPre.value = w.pre || ""; 
+    mchoiceEditFeedback.value = w.fbk || "";
+    mchoiceEditHint.value = w.hint || "";
+    mchoiceEditPre.value = w.pre || ""; 
 }
 
 function getValues(): WidgetConfig {
@@ -74,8 +80,9 @@ function getValues(): WidgetConfig {
     const updated: WidgetConfig = {
         ans: theAns.join(","),
         vars: theVars,
-        fbk: quizzNumeditFeedback.value || "",
-        pre: quizzNumeditPre.value || "",
+        fbk: mchoiceEditFeedback.value || "",
+        hint: mchoiceEditHint.value || "",
+        pre: mchoiceEditPre.value || "",
         opts: {
             shuffle: quizzDDshuffle.checked
         }
@@ -93,7 +100,8 @@ function getValues(): WidgetConfig {
 class IBQuizzMchoice extends WidgetElement {
     private successCb(): void {
         const updated = getValues();
-        const output = btoa(JSON.stringify(updated))
+        const output = btoa(JSON.stringify(updated));
+        console.log("New data-src --> ", output);
         if (output) {
             this.setAttribute("data-src", output);
             const event = new Event('updated');
@@ -109,7 +117,7 @@ class IBQuizzMchoice extends WidgetElement {
         console.log(this.config);
         // Update controls with values from config
         setValues(this.config);
-        const dialog = getDialog('ib-quizz-editor-dlg', 'Editar mchoice');
+        const dialog = getDialog('ib-quizz-editor-dlg', 'Editar "Opció múltiple"');
         dialog.setBody(panel);
         dialog.show(this.successCb.bind(this));
     }

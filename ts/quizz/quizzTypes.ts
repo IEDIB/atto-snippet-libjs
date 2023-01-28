@@ -11,11 +11,14 @@ export interface WidgetConfig {
     ans: string,
     opts?: WidgetConfigOpts
     pre?: string,
-    fbk?: string
+    fbk?: string,
+    cfn?: string,
+    hint?: string
 }
 
 export interface WidgetGroupContext {
-    v: string[],
-    _v: {[key: string]: any},
+    s: string,
+    _s: {[key: string]: any},
     o: {hint:number, ans: number}
 }
+

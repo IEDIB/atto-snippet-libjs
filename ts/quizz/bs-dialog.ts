@@ -3,9 +3,7 @@ class BSDialog {
 
     private elem: JQuery<HTMLDivElement>;
     private body: JQuery<HTMLDivElement>;
-    private header: JQuery<HTMLElement>;
-    private secondaryBtn: JQuery<HTMLButtonElement>;
-    private primaryBtn: JQuery<HTMLButtonElement>;
+    private header: JQuery<HTMLElement>; 
 
 
     constructor(id: string, title: string) {
@@ -23,21 +21,13 @@ class BSDialog {
                   <div class="modal-body" style="max-height:450px;overflow-y:auto;">
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel·lar</button>
-                    <button type="button" class="btn btn-primary">Acceptar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Acceptar</button>
                    </div>
                 </div>
                 </div>`) as JQuery<HTMLDivElement>;
 
         this.body = this.elem.find('div.modal-body') as JQuery<HTMLDivElement>;
-        this.header = this.elem.find('h5.modal-title') as JQuery<HTMLElement>;
-        this.secondaryBtn = this.elem.find('button.btn-secondary') as JQuery<HTMLButtonElement>;
-        this.primaryBtn = this.elem.find('button.btn-primary') as JQuery<HTMLButtonElement>;
-
-        this.secondaryBtn.on('click', () => {
-            //@ts-ignore
-            this.elem.modal('hide');
-        });
+        this.header = this.elem.find('h5.modal-title') as JQuery<HTMLElement>; 
 
         $('body').append(this.elem);
     }
@@ -55,15 +45,9 @@ class BSDialog {
         this.header.html(title);
     }
 
-    show(cb: () => void) {
+    show() {
         //@ts-ignore
-        this.elem.modal('show');
-        this.primaryBtn.off();
-        this.primaryBtn.on('click', () => {
-            cb();
-            //@ts-ignore
-            this.elem.modal('hide');
-        });
+        this.elem.modal('show'); 
     }
 }
 

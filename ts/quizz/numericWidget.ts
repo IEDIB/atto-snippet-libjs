@@ -12,7 +12,6 @@ import { WidgetElement } from "./widgetElement";
 })
 class IBQuizzNumeric extends WidgetElement {
     private options: HTMLDivElement | undefined;
-    private widgetConfig: WidgetConfig | undefined;
     private userAns = -1;
     input: HTMLInputElement | undefined;
      
@@ -59,10 +58,12 @@ class IBQuizzNumeric extends WidgetElement {
                         result = Math.abs(userFloat/ansFloat-1) <= tolerance;
                 }                   
             } else {
+                console.error("ERROR", this.getUserInput(), this.widgetConfig?.ans);
                 this.setStatus(WidgetStatus.ERROR);
                 return false;
             }
         } catch(ex) {
+            console.error(ex);
             //Error
             this.setStatus(WidgetStatus.ERROR);
             return false;
@@ -70,30 +71,27 @@ class IBQuizzNumeric extends WidgetElement {
         this.setStatus(result ? WidgetStatus.RIGHT : WidgetStatus.WRONG);
         console.log("Numeric, ", this.getUserInput(), result);
         this.enable(!result);
+        if(result) {
+            this.showFeedback();
+        } else {
+            this.incAttempts();
+        }
         return result;
     }
     render() { 
-         // Make sure that has data-src field
-         let src = this.dataset.src || "";
-         try {
-             src = atob(src);
-             this.widgetConfig = JSON.parse(src) as WidgetConfig;
-         } catch (ex) {
-             console.error(ex);
-             return;
-         }
-         console.log("Render numeric ", this.widgetConfig);
-         
-
+        if(!this.widgetConfig) {
+            return;
+        } 
         // Here groupContext._v map is available and parsed
         // Must evaluate in the context the rightanswer
-        if(this.groupContext?.v.length && this.widgetConfig) {
+        if(this.groupContext?.s.length && this.widgetConfig) {
             let theAns = this.widgetConfig.ans || '';
             if(theAns.indexOf('#') >= 0) {
                 theAns = theAns.replace(/#/g, '');
-                this.widgetConfig.ans = ''+scopedEval(this.groupContext._v || {}, theAns);
+                this.widgetConfig.ans = ''+scopedEval(this.groupContext._s || {}, theAns);
             } 
         }
+        
 
         this.input = createElement("input", {
             class: "form-control",

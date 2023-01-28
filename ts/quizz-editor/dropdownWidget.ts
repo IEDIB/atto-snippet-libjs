@@ -18,11 +18,15 @@ const panel = createElement('div', {
         <br>
         <input type="checkbox" id="quizzDDshuffle"> Barreja les opcions<br>
         <hr>
+        
+        Una pista<br>
+        <textarea id="quizz-numedit-hint" rows="2" style="width:98%"></textarea>
+        <br>
+        Feedback global<br>
+        <textarea id="quizz-numedit-feedback" rows="2" style="width:98%"></textarea>
+        <br>
         Text abans de l'element<br>
         <textarea id="quizz-numedit-pre" rows="2" style="width:98%"></textarea>
-        <br>
-        Feedback de la resposta<br>
-        <textarea id="quizz-numedit-feedback" rows="2" style="width:98%"></textarea>
         <br>
     `});
 
@@ -35,6 +39,7 @@ for (let i = 0; i < MAX_ELEMS; i++) {
 
 const quizzDDshuffle = panel.querySelector("#quizzDDshuffle") as HTMLInputElement;
 const quizzNumeditPre = panel.querySelector("#quizz-numedit-pre") as HTMLTextAreaElement;
+const quizzNumeditHint = panel.querySelector("#quizz-numedit-hint") as HTMLTextAreaElement;
 const quizzNumeditFeedback = panel.querySelector("#quizz-numedit-feedback") as HTMLTextAreaElement;
 
 function setValues(w: WidgetConfig): void {
@@ -53,6 +58,7 @@ function setValues(w: WidgetConfig): void {
     }
     quizzDDshuffle.checked = w.opts?.shuffle || false;
     quizzNumeditFeedback.value = w.fbk || "";
+    quizzNumeditHint.value = w.hint || "";
     quizzNumeditPre.value = w.pre || "";
 }
 
@@ -72,6 +78,7 @@ function getValues(): WidgetConfig {
         ans: theAns.join(","),
         vars: theVars,
         fbk: quizzNumeditFeedback.value || "",
+        hint: quizzNumeditHint.value || "",
         pre: quizzNumeditPre.value || "",
         opts: {
             shuffle: quizzDDshuffle.checked
@@ -89,7 +96,8 @@ function getValues(): WidgetConfig {
 class IBQuizzDropdown extends WidgetElement {
     private successCb(): void {
         const updated = getValues();
-        const output = btoa(JSON.stringify(updated))
+        const output = btoa(JSON.stringify(updated));
+        console.log("New data-src --> ", output);
         if (output) {
             this.setAttribute("data-src", output);
             const event = new Event('updated');
@@ -105,7 +113,7 @@ class IBQuizzDropdown extends WidgetElement {
         console.log(this.config);
         // Update controls with values from config
         setValues(this.config);
-        const dialog = getDialog('ib-quizz-editor-dlg', 'Editar dropdown');
+        const dialog = getDialog('ib-quizz-editor-dlg', 'Editar "Opció simple"');
         dialog.setBody(panel);
         dialog.show(this.successCb.bind(this));
     }

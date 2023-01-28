@@ -28,3 +28,14 @@
     height: 23px;
     text-align: center;
 } 
+.ib-quizz-hint, .ib-quizz-feedback {
+    margin-left: 8px;
+    border-radius:50%;
+    background-color: rgb(163, 163, 163);
+    color: black;
+    width: 23px;
+    display: inline-block;
+    height: 23px;
+    text-align: center;
+    cursor: pointer;
+} 

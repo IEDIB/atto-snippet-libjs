@@ -1,7 +1,6 @@
 import { ComponentHTML } from "../decorators";
 import { createElement, shuffleArray } from "../utils";
-import getI18n from "./i18n";
-import { WidgetConfig } from "./quizzTypes";
+import getI18n from "./i18n"; 
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
 
@@ -12,8 +11,7 @@ import { WidgetElement } from "./widgetElement";
 })
 class IBQuizzDropdown extends WidgetElement {
 
-    private options: HTMLDivElement | undefined;
-    private widgetConfig: WidgetConfig | undefined;
+    private options: HTMLDivElement | undefined; 
     private userAns = -1;
     button: HTMLButtonElement | undefined;
     dropdown: HTMLDivElement | undefined;
@@ -39,6 +37,11 @@ class IBQuizzDropdown extends WidgetElement {
         const result = this.widgetConfig?.ans === this.userAns + "";
         this.setStatus(result ? WidgetStatus.RIGHT : WidgetStatus.WRONG);
         this.enable(!result);
+        if(result) {
+            this.showFeedback();
+        } else {
+            this.incAttempts();
+        }
         return result;
     }
     setLang(lang: string): void {
@@ -48,26 +51,20 @@ class IBQuizzDropdown extends WidgetElement {
         }
     } 
     render() {
-         // Make sure that has data-src field
-         let src = this.dataset.src || "";
-         try {
-             src = atob(src);
-             this.widgetConfig = JSON.parse(src) as WidgetConfig;
-         } catch (ex) {
-             console.error(ex);
-             return;
+         if(!this.widgetConfig) {
+            return;
          }
 
         // Here groupContext._v map is available and parsed
         // Must evaluate in the context the rightanswer and all the options
-        if(this.groupContext?.v.length) {
+        if(this.groupContext?.s.length) {
             const theVars = this.widgetConfig?.vars || [];
             theVars.forEach((v: string, i: number)=>{
                 if(v.indexOf('#') < 0) {
                     return;
                 }
                 theVars[i] = v.replace(/#([a-zA-Z0-9_]+)/g, ($0, $1)=>{
-                    return this.groupContext?._v[$1] || $0;
+                    return this.groupContext?._s[$1] || $0;
                 });
             });
         }
