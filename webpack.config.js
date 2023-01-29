@@ -1,8 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const uglifycss = require('uglifycss');
-const TerserPlugin = require("terser-webpack-plugin");
- 
+const TerserPlugin = require("terser-webpack-plugin"); 
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); 
  
 const isDev = process.argv.indexOf('--mode=none')>0; //should be development
 console.log(isDev?"Webpack DEVELOPMENT mode": "Webpack PRODUCTION mode")
@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use:['style-loader','css-loader']
+        use:["style-loader", "css-loader"],
       },
     ],
   },
@@ -56,14 +56,19 @@ module.exports = {
   target: ["web", "es5"], 
   optimization: {
     minimize: !isDev,
-    minimizer: [new TerserPlugin({
+    usedExports: true,
+    minimizer: [ 
+      new TerserPlugin({
       terserOptions: {
           format: {
               comments: false,
           },
-          //compress:{ pure_funcs: ['console.info', 'console.debug', 'console.log'] }
+          compress:{ pure_funcs: ['console.info', 'console.debug', 'console.log'] }
       },
       extractComments: false,
+    }),
+    new CssMinimizerPlugin({
+      minify: CssMinimizerPlugin.cssnanoMinify
     })],
-  },
+  }
 };

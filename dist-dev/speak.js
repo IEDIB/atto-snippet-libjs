@@ -2,11 +2,464 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ([
 /* 0 */,
-/* 1 */
+/* 1 */,
+/* 2 */
+/***/ (function(module) {
+
+
+
+var stylesInDOM = [];
+
+function getIndexByIdentifier(identifier) {
+  var result = -1;
+
+  for (var i = 0; i < stylesInDOM.length; i++) {
+    if (stylesInDOM[i].identifier === identifier) {
+      result = i;
+      break;
+    }
+  }
+
+  return result;
+}
+
+function modulesToDom(list, options) {
+  var idCountMap = {};
+  var identifiers = [];
+
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var id = options.base ? item[0] + options.base : item[0];
+    var count = idCountMap[id] || 0;
+    var identifier = "".concat(id, " ").concat(count);
+    idCountMap[id] = count + 1;
+    var indexByIdentifier = getIndexByIdentifier(identifier);
+    var obj = {
+      css: item[1],
+      media: item[2],
+      sourceMap: item[3],
+      supports: item[4],
+      layer: item[5]
+    };
+
+    if (indexByIdentifier !== -1) {
+      stylesInDOM[indexByIdentifier].references++;
+      stylesInDOM[indexByIdentifier].updater(obj);
+    } else {
+      var updater = addElementStyle(obj, options);
+      options.byIndex = i;
+      stylesInDOM.splice(i, 0, {
+        identifier: identifier,
+        updater: updater,
+        references: 1
+      });
+    }
+
+    identifiers.push(identifier);
+  }
+
+  return identifiers;
+}
+
+function addElementStyle(obj, options) {
+  var api = options.domAPI(options);
+  api.update(obj);
+
+  var updater = function updater(newObj) {
+    if (newObj) {
+      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
+        return;
+      }
+
+      api.update(obj = newObj);
+    } else {
+      api.remove();
+    }
+  };
+
+  return updater;
+}
+
+module.exports = function (list, options) {
+  options = options || {};
+  list = list || [];
+  var lastIdentifiers = modulesToDom(list, options);
+  return function update(newList) {
+    newList = newList || [];
+
+    for (var i = 0; i < lastIdentifiers.length; i++) {
+      var identifier = lastIdentifiers[i];
+      var index = getIndexByIdentifier(identifier);
+      stylesInDOM[index].references--;
+    }
+
+    var newLastIdentifiers = modulesToDom(newList, options);
+
+    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
+      var _identifier = lastIdentifiers[_i];
+
+      var _index = getIndexByIdentifier(_identifier);
+
+      if (stylesInDOM[_index].references === 0) {
+        stylesInDOM[_index].updater();
+
+        stylesInDOM.splice(_index, 1);
+      }
+    }
+
+    lastIdentifiers = newLastIdentifiers;
+  };
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module) {
+
+
+
+/* istanbul ignore next  */
+function apply(styleElement, options, obj) {
+  var css = "";
+
+  if (obj.supports) {
+    css += "@supports (".concat(obj.supports, ") {");
+  }
+
+  if (obj.media) {
+    css += "@media ".concat(obj.media, " {");
+  }
+
+  var needLayer = typeof obj.layer !== "undefined";
+
+  if (needLayer) {
+    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
+  }
+
+  css += obj.css;
+
+  if (needLayer) {
+    css += "}";
+  }
+
+  if (obj.media) {
+    css += "}";
+  }
+
+  if (obj.supports) {
+    css += "}";
+  }
+
+  var sourceMap = obj.sourceMap;
+
+  if (sourceMap && typeof btoa !== "undefined") {
+    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
+  } // For old IE
+
+  /* istanbul ignore if  */
+
+
+  options.styleTagTransform(css, styleElement, options.options);
+}
+
+function removeStyleElement(styleElement) {
+  // istanbul ignore if
+  if (styleElement.parentNode === null) {
+    return false;
+  }
+
+  styleElement.parentNode.removeChild(styleElement);
+}
+/* istanbul ignore next  */
+
+
+function domAPI(options) {
+  var styleElement = options.insertStyleElement(options);
+  return {
+    update: function update(obj) {
+      apply(styleElement, options, obj);
+    },
+    remove: function remove() {
+      removeStyleElement(styleElement);
+    }
+  };
+}
+
+module.exports = domAPI;
+
+/***/ }),
+/* 4 */
+/***/ (function(module) {
+
+
+
+var memo = {};
+/* istanbul ignore next  */
+
+function getTarget(target) {
+  if (typeof memo[target] === "undefined") {
+    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+
+    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+      try {
+        // This will throw an exception if access to iframe is blocked
+        // due to cross-origin restrictions
+        styleTarget = styleTarget.contentDocument.head;
+      } catch (e) {
+        // istanbul ignore next
+        styleTarget = null;
+      }
+    }
+
+    memo[target] = styleTarget;
+  }
+
+  return memo[target];
+}
+/* istanbul ignore next  */
+
+
+function insertBySelector(insert, style) {
+  var target = getTarget(insert);
+
+  if (!target) {
+    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
+  }
+
+  target.appendChild(style);
+}
+
+module.exports = insertBySelector;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+
+
+/* istanbul ignore next  */
+function setAttributesWithoutAttributes(styleElement) {
+  var nonce =  true ? __webpack_require__.nc : 0;
+
+  if (nonce) {
+    styleElement.setAttribute("nonce", nonce);
+  }
+}
+
+module.exports = setAttributesWithoutAttributes;
+
+/***/ }),
+/* 6 */
+/***/ (function(module) {
+
+
+
+/* istanbul ignore next  */
+function insertStyleElement(options) {
+  var element = document.createElement("style");
+  options.setAttributes(element, options.attributes);
+  options.insert(element, options.options);
+  return element;
+}
+
+module.exports = insertStyleElement;
+
+/***/ }),
+/* 7 */
+/***/ (function(module) {
+
+
+
+/* istanbul ignore next  */
+function styleTagTransform(css, styleElement) {
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css;
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild);
+    }
+
+    styleElement.appendChild(document.createTextNode(css));
+  }
+}
+
+module.exports = styleTagTransform;
+
+/***/ }),
+/* 8 */,
+/* 9 */
+/***/ (function(module) {
+
+
+
+module.exports = function (i) {
+  return i[1];
+};
+
+/***/ }),
+/* 10 */
+/***/ (function(module) {
+
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+module.exports = function (cssWithMappingToString) {
+  var list = [];
+
+  // return the list of modules as css string
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = "";
+      var needLayer = typeof item[5] !== "undefined";
+      if (item[4]) {
+        content += "@supports (".concat(item[4], ") {");
+      }
+      if (item[2]) {
+        content += "@media ".concat(item[2], " {");
+      }
+      if (needLayer) {
+        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
+      }
+      content += cssWithMappingToString(item);
+      if (needLayer) {
+        content += "}";
+      }
+      if (item[2]) {
+        content += "}";
+      }
+      if (item[4]) {
+        content += "}";
+      }
+      return content;
+    }).join("");
+  };
+
+  // import a list of modules into the list
+  list.i = function i(modules, media, dedupe, supports, layer) {
+    if (typeof modules === "string") {
+      modules = [[null, modules, undefined]];
+    }
+    var alreadyImportedModules = {};
+    if (dedupe) {
+      for (var k = 0; k < this.length; k++) {
+        var id = this[k][0];
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+    for (var _k = 0; _k < modules.length; _k++) {
+      var item = [].concat(modules[_k]);
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        continue;
+      }
+      if (typeof layer !== "undefined") {
+        if (typeof item[5] === "undefined") {
+          item[5] = layer;
+        } else {
+          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
+          item[5] = layer;
+        }
+      }
+      if (media) {
+        if (!item[2]) {
+          item[2] = media;
+        } else {
+          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
+          item[2] = media;
+        }
+      }
+      if (supports) {
+        if (!item[4]) {
+          item[4] = "".concat(supports);
+        } else {
+          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
+          item[4] = supports;
+        }
+      }
+      list.push(item);
+    }
+  };
+  return list;
+};
+
+/***/ }),
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(16);
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".sd-speak-enabled {\n    position: relative;\n    background: whitesmoke;\n    text-decoration: none;  \n  } \n  @keyframes speakicon_anim {\n    0% {\n      opacity: 0;\n      left: -10px;\n    }\n    100% {\n      opacity: 1;\n      left: -5px;\n    }\n  } \n  .sd-speak-enabled:hover:after {\n    content: \"\\f025\";\n    position: absolute;\n    left: -5px;\n    top: -16px;\n    background: white;\n    z-index:1000;\n    font-family: 'FontAwesome'; \n    font-size: 70%;\n    margin: 0px 5px;\n    font-weight: 700; \n    vertical-align:top; \n    animation: speakicon_anim 1s ease;\n  }", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+/* 17 */,
+/* 18 */,
+/* 19 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 
@@ -119,6 +572,9 @@ function _bootstrap(classes) {
         requirejs(['jquery'], function () {
           //wait for document ready
           $(function () {
+            if (typeof window.ibComponentLoader === 'function') {
+              window.ibComponentLoader();
+            }
             _bootstrap(arrayDefs);
           });
         });
@@ -130,23 +586,15 @@ function _bootstrap(classes) {
 });
 
 /***/ }),
-/* 2 */
+/* 20 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addBaseToUrl": function() { return /* binding */ addBaseToUrl; },
-/* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
-/* harmony export */   "createElement": function() { return /* binding */ createElement; },
 /* harmony export */   "genID": function() { return /* binding */ genID; },
-/* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
-/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
-/* harmony export */   "pathJoin": function() { return /* binding */ pathJoin; },
-/* harmony export */   "pran": function() { return /* binding */ pran; },
-/* harmony export */   "querySelectorProp": function() { return /* binding */ querySelectorProp; },
-/* harmony export */   "shuffleArray": function() { return /* binding */ shuffleArray; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
+/* unused harmony exports parseUrlParams, querySelectorProp, getPageInfo, pran, convertInt, pathJoin, createElement, shuffleArray */
 function parseUrlParams(url) {
   var params = {};
   var parts = url.substring(1).split('&');
@@ -352,490 +800,14 @@ function shuffleArray(array) {
 }
 
 /***/ }),
-/* 3 */,
-/* 4 */
-/***/ (function(module) {
-
-
-
-var stylesInDOM = [];
-
-function getIndexByIdentifier(identifier) {
-  var result = -1;
-
-  for (var i = 0; i < stylesInDOM.length; i++) {
-    if (stylesInDOM[i].identifier === identifier) {
-      result = i;
-      break;
-    }
-  }
-
-  return result;
-}
-
-function modulesToDom(list, options) {
-  var idCountMap = {};
-  var identifiers = [];
-
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var id = options.base ? item[0] + options.base : item[0];
-    var count = idCountMap[id] || 0;
-    var identifier = "".concat(id, " ").concat(count);
-    idCountMap[id] = count + 1;
-    var indexByIdentifier = getIndexByIdentifier(identifier);
-    var obj = {
-      css: item[1],
-      media: item[2],
-      sourceMap: item[3],
-      supports: item[4],
-      layer: item[5]
-    };
-
-    if (indexByIdentifier !== -1) {
-      stylesInDOM[indexByIdentifier].references++;
-      stylesInDOM[indexByIdentifier].updater(obj);
-    } else {
-      var updater = addElementStyle(obj, options);
-      options.byIndex = i;
-      stylesInDOM.splice(i, 0, {
-        identifier: identifier,
-        updater: updater,
-        references: 1
-      });
-    }
-
-    identifiers.push(identifier);
-  }
-
-  return identifiers;
-}
-
-function addElementStyle(obj, options) {
-  var api = options.domAPI(options);
-  api.update(obj);
-
-  var updater = function updater(newObj) {
-    if (newObj) {
-      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
-        return;
-      }
-
-      api.update(obj = newObj);
-    } else {
-      api.remove();
-    }
-  };
-
-  return updater;
-}
-
-module.exports = function (list, options) {
-  options = options || {};
-  list = list || [];
-  var lastIdentifiers = modulesToDom(list, options);
-  return function update(newList) {
-    newList = newList || [];
-
-    for (var i = 0; i < lastIdentifiers.length; i++) {
-      var identifier = lastIdentifiers[i];
-      var index = getIndexByIdentifier(identifier);
-      stylesInDOM[index].references--;
-    }
-
-    var newLastIdentifiers = modulesToDom(newList, options);
-
-    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
-      var _identifier = lastIdentifiers[_i];
-
-      var _index = getIndexByIdentifier(_identifier);
-
-      if (stylesInDOM[_index].references === 0) {
-        stylesInDOM[_index].updater();
-
-        stylesInDOM.splice(_index, 1);
-      }
-    }
-
-    lastIdentifiers = newLastIdentifiers;
-  };
-};
-
-/***/ }),
-/* 5 */
-/***/ (function(module) {
-
-
-
-/* istanbul ignore next  */
-function apply(styleElement, options, obj) {
-  var css = "";
-
-  if (obj.supports) {
-    css += "@supports (".concat(obj.supports, ") {");
-  }
-
-  if (obj.media) {
-    css += "@media ".concat(obj.media, " {");
-  }
-
-  var needLayer = typeof obj.layer !== "undefined";
-
-  if (needLayer) {
-    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
-  }
-
-  css += obj.css;
-
-  if (needLayer) {
-    css += "}";
-  }
-
-  if (obj.media) {
-    css += "}";
-  }
-
-  if (obj.supports) {
-    css += "}";
-  }
-
-  var sourceMap = obj.sourceMap;
-
-  if (sourceMap && typeof btoa !== "undefined") {
-    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  } // For old IE
-
-  /* istanbul ignore if  */
-
-
-  options.styleTagTransform(css, styleElement, options.options);
-}
-
-function removeStyleElement(styleElement) {
-  // istanbul ignore if
-  if (styleElement.parentNode === null) {
-    return false;
-  }
-
-  styleElement.parentNode.removeChild(styleElement);
-}
-/* istanbul ignore next  */
-
-
-function domAPI(options) {
-  var styleElement = options.insertStyleElement(options);
-  return {
-    update: function update(obj) {
-      apply(styleElement, options, obj);
-    },
-    remove: function remove() {
-      removeStyleElement(styleElement);
-    }
-  };
-}
-
-module.exports = domAPI;
-
-/***/ }),
-/* 6 */
-/***/ (function(module) {
-
-
-
-var memo = {};
-/* istanbul ignore next  */
-
-function getTarget(target) {
-  if (typeof memo[target] === "undefined") {
-    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
-
-    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-      try {
-        // This will throw an exception if access to iframe is blocked
-        // due to cross-origin restrictions
-        styleTarget = styleTarget.contentDocument.head;
-      } catch (e) {
-        // istanbul ignore next
-        styleTarget = null;
-      }
-    }
-
-    memo[target] = styleTarget;
-  }
-
-  return memo[target];
-}
-/* istanbul ignore next  */
-
-
-function insertBySelector(insert, style) {
-  var target = getTarget(insert);
-
-  if (!target) {
-    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-  }
-
-  target.appendChild(style);
-}
-
-module.exports = insertBySelector;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-
-
-/* istanbul ignore next  */
-function setAttributesWithoutAttributes(styleElement) {
-  var nonce =  true ? __webpack_require__.nc : 0;
-
-  if (nonce) {
-    styleElement.setAttribute("nonce", nonce);
-  }
-}
-
-module.exports = setAttributesWithoutAttributes;
-
-/***/ }),
-/* 8 */
-/***/ (function(module) {
-
-
-
-/* istanbul ignore next  */
-function insertStyleElement(options) {
-  var element = document.createElement("style");
-  options.setAttributes(element, options.attributes);
-  options.insert(element, options.options);
-  return element;
-}
-
-module.exports = insertStyleElement;
-
-/***/ }),
-/* 9 */
-/***/ (function(module) {
-
-
-
-/* istanbul ignore next  */
-function styleTagTransform(css, styleElement) {
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css;
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild);
-    }
-
-    styleElement.appendChild(document.createTextNode(css));
-  }
-}
-
-module.exports = styleTagTransform;
-
-/***/ }),
-/* 10 */,
-/* 11 */
-/***/ (function(module) {
-
-
-
-module.exports = function (i) {
-  return i[1];
-};
-
-/***/ }),
-/* 12 */
-/***/ (function(module) {
-
-
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-module.exports = function (cssWithMappingToString) {
-  var list = [];
-
-  // return the list of modules as css string
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = "";
-      var needLayer = typeof item[5] !== "undefined";
-      if (item[4]) {
-        content += "@supports (".concat(item[4], ") {");
-      }
-      if (item[2]) {
-        content += "@media ".concat(item[2], " {");
-      }
-      if (needLayer) {
-        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
-      }
-      content += cssWithMappingToString(item);
-      if (needLayer) {
-        content += "}";
-      }
-      if (item[2]) {
-        content += "}";
-      }
-      if (item[4]) {
-        content += "}";
-      }
-      return content;
-    }).join("");
-  };
-
-  // import a list of modules into the list
-  list.i = function i(modules, media, dedupe, supports, layer) {
-    if (typeof modules === "string") {
-      modules = [[null, modules, undefined]];
-    }
-    var alreadyImportedModules = {};
-    if (dedupe) {
-      for (var k = 0; k < this.length; k++) {
-        var id = this[k][0];
-        if (id != null) {
-          alreadyImportedModules[id] = true;
-        }
-      }
-    }
-    for (var _k = 0; _k < modules.length; _k++) {
-      var item = [].concat(modules[_k]);
-      if (dedupe && alreadyImportedModules[item[0]]) {
-        continue;
-      }
-      if (typeof layer !== "undefined") {
-        if (typeof item[5] === "undefined") {
-          item[5] = layer;
-        } else {
-          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
-          item[5] = layer;
-        }
-      }
-      if (media) {
-        if (!item[2]) {
-          item[2] = media;
-        } else {
-          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
-          item[2] = media;
-        }
-      }
-      if (supports) {
-        if (!item[4]) {
-          item[4] = "".concat(supports);
-        } else {
-          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
-          item[4] = supports;
-        }
-      }
-      list.push(item);
-    }
-  };
-  return list;
-};
-
-/***/ }),
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(18);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* harmony default export */ __webpack_exports__["default"] = (_node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_speak_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".sd-speak-enabled {\n    position: relative;\n    background: whitesmoke;\n    text-decoration: none;  \n  } \n  @keyframes speakicon_anim {\n    0% {\n      opacity: 0;\n      left: -10px;\n    }\n    100% {\n      opacity: 1;\n      left: -5px;\n    }\n  } \n  .sd-speak-enabled:hover:after {\n    content: \"\\f025\";\n    position: absolute;\n    left: -5px;\n    top: -16px;\n    background: white;\n    z-index:1000;\n    font-family: 'FontAwesome'; \n    font-size: 70%;\n    margin: 0px 5px;\n    font-weight: 700; \n    vertical-align:top; \n    animation: speakicon_anim 1s ease;\n  }", ""]);
-// Exports
-/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-/* 19 */,
-/* 20 */,
 /* 21 */,
 /* 22 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BaseComponent": function() { return /* binding */ BaseComponent; }
+/* harmony export */   "Component": function() { return /* binding */ Component; }
 /* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
-  _classCallCheck(this, BaseComponent);
-  this.parent = parent;
-});
-
-/***/ }),
-/* 23 */
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Component": function() { return /* binding */ Component; },
-/* harmony export */   "ComponentHTML": function() { return /* binding */ ComponentHTML; }
-/* harmony export */ });
+/* unused harmony export ComponentHTML */
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -882,22 +854,39 @@ function ComponentHTML(componentOptions) {
 }
 
 /***/ }),
-/* 24 */,
+/* 23 */,
+/* 24 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BaseComponent": function() { return /* binding */ BaseComponent; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
+  _classCallCheck(this, BaseComponent);
+  this.parent = parent;
+});
+
+/***/ }),
 /* 25 */,
 /* 26 */,
 /* 27 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ SpeakComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
-/* harmony import */ var _navigatorPlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(29);
-/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(30);
-/* harmony import */ var _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(31);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(24);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(30);
+/* harmony import */ var _navigatorPlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(31);
+/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
+/* harmony import */ var _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -932,7 +921,7 @@ function getNavigatorVoices() {
     });
   });
 }
-var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Component)({
+var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component)({
   name: 'speak',
   author: 'Josep Mulet Pol',
   version: '2.5',
@@ -955,12 +944,12 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
       }
       ds.active = "1";
       if (ds.src) {
-        this.audioPlayer = new _urlPlayer__WEBPACK_IMPORTED_MODULE_4__["default"](this.parent);
+        this.audioPlayer = new _urlPlayer__WEBPACK_IMPORTED_MODULE_1__["default"](this.parent);
         return;
       }
       if (ds.wr === "1" || ds.wr === "true") {
         //use wordreference
-        this.audioPlayer = new _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_5__["default"](this.parent);
+        this.audioPlayer = new _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.parent);
         return;
       }
       var synth = window.speechSynthesis;
@@ -971,7 +960,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
           _this.audioPlayer = new _navigatorPlayer__WEBPACK_IMPORTED_MODULE_3__["default"](_this.parent, voices);
         }, function () {
           //On error, rely on GTTS
-          _this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.parent);
+          _this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_4__["default"](_this.parent);
         });
         //Stop voices on page change
         window.addEventListener('unload', function (evt) {
@@ -979,7 +968,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
         });
       } else {
         // If no navigator support, rely on GTTS
-        this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.parent);
+        this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_4__["default"](this.parent);
       }
     }
   }, {
@@ -1004,14 +993,319 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Compone
     }
   }]);
   return SpeakComponent;
-}(_base__WEBPACK_IMPORTED_MODULE_0__.BaseComponent)) || _class);
+}(_base__WEBPACK_IMPORTED_MODULE_5__.BaseComponent)) || _class);
 
 
 /***/ }),
 /* 28 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ UrlPlayer; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var UrlPlayer = /*#__PURE__*/function () {
+  function UrlPlayer(elem, src) {
+    _classCallCheck(this, UrlPlayer);
+    this.src = "";
+    if (elem != null) {
+      var ds = elem.dataset;
+      this.src = ds.src || "";
+    }
+    if (!this.src && src) {
+      this.src = src;
+    }
+    this.elem = elem;
+  }
+  _createClass(UrlPlayer, [{
+    key: "play",
+    value: function play() {
+      if (this.audioElement) {
+        this.audioElement.play();
+        return;
+      }
+      this.audioElement = new Audio(this.src);
+      this.audioElement.play();
+      if (!this.elem) {
+        this.bindHandler();
+      }
+    }
+  }, {
+    key: "bindHandler",
+    value: function bindHandler() {
+      var _this = this;
+      this.handler = function (evt) {
+        evt.preventDefault();
+        _this.play();
+      };
+      this.elem && this.elem.addEventListener("click", this.handler);
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.audioElement && this.audioElement.pause();
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      this.audioElement = null;
+      this.handler && this.elem && this.elem.removeEventListener("click", this.handler);
+    }
+  }]);
+  return UrlPlayer;
+}();
+
+
+/***/ }),
+/* 29 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ WordReferencePlayer; }
+/* harmony export */ });
+/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+var definition = {
+  'en': 'definition',
+  'ca': 'definicio',
+  'es': 'definicion'
+};
+var wordReferencePrefix = 'https://www.wordreference.com/';
+var variantNames = {
+  "us": "United States",
+  "uk": "United Kingdom",
+  "irish": "Irish",
+  "scot": "Scottish",
+  "jamaica": "Jamaica",
+  "es": "España",
+  "castellano": "España",
+  "ca": "Catalunya",
+  "mexico": "México",
+  "argentina": "Argentina"
+};
+function nameOfVariant(variant) {
+  return variantNames[variant] || variant;
+}
+function parseAudioFiles(extracted, lang) {
+  var map = {};
+  extracted.forEach(function (asource) {
+    //asource
+    /*[
+        "/audio/en/us/us/en005736.mp3",
+        "/audio/en/uk/general/en005736.mp3",
+        "/audio/en/uk/rp/en005736.mp3",
+        "/audio/en/uk/Yorkshire/en005736-55.mp3",
+        "/audio/en/Irish/en005736.mp3",
+        "/audio/en/scot/en005736.mp3",
+        "/audio/en/Jamaica/en005736.mp3"
+    ]*/
+    var parts = asource.split("/");
+    var variant = parts[parts.indexOf(lang) + 1].toLowerCase();
+    if (!map[variant]) {
+      map[variant] = {
+        name: nameOfVariant(variant),
+        url: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addBaseToUrl)(wordReferencePrefix, asource)
+      };
+    }
+  });
+  return map;
+}
+var wr_define = function wr_define(from, word) {
+  // Make the request
+  return new Promise(function (resolve, reject) {
+    if (!(from in definition)) {
+      reject();
+      return;
+    }
+    var url2 = wordReferencePrefix + definition[from] + '/' + encodeURIComponent(word);
+    if (!definition[from]) {
+      reject();
+      return;
+    }
+    $.ajax({
+      method: 'GET',
+      dataType: 'html',
+      url: url2
+    }).done(function (data) {
+      var matches = data.match(/<script>var\s+audioFiles\s+=(.*?)\]/m);
+      if (matches && matches.length == 2) {
+        var found = matches[1].trim().replace(/'/g, '"');
+        if (found.endsWith(",")) {
+          found = found.substring(0, found.length - 1);
+        }
+        var audioList = JSON.parse(found + "]");
+        var audioMap = parseAudioFiles(audioList, from);
+        resolve(audioMap);
+        return;
+      }
+      reject("cannot find audioFiles in page");
+    }).fail(function (err) {
+      reject(err);
+    });
+  });
+};
+var WordReferencePlayer = /*#__PURE__*/function () {
+  function WordReferencePlayer(elem) {
+    _classCallCheck(this, WordReferencePlayer);
+    this.elem = elem;
+    this.init();
+  }
+  _createClass(WordReferencePlayer, [{
+    key: "init",
+    value: function init() {
+      var _this = this;
+      this.handler = function (evt) {
+        evt.preventDefault(); // Evita que executi el link  
+        if (_this.audioElement != null) {
+          _this.play();
+          return;
+        }
+        // Defer the search of sources until the first click
+        //TODO if no region specified show dropdown with variants
+        var lang = _this.elem.getAttribute("href") || _this.elem.dataset.lang || "en";
+        var region = "";
+        lang = lang.replace("#speak_", "");
+        if (lang.indexOf("-") > 0) {
+          var parts = lang.split("-");
+          lang = parts[0].toLowerCase().trim();
+          region = parts[1].toLowerCase().trim();
+        }
+        wr_define(lang, _this.elem.innerText).then(function (audioMap) {
+          console.log(audioMap);
+          var variants = Object.keys(audioMap);
+          if (variants.length > 0) {
+            //use the one that matches "region"
+            var theURL = audioMap[region];
+            if (!theURL) {
+              theURL = audioMap[variants[0]];
+            }
+            var url = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addBaseToUrl)(wordReferencePrefix, theURL.url);
+            _this.audioElement = new _urlPlayer__WEBPACK_IMPORTED_MODULE_1__["default"](undefined, url);
+            if (!region && variants.length > 1) {
+              // Add a dropdown to change variant
+              var id = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.genID)();
+              var $dropdown = $("\n<div class=\"dropdown\" style=\"display:inline-block;\">\n  <button class=\"btn btn-secondary btn-sm\" style=\"margin:2px;padding:4px;height:15px;\" type=\"button\" id=\"dmb_".concat(id, "\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n  <i class=\"fas fa fa-globe\" style=\"transform: translateY(-9px);font-size:90%;\"></i>\n  </button>\n  <div class=\"dropdown-menu\" aria-labelledby=\"dmb_").concat(id, "\"> \n  </div>\n</div>"));
+              var $menu = $dropdown.find(".dropdown-menu");
+              variants.forEach(function (variant) {
+                var varDef = audioMap[variant];
+                var $menuItem = $("<a class=\"dropdown-item\" href=\"#\">".concat(varDef.name, "</a>"));
+                $menuItem.on("click", function (evt) {
+                  evt.preventDefault();
+                  if (_this.audioElement) {
+                    _this.audioElement.src = varDef.url;
+                    _this.audioElement.play();
+                  }
+                });
+                $menu.append($menuItem);
+              });
+              $dropdown.insertAfter($(_this.elem));
+            }
+          } else {
+            // Fallback on google
+            _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
+          }
+          _this.audioElement.play();
+        }, function (err) {
+          // Fallback on google
+          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
+          _this.audioElement.play();
+        });
+      };
+      this.elem.addEventListener("click", this.handler);
+      this.elem.title = "wordReference";
+    }
+  }, {
+    key: "play",
+    value: function play() {
+      this.audioElement && this.audioElement.play();
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.audioElement && this.audioElement.pause();
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      this.pause();
+      if (this.handler) {
+        this.elem.removeEventListener("click", this.handler);
+        this.handler = null;
+      }
+    }
+  }]);
+  return WordReferencePlayer;
+}();
+/*
+const wr_translate = function (from: string, to: string, word: string): Promise<string[]> {
+    const url2 = 'https://www.wordreference.com/' + from + to + '/' + encodeURIComponent(word);
+    console.log(url2);
+    // Make the request
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            method: 'GET',
+            dataType: 'html',
+            url: url2
+        }).done(function (data) {
+            console.log("Processing ", data);
+            let audioList = []
+            const matches = data.match(/<script>const audioFiles =(.*?)\]/m);
+            console.log("matches audioFiles ", matches);
+            if (matches && matches.length == 2) {
+                const found = matches[1].trim().replace(/'/g, '"');
+                if (found.endsWith(",")) {
+                    found = found.substring(0, found.length - 1);
+                }
+                audioList = JSON.parse(found + "]")
+                console.log(audioList);
+                resolve(audioList);
+                return;
+            }
+            /*
+            matches = data.match(/<div\s+class='entry'>((.|\n)*?)<\/div>/m);
+            console.log("matches entry ", matches);
+            if (matches && matches.length > 0) {
+                const text = $(matches[0]).text();
+                console.log(text);
+            }
+
+            console.log(data.indexOf("<table class='WRD'"));
+            const reg = /<table\s+class='WRD'((.|\n)*?)<\/table>/gi;
+            matches = data.match(reg);
+            console.log("matches table ", matches);
+            if (matches && matches.length > 0) {
+                const text = $(matches[0]).text();
+                console.log(text);
+            }
+             
+           reject();
+        }).fail(function (err) {
+            reject();
+        });
+    });
+};
+*/
+
+
+/***/ }),
+/* 30 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ GTTSPlayer; }
 /* harmony export */ });
@@ -1095,10 +1389,9 @@ var GTTSPlayer = /*#__PURE__*/function () {
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ NavigatorPlayer; }
 /* harmony export */ });
@@ -1176,314 +1469,6 @@ var NavigatorPlayer = /*#__PURE__*/function () {
 }();
 
 
-/***/ }),
-/* 30 */
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ UrlPlayer; }
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var UrlPlayer = /*#__PURE__*/function () {
-  function UrlPlayer(elem, src) {
-    _classCallCheck(this, UrlPlayer);
-    this.src = "";
-    if (elem != null) {
-      var ds = elem.dataset;
-      this.src = ds.src || "";
-    }
-    if (!this.src && src) {
-      this.src = src;
-    }
-    this.elem = elem;
-  }
-  _createClass(UrlPlayer, [{
-    key: "play",
-    value: function play() {
-      if (this.audioElement) {
-        this.audioElement.play();
-        return;
-      }
-      this.audioElement = new Audio(this.src);
-      this.audioElement.play();
-      if (!this.elem) {
-        this.bindHandler();
-      }
-    }
-  }, {
-    key: "bindHandler",
-    value: function bindHandler() {
-      var _this = this;
-      this.handler = function (evt) {
-        evt.preventDefault();
-        _this.play();
-      };
-      this.elem && this.elem.addEventListener("click", this.handler);
-    }
-  }, {
-    key: "pause",
-    value: function pause() {
-      this.audioElement && this.audioElement.pause();
-    }
-  }, {
-    key: "dispose",
-    value: function dispose() {
-      this.audioElement = null;
-      this.handler && this.elem && this.elem.removeEventListener("click", this.handler);
-    }
-  }]);
-  return UrlPlayer;
-}();
-
-
-/***/ }),
-/* 31 */
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ WordReferencePlayer; }
-/* harmony export */ });
-/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
-
-
-var definition = {
-  'en': 'definition',
-  'ca': 'definicio',
-  'es': 'definicion'
-};
-var wordReferencePrefix = 'https://www.wordreference.com/';
-var variantNames = {
-  "us": "United States",
-  "uk": "United Kingdom",
-  "irish": "Irish",
-  "scot": "Scottish",
-  "jamaica": "Jamaica",
-  "es": "España",
-  "castellano": "España",
-  "ca": "Catalunya",
-  "mexico": "México",
-  "argentina": "Argentina"
-};
-function nameOfVariant(variant) {
-  return variantNames[variant] || variant;
-}
-function parseAudioFiles(extracted, lang) {
-  var map = {};
-  extracted.forEach(function (asource) {
-    //asource
-    /*[
-        "/audio/en/us/us/en005736.mp3",
-        "/audio/en/uk/general/en005736.mp3",
-        "/audio/en/uk/rp/en005736.mp3",
-        "/audio/en/uk/Yorkshire/en005736-55.mp3",
-        "/audio/en/Irish/en005736.mp3",
-        "/audio/en/scot/en005736.mp3",
-        "/audio/en/Jamaica/en005736.mp3"
-    ]*/
-    var parts = asource.split("/");
-    var variant = parts[parts.indexOf(lang) + 1].toLowerCase();
-    if (!map[variant]) {
-      map[variant] = {
-        name: nameOfVariant(variant),
-        url: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, asource)
-      };
-    }
-  });
-  return map;
-}
-var wr_define = function wr_define(from, word) {
-  // Make the request
-  return new Promise(function (resolve, reject) {
-    if (!(from in definition)) {
-      reject();
-      return;
-    }
-    var url2 = wordReferencePrefix + definition[from] + '/' + encodeURIComponent(word);
-    if (!definition[from]) {
-      reject();
-      return;
-    }
-    $.ajax({
-      method: 'GET',
-      dataType: 'html',
-      url: url2
-    }).done(function (data) {
-      var matches = data.match(/<script>var\s+audioFiles\s+=(.*?)\]/m);
-      if (matches && matches.length == 2) {
-        var found = matches[1].trim().replace(/'/g, '"');
-        if (found.endsWith(",")) {
-          found = found.substring(0, found.length - 1);
-        }
-        var audioList = JSON.parse(found + "]");
-        var audioMap = parseAudioFiles(audioList, from);
-        resolve(audioMap);
-        return;
-      }
-      reject("cannot find audioFiles in page");
-    }).fail(function (err) {
-      reject(err);
-    });
-  });
-};
-var WordReferencePlayer = /*#__PURE__*/function () {
-  function WordReferencePlayer(elem) {
-    _classCallCheck(this, WordReferencePlayer);
-    this.elem = elem;
-    this.init();
-  }
-  _createClass(WordReferencePlayer, [{
-    key: "init",
-    value: function init() {
-      var _this = this;
-      this.handler = function (evt) {
-        evt.preventDefault(); // Evita que executi el link  
-        if (_this.audioElement != null) {
-          _this.play();
-          return;
-        }
-        // Defer the search of sources until the first click
-        //TODO if no region specified show dropdown with variants
-        var lang = _this.elem.getAttribute("href") || _this.elem.dataset.lang || "en";
-        var region = "";
-        lang = lang.replace("#speak_", "");
-        if (lang.indexOf("-") > 0) {
-          var parts = lang.split("-");
-          lang = parts[0].toLowerCase().trim();
-          region = parts[1].toLowerCase().trim();
-        }
-        wr_define(lang, _this.elem.innerText).then(function (audioMap) {
-          console.log(audioMap);
-          var variants = Object.keys(audioMap);
-          if (variants.length > 0) {
-            //use the one that matches "region"
-            var theURL = audioMap[region];
-            if (!theURL) {
-              theURL = audioMap[variants[0]];
-            }
-            var url = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, theURL.url);
-            _this.audioElement = new _urlPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](undefined, url);
-            if (!region && variants.length > 1) {
-              // Add a dropdown to change variant
-              var id = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.genID)();
-              var $dropdown = $("\n<div class=\"dropdown\" style=\"display:inline-block;\">\n  <button class=\"btn btn-secondary btn-sm\" style=\"margin:2px;padding:4px;height:15px;\" type=\"button\" id=\"dmb_".concat(id, "\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n  <i class=\"fas fa fa-globe\" style=\"transform: translateY(-9px);font-size:90%;\"></i>\n  </button>\n  <div class=\"dropdown-menu\" aria-labelledby=\"dmb_").concat(id, "\"> \n  </div>\n</div>"));
-              var $menu = $dropdown.find(".dropdown-menu");
-              variants.forEach(function (variant) {
-                var varDef = audioMap[variant];
-                var $menuItem = $("<a class=\"dropdown-item\" href=\"#\">".concat(varDef.name, "</a>"));
-                $menuItem.on("click", function (evt) {
-                  evt.preventDefault();
-                  if (_this.audioElement) {
-                    _this.audioElement.src = varDef.url;
-                    _this.audioElement.play();
-                  }
-                });
-                $menu.append($menuItem);
-              });
-              $dropdown.insertAfter($(_this.elem));
-            }
-          } else {
-            // Fallback on google
-            _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__["default"](_this.elem);
-          }
-          _this.audioElement.play();
-        }, function (err) {
-          // Fallback on google
-          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_0__["default"](_this.elem);
-          _this.audioElement.play();
-        });
-      };
-      this.elem.addEventListener("click", this.handler);
-      this.elem.title = "wordReference";
-    }
-  }, {
-    key: "play",
-    value: function play() {
-      this.audioElement && this.audioElement.play();
-    }
-  }, {
-    key: "pause",
-    value: function pause() {
-      this.audioElement && this.audioElement.pause();
-    }
-  }, {
-    key: "dispose",
-    value: function dispose() {
-      this.pause();
-      if (this.handler) {
-        this.elem.removeEventListener("click", this.handler);
-        this.handler = null;
-      }
-    }
-  }]);
-  return WordReferencePlayer;
-}();
-/*
-const wr_translate = function (from: string, to: string, word: string): Promise<string[]> {
-    const url2 = 'https://www.wordreference.com/' + from + to + '/' + encodeURIComponent(word);
-    console.log(url2);
-    // Make the request
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            method: 'GET',
-            dataType: 'html',
-            url: url2
-        }).done(function (data) {
-            console.log("Processing ", data);
-            let audioList = []
-            const matches = data.match(/<script>const audioFiles =(.*?)\]/m);
-            console.log("matches audioFiles ", matches);
-            if (matches && matches.length == 2) {
-                const found = matches[1].trim().replace(/'/g, '"');
-                if (found.endsWith(",")) {
-                    found = found.substring(0, found.length - 1);
-                }
-                audioList = JSON.parse(found + "]")
-                console.log(audioList);
-                resolve(audioList);
-                return;
-            }
-            /*
-            matches = data.match(/<div\s+class='entry'>((.|\n)*?)<\/div>/m);
-            console.log("matches entry ", matches);
-            if (matches && matches.length > 0) {
-                const text = $(matches[0]).text();
-                console.log(text);
-            }
-
-            console.log(data.indexOf("<table class='WRD'"));
-            const reg = /<table\s+class='WRD'((.|\n)*?)<\/table>/gi;
-            matches = data.match(reg);
-            console.log("matches table ", matches);
-            if (matches && matches.length > 0) {
-                const text = $(matches[0]).text();
-                console.log(text);
-            }
-             
-           reject();
-        }).fail(function (err) {
-            reject();
-        });
-    });
-};
-*/
-
-
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -1541,17 +1526,6 @@ const wr_translate = function (from: string, to: string, word: string): Promise<
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
 /******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	}();
-/******/ 	
 /******/ 	/* webpack/runtime/nonce */
 /******/ 	!function() {
 /******/ 		__webpack_require__.nc = undefined;
@@ -1561,14 +1535,13 @@ const wr_translate = function (from: string, to: string, word: string): Promise<
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _speak_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
+/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+/* harmony import */ var _speak_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 /* harmony import */ var _speakComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(27);
 
 
 
-_loader__WEBPACK_IMPORTED_MODULE_0__["default"].bootstrap([_speakComponent__WEBPACK_IMPORTED_MODULE_2__["default"]]);
+_loader__WEBPACK_IMPORTED_MODULE_1__["default"].bootstrap([_speakComponent__WEBPACK_IMPORTED_MODULE_2__["default"]]);
 }();
 /******/ })()
 ;

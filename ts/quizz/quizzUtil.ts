@@ -30,6 +30,30 @@ export function runInScope(scriptCode: string, context?: Dict<unknown>, scope?: 
     scope = scope || {}; 
     const contextKeys = Object.keys(context);
     const contextValues = Object.values(context);
-    const evaluator = new Function(...contextKeys, scriptCode);
+    //By default run in strict mode
+    const evaluator = new Function(...contextKeys, '"use'+' strict"\n' + scriptCode);
     return evaluator.apply(scope, contextValues);    
+}
+
+
+/**
+* Replace V[N] by (?,?,...,?)
+* Replace M[pxq] by matrix pxq with ? elements
+* @param iniTxt 
+* @returns 
+*/
+export function treatIniPlaceholders(iniTxt: string): string {
+   if(!iniTxt) {
+       return iniTxt;
+   }
+   return iniTxt.replace(/V\[(\d+)\]/g, ($0, $1) => {
+       const n = parseInt($1);
+       return '\\left(' + new Array(n).fill('\\MathQuillMathField{}').join(',') + '\\right)'
+   }).replace(/M\[(\d+)x(\d+)\]/g, ($0, $1, $2) => {
+       const n = parseInt($1);
+       const m = parseInt($2);
+       const line = new Array(n).fill('\\MathQuillMathField{}').join(' & ');
+       const mtex = new Array(m).fill(line).join(' \\\\ ');
+       return '\\begin{pmatrix}' + mtex + '\\end{pmatrix}'
+   }).replace(/\?/g, '\\MathQuillMathField{ }');
 }

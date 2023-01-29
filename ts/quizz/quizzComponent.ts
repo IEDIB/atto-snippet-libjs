@@ -109,7 +109,7 @@ export default class QuizzComponent extends BaseComponent {
         });
 
         try {
-            runInScope(this.groupContext.s.replace(/#/g,'this.'), utilities, this.groupContext._s); 
+            runInScope('var _this=this;\n'+this.groupContext.s.replace(/#/g,'_this.'), utilities, this.groupContext._s); 
         } catch (ex) {
             console.error("GroupContext:: No es pot interpretar el codi.\n", ex);
         }

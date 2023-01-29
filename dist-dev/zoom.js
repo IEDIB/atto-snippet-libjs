@@ -2,10 +2,9 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 22:
+/***/ 24:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "BaseComponent": function() { return /* binding */ BaseComponent; }
 /* harmony export */ });
@@ -22,14 +21,13 @@ var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 22:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Component": function() { return /* binding */ Component; },
-/* harmony export */   "ComponentHTML": function() { return /* binding */ ComponentHTML; }
+/* harmony export */   "Component": function() { return /* binding */ Component; }
 /* harmony export */ });
+/* unused harmony export ComponentHTML */
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -77,11 +75,10 @@ function ComponentHTML(componentOptions) {
 
 /***/ }),
 
-/***/ 1:
+/***/ 19:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 
@@ -194,6 +191,9 @@ function _bootstrap(classes) {
         requirejs(['jquery'], function () {
           //wait for document ready
           $(function () {
+            if (typeof window.ibComponentLoader === 'function') {
+              window.ibComponentLoader();
+            }
             _bootstrap(arrayDefs);
           });
         });
@@ -206,23 +206,14 @@ function _bootstrap(classes) {
 
 /***/ }),
 
-/***/ 2:
+/***/ 20:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addBaseToUrl": function() { return /* binding */ addBaseToUrl; },
 /* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
-/* harmony export */   "createElement": function() { return /* binding */ createElement; },
-/* harmony export */   "genID": function() { return /* binding */ genID; },
-/* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
-/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
-/* harmony export */   "pathJoin": function() { return /* binding */ pathJoin; },
-/* harmony export */   "pran": function() { return /* binding */ pran; },
-/* harmony export */   "querySelectorProp": function() { return /* binding */ querySelectorProp; },
-/* harmony export */   "shuffleArray": function() { return /* binding */ shuffleArray; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
+/* unused harmony exports parseUrlParams, querySelectorProp, getPageInfo, pran, pathJoin, addBaseToUrl, genID, createElement, shuffleArray */
 function parseUrlParams(url) {
   var params = {};
   var parts = url.substring(1).split('&');
@@ -429,10 +420,9 @@ function shuffleArray(array) {
 
 /***/ }),
 
-/***/ 25:
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ 23:
+/***/ (function(__unused_webpack_module, __webpack_exports__) {
 
-__webpack_require__.r(__webpack_exports__);
 /*!
   Wheelzoom 4.0.1
   license: MIT
@@ -644,17 +634,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 24:
+/***/ 21:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ ZoomComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
-/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(25);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
+/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -674,7 +663,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 var INIT_DELAY = 600;
-var ZoomComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Component)({
+var ZoomComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component)({
   name: 'zoom',
   author: 'Josep Mulet Pol',
   version: '2.0'
@@ -695,7 +684,7 @@ var ZoomComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Componen
       img.style.maxWidth = "98%";
       if (img.dataset.active !== "1") {
         img.dataset.active = "1";
-        (0,_wheelzoom__WEBPACK_IMPORTED_MODULE_3__["default"])(img, options);
+        (0,_wheelzoom__WEBPACK_IMPORTED_MODULE_1__["default"])(img, options);
       }
     }
   }, {
@@ -737,7 +726,7 @@ var ZoomComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Componen
     }
   }]);
   return ZoomComponent;
-}(_base__WEBPACK_IMPORTED_MODULE_0__.BaseComponent)) || _class);
+}(_base__WEBPACK_IMPORTED_MODULE_3__.BaseComponent)) || _class);
 
 
 /***/ })
@@ -786,29 +775,16 @@ var ZoomComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_1__.Componen
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
 /******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	}();
-/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
-/* harmony import */ var _zoomComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _zoomComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
 
 
 
-_loader__WEBPACK_IMPORTED_MODULE_0__["default"].bootstrap([_zoomComponent__WEBPACK_IMPORTED_MODULE_2__["default"]]);
+_loader__WEBPACK_IMPORTED_MODULE_0__["default"].bootstrap([_zoomComponent__WEBPACK_IMPORTED_MODULE_1__["default"]]);
 }();
 /******/ })()
 ;

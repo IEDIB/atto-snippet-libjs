@@ -1,29 +1,7 @@
 import { ComponentHTML } from "../decorators";  
-import { runInScope, scopedEval } from "./quizzUtil";
+import { runInScope, scopedEval, treatIniPlaceholders } from "./quizzUtil";
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
-
-/**
- * Replace V[N] by (?,?,...,?)
- * Replace M[pxq] by matrix pxq with ? elements
- * @param iniTxt 
- * @returns 
- */
-function treatIniPlaceholders(iniTxt: string): string {
-    if(!iniTxt) {
-        return iniTxt;
-    }
-    return iniTxt.replace(/V\[(\d+)\]/g, ($0, $1) => {
-        const n = parseInt($1);
-        return '\\left(' + new Array(n).fill('\\MathQuillMathField{}').join(',') + '\\right)'
-    }).replace(/M\[(\d+)x(\d+)\]/g, ($0, $1, $2) => {
-        const n = parseInt($1);
-        const m = parseInt($2);
-        const line = new Array(n).fill('\\MathQuillMathField{}').join(' & ');
-        const mtex = new Array(m).fill(line).join(' \\\\ ');
-        return '\\begin{pmatrix}' + mtex + '\\end{pmatrix}'
-    });
-}
 
 @ComponentHTML({
     elementName: "ib-quizz-cloze",
@@ -76,7 +54,7 @@ class IBQuizzCloze extends WidgetElement {
                 (localContext.u as string[]).forEach( (e, i) => localContext['u'+i]=e);
                 //Evaluate check function that must return true or false
                 const scriptFn = (this.widgetConfig?.cfn || 'return true').replace(/#/g, '');
-                result = runInScope(scriptFn, localContext, {}) as boolean;
+                result = runInScope('var _this=this;\n'+scriptFn.replace(/#/g,'_this.'), localContext, this.groupContext?._s || {}) as boolean;
                 console.log("Avaluant ", scriptFn, "Retorna ", result);
             } else {
                 //Must rely on .ans to be an array with answers
@@ -129,7 +107,7 @@ class IBQuizzCloze extends WidgetElement {
         }
 
         this.input = document.createElement("span") as HTMLSpanElement;
-        this.input.innerText = treatIniPlaceholders(this.widgetConfig.ini || '?').replace(/\?/g, '\\MathQuillMathField{ }');
+        this.input.innerText = treatIniPlaceholders(this.widgetConfig.ini || '?');
         console.log(this.input.innerText);
         this.append(this.input);
         //Important MUST BE appended before calling StaticMath

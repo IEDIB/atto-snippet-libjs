@@ -1,5 +1,5 @@
-import { createElement } from "../utils";
-import { getDialog } from "./bs-dialog";
+import { createElement } from "../utils"; 
+import { getCachedMsgDialog } from "./bsMsgDialog";
 import getI18n from "./i18n";
 
 export enum WidgetStatus {
@@ -91,7 +91,7 @@ export class StatusDisplay {
 
     setHint(hint: string): void {
         this.spanHint.addEventListener('click', ()=>{ 
-            const dlg = getDialog('ib-quizz-modal-dlg', 'Una pista...');
+            const dlg = getCachedMsgDialog('ib-quizz-modal-dlg', 'Una pista...');
             const hintDiv = createElement('div', {
                 html: hint
             });
@@ -103,7 +103,7 @@ export class StatusDisplay {
 
     setFeedback(feedback: string): void {
         this.feedbackSpan.addEventListener('click', ()=>{
-            const dlg = getDialog('ib-quizz-modal-dlg', 'Retroacció');
+            const dlg = getCachedMsgDialog('ib-quizz-modal-dlg', 'Retroacció');
             const hintDiv = createElement('div', {
                 html: feedback
             });
