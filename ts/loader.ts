@@ -105,8 +105,8 @@ export default {
                 requirejs(['jquery'], function(){ 
                     //wait for document ready
                     $(function(){
-                        if(typeof window.ibComponentLoader === 'function') {
-                            window.ibComponentLoader();
+                        if(typeof window.IB?.on$Ready === 'function') {
+                            window.IB.on$Ready();
                         } 
                         _bootstrap(arrayDefs);
                     });                        

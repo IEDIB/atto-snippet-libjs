@@ -5,7 +5,7 @@ import { StatusDisplay } from "./statusDisplay";
 
 export abstract class WidgetElement extends HTMLElement {
     widgetConfig: WidgetConfig | undefined;
-    statusDisplay: StatusDisplay;
+    statusDisplay: StatusDisplay | undefined;
     lang = "ca";
     attoId: string | undefined;
     groupContext: WidgetGroupContext | undefined;
@@ -14,16 +14,16 @@ export abstract class WidgetElement extends HTMLElement {
     private hintSet = false;
     private feedbackSet = false;
 
+    /*
     constructor() {
         super();
-        this.innerHTML = "";
-        this.classList.add("d-print-none");
-        this.statusDisplay = new StatusDisplay();
+      
         //this.append(this.statusDisplay);
         //eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         //$(this.statusDisplay).tooltip();
     }
+    */
 
     init(pre: string | undefined) {
         if (pre) {
@@ -34,6 +34,10 @@ export abstract class WidgetElement extends HTMLElement {
     }
 
     connectedCallback() {
+        console.log("Widget connected callback");
+        this.innerHTML = "";
+        this.classList.add("d-print-none");
+        this.statusDisplay = new StatusDisplay();
         // Parse the widgetConfig from data-src
         // Make sure that has data-src field
         let src = this.dataset.src || "";
@@ -62,7 +66,7 @@ export abstract class WidgetElement extends HTMLElement {
 
     setLang(lang: string) {
         this.lang = lang;
-        this.statusDisplay.setLang(lang);
+        this.statusDisplay?.setLang(lang);
         console.log("Setting lang ", lang);
         this._syncCount++;
         if (this._syncCount === 3) {
@@ -80,7 +84,7 @@ export abstract class WidgetElement extends HTMLElement {
     }
 
     setStatus(status: number, msg?: string | undefined): void {
-        this.statusDisplay.setStatus(status, msg);
+        this.statusDisplay?.setStatus(status, msg);
     }
 
     incAttempts(): void {
@@ -89,18 +93,18 @@ export abstract class WidgetElement extends HTMLElement {
         const limitFeedback = this.groupContext?.o.ans || 0;
         if (!this.hintSet && limitHint > 0 && this.attempts >= limitHint && this.widgetConfig?.hint) {
             this.hintSet = true;
-            this.statusDisplay.setHint(this.widgetConfig?.hint)
+            this.statusDisplay?.setHint(this.widgetConfig?.hint)
         }
         if (!this.feedbackSet && limitFeedback > 0 && this.attempts >= limitFeedback && this.widgetConfig?.fbk) {
             this.feedbackSet = true;
-            this.statusDisplay.setFeedback(this.widgetConfig?.fbk)
+            this.statusDisplay?.setFeedback(this.widgetConfig?.fbk)
         }
     }
 
     showFeedback(): void {
         if (!this.feedbackSet && this.widgetConfig?.fbk) {
             this.feedbackSet = true;
-            this.statusDisplay.setFeedback(this.widgetConfig?.fbk)
+            this.statusDisplay?.setFeedback(this.widgetConfig?.fbk)
         }
     }
 

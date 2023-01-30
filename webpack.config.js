@@ -21,14 +21,24 @@ fs.readdirSync("./ts", {withFileTypes: true}).filter(dirent => dirent.isDirector
   if(fs.existsSync(cssFile)) {
     allCssFiles.push(cssFile);
   }
-});
 
-// Bundle all css minified
-if(allCssFiles.length) {
+  // Minify every single css files found while walking the directories
+  fs.readdirSync("./ts/"+modName, {withFileTypes: true})
+    .filter(dirent => dirent.isDirectory()==false &&  dirent.name.indexOf(".min.css") < 0 && dirent.name.endsWith(".css")).forEach( dirent2 => {
+    const miniCss = uglifycss.processFiles(["./ts/"+modName+"/"+dirent2.name]);
+    const targetCss = path.resolve("./ts/"+modName+"/"+ dirent2.name.replace(".css",".min.css"));
+    fs.writeFileSync(targetCss, miniCss, {encoding: "utf8"});
+  });
+
+  // Minify the entire css bundle
   const miniCss = uglifycss.processFiles(allCssFiles);
   const targetCss = path.resolve("./dist", "all.css");
   fs.writeFileSync(targetCss, miniCss, {encoding: "utf8"});
-}
+
+
+});
+
+
 
 
 module.exports = {

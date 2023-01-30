@@ -1,5 +1,5 @@
 import Loader from '../loader';
-import './talea.css';
+import './talea.min.css';
 import TaleaComponent from './taleaComponent';
 
 Loader.bootstrap([TaleaComponent]);

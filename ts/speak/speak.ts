@@ -1,5 +1,5 @@
 import Loader from '../loader';
-import './speak.css';
+import './speak.min.css';
 import SpeakComponent from './speakComponent';
 
 Loader.bootstrap([SpeakComponent]);

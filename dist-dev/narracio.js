@@ -510,8 +510,9 @@ function _bootstrap(classes) {
         requirejs(['jquery'], function () {
           //wait for document ready
           $(function () {
-            if (typeof window.ibComponentLoader === 'function') {
-              window.ibComponentLoader();
+            var _window$IB;
+            if (typeof ((_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : _window$IB.on$Ready) === 'function') {
+              window.IB.on$Ready();
             }
             _bootstrap(arrayDefs);
           });
@@ -530,7 +531,7 @@ function _bootstrap(classes) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
-/* unused harmony exports parseUrlParams, querySelectorProp, getPageInfo, pran, convertInt, pathJoin, addBaseToUrl, genID, createElement, shuffleArray */
+/* unused harmony exports parseUrlParams, querySelectorProp, getPageInfo, pran, convertInt, pathJoin, addBaseToUrl, genID, createElement, shuffleArray, addScript, addLinkSheet */
 function parseUrlParams(url) {
   var params = {};
   var parts = url.substring(1).split('&');
@@ -735,6 +736,49 @@ function shuffleArray(array) {
   }
 }
 
+// Creates a script tag and handle loading
+function addScript(url, id, onSuccess, onError) {
+  if (id && document.head.querySelector('script#' + id) != null) {
+    //check if already in head
+    return;
+  }
+  var newScript = document.createElement('script');
+  newScript.type = "text/javascript";
+  newScript.src = url;
+  id && newScript.setAttribute("id", id);
+  newScript.onload = function () {
+    console.info("Loaded ", url);
+    onSuccess && onSuccess();
+  };
+  newScript.onerror = function () {
+    console.error("Error loading ", url);
+    onError && onError();
+  };
+  console.log("Added to head the script ", url);
+  document.head.append(newScript);
+}
+function addLinkSheet(href, id, onSuccess, onError) {
+  if (id && document.head.querySelector('link#' + id) != null) {
+    //check if already in head
+    return;
+  }
+  var css = document.createElement("link");
+  css.setAttribute("rel", "stylesheet");
+  css.setAttribute("type", "text/css");
+  css.setAttribute("href", href);
+  id && css.setAttribute("id", id);
+  css.onload = function () {
+    console.info("Loaded ", href);
+    onSuccess && onSuccess();
+  };
+  css.onerror = function () {
+    console.error("Error loading ", href);
+    onError && onError();
+  };
+  console.log("Added to head the linksheet ", href);
+  document.head.appendChild(css);
+}
+
 /***/ }),
 /* 21 */,
 /* 22 */
@@ -821,7 +865,13 @@ var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
 /* 34 */,
 /* 35 */,
 /* 36 */,
-/* 37 */
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -836,7 +886,7 @@ var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_narracio_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(38);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_narracio_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(44);
 
       
       
@@ -858,16 +908,16 @@ options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWi
 options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
 options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_narracio_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_narracio_min_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
 
 
 
 
-       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_narracio_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_narracio_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_narracio_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_narracio_min_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_narracio_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_narracio_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
-/* 38 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -879,13 +929,13 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, " .pw-laser-nw {\n     position: relative;\n }\n\n .pw-laser-nw::after {\n     content: \"\";\n     position: absolute;\n     left: 0;\n     top: 0;\n     width: 10px;\n     height: 10px;\n     border-radius: 50%;\n     background: rgba(255, 0, 0, 0.6);\n     box-shadow: 0 0 5px 3px red;\n }\n\n .pw-laser-ne {\n     position: relative;\n }\n\n .pw-laser-ne::after {\n     content: \"\";\n     position: absolute;\n     right: 0;\n     top: 0;\n     width: 10px;\n     height: 10px;\n     border-radius: 50%;\n     background: rgba(255, 0, 0, 0.6);\n     box-shadow: 0 0 5px 3px red;\n }\n\n .pw-laser-sw {\n     position: relative;\n }\n\n .pw-laser-sw::after {\n     content: \"\";\n     position: absolute;\n     left: 0;\n     bottom: 0;\n     width: 10px;\n     height: 10px;\n     border-radius: 50%;\n     background: rgba(255, 0, 0, 0.6);\n     box-shadow: 0 0 5px 3px red;\n }\n\n.pw-laser-se {\n     position: relative;\n }\n\n .pw-laser-se::after {\n     content: \"\";\n     position: absolute;\n     right: 0;\n     bottom: 0;\n     width: 10px;\n     height: 10px;\n     border-radius: 50%;\n     background: rgba(255, 0, 0, 0.6);\n     box-shadow: 0 0 5px 3px red;\n }\n\n .pw-laser-md {\n     position: relative;\n }\n\n .pw-laser-md::after {\n     content: \"\";\n     position: absolute;\n     left: 50%;\n     bottom: 50%;\n     width: 10px;\n     height: 10px;\n     border-radius: 50%;\n     background: rgba(255, 0, 0, 0.6);\n     box-shadow: 0 0 5px 3px red;\n }\n\n .audible-media-player {\n     max-width: 600px;\n     padding: 6px;\n     border-radius: 7px;\n     display: flex;\n     margin: auto;\n     margin-bottom: 15px;\n }\n\n .audible-frog span, .audible-frog button {\n     color: #4f6e46;\n }\n\n .audible-sky {\n     background: rgb(241, 245, 254);\n }\n\n .audible-frog {\n     background: #e6ede6;\n }\n\n .audible-sky span, .audible-sky button {\n     color: rgb(31, 106, 219);\n }\n\n .pw-audible-btn {\n     background: none;\n     border: none;\n     color: #4f6e46;\n     margin: 0 5px;\n }\n\n.pw-pen-yellow {\n     -webkit-box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, 5px 5px 15px 5px rgba(0, 0, 0, 0);\n     box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, 5px 5px 15px 5px rgba(0, 0, 0, 0);\n     background: rgb(255, 255, 193, 0.5);\n }\n\n .pw-pen-green {\n     -webkit-box-shadow: #FFF 0 -1px 4px, #3f3 0 -2px 10px, 5px 5px 15px 5px rgba(0, 0, 0, 0);\n     box-shadow: #FFF 0 -1px 4px, #3f3 0 -2px 10px, 5px 5px 15px 5px rgba(0, 0, 0, 0);\n     background: rgb(193, 255, 200, 0.5);\n }\n\n .pw-pen-red {\n     -webkit-box-shadow: #FFF 0 -1px 4px, #f33 0 -2px 10px, 5px 5px 15px 5px rgba(0, 0, 0, 0);\n     box-shadow: #FFF 0 -1px 4px, #f33 0 -2px 10px, 5px 5px 15px 5px rgba(0, 0, 0, 0);\n     background: rgb(255, 193, 193, 0.5);\n }\n\n @media print {\n     .audible-media-player {\n         display: none;\n     }\n }\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".pw-laser-nw{position:relative}.pw-laser-nw::after{content:\"\";position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:rgba(255,0,0,0.6);box-shadow:0 0 5px 3px red}.pw-laser-ne{position:relative}.pw-laser-ne::after{content:\"\";position:absolute;right:0;top:0;width:10px;height:10px;border-radius:50%;background:rgba(255,0,0,0.6);box-shadow:0 0 5px 3px red}.pw-laser-sw{position:relative}.pw-laser-sw::after{content:\"\";position:absolute;left:0;bottom:0;width:10px;height:10px;border-radius:50%;background:rgba(255,0,0,0.6);box-shadow:0 0 5px 3px red}.pw-laser-se{position:relative}.pw-laser-se::after{content:\"\";position:absolute;right:0;bottom:0;width:10px;height:10px;border-radius:50%;background:rgba(255,0,0,0.6);box-shadow:0 0 5px 3px red}.pw-laser-md{position:relative}.pw-laser-md::after{content:\"\";position:absolute;left:50%;bottom:50%;width:10px;height:10px;border-radius:50%;background:rgba(255,0,0,0.6);box-shadow:0 0 5px 3px red}.audible-media-player{max-width:600px;padding:6px;border-radius:7px;display:flex;margin:auto;margin-bottom:15px}.audible-frog span,.audible-frog button{color:#4f6e46}.audible-sky{background:#f1f5fe}.audible-frog{background:#e6ede6}.audible-sky span,.audible-sky button{color:#1f6adb}.pw-audible-btn{background:0;border:0;color:#4f6e46;margin:0 5px}.pw-pen-yellow{-webkit-box-shadow:#FFF 0 -1px 4px,#ff0 0 -2px 10px,5px 5px 15px 5px rgba(0,0,0,0);box-shadow:#FFF 0 -1px 4px,#ff0 0 -2px 10px,5px 5px 15px 5px rgba(0,0,0,0);background:rgb(255,255,193,0.5)}.pw-pen-green{-webkit-box-shadow:#FFF 0 -1px 4px,#3f3 0 -2px 10px,5px 5px 15px 5px rgba(0,0,0,0);box-shadow:#FFF 0 -1px 4px,#3f3 0 -2px 10px,5px 5px 15px 5px rgba(0,0,0,0);background:rgb(193,255,200,0.5)}.pw-pen-red{-webkit-box-shadow:#FFF 0 -1px 4px,#f33 0 -2px 10px,5px 5px 15px 5px rgba(0,0,0,0);box-shadow:#FFF 0 -1px 4px,#f33 0 -2px 10px,5px 5px 15px 5px rgba(0,0,0,0);background:rgb(255,193,193,0.5)}@media print{.audible-media-player{display:none}}", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
 
 /***/ }),
-/* 39 */
+/* 45 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1017,8 +1067,8 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
-/* harmony import */ var _narracio_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(37);
-/* harmony import */ var _narracioComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(39);
+/* harmony import */ var _narracio_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(43);
+/* harmony import */ var _narracioComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(45);
 
 
 

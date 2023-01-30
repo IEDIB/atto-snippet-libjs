@@ -15,7 +15,8 @@ export interface IBComponentNS {
 
 
 interface IBType {
-    sd: Dict<IBComponentNS>
+    sd: Dict<IBComponentNS>,
+    on$Ready?: ()=>void
 }
 
 declare global {

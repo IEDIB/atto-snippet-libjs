@@ -123,7 +123,7 @@ class IBQuizzCloze extends WidgetElement {
         }); 
        
         super.init(this.widgetConfig.pre);  
-        this.append(this.statusDisplay.getElement());
+        this.statusDisplay && this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
     /*

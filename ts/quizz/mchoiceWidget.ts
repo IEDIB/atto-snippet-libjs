@@ -117,7 +117,7 @@ class IBQuizzMchoice extends WidgetElement {
         });   
         super.init(this.widgetConfig.pre); 
         this.append(this.form);
-        this.append(this.statusDisplay.getElement());
+        this.statusDisplay && this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
     /*

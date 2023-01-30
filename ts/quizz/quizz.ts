@@ -1,7 +1,5 @@
 import Loader from '../loader';
-import './quizz.css'; 
-import './mathquill.matrix.css';
-import './mathquill.matrix.min.js';
+import './quizz.min.css';
 import QuizzComponent from './quizzComponent';
 
 Loader.bootstrap([QuizzComponent]);

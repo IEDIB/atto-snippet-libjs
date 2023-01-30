@@ -8,11 +8,12 @@ import "./dropdownWidget";
 import "./mchoiceWidget";
 import "./numericWidget";
 import "./clozeWidget";
-import { createElement } from "../utils";
+import { addScript, createElement } from "../utils";
 import { WidgetGroupContext } from "./quizzTypes";
 import { runInScope } from "./quizzUtil";
 
-const SEARCH_QUERY = ".ib-quizz-elem"; 
+const SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice"; //".ib-quizz-elem"; 
+const SEARCH_QUERY2 = "ib-quizz-cloze";  //Requires loading Mathquill
 
 function textNodesUnder(el: HTMLElement) {
     const a: Node[] = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
@@ -33,10 +34,12 @@ function textNodesUnder(el: HTMLElement) {
 })
 export default class QuizzComponent extends BaseComponent {
     private allQuizzElements: NodeListOf<WidgetElement>;
+    private allClozeElements: NodeListOf<WidgetElement>;
     private checkButton: HTMLButtonElement;
     private listener: (evt: Event) => void;
     private lang: string;
     private groupContext: WidgetGroupContext = { s: '', _s: {}, o: { hint: 2, ans: 4 } };
+    
 
     constructor(parent: HTMLElement) {
         super(parent);
@@ -67,7 +70,8 @@ export default class QuizzComponent extends BaseComponent {
 
 
         this.allQuizzElements = this.parent.querySelectorAll(SEARCH_QUERY) as NodeListOf<WidgetElement>;
-        console.log(this.allQuizzElements);
+        this.allClozeElements = document.querySelectorAll(SEARCH_QUERY2) as NodeListOf<WidgetElement>; 
+        console.log(this.allQuizzElements, this.allClozeElements);
         this.checkButton = createElement("button", {
             class: "btn btn-sm btn-primary d-print-none",
             style: "margin: 10px",
@@ -79,6 +83,10 @@ export default class QuizzComponent extends BaseComponent {
             evt.preventDefault();
             let check = true;
             this.allQuizzElements.forEach((quizzElem) => {
+                const partial = quizzElem.check();
+                check = check && partial;
+            });
+            this.allClozeElements.forEach((quizzElem) => {
                 const partial = quizzElem.check();
                 check = check && partial;
             });
@@ -160,6 +168,31 @@ export default class QuizzComponent extends BaseComponent {
             quizzElem.setLang(this.lang);
             quizzElem.setGroupContext(this.groupContext);
         });
+        //cloze elements needs mathquill to be loaded on demand
+       
+        if(this.allClozeElements.length) {
+            //Needs to load mathquill js file on demand
+            //Needs the lookup document.head for a script with src="....../sd/quizz.min.js"
+            //and build a new url with ....../sd/mathquill.min.js
+            //In this way, we share the same base url than the main plugin
+            //Fallback
+            let mathQuillURL = 'https://piworld.es/iedib/snippets/sd/mathquill.min.js';
+            const scriptFound = document.body.querySelector('script[src$="/sd/quizz.min.js"]');
+            if(scriptFound) {
+                mathQuillURL = (scriptFound.getAttribute('src') || '').replace('/sd/quizz.min.js','/sd/mathquill.min.js');
+            }
+            addScript(mathQuillURL, 'mathquill.matrix4quizz', ()=>{
+                //When mathquill ready must initialize this widgets
+                this.allClozeElements.forEach( quizzElem => {
+                    if(typeof(quizzElem.setLang) !== 'function') {
+                        console.error("No custom element registered for ", quizzElem);
+                        return;
+                    }
+                    quizzElem.setLang(this.lang);
+                    quizzElem.setGroupContext(this.groupContext);
+                }); 
+            });
+        }
     }
     dispose(): void {
         const ds = this.parent.dataset;

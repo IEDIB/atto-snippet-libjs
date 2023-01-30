@@ -216,3 +216,48 @@ export function shuffleArray(array: number[]): void {
         array[j] = temp;
     } 
 }
+
+// Creates a script tag and handle loading
+export function addScript(url: string, id?: string, onSuccess?: ()=>void, onError?: ()=>void): void {
+    if(id && document.head.querySelector('script#'+id)!=null) {
+        //check if already in head
+        return;
+    }
+    const newScript = document.createElement('script');
+    newScript.type = "text/javascript";
+    newScript.src = url;
+    id && newScript.setAttribute("id", id);
+    newScript.onload = () => {
+        console.info("Loaded ", url);
+        onSuccess && onSuccess();    
+    };
+    newScript.onerror = function () {
+        console.error("Error loading ", url);
+        onError && onError();
+    };
+    console.log("Added to head the script ", url);
+    document.head.append(newScript); 
+}
+
+
+export function addLinkSheet(href: string, id?: string, onSuccess?: ()=>void, onError?: ()=>void): void {
+    if(id && document.head.querySelector('link#'+id)!=null) {
+        //check if already in head
+        return;
+    }
+    const css = document.createElement("link") as HTMLLinkElement;
+    css.setAttribute("rel", "stylesheet");
+    css.setAttribute("type", "text/css");
+    css.setAttribute("href", href);
+    id && css.setAttribute("id", id);
+    css.onload = () => {
+        console.info("Loaded ", href);
+        onSuccess && onSuccess();    
+    };
+    css.onerror = function () {
+        console.error("Error loading ", href);
+        onError && onError();
+    };
+    console.log("Added to head the linksheet ", href);
+    document.head.appendChild(css);
+}

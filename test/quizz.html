@@ -12,6 +12,8 @@
     <script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
+
+
   <style>
     body {
       max-width: 700px;
@@ -21,10 +23,11 @@
 </head>
 
 <body>
-
+  <script src="./dist-dev/sd/quizz.min.js"></script>
   <div id="content-editor-mock" class="editor_atto_content">
   
   <div data-quizz-group="eyJ2IjogWyJhOj1hbGVhKDMsNCkiLCJiOj1hK2FsZWEoLTQsNCkiLCJjOj1hKmItMSJdfQ==" data-lang="en">
+   
     <p data-toggle="tooltip" title="Una prova">sdflsdkfmsdflkms</p>
     <p> dsfkjsdf d fds fdsffdsf ds f dsf ds f sd #a
       <ib-quizz-mchoice class="ib-quizz-elem"
@@ -40,7 +43,7 @@
 
       <ib-quizz-mchoice class="ib-quizz-elem"
       data-src="eyJ2YXJzIjogWyJNb29uIiwiTWFycyIsIkVhcnRoIiwiSnVwaXRlciIsIlNhdHVybiJdLCAiYW5zIjoiMyIsICJvcHRzIjogeyJzaHVmZmxlIjogdHJ1ZX19">
-       
+
     </ib-quizz-mchoice>
       <br>
       <ib-quizz-dropdown class="ib-quizz-elem"
@@ -50,22 +53,23 @@
       <br>
       Pregunta=<ib-quizz-numeric class="ib-quizz-elem"
         data-src="eyJhbnMiOiIyIiwiaW5pIjoiIiwiaGludCI6IkVzIGEgcHJvcCBkZSAxIiwiZmJrIjoiRXJhIDIgY29tIGVyYSBkJ2VzcGVyYXIiLCJwcmUiOiJWYW1vcyEiLCJvcHRzIjp7ImVyciI6MCwiZXJydW5pdCI6IiUifX0=">
-        <input class="form-control" type="number" style="display:inline-block; width:100px;">
       </ib-quizz-numeric>
     </p>
     <p> dsfkjsdf d #b fds fdsffdsf ds f<b>#c</b> dsf ds f sd</p>
   </div>
+
+
+
 </div>
 
-
-<span id="fill-in-the-blank">\sqrt{ \MathQuillMathField{ } + \MathQuillMathField{ } }</span>
-
+ 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" 
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
     crossorigin="anonymous"></script>
   
+
   <script>
     //fake requirejs
     window.require = function (deps, cb) {
@@ -75,18 +79,11 @@
   </script>
 
 
-  <script src="./dist-dev/quizz.js"></script>
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
-    });
-
-
-    var MQ = MathQuill.getInterface(2);
-    console.log(MQ);
-    var fillInTheBlank = MQ.StaticMath(document.getElementById('fill-in-the-blank'));
-  fillInTheBlank.innerFields[0].latex() // => 'x'
-  fillInTheBlank.innerFields[1].latex() 
+    }); 
+ 
   </script>
 </body>
 

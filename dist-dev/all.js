@@ -820,8 +820,9 @@ function _bootstrap(classes) {
         requirejs(['jquery'], function () {
           //wait for document ready
           $(function () {
-            if (typeof window.ibComponentLoader === 'function') {
-              window.ibComponentLoader();
+            var _window$IB;
+            if (typeof ((_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : _window$IB.on$Ready) === 'function') {
+              window.IB.on$Ready();
             }
             _bootstrap(arrayDefs);
           });
@@ -845,7 +846,7 @@ function _bootstrap(classes) {
 /* harmony export */   "pran": function() { return /* binding */ pran; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
-/* unused harmony exports parseUrlParams, querySelectorProp, pathJoin, createElement, shuffleArray */
+/* unused harmony exports parseUrlParams, querySelectorProp, pathJoin, createElement, shuffleArray, addScript, addLinkSheet */
 function parseUrlParams(url) {
   var params = {};
   var parts = url.substring(1).split('&');
@@ -1048,6 +1049,49 @@ function shuffleArray(array) {
     array[i] = array[j];
     array[j] = temp;
   }
+}
+
+// Creates a script tag and handle loading
+function addScript(url, id, onSuccess, onError) {
+  if (id && document.head.querySelector('script#' + id) != null) {
+    //check if already in head
+    return;
+  }
+  var newScript = document.createElement('script');
+  newScript.type = "text/javascript";
+  newScript.src = url;
+  id && newScript.setAttribute("id", id);
+  newScript.onload = function () {
+    console.info("Loaded ", url);
+    onSuccess && onSuccess();
+  };
+  newScript.onerror = function () {
+    console.error("Error loading ", url);
+    onError && onError();
+  };
+  console.log("Added to head the script ", url);
+  document.head.append(newScript);
+}
+function addLinkSheet(href, id, onSuccess, onError) {
+  if (id && document.head.querySelector('link#' + id) != null) {
+    //check if already in head
+    return;
+  }
+  var css = document.createElement("link");
+  css.setAttribute("rel", "stylesheet");
+  css.setAttribute("type", "text/css");
+  css.setAttribute("href", href);
+  id && css.setAttribute("id", id);
+  css.onload = function () {
+    console.info("Loaded ", href);
+    onSuccess && onSuccess();
+  };
+  css.onerror = function () {
+    console.error("Error loading ", href);
+    onError && onError();
+  };
+  console.log("Added to head the linksheet ", href);
+  document.head.appendChild(css);
 }
 
 /***/ }),

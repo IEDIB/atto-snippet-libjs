@@ -104,7 +104,7 @@ class IBQuizzNumeric extends WidgetElement {
        
         super.init(this.widgetConfig.pre); 
         this.append(this.input);
-        this.append(this.statusDisplay.getElement());
+        this.statusDisplay && this.append(this.statusDisplay.getElement());
         this.reflowLatex();
     }
     /*
