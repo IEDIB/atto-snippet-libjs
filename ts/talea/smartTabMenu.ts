@@ -1,4 +1,4 @@
-import { convertInt } from "../utils";
+import { convertInt } from "../_shared/utilsShared";
 
 export default class SmartTabMenu {
     pi: PageInfo;

@@ -2,6 +2,253 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 20:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
+/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
+/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
+/* harmony export */ });
+/* unused harmony exports querySelectorProp, genID, createElement, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval */
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+/**
+ * Given an url of the form https://....?a=234234&b=dfddfsdf&c=false&opt
+ * It returns a map with the values of the parameters
+ * {a: '234234', b: 'dfddfsdf', c: 'false', opt: 'true'}
+ * @param url 
+ * @returns 
+ */
+function parseUrlParams(url) {
+  var params = {};
+  var parts = url.substring(1).split('&');
+  for (var i = 0; i < parts.length; i++) {
+    var nv = parts[i].split('=');
+    if (!nv[0]) {
+      continue;
+    }
+    params[nv[0]] = nv[1] || "true";
+  }
+  return params;
+}
+
+/**
+ * Obtains the property of the element that matches the query selector
+ * If the object or the property is not found, then def value is return
+ * or '' if no def value is passed
+ * @param query 
+ * @param prop 
+ * @param def 
+ * @returns 
+ */
+function querySelectorProp(query, prop, def) {
+  var ele = document.querySelector(query);
+  if (ele != null) {
+    return ele.getAttribute(prop) || def || '';
+  }
+  return def || '';
+}
+
+/**
+ * Generates a random id for the DOM Elements
+ * @returns 
+ */
+function genID() {
+  return 'g' + Math.random().toString(32).substring(2);
+}
+
+/**
+ * Waits until the object require is a function in window object
+ * It performs long polling of 500 ms, up to nattempt times.
+ * @param cb 
+ * @param nattempt 
+ * @returns 
+ */
+function waitForRequire(cb, nattempt) {
+  nattempt = nattempt || 0;
+  if (window.require && typeof window.require === 'function') {
+    cb();
+    return;
+  } else if (nattempt > 15) {
+    console.error("ERROR: Cannot find requirejs");
+    return;
+  }
+  window.setTimeout(function () {
+    waitForRequire(cb, nattempt + 1);
+  }, 500);
+}
+
+/**
+ * Safe conversion of a string to integer by handling errors and NaN values
+ * In this case, the def number passed is returned
+ * @param str 
+ * @param def 
+ * @returns 
+ */
+function convertInt(str, def) {
+  if (str && typeof str === 'number') {
+    return str;
+  }
+  if (!str || !(str + "").trim()) {
+    return def;
+  }
+  try {
+    var val = parseInt(str + "");
+    if (!isNaN(val)) {
+      return val;
+    }
+  } catch (ex) {
+    //pass
+  }
+  return def;
+}
+
+/**
+ * Creates a DOM element with some options that can be passed in order to initialize it
+ * @param nodeType 
+ * @param opts 
+ * @returns 
+ */
+function createElement(nodeType, opts) {
+  var elem = document.createElement(nodeType);
+  Object.keys(opts).forEach(function (optName) {
+    var value = opts[optName];
+    if (optName === "class") {
+      value.trim().split(/\s+/).forEach(function (cName) {
+        elem.classList.add(cName);
+      });
+    } else if (optName === "style") {
+      value.split(";").forEach(function (pair) {
+        var kv = pair.split(":");
+        if (kv.length === 2) {
+          elem.style.setProperty(kv[0].trim(), kv[1].trim());
+        }
+      });
+    } else if (optName === "html") {
+      elem.innerHTML = value;
+    } else {
+      elem.setAttribute(optName, value);
+    }
+  });
+  return elem;
+}
+
+/**
+ * Creates a script tag and adds it to the head section. It handles loading and error cases
+ * @param url
+ * @param id 
+ * @param onSuccess 
+ * @param onError 
+ * @returns 
+ */
+function addScript(url, id, onSuccess, onError) {
+  if (id && document.head.querySelector('script#' + id) != null) {
+    //check if already in head
+    return;
+  }
+  var newScript = document.createElement('script');
+  newScript.type = "text/javascript";
+  newScript.src = url;
+  id && newScript.setAttribute("id", id);
+  newScript.onload = function () {
+    console.info("Loaded ", url);
+    onSuccess && onSuccess();
+  };
+  newScript.onerror = function () {
+    console.error("Error loading ", url);
+    onError && onError();
+  };
+  console.log("Added to head the script ", url);
+  document.head.append(newScript);
+}
+
+/**
+  * Creates a link sheet and adds it to the head section. It handles loading and error cases
+ * @param href 
+ * @param id 
+ * @param onSuccess 
+ * @param onError 
+ * @returns 
+ */
+function addLinkSheet(href, id, onSuccess, onError) {
+  if (id && document.head.querySelector('link#' + id) != null) {
+    //check if already in head
+    return;
+  }
+  var css = document.createElement("link");
+  css.setAttribute("rel", "stylesheet");
+  css.setAttribute("type", "text/css");
+  css.setAttribute("href", href);
+  id && css.setAttribute("id", id);
+  css.onload = function () {
+    console.info("Loaded ", href);
+    onSuccess && onSuccess();
+  };
+  css.onerror = function () {
+    console.error("Error loading ", href);
+    onError && onError();
+  };
+  console.log("Added to head the linksheet ", href);
+  document.head.appendChild(css);
+}
+
+/**
+ * Safely joins two parts of an url
+ * @param a 
+ * @param b 
+ * @returns 
+ */
+function pathJoin(a, b) {
+  a = (a || "").trim();
+  b = (b || "").trim();
+  if (!a.endsWith('/')) {
+    a = a + '/';
+  }
+  if (b.startsWith('/')) {
+    b = b.substring(1);
+  }
+  return a + b;
+}
+
+/**
+ * Adds the baseurl if the passed url does not start with http or https
+ */
+function addBaseToUrl(base, url) {
+  url = (url || "").trim();
+  if (url.toLowerCase().startsWith("http")) {
+    return url;
+  }
+  // Afegir la base
+  var out = pathJoin(base, url);
+  return out;
+}
+
+/**
+ * Evals an expression within a context object
+ * @param context 
+ * @param {*} expr 
+ * @returns 
+ */
+function scopedEval(context, expr) {
+  context = context || {};
+  var contextKeys = Object.keys(context);
+  var listArgs = [].concat(contextKeys, ['expr', 'return eval(expr)']);
+  var evaluator = _construct(Function, _toConsumableArray(listArgs));
+  var contextValues = Object.values(context);
+  var listVals = [].concat(contextValues, [expr]);
+  return evaluator.apply(void 0, _toConsumableArray(listVals));
+}
+
+/***/ }),
+
 /***/ 24:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
@@ -78,7 +325,7 @@ function ComponentHTML(componentOptions) {
 /***/ 19:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 
@@ -186,7 +433,7 @@ function _bootstrap(classes) {
     });
     if (use$) {
       //wait for requirejs
-      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {
+      (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {
         //wait for jquery
         requirejs(['jquery'], function () {
           //wait for document ready
@@ -207,13 +454,13 @@ function _bootstrap(classes) {
 
 /***/ }),
 
-/***/ 33:
+/***/ 34:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ SmartTabMenu; }
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -275,7 +522,7 @@ var SmartTabMenu = /*#__PURE__*/function () {
       } else if (this.workingMode.startsWith('fixed')) {
         if (this.workingMode.indexOf(":") > 0) {
           var val = this.workingMode.split(":")[1].trim();
-          which = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.convertInt)(val, 0);
+          which = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.convertInt)(val, 0);
         }
       } else {
         console.error("ERROR: Unknown working mode ", this.workingMode, ", choosing first element");
@@ -344,10 +591,11 @@ var SmartTabMenu = /*#__PURE__*/function () {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ TaleaComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
-/* harmony import */ var _smartTabMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(33);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(33);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
+/* harmony import */ var _smartTabMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(34);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -365,6 +613,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -433,7 +682,7 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         return;
       }
       ds.active = "1";
-      this.seed = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.convertInt)(ds.seed || "1", 1);
+      this.seed = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.convertInt)(ds.seed || "1", 1);
       var forceDifferent = JSON.parse(ds.different || "[]");
       this.workingMode = ds.mode || 'urandom'; //fixed: 0-n; urandom; lrandom
 
@@ -441,7 +690,7 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       var componentparents = this.parent.querySelectorAll('div.iedib-tabmenu:not(.talea-skip)');
       this.smartMenus = [];
       for (var i = 0, len = componentparents.length; i < len; i++) {
-        this.smartMenus.push(new _smartTabMenu__WEBPACK_IMPORTED_MODULE_2__["default"](componentparents[i], this.pi, forceDifferent, this.workingMode, this.seed));
+        this.smartMenus.push(new _smartTabMenu__WEBPACK_IMPORTED_MODULE_3__["default"](componentparents[i], this.pi, forceDifferent, this.workingMode, this.seed));
       }
       var headerP = document.createElement("p");
       headerP.id = 'talea_name_' + this.parent.id;
@@ -464,7 +713,7 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
           _this2.mapStudents[-1] = 'Sense filtre';
           for (var _i = 0, _len = res.length; _i < _len; _i++) {
             var user = res[_i];
-            var idUser = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.convertInt)(user.userid, 0);
+            var idUser = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.convertInt)(user.userid, 0);
             _this2.mapStudents[idUser] = user.userfullname;
             $dataList.append($('<option value="' + user.userid + '">' + user.userfullname + '</option>'));
           }
@@ -522,7 +771,7 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       controlsDiv.innerHTML = contentText;
       var elem = $("#controls_userid_" + pid);
       elem.on('change', function (evt) {
-        var current_userId = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.convertInt)(elem.val() + "", -2);
+        var current_userId = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.convertInt)(elem.val() + "", -2);
         if (current_userId === -2) {
           return;
         }
@@ -550,40 +799,27 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     }
   }]);
   return TaleaComponent;
-}(_base__WEBPACK_IMPORTED_MODULE_3__.BaseComponent)) || _class);
+}(_base__WEBPACK_IMPORTED_MODULE_4__.BaseComponent)) || _class);
 
 
 /***/ }),
 
-/***/ 20:
+/***/ 33:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
 /* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
-/* harmony export */   "pran": function() { return /* binding */ pran; },
-/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
+/* harmony export */   "pran": function() { return /* binding */ pran; }
 /* harmony export */ });
-/* unused harmony exports parseUrlParams, querySelectorProp, pathJoin, addBaseToUrl, genID, createElement, shuffleArray, addScript, addLinkSheet */
-function parseUrlParams(url) {
-  var params = {};
-  var parts = url.substring(1).split('&');
-  for (var i = 0; i < parts.length; i++) {
-    var nv = parts[i].split('=');
-    if (!nv[0]) continue;
-    params[nv[0]] = nv[1] || "true";
-  }
-  return params;
-}
-function querySelectorProp(query, prop, def) {
-  var ele = document.querySelector(query);
-  if (ele != null) {
-    return ele.getAttribute(prop) || def || '';
-  }
-  return def || '';
-}
+/* unused harmony export shuffleArray */
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
 
-// Identifies the user and role from page
+
+/**
+ * Returns a PageInfo object that is obtained by analyzing the Moodle's page
+ * In this way, we can identity the user info, the course info, etc.
+ * @returns 
+ */
 function getPageInfo() {
   if (!document.querySelector) {
     return {
@@ -635,7 +871,7 @@ function getPageInfo() {
     courseName = footer.innerText;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     var hrefVal = "?" + ((footer.getAttribute('href') || " ? ").split("?")[1] || "");
-    courseId = parseUrlParams(hrefVal).id;
+    courseId = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.parseUrlParams)(hrefVal).id;
   } else {
     //Moodle 4.1
     if (window.M && window.M.cfg) {
@@ -649,13 +885,27 @@ function getPageInfo() {
 
   var site = (location.href.split("?")[0] || "").replace("/mod/book/view.php", "");
   return {
-    userId: convertInt(userId, 1),
+    userId: (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.convertInt)(userId, 1),
     userFullname: userFullname || 'test-user',
     isTeacher: isTeacher > 0,
     site: site,
     courseName: courseName || 'test-course',
-    courseId: convertInt(courseId, 1)
+    courseId: (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.convertInt)(courseId, 1)
   };
+}
+
+/**
+ * Algorithm called Fisher-Yates shuffle. 
+ * The idea is to walk the array in the reverse order and swap each element with a random one before it:
+ * @param array The array is modified in memory
+ */
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
 }
 
 //Seeded random number generator
@@ -671,150 +921,10 @@ function pran(seed) {
   ranGen();
   return ranGen;
 }
-function waitForRequire(cb, nattempt) {
-  nattempt = nattempt || 0;
-  if (window.require && typeof window.require === 'function') {
-    cb();
-    return;
-  } else if (nattempt > 15) {
-    console.error("ERROR: Cannot find requirejs");
-    return;
-  }
-  window.setTimeout(function () {
-    waitForRequire(cb, nattempt + 1);
-  }, 500);
-}
-function convertInt(str, def) {
-  if (str && typeof str === 'number') {
-    return str;
-  }
-  if (!str || !(str + "").trim()) {
-    return def;
-  }
-  try {
-    var val = parseInt(str + "");
-    if (!isNaN(val)) {
-      return val;
-    }
-  } catch (ex) {
-    //pass
-  }
-  return def;
-}
-
-/**
- * Safely joins two parts of an url
- * @param a 
- * @param b 
- * @returns 
- */
-function pathJoin(a, b) {
-  a = (a || "").trim();
-  b = (b || "").trim();
-  if (!a.endsWith('/')) {
-    a = a + '/';
-  }
-  if (b.startsWith('/')) {
-    b = b.substring(1);
-  }
-  return a + b;
-}
-
-/**
- * Adds the baseurl if the passed url does not start with http or https
- */
-function addBaseToUrl(base, url) {
-  url = (url || "").trim();
-  if (url.toLowerCase().startsWith("http")) {
-    return url;
-  }
-  // Afegir la base 
-  return pathJoin(base, url);
-}
-function genID() {
-  return "i" + Math.random().toString(32).substring(2);
-}
-function createElement(nodeType, opts) {
-  var elem = document.createElement(nodeType);
-  Object.keys(opts).forEach(function (optName) {
-    var value = opts[optName];
-    if (optName === "class") {
-      value.trim().split(/\s+/).forEach(function (cName) {
-        elem.classList.add(cName);
-      });
-    } else if (optName === "style") {
-      value.split(";").forEach(function (pair) {
-        var kv = pair.split(":");
-        if (kv.length === 2) {
-          elem.style.setProperty(kv[0].trim(), kv[1].trim());
-        }
-      });
-    } else if (optName === "html") {
-      elem.innerHTML = value;
-    } else {
-      elem.setAttribute(optName, value);
-    }
-  });
-  return elem;
-}
-
-// Algorithm called Fisher-Yates shuffle. 
-// The idea is to walk the array in the reverse order and swap each element with a random one before it:
-function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-}
-
-// Creates a script tag and handle loading
-function addScript(url, id, onSuccess, onError) {
-  if (id && document.head.querySelector('script#' + id) != null) {
-    //check if already in head
-    return;
-  }
-  var newScript = document.createElement('script');
-  newScript.type = "text/javascript";
-  newScript.src = url;
-  id && newScript.setAttribute("id", id);
-  newScript.onload = function () {
-    console.info("Loaded ", url);
-    onSuccess && onSuccess();
-  };
-  newScript.onerror = function () {
-    console.error("Error loading ", url);
-    onError && onError();
-  };
-  console.log("Added to head the script ", url);
-  document.head.append(newScript);
-}
-function addLinkSheet(href, id, onSuccess, onError) {
-  if (id && document.head.querySelector('link#' + id) != null) {
-    //check if already in head
-    return;
-  }
-  var css = document.createElement("link");
-  css.setAttribute("rel", "stylesheet");
-  css.setAttribute("type", "text/css");
-  css.setAttribute("href", href);
-  id && css.setAttribute("id", id);
-  css.onload = function () {
-    console.info("Loaded ", href);
-    onSuccess && onSuccess();
-  };
-  css.onerror = function () {
-    console.error("Error loading ", href);
-    onError && onError();
-  };
-  console.log("Added to head the linksheet ", href);
-  document.head.appendChild(css);
-}
 
 /***/ }),
 
-/***/ 88:
+/***/ 89:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -935,7 +1045,7 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 87:
+/***/ 88:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -950,7 +1060,7 @@ module.exports = function (i) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_talea_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(88);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_talea_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(89);
 
       
       
@@ -1336,7 +1446,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
-/* harmony import */ var _talea_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(87);
+/* harmony import */ var _talea_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(88);
 /* harmony import */ var _taleaComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
 
 

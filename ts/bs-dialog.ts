@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { createElement } from "./utils";
+import { createElement } from "./_shared/utilsShared";
 import { getPathValue, setPathValue, splitBar } from "./jsPath";
 
 /**

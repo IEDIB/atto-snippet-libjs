@@ -1,4 +1,4 @@
-import { createElement } from "../utils"; 
+import { createElement } from "../_shared/utilsShared"; 
 import { getCachedMsgDialog } from "./bsMsgDialog";
 import getI18n from "./i18n";
 

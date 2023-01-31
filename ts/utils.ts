@@ -1,24 +1,10 @@
-export function parseUrlParams(url: string): {[key: string]: string} {
-    const params: {[key: string]: string} = {};
-    const parts = url.substring(1).split('&');
+import { convertInt, parseUrlParams } from "./_shared/utilsShared";
 
-    for (let i = 0; i < parts.length; i++) {
-        const nv = parts[i].split('=');
-        if (!nv[0]) continue;
-        params[nv[0]] = nv[1] || "true";
-    }
-    return params;
-}
-
-export function querySelectorProp(query: string, prop: string, def?: string): string {
-    const ele = document.querySelector(query);
-    if(ele != null) {
-        return ele.getAttribute(prop) || def || '';
-    }
-    return def || '';
-}
-
-// Identifies the user and role from page
+/**
+ * Returns a PageInfo object that is obtained by analyzing the Moodle's page
+ * In this way, we can identity the user info, the course info, etc.
+ * @returns 
+ */
 export  function getPageInfo(): PageInfo {
     if (!document.querySelector) {
         return {
@@ -101,6 +87,20 @@ export  function getPageInfo(): PageInfo {
 }
   
 
+/**
+ * Algorithm called Fisher-Yates shuffle. 
+ * The idea is to walk the array in the reverse order and swap each element with a random one before it:
+ * @param array The array is modified in memory
+ */
+export function shuffleArray(array: number[]): void { 
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i]; 
+        array[i] = array[j];
+        array[j] = temp;
+    } 
+}
+
 //Seeded random number generator
 // https://gist.github.com/blixt/f17b47c62508be59987b
 export function pran(seed: number): RanGen {
@@ -111,153 +111,4 @@ export function pran(seed: number): RanGen {
     };
     ranGen(); ranGen(); ranGen();
     return ranGen;
-}
-
-
-export function waitForRequire(cb: ()=>void, nattempt: number) {
-    nattempt = nattempt || 0;
-    if(window.require && typeof window.require ==='function') {
-        cb();
-        return;
-    } else if(nattempt > 15) {
-        console.error("ERROR: Cannot find requirejs");
-        return;
-    }
-    window.setTimeout(function(){
-        waitForRequire(cb, nattempt+1);
-    }, 500);
-}
-
-
-export function convertInt(str: string | undefined | null, def: number): number {
-    if(str && typeof str === 'number') {
-        return str;
-    }
-    if(!str || !(str+"").trim()) {
-        return def;
-    }
-    try {
-        const val: number = parseInt(str+"");
-        if(!isNaN(val)) {
-            return val;
-        }
-    } catch(ex) {
-        //pass
-    }
-    return def;
-}
-
-
-/**
- * Safely joins two parts of an url
- * @param a 
- * @param b 
- * @returns 
- */
-export function pathJoin(a: string, b?: string): string {
-    a = (a || "").trim();
-    b = (b || "").trim();
-    if (!a.endsWith('/')) {
-        a = a + '/';
-    }
-    if (b.startsWith('/')) {
-        b = b.substring(1);
-    }
-    return a + b;
-}
-
-/**
- * Adds the baseurl if the passed url does not start with http or https
- */
-export function addBaseToUrl(base: string, url: string): string {
-    url = (url || "").trim();
-    if (url.toLowerCase().startsWith("http")) {
-        return url;
-    }
-    // Afegir la base 
-    return pathJoin(base, url);
-}
-
-export function genID(): string {
-    return "i" + Math.random().toString(32).substring(2);
-}
-
-export function createElement(nodeType: string, opts: {[key:string]:string}): HTMLElement {
-    const elem = document.createElement(nodeType);
-    Object.keys(opts).forEach(optName => {
-        const value = opts[optName];
-        if(optName === "class") {
-            value.trim().split(/\s+/).forEach((cName)=> {
-                elem.classList.add(cName)
-            });
-        } else if(optName === "style") {
-            value.split(";").forEach((pair)=> {
-                const kv = pair.split(":");
-                if(kv.length===2) {
-                    elem.style.setProperty(kv[0].trim(), kv[1].trim());
-                }
-            });
-        } else if(optName === "html") {
-            elem.innerHTML = value;
-        } else {
-            elem.setAttribute(optName, value);
-        }
-    });
-    return elem;
-}
-
-// Algorithm called Fisher-Yates shuffle. 
-// The idea is to walk the array in the reverse order and swap each element with a random one before it:
-export function shuffleArray(array: number[]): void { 
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = array[i]; 
-        array[i] = array[j];
-        array[j] = temp;
-    } 
-}
-
-// Creates a script tag and handle loading
-export function addScript(url: string, id?: string, onSuccess?: ()=>void, onError?: ()=>void): void {
-    if(id && document.head.querySelector('script#'+id)!=null) {
-        //check if already in head
-        return;
-    }
-    const newScript = document.createElement('script');
-    newScript.type = "text/javascript";
-    newScript.src = url;
-    id && newScript.setAttribute("id", id);
-    newScript.onload = () => {
-        console.info("Loaded ", url);
-        onSuccess && onSuccess();    
-    };
-    newScript.onerror = function () {
-        console.error("Error loading ", url);
-        onError && onError();
-    };
-    console.log("Added to head the script ", url);
-    document.head.append(newScript); 
-}
-
-
-export function addLinkSheet(href: string, id?: string, onSuccess?: ()=>void, onError?: ()=>void): void {
-    if(id && document.head.querySelector('link#'+id)!=null) {
-        //check if already in head
-        return;
-    }
-    const css = document.createElement("link") as HTMLLinkElement;
-    css.setAttribute("rel", "stylesheet");
-    css.setAttribute("type", "text/css");
-    css.setAttribute("href", href);
-    id && css.setAttribute("id", id);
-    css.onload = () => {
-        console.info("Loaded ", href);
-        onSuccess && onSuccess();    
-    };
-    css.onerror = function () {
-        console.error("Error loading ", href);
-        onError && onError();
-    };
-    console.log("Added to head the linksheet ", href);
-    document.head.appendChild(css);
 }

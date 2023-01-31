@@ -1,6 +1,6 @@
 
 import GTTSPlayer from "./gttsPlayer";
-import { addBaseToUrl, genID } from "../utils";
+import { addBaseToUrl, genID } from "../_shared/utilsShared";
 import UrlPlayer from "./urlPlayer";
 
 const definition = {

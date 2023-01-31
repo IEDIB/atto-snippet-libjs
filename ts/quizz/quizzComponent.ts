@@ -8,7 +8,7 @@ import "./dropdownWidget";
 import "./mchoiceWidget";
 import "./numericWidget";
 import "./clozeWidget";
-import { addScript, createElement } from "../utils";
+import { addScript, createElement } from "../_shared/utilsShared";
 import { WidgetGroupContext } from "./quizzTypes";
 import { runInScope } from "./quizzUtil";
 

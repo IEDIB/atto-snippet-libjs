@@ -10,7 +10,9 @@ console.log(isDev?"Webpack DEVELOPMENT mode": "Webpack PRODUCTION mode")
 // Build all entry points
 const entries = {}
 const allCssFiles = []
-fs.readdirSync("./ts", {withFileTypes: true}).filter(dirent => dirent.isDirectory()==true).forEach( dirent => {
+fs.readdirSync("./ts", {withFileTypes: true})
+  .filter(dirent => dirent.isDirectory()==true && !dirent.name.startsWith("_"))
+    .forEach( dirent => {
   const modName = dirent.name;
   if(modName.startsWith("_") && isDev) {
     //Do not include in production build

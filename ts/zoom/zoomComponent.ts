@@ -1,6 +1,6 @@
 import { BaseComponent } from "../base";   
 import { Component } from "../decorators";
-import { convertInt } from "../utils";
+import { convertInt } from "../_shared/utilsShared";
 import wheelzoom from "./wheelzoom";
 
 const INIT_DELAY = 600; 

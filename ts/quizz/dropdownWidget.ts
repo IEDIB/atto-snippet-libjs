@@ -1,5 +1,6 @@
 import { ComponentHTML } from "../decorators";
-import { createElement, shuffleArray } from "../utils";
+import { createElement } from "../_shared/utilsShared";
+import { shuffleArray } from "../utils";
 import getI18n from "./i18n"; 
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 

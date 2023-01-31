@@ -1,5 +1,6 @@
 import { ComponentHTML } from "../decorators";  
-import { runInScope, scopedEval, treatIniPlaceholders } from "./quizzUtil";
+import { scopedEval } from "../_shared/utilsShared";
+import { runInScope, treatIniPlaceholders } from "./quizzUtil";
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
 

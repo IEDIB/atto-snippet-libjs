@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IBase } from "./types";
-import { waitForRequire } from "./utils";
+import { waitForRequire } from "./_shared/utilsShared";
 
 function genID() {
     return "sd_" + Math.random().toString(32).substring(2);

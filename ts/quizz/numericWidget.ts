@@ -1,7 +1,5 @@
 import { ComponentHTML } from "../decorators";
-import { createElement } from "../utils";
-import { WidgetConfig } from "./quizzTypes";
-import { scopedEval } from "./quizzUtil";
+import { createElement, scopedEval } from "../_shared/utilsShared"; 
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
 

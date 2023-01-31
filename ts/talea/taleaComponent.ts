@@ -1,6 +1,7 @@
 import { BaseComponent } from "../base";   
 import { Component } from "../decorators";
-import { convertInt, getPageInfo, pran } from "../utils";
+import { getPageInfo, pran } from "../utils";
+import { convertInt } from '../_shared/utilsShared';
 import SmartTabMenu from "./smartTabMenu";
 
 

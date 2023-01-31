@@ -1,6 +1,6 @@
 import { BaseComponent } from "../base";
 import { Component } from "../decorators";
-import { convertInt } from "../utils";
+import { convertInt } from "../_shared/utilsShared";
 
 const leftArrow = '<span>&#10094;</span>';
 const rightArrow = '<span>&#10095;</span>';

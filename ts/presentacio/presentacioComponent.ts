@@ -1,6 +1,6 @@
 import { BaseComponent } from "../base";
 import { Component } from "../decorators";
-import { convertInt } from "../utils";
+import { convertInt } from "../_shared/utilsShared";
 
 // DEFAULT CONSTANTS 
 const DEFALT_TIME = 5;
