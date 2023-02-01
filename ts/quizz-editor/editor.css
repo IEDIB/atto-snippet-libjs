@@ -5,9 +5,15 @@ body.editing ib-quizz-cloze {
     display: inline-block;
     vertical-align: middle;
     position: relative;
-    padding: 4px;  
+    margin: 4px;  
+    background-color: lightgray;
+    min-width: 39px;
+    min-height: 39px;
 }
-body.editing ib-quizz-dropdown::after {
+ 
+
+
+body.editing div[data-quizz-group] ib-quizz-dropdown::after {
     content: "";
     display: block;
     width: 133px;
@@ -17,7 +23,7 @@ body.editing ib-quizz-dropdown::after {
     background-repeat: no-repeat;
     background-position: center center;    
 }
-body.editing ib-quizz-mchoice::after {
+body.editing div[data-quizz-group] ib-quizz-mchoice::after {
     content: "";
     display: block;
     width: 80px;
@@ -27,7 +33,7 @@ body.editing ib-quizz-mchoice::after {
     background-repeat: no-repeat;
     background-position: center center;    
 }
-body.editing ib-quizz-numeric::after {
+body.editing div[data-quizz-group] ib-quizz-numeric::after {
     content: "";
     display: block;
     width: 92px;
@@ -38,7 +44,7 @@ body.editing ib-quizz-numeric::after {
     background-size: cover;  
 }
  
-body.editing ib-quizz-cloze::after {
+body.editing div[data-quizz-group] ib-quizz-cloze::after {
     content: "";
     display: block;
     width: 96px;
