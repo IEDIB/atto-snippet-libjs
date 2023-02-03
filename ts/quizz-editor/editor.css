@@ -5,10 +5,33 @@ body.editing ib-quizz-cloze {
     display: inline-block;
     vertical-align: middle;
     position: relative;
-    margin: 4px;  
-    background-color: lightgray;
-    min-width: 39px;
-    min-height: 39px;
+    margin: 4px;   
+    min-width: 39px; 
+}
+
+body.editing :not(div[data-quizz-group]) ib-quizz-mchoice::after {
+    content: "ibquizz::mchoice";
+    color: lightgray;
+    display: block;
+    background: gray;
+}
+body.editing :not(div[data-quizz-group]) ib-quizz-dropdown::after {
+    content: "ibquizz::dropdown";
+    color: lightgray;
+    display: block;
+    background: gray;
+}
+body.editing :not(div[data-quizz-group]) ib-quizz-numeric::after {
+    content: "ibquizz::numeric";
+    color: lightgray;
+    display: block;
+    background: gray;
+}
+body.editing :not(div[data-quizz-group]) ib-quizz-cloze::after {
+    content: "ibquizz::cloze";
+    color: lightgray;
+    display: block;
+    background: gray;
 }
  
 
