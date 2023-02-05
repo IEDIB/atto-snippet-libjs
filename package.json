@@ -13,7 +13,7 @@
     "lint.fix": "eslint . --ext --fix .ts",
     "check": "tsc --noEmit",
     "test": "jest",
-    "build-dev": "npm run check && webpack --mode=none",
+    "build-dev": "npm run check && webpack --mode=none && cp dist-dev/quizz.js dist-dev/sd/quizz.min.js",
     "build": "npm run check && webpack --mode=production",
     "build0": "node build.js"
   },

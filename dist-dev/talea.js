@@ -10,7 +10,7 @@
 /* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
-/* unused harmony exports querySelectorProp, genID, createElement, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval */
+/* unused harmony exports querySelectorProp, genID, createElement, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval, base64Encode, base64Decode */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -245,6 +245,13 @@ function scopedEval(context, expr) {
   var contextValues = Object.values(context);
   var listVals = [].concat(contextValues, [expr]);
   return evaluator.apply(void 0, _toConsumableArray(listVals));
+}
+function base64Encode(obj) {
+  return btoa(JSON.stringify(obj || {}));
+}
+function base64Decode(b64) {
+  b64 = b64 || '';
+  return JSON.parse(atob(b64) || '{}');
 }
 
 /***/ }),
@@ -924,7 +931,7 @@ function pran(seed) {
 
 /***/ }),
 
-/***/ 89:
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -1045,7 +1052,7 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 88:
+/***/ 91:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -1060,7 +1067,7 @@ module.exports = function (i) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_talea_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(89);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_talea_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(92);
 
       
       
@@ -1446,7 +1453,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
-/* harmony import */ var _talea_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(88);
+/* harmony import */ var _talea_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(91);
 /* harmony import */ var _taleaComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
 
 

@@ -230,3 +230,12 @@ export function scopedEval<T>(context: {[key:string]: unknown}, expr: string): T
     const listVals = [...contextValues, expr] as const;
     return evaluator(...listVals);
 }
+
+export function base64Encode(obj: unknown): string {
+    return btoa(JSON.stringify(obj||{}));
+}
+
+export function base64Decode(b64: string | undefined): unknown {
+    b64 = b64 || '';
+    return JSON.parse(atob(b64) || '{}');
+}

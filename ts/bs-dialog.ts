@@ -82,7 +82,6 @@ export class BSDialog {
         this.primaryButton && this.primaryButton.off();
         if (this.form) {
             this.form.off();
-            this.form.removeClass('was-validated');
         }
         this.validationDiv.css('display', 'none');
         this.validationDiv.html('');
@@ -223,6 +222,7 @@ export class BSDialog {
     }
 
     show(acceptCb?: (s?: {[key:string]:unknown}) => void) {
+        this.form.removeClass('was-validated');
         //@ts-ignore
         this.elem.modal('show');
         //It is strange, but it rquires a timeout!!!

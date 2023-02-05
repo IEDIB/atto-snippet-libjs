@@ -1,6 +1,8 @@
 import { ComponentHTML } from "../decorators";
 import { WidgetElement } from "./widgetElement"; 
 import { getDropdownDialog } from "./dropdownDialog";
+import registry from "./registry";
+import { base64Encode } from "../_shared/utilsShared";
  
 
 @ComponentHTML({
@@ -9,6 +11,7 @@ import { getDropdownDialog } from "./dropdownDialog";
     styles: { "display": "inline-block" }
 })
 class IBQuizzDropdown extends WidgetElement {
+    private editor: HTMLElement | null | undefined;
     private successCb(updated?: {[key:string]:unknown}): void {
         if(!updated){
             return;
@@ -23,7 +26,7 @@ class IBQuizzDropdown extends WidgetElement {
         updated['ans'] = selected.join(',');
         // Get rid of property right
         delete updated['right'];
-        const output = btoa(JSON.stringify(updated));
+        const output = base64Encode(updated);
         console.log("New data-src --> ", output);
         if (output) {
             this.setAttribute("data-src", output);
@@ -33,12 +36,15 @@ class IBQuizzDropdown extends WidgetElement {
         }
     }
     edit(): void {
-        if (!this.editor) {
+        const group = registry.findGroupObject(this);
+        if (!group || !group.getAttoEditor()) {
+            console.error("Edit: Cannot find group or atto editor");
             return;
         }
-        this.updateConfig();  
-        const dialog = getDropdownDialog('ib-quizz-editor-dlg', 'Editar "Opció simple"');
-        dialog.setBindings(this.config);
+        this.editor = group.getAttoEditor();
+        this.updateConfig(); 
+        const dialog = getDropdownDialog('ib-quizz-editor-dlg', 'Editar "Selecció única"');
+        dialog.setBindings(this.config, group.getGroupContext());
         dialog.show(this.successCb.bind(this));
     }
 }

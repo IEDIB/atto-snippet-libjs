@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { WidgetConfig, WidgetGroupContext } from "../quizz/quizzTypes";
+import registry from "./registry";
 
  
-export abstract class WidgetElement extends HTMLElement {
-    protected attoId: string | undefined;
-    protected editor: HTMLElement | undefined | null;
-    protected config: WidgetConfig;
-    protected groupContext: WidgetGroupContext | undefined; 
+export abstract class WidgetElement extends HTMLElement {  
+    protected config: WidgetConfig; 
+    protected groupContext: WidgetGroupContext | undefined | null;
     constructor() {
         super();
         this.innerHTML = "";
@@ -16,26 +15,14 @@ export abstract class WidgetElement extends HTMLElement {
         };
     } 
 
-    connectedCallback() {
-        this.attoId = this.discoverAttoId();
+    disconnectedCallback() {
+        registry.removeWidget(this);
+    }
+    
+    connectedCallback() { 
+        //Register myself as widget
+        registry.addWidget(this);
         this.addEventListener("click", this.edit);  
-        //Must discover the data-quizz-group by going up the tree from this element 
-        let currentElem: HTMLElement | null = this;
-        let found = null;
-        while(found==null && currentElem!=null && currentElem!==document.body) {
-            if(currentElem.getAttribute('data-quizz-group')!=null) {
-                found = currentElem;
-            }
-            currentElem = currentElem.parentElement;
-        }
-        //If found, check if can be parsed into WidgetGroupContextObject
-        if(found) {
-            try {
-                this.groupContext = JSON.parse(btoa(found.getAttribute('data-quizz-group') || '') || '{}');
-            } catch(ex){
-                console.error("Cannot parse the data-quizz-group", ex);
-            }
-        }
     }
 
     updateConfig() {
@@ -51,27 +38,7 @@ export abstract class WidgetElement extends HTMLElement {
         } catch(ex) {
             console.error(ex);
         }
-    }
-    
-    discoverAttoId(): string | undefined {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        let elem: HTMLElement | null = this;
-        while(this.attoId==null && elem!=null) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            if(elem.classList.contains("editor_atto_content_wrap") || elem.nodeName==='body' || elem===window) {
-                break;
-            }
-            if(elem.classList.contains("editor_atto_content") ) {
-                this.attoId = elem.getAttribute("id") || "";
-            }
-            elem = elem.parentElement;
-        }   
-        console.log("Atto editor discovery ", this.attoId);
-        if(this.attoId) {
-            this.editor = document.getElementById(this.attoId);
-        }
-        return this.attoId;
-    }
+    } 
+
     abstract edit(): void
 }

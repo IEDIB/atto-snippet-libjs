@@ -845,7 +845,7 @@ function _bootstrap(classes) {
 /* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
-/* unused harmony exports querySelectorProp, createElement, addScript, addLinkSheet, pathJoin, scopedEval */
+/* unused harmony exports querySelectorProp, createElement, addScript, addLinkSheet, pathJoin, scopedEval, base64Encode, base64Decode */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -1080,6 +1080,13 @@ function scopedEval(context, expr) {
   var contextValues = Object.values(context);
   var listVals = [].concat(contextValues, [expr]);
   return evaluator.apply(void 0, _toConsumableArray(listVals));
+}
+function base64Encode(obj) {
+  return btoa(JSON.stringify(obj || {}));
+}
+function base64Decode(b64) {
+  b64 = b64 || '';
+  return JSON.parse(atob(b64) || '{}');
 }
 
 /***/ }),

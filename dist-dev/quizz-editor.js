@@ -394,14 +394,147 @@ module.exports = function (cssWithMappingToString) {
 /* 16 */,
 /* 17 */,
 /* 18 */,
-/* 19 */,
+/* 19 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+
+function genID() {
+  return "sd_" + Math.random().toString(32).substring(2);
+}
+function findContainers(query) {
+  return document.querySelectorAll(query);
+}
+function _bootstrap(classes) {
+  classes.forEach(function (clazz) {
+    var IB = window.IB;
+    if (!clazz.meta) {
+      console.error("Missing meta in class ", clazz, ". Annotate it with @Component");
+      return;
+    }
+    var meta = clazz.meta;
+    if (IB.sd[meta.name] && typeof IB.sd[meta.name].init === 'function') {
+      console.error("Warning: component '".concat(meta.name, "' loaded twice."));
+      //Simply bind possibly missing components
+      IB.sd[meta.name].init();
+      return;
+    }
+    var _init = function _init() {
+      IB.sd[meta.name] = IB.sd[meta.name] || {
+        inst: {},
+        _class: clazz,
+        init: _init,
+        dispose: null
+      };
+      var query = meta.query || "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
+      //Check if is defined as a singleton
+      if (query === 'body') {
+        if (IB.sd[meta.name].singl) {
+          console.error("Singleton already defined");
+          return;
+        }
+        //Singleton instance
+        var parent = document.querySelector("body");
+        var singleton = new clazz(parent);
+        singleton.init();
+        // add to the shared variable
+        IB.sd[meta.name].singl = singleton;
+        console.log("_init: Initialized singleton '".concat(meta.name, "' instance."));
+      } else {
+        //Multiple instances with parent's
+        var containers = findContainers(query);
+        var counter = 0;
+        containers.forEach(function (p) {
+          var parent = p;
+          // Create instance of clazz
+          var id = parent.getAttribute("id");
+          if (!id) {
+            id = genID();
+            parent.setAttribute("id", id);
+          }
+          if (parent.dataset.active === "1") {
+            console.warn("Warning: Element '".concat(meta.name, "' ").concat(id, " already processed."));
+            return;
+          }
+          var instance = new clazz(parent);
+          instance.init();
+          // add to the shared variable
+          if (IB.sd[meta.name].inst != null) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            IB.sd[meta.name].inst[id] = instance;
+          }
+          counter++;
+        });
+        console.log("_init: Initialized ".concat(counter, " '").concat(meta.name, "' instances."));
+      }
+    };
+    _init();
+    var _dispose = function _dispose() {
+      var counter = 0;
+      if (!window.IB || !window.IB.sd || !window.IB.sd[meta.name] || !window.IB.sd[meta.name].inst) {
+        return;
+      }
+      Object.keys(window.IB.sd[meta.name].inst).forEach(function (key) {
+        var instance = window.IB.sd[meta.name].inst[key];
+        if (instance) {
+          instance.dispose();
+          counter++;
+          delete IB.sd[meta.name].inst[key];
+        }
+      });
+      console.log("_dispose: Destroyed ".concat(counter, " '").concat(meta.name, "' instances."));
+    };
+    IB.sd[meta.name].dispose = _dispose;
+  });
+}
+/* harmony default export */ __webpack_exports__["default"] = ({
+  bootstrap: function bootstrap(defs) {
+    window.IB = window.IB || {
+      sd: {}
+    };
+    var arrayDefs = defs;
+    //check if some of the components to be bootstrap need jQuery
+    var use$ = arrayDefs.map(function (d) {
+      var _d$meta;
+      return ((_d$meta = d.meta) === null || _d$meta === void 0 ? void 0 : _d$meta.use$) || false;
+    }).reduce(function (pv, cv) {
+      return cv || pv;
+    });
+    if (use$) {
+      //wait for requirejs
+      (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {
+        //wait for jquery
+        requirejs(['jquery'], function () {
+          //wait for document ready
+          $(function () {
+            var _window$IB;
+            if (typeof ((_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : _window$IB.on$Ready) === 'function') {
+              window.IB.on$Ready();
+            }
+            _bootstrap(arrayDefs);
+          });
+        });
+      }, 15);
+    } else {
+      _bootstrap(arrayDefs);
+    }
+  }
+});
+
+/***/ }),
 /* 20 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createElement": function() { return /* binding */ createElement; }
+/* harmony export */   "base64Encode": function() { return /* binding */ base64Encode; },
+/* harmony export */   "createElement": function() { return /* binding */ createElement; },
+/* harmony export */   "genID": function() { return /* binding */ genID; },
+/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
-/* unused harmony exports parseUrlParams, querySelectorProp, genID, waitForRequire, convertInt, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval */
+/* unused harmony exports parseUrlParams, querySelectorProp, convertInt, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval, base64Decode */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -637,6 +770,13 @@ function scopedEval(context, expr) {
   var listVals = [].concat(contextValues, [expr]);
   return evaluator.apply(void 0, _toConsumableArray(listVals));
 }
+function base64Encode(obj) {
+  return btoa(JSON.stringify(obj || {}));
+}
+function base64Decode(b64) {
+  b64 = b64 || '';
+  return JSON.parse(atob(b64) || '{}');
+}
 
 /***/ }),
 /* 21 */,
@@ -644,9 +784,9 @@ function scopedEval(context, expr) {
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Component": function() { return /* binding */ Component; },
 /* harmony export */   "ComponentHTML": function() { return /* binding */ ComponentHTML; }
 /* harmony export */ });
-/* unused harmony export Component */
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -694,7 +834,24 @@ function ComponentHTML(componentOptions) {
 
 /***/ }),
 /* 23 */,
-/* 24 */,
+/* 24 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BaseComponent": function() { return /* binding */ BaseComponent; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
+  _classCallCheck(this, BaseComponent);
+  this.parent = parent;
+});
+
+/***/ }),
 /* 25 */,
 /* 26 */,
 /* 27 */,
@@ -801,7 +958,6 @@ var BSDialog = /*#__PURE__*/function () {
       this.primaryButton && this.primaryButton.off();
       if (this.form) {
         this.form.off();
-        this.form.removeClass('was-validated');
       }
       this.validationDiv.css('display', 'none');
       this.validationDiv.html('');
@@ -948,6 +1104,7 @@ var BSDialog = /*#__PURE__*/function () {
     key: "show",
     value: function show(acceptCb) {
       var _this3 = this;
+      this.form.removeClass('was-validated');
       //@ts-ignore
       this.elem.modal('show');
       //It is strange, but it rquires a timeout!!!
@@ -1099,12 +1256,70 @@ function setPathValue(barPath, scope, newValue) {
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "runInScope": function() { return /* binding */ runInScope; },
+/* harmony export */   "runIBScript": function() { return /* binding */ runIBScript; },
 /* harmony export */   "treatIniPlaceholders": function() { return /* binding */ treatIniPlaceholders; }
 /* harmony export */ });
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+//Add all Math utilities
+var utilities = {};
+Object.getOwnPropertyNames(Math).forEach(function (key) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  utilities[key] = Math[key];
+});
+Object.defineProperty(utilities, "alea", {
+  value: function value() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    var na = args.length;
+    if (na === 0) {
+      //cap argument - retorna un signe [-1 o 1]
+      return Math.random() < 0.5 ? -1 : 1;
+    } else if (na === 1) {
+      //un argument - llista
+      if (Array.isArray(args[0])) {
+        var indx = Math.floor(Math.random() * args[0].length);
+        return args[0][indx];
+      }
+      //un argument - numeric [-a, a]
+      else if (typeof args[0] === 'number') {
+        return Math.floor(2 * args[0] * Math.random()) + args[0];
+      }
+    } else if (na >= 2) {
+      var a = args[0];
+      var b = args[1];
+      var pp = 1;
+      var ndec = 0;
+      var retVal = (b - a) * Math.random();
+      if (na === 3) {
+        //The third argument is the number of decimals
+        ndec = Math.abs(args[2]);
+        ndec = ndec > 8 ? 8 : ndec;
+        pp = Math.pow(10, ndec);
+      }
+      //TODO: Performance issue, but no other way to ensure correct number of decimals!!
+      retVal = +(Math.round(retVal * pp) / pp + a).toFixed(ndec);
+      return retVal;
+    }
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+Object.defineProperty(utilities, "dec", {
+  value: function value(v) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var pp = Math.pow(10, n);
+    return Math.round(v * pp) / pp;
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+
 /**
  * Runs a whole script within a scope
  *  * #bar exports the variable to the scope 
@@ -1124,6 +1339,10 @@ function runInScope(scriptCode, context, scope) {
   //By default run in strict mode
   var evaluator = _construct(Function, contextKeys.concat(['"use' + ' strict"\n' + scriptCode]));
   return evaluator.apply(scope, contextValues);
+}
+function runIBScript(scriptCode, context, scope) {
+  context = Object.assign(context || {}, utilities);
+  return runInScope('var _this=this;\n' + scriptCode.replace(/#/g, '_this.'), context, scope);
 }
 
 /**
@@ -1219,7 +1438,7 @@ var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_g
 var ___CSS_LOADER_URL_REPLACEMENT_2___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
 var ___CSS_LOADER_URL_REPLACEMENT_3___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_3___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body.editing ib-quizz-dropdown,body.editing ib-quizz-mchoice,body.editing ib-quizz-numeric,body.editing ib-quizz-cloze{display:inline-block;vertical-align:middle;position:relative;padding:4px}body.editing ib-quizz-dropdown::after{content:\"\";display:block;width:133px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing ib-quizz-mchoice::after{content:\"\";display:block;width:80px;height:86px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing ib-quizz-numeric::after{content:\"\";display:block;width:92px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}body.editing ib-quizz-cloze::after{content:\"\";display:block;width:96px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "body.editing [ib-quizz-group]{border:1px dotted greenyellow}body.editing [ib-quizz-group]::before{content:\"quizz::group\"}body.editing ib-quizz-dropdown,body.editing ib-quizz-mchoice,body.editing ib-quizz-numeric,body.editing ib-quizz-cloze{display:inline-block;vertical-align:middle;position:relative;margin:4px;min-width:39px}body.editing :not(div[data-quizz-group]) ib-quizz-mchoice::after{content:\"ibquizz::mchoice\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-dropdown::after{content:\"ibquizz::dropdown\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-numeric::after{content:\"ibquizz::numeric\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-cloze::after{content:\"ibquizz::cloze\";color:lightgray;display:block;background:gray}body.editing div[data-quizz-group] ib-quizz-dropdown::after{content:\"\";display:block;width:133px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing div[data-quizz-group] ib-quizz-mchoice::after{content:\"\";display:block;width:80px;height:86px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing div[data-quizz-group] ib-quizz-numeric::after{content:\"\";display:block;width:92px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}body.editing div[data-quizz-group] ib-quizz-cloze::after{content:\"\";display:block;width:96px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -1284,8 +1503,10 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL0AAABNCAMAAADE
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(77);
-/* harmony import */ var _dropdownDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(78);
+/* harmony import */ var _dropdownDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(77);
+/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(76);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1300,6 +1521,8 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 
@@ -1332,7 +1555,7 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
       updated['ans'] = selected.join(',');
       // Get rid of property right
       delete updated['right'];
-      var output = btoa(JSON.stringify(updated));
+      var output = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Encode)(updated);
       console.log("New data-src --> ", output);
       if (output) {
         var _this$editor;
@@ -1345,20 +1568,91 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
   }, {
     key: "edit",
     value: function edit() {
-      if (!this.editor) {
+      var group = _registry__WEBPACK_IMPORTED_MODULE_2__["default"].findGroupObject(this);
+      if (!group || !group.getAttoEditor()) {
+        console.error("Edit: Cannot find group or atto editor");
         return;
       }
+      this.editor = group.getAttoEditor();
       this.updateConfig();
-      var dialog = (0,_dropdownDialog__WEBPACK_IMPORTED_MODULE_1__.getDropdownDialog)('ib-quizz-editor-dlg', 'Editar "Opció simple"');
-      dialog.setBindings(this.config);
+      var dialog = (0,_dropdownDialog__WEBPACK_IMPORTED_MODULE_3__.getDropdownDialog)('ib-quizz-editor-dlg', 'Editar "Selecció única"');
+      dialog.setBindings(this.config, group.getGroupContext());
       dialog.show(this.successCb.bind(this));
     }
   }]);
   return IBQuizzDropdown;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
 
 /***/ }),
 /* 76 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+
+// Maps id-HTMLElement into the object of the group
+var dictGroups = {};
+// Maps id-HTMLElement of the group into the list of widgets that contains
+var dictWidgets = {};
+function addGroup(quizzComponent) {
+  var id = quizzComponent.parent.getAttribute("id");
+  if (!id) {
+    id = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.genID)();
+    quizzComponent.parent.setAttribute("id", id);
+  }
+  dictGroups[id] = quizzComponent;
+}
+function addWidget(widgetElement) {
+  // Search its closest group
+  var groupElem = widgetElement.closest('div[data-quizz-group]');
+  if (groupElem && groupElem.getAttribute('id')) {
+    var id = groupElem.getAttribute('id') || '';
+    var listWidgets = dictWidgets[id];
+    if (!listWidgets) {
+      listWidgets = [];
+      dictWidgets[id] = listWidgets;
+    }
+    listWidgets.push(widgetElement);
+  }
+}
+function removeWidget(widgetElement) {
+  //The problem is that it has been removed from dom so we cannot call closest
+  //Then must search on all groups
+  Object.keys(dictWidgets).forEach(function (idGroup) {
+    var idx = dictWidgets[idGroup].indexOf(widgetElement);
+    if (idx >= 0) {
+      dictWidgets[idGroup].splice(idx, 1);
+    }
+  });
+}
+
+// To be used by the group to know about widgets
+function findWidgetsForGroup(quizzComponent) {
+  var id = quizzComponent.parent.getAttribute("id");
+  if (id && dictWidgets[id]) {
+    return dictWidgets[id];
+  }
+  return [];
+}
+
+// To be used by widgets to know about the group
+function findGroupObject(widgetElement) {
+  var groupElem = widgetElement.closest('div[data-quizz-group]');
+  if (groupElem && groupElem.getAttribute('id')) {
+    var id = groupElem.getAttribute('id') || '';
+    return dictGroups[id];
+  }
+  return null;
+}
+/* harmony default export */ __webpack_exports__["default"] = ({
+  addGroup: addGroup,
+  addWidget: addWidget,
+  removeWidget: removeWidget,
+  findWidgetsForGroup: findWidgetsForGroup,
+  findGroupObject: findGroupObject
+});
+
+/***/ }),
+/* 77 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1460,12 +1754,13 @@ function getDropdownDialog(id, title) {
 }
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WidgetElement": function() { return /* binding */ WidgetElement; }
 /* harmony export */ });
+/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(76);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -1485,6 +1780,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
+
 var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
   _inherits(WidgetElement, _HTMLElement);
   var _super = _createSuper(WidgetElement);
@@ -1499,27 +1795,16 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
     return _this;
   }
   _createClass(WidgetElement, [{
+    key: "disconnectedCallback",
+    value: function disconnectedCallback() {
+      _registry__WEBPACK_IMPORTED_MODULE_0__["default"].removeWidget(this);
+    }
+  }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      this.attoId = this.discoverAttoId();
+      //Register myself as widget
+      _registry__WEBPACK_IMPORTED_MODULE_0__["default"].addWidget(this);
       this.addEventListener("click", this.edit);
-      //Must discover the data-quizz-group by going up the tree from this element 
-      var currentElem = this;
-      var found = null;
-      while (found == null && currentElem != null && currentElem !== document.body) {
-        if (currentElem.getAttribute('data-quizz-group') != null) {
-          found = currentElem;
-        }
-        currentElem = currentElem.parentElement;
-      }
-      //If found, check if can be parsed into WidgetGroupContextObject
-      if (found) {
-        try {
-          this.groupContext = JSON.parse(btoa(found.getAttribute('data-quizz-group') || '') || '{}');
-        } catch (ex) {
-          console.error("Cannot parse the data-quizz-group", ex);
-        }
-      }
     }
   }, {
     key: "updateConfig",
@@ -1537,39 +1822,19 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
         console.error(ex);
       }
     }
-  }, {
-    key: "discoverAttoId",
-    value: function discoverAttoId() {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      var elem = this;
-      while (this.attoId == null && elem != null) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        if (elem.classList.contains("editor_atto_content_wrap") || elem.nodeName === 'body' || elem === window) {
-          break;
-        }
-        if (elem.classList.contains("editor_atto_content")) {
-          this.attoId = elem.getAttribute("id") || "";
-        }
-        elem = elem.parentElement;
-      }
-      console.log("Atto editor discovery ", this.attoId);
-      if (this.attoId) {
-        this.editor = document.getElementById(this.attoId);
-      }
-      return this.attoId;
-    }
   }]);
   return WidgetElement;
 }( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _numericDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(79);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(77);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _numericDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(80);
+/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(76);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(78);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1584,6 +1849,8 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 
@@ -1606,7 +1873,7 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       if (!updated) {
         return;
       }
-      var output = btoa(JSON.stringify(updated));
+      var output = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Encode)(updated);
       console.log("New data-src --> ", output);
       if (output) {
         var _this$editor;
@@ -1619,21 +1886,23 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   }, {
     key: "edit",
     value: function edit() {
-      if (!this.editor) {
+      var group = _registry__WEBPACK_IMPORTED_MODULE_2__["default"].findGroupObject(this);
+      if (!group || !group.getAttoEditor()) {
+        console.error("Edit: Cannot find group or atto editor");
         return;
       }
+      this.editor = group.getAttoEditor();
       this.updateConfig();
-      console.log(this.config);
-      var dialog = (0,_numericDialog__WEBPACK_IMPORTED_MODULE_1__.getNumericDialog)('ib-quizz-editor-dlg', 'Editar "Numèric""');
-      dialog.setBindings(this.config);
+      var dialog = (0,_numericDialog__WEBPACK_IMPORTED_MODULE_3__.getNumericDialog)('ib-quizz-editor-dlg', 'Editar "Numèric"');
+      dialog.setBindings(this.config, group.getGroupContext());
       dialog.show(this.successCb.bind(this));
     }
   }]);
   return IBQuizzNumeric;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1707,12 +1976,14 @@ function getNumericDialog(id, title) {
 }
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _mchoiceDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(81);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(77);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _mchoiceDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(82);
+/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(76);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(78);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1727,6 +1998,8 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 
@@ -1758,7 +2031,7 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       updated['ans'] = selected.join(',');
       // Get rid of property right
       delete updated['right'];
-      var output = btoa(JSON.stringify(updated));
+      var output = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Encode)(updated);
       console.log("New data-src --> ", output);
       if (output) {
         var _this$editor;
@@ -1771,22 +2044,23 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   }, {
     key: "edit",
     value: function edit() {
-      if (!this.editor) {
+      var group = _registry__WEBPACK_IMPORTED_MODULE_2__["default"].findGroupObject(this);
+      if (!group || !group.getAttoEditor()) {
+        console.error("Edit: Cannot find group or atto editor");
         return;
       }
+      this.editor = group.getAttoEditor();
       this.updateConfig();
-      console.log(this.config);
-      // Update controls with values from config  
-      var dialog = (0,_mchoiceDialog__WEBPACK_IMPORTED_MODULE_1__.getMchoiceDialog)('ib-quizz-editor-dlg', 'Editar "Opció múltiple"');
-      dialog.setBindings(this.config);
+      var dialog = (0,_mchoiceDialog__WEBPACK_IMPORTED_MODULE_3__.getMchoiceDialog)('ib-quizz-editor-dlg', 'Editar "Opció múltiple"');
+      dialog.setBindings(this.config, group.getGroupContext());
       dialog.show(this.successCb.bind(this));
     }
   }]);
   return IBQuizzMchoice;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1888,12 +2162,14 @@ function getMchoiceDialog(id, title) {
 }
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _clozeDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(83);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(77);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _clozeDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(84);
+/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(76);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(78);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1908,6 +2184,8 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 
@@ -1933,7 +2211,7 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
       var wc = updated;
       wc.ini = wc.ini || "?";
       wc.ans = (wc.ans || "[0]") + ""; // must be string
-      var output = btoa(JSON.stringify(wc));
+      var output = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Encode)(wc);
       console.log("New data-src --> ", output);
       if (output) {
         var _this$editor;
@@ -1946,21 +2224,23 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
   }, {
     key: "edit",
     value: function edit() {
-      if (!this.editor) {
+      var group = _registry__WEBPACK_IMPORTED_MODULE_2__["default"].findGroupObject(this);
+      if (!group || !group.getAttoEditor()) {
+        console.error("Edit: Cannot find group or atto editor");
         return;
       }
+      this.editor = group.getAttoEditor();
       this.updateConfig();
-      console.log(this.config);
-      var dialog = (0,_clozeDialog__WEBPACK_IMPORTED_MODULE_1__.getClozeDialog)('ib-quizz-editor-dlg', 'Editar "Cloze fórmula"');
-      dialog.setBindings(this.config, this.groupContext);
+      var dialog = (0,_clozeDialog__WEBPACK_IMPORTED_MODULE_3__.getClozeDialog)('ib-quizz-editor-dlg', 'Editar "Cloze fórmula"');
+      dialog.setBindings(this.config, group.getGroupContext());
       dialog.show(this.successCb.bind(this));
     }
   }]);
   return IBQuizzCloze;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_2__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2031,7 +2311,7 @@ var ClozeDialog = /*#__PURE__*/function (_BSDialog) {
         // Prova d'executar i a veure si funciona i si retorna un booleà
         try {
           var _this$groupContext;
-          var retVal = (0,_quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runInScope)(wc.cfn, localContext, ((_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext._s) || {});
+          var retVal = (0,_quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runIBScript)(wc.cfn, localContext, ((_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext._s) || {});
           if (typeof retVal !== 'boolean') {
             return "El codi de verificació ha de retornar boolèa però ha generat " + _typeof(retVal) + "<br>Segur que no t'has oblidat return check;";
           }
@@ -2063,6 +2343,316 @@ function getClozeDialog(id, title) {
   }
   _cachedDlg.setTitle(title);
   return _cachedDlg;
+}
+
+/***/ }),
+/* 85 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ QuizzComponent; }
+/* harmony export */ });
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
+/* harmony import */ var _groupDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(86);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+
+//Manually import the customElements that should be loaded 
+
+
+
+var SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice, ib-quizz-cloze";
+var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component)({
+  name: "quizz-editor",
+  author: "Josep Mulet Pol",
+  version: "1.0",
+  query: "[data-quizz-group]",
+  use$: true
+}), _dec(_class = /*#__PURE__*/function (_BaseComponent) {
+  _inherits(QuizzComponent, _BaseComponent);
+  var _super = _createSuper(QuizzComponent);
+  function QuizzComponent(parent) {
+    var _this;
+    _classCallCheck(this, QuizzComponent);
+    _this = _super.call(this, parent);
+    // First register
+    _defineProperty(_assertThisInitialized(_this), "groupContext", {
+      s: '',
+      _s: {},
+      o: {
+        hint: 2,
+        ans: 4
+      }
+    });
+    _registry__WEBPACK_IMPORTED_MODULE_1__["default"].addGroup(_assertThisInitialized(_this));
+
+    // Determine the lang --> Pass to form components
+    var searchLang = parent.getAttribute("data-lang");
+    if (!searchLang) {
+      var _parent$parentElement;
+      searchLang = ((_parent$parentElement = parent.parentElement) === null || _parent$parentElement === void 0 ? void 0 : _parent$parentElement.getAttribute("data-lang")) || null;
+    }
+    // Determine the groupContext --> Pass to form components
+    var contextRaw64 = parent.getAttribute("data-quizz-group") || '';
+    _this.updateGroupContext(contextRaw64);
+    _this.lang = searchLang || "ca";
+    // Must generate an instance of the group vars into map _v
+    //this.generateGroup();
+
+    // Must find placeholders in the dom by replacing #key by _v[#key]
+    //this.findPlaceholders();
+
+    _this.allQuizzElements = _this.parent.querySelectorAll(SEARCH_QUERY);
+    console.log(_this.allQuizzElements);
+    _this.discoverAttoId();
+    if (_this.editor) {
+      // This quizzGroup must listen to requests from atto
+      _this.parent.addEventListener("editorRequest", function () {
+        // Must open a dialog
+        var dlg = (0,_groupDialog__WEBPACK_IMPORTED_MODULE_2__.getQuizzConfigDialog)();
+        dlg.setBindings(_this.groupContext);
+        dlg.show(function (updated) {
+          var _this$editor;
+          if (!updated) {
+            return;
+          }
+          delete updated['_s'];
+          var groupContext = updated;
+          _this.parent.setAttribute("data-quizz-group", (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.base64Encode)(groupContext));
+          var event = new Event('updated');
+          (_this$editor = _this.editor) === null || _this$editor === void 0 ? void 0 : _this$editor.dispatchEvent(event);
+          console.info("Event dispatched");
+
+          // update changes in the groupContext
+          // widgets will pull this new object when needed 
+          _this.groupContext = groupContext;
+        });
+      });
+    } else {
+      console.error("groupEdit: Cannot find atto editor");
+    }
+    return _this;
+  }
+  _createClass(QuizzComponent, [{
+    key: "updateGroupContext",
+    value: function updateGroupContext(contextRaw64) {
+      try {
+        var contextRaw = atob(contextRaw64) || '{}';
+        console.log(contextRaw);
+        var context = JSON.parse(contextRaw);
+        this.groupContext = Object.assign(this.groupContext, context);
+        console.log(contextRaw, context, this.groupContext);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+  }, {
+    key: "getGroupContext",
+    value: function getGroupContext() {
+      return this.groupContext;
+    }
+  }, {
+    key: "getAttoEditor",
+    value: function getAttoEditor() {
+      return this.editor;
+    }
+  }, {
+    key: "discoverAttoId",
+    value: function discoverAttoId() {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      var elem = this.parent;
+      while (this.attoId == null && elem != null) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        if (elem.classList.contains("editor_atto_content_wrap") || elem.nodeName === 'body' || elem === window) {
+          break;
+        }
+        if (elem.classList.contains("editor_atto_content")) {
+          this.attoId = elem.getAttribute("id") || "";
+        }
+        elem = elem.parentElement;
+      }
+      console.log("Atto editor discovery ", this.attoId);
+      if (this.attoId) {
+        this.editor = document.getElementById(this.attoId);
+      }
+      return this.attoId;
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var ds = this.parent.dataset;
+      if (ds.active === "1") {
+        return;
+      }
+      ds.active = "1";
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      var ds = this.parent.dataset;
+      if (ds.active === "0") {
+        return;
+      }
+      this.parent.removeAttribute("data-active");
+    }
+  }]);
+  return QuizzComponent;
+}(_base__WEBPACK_IMPORTED_MODULE_4__.BaseComponent)) || _class);
+
+/*
+function textNodesUnder(el: HTMLElement) {
+    const a: Node[] = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    let n: Node | null = walk.nextNode();
+    while (n != null) {
+        a.push(n);
+        n = walk.nextNode();
+    }
+    return a;
+}
+*/
+/*
+generateGroup() {
+  
+    try {
+        runIBScript(this.groupContext.s, {}, this.groupContext._s); 
+    } catch (ex) {
+        console.error("GroupContext:: No es pot interpretar el codi.\n", ex);
+    }
+   
+}
+ 
+findPlaceholders() {
+    if (this.groupContext.s.trim().length === 0) {
+        return; //Nothing to do
+    }
+    textNodesUnder(this.parent).forEach(textNode => {
+        const valor = (textNode.nodeValue || '');
+        if (valor.indexOf('#') < 0) {
+            return;
+        }
+        const interpolated = valor.replace(/#([a-zA-Z0-9_]+)/g, ($0, $1) => {
+            return this.groupContext._s[$1];
+        });
+        textNode.nodeValue = interpolated;
+    });
+}
+*/
+
+/***/ }),
+/* 86 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getQuizzConfigDialog": function() { return /* binding */ getQuizzConfigDialog; }
+/* harmony export */ });
+/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(60);
+/* harmony import */ var _quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(66);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+var placeholder = '// Això és un comentari\n' + '// a és una variable local. No s\'exporta\n' + 'var a=7\n' + '// Si s\'indica la variable amb #, serà pública. # és un shortcut per indicar this. \n' + '#b=a*alea(-10,20)\n' + '// alea(a,b) i dec(a,n) són funcions predefinides.';
+var bodyHTML = "<h6>Opcions</h6>\n        <div class=\"form-group row\">\n        <label for=\"bsDialogQuizzConfig_o.hint\" class=\"col-sm-6 col-form-label\">Mostra ajuda a l'intent</label>\n        <div class=\"\"col-sm-6\">\n        <input type=\"numeric\" class=\"form-control\" id=\"bsDialogQuizzConfig_o.hint\" value=\"2\" required/> \n        </div>\n        <div class=\"invalid-feedback\">Proporcionau un valor.</div> \n        </div>\n        <div class=\"form-group row\">\n        <label for=\"bsDialogQuizzConfig_o.ans\" class=\"col-sm-6 col-form-label\">Mostra soluci\xF3 a l'intent</label>\n        <div class=\"\"col-sm-6\">\n        <input type=\"numeric\" class=\"form-control\" id=\"bsDialogQuizzConfig_o.ans\" value=\"4\" required/>\n        </div>\n        <div class=\"invalid-feedback\">Proporcionau un valor.</div> \n        </div>\n        <h6>Algoritme</h6>\n        <div class=\"form-group\">\n        <textarea id=\"bsDialogQuizzConfig_s\" class=\"form-control\" rows=\"10\" style=\"width:99%;\" \n         placeholder=\"".concat(placeholder, "\"></textarea>\n        <div class=\"invalid-feedback\">Hi ha un error en el codi.</div>\n        </div> \n        <button type=\"button\" id=\"bsDialogQuizzConfig-exec\" class=\"btn btn-sm btn-secondary\"><i class=\"fas fa fa-cog\"></i> Executa</button>\n        <div id=\"bsDialogQuizzConfig-out\" class=\"alert alert-info\" style=\"display:none;font-size:small;\"></div>");
+var BSDialogQuizzConfig = /*#__PURE__*/function (_BSDialog) {
+  _inherits(BSDialogQuizzConfig, _BSDialog);
+  var _super = _createSuper(BSDialogQuizzConfig);
+  function BSDialogQuizzConfig() {
+    var _this;
+    _classCallCheck(this, BSDialogQuizzConfig);
+    _this = _super.call(this, 'quizz-config-dlg', _bs_dialog__WEBPACK_IMPORTED_MODULE_0__.BSDialogType.CANCEL_ACCEPT_FORM_VALIDATION, 'Configura àrea de qüestionari');
+    _defineProperty(_assertThisInitialized(_this), "groupContext", {
+      s: '',
+      _s: {},
+      o: {
+        hint: 2,
+        ans: 4
+      }
+    });
+    return _this;
+  }
+  _createClass(BSDialogQuizzConfig, [{
+    key: "setBindings",
+    value: function setBindings(groupContext) {
+      var _this2 = this;
+      this.groupContext = groupContext;
+      var defaultScope = {
+        s: '',
+        _s: {},
+        o: {
+          hint: 2,
+          ans: 4
+        }
+      };
+      var scope2 = Object.assign(defaultScope, groupContext);
+      this.setBodyBindings(bodyHTML, scope2);
+      this.body.find('#bsDialogQuizzConfig-exec').on("click", function () {
+        _this2.body.find('#bsDialogQuizzConfig-out').css('display', '');
+        try {
+          var context2 = {};
+          (0,_quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runIBScript)(_this2.algoritme(), {}, context2);
+          _this2.body.find('#bsDialogQuizzConfig-out').html(JSON.stringify(context2));
+        } catch (ex) {
+          _this2.body.find('#bsDialogQuizzConfig-out').html("Hi ha alguna errada en el codi. T'has oblidat algun var o #?\n" + ex);
+        }
+      });
+    }
+  }, {
+    key: "customValidation",
+    value: function customValidation() {
+      // The code must parse
+      try {
+        (0,_quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runIBScript)(this.algoritme(), {}, {});
+      } catch (ex) {
+        return "Hi ha alguna errada en el codi. T'has oblidat algun var o #?\n" + ex;
+      }
+      return null;
+    }
+  }, {
+    key: "algoritme",
+    value: function algoritme() {
+      return (this.body.find("#bsDialogQuizzConfig_s").val() + '' || '').trim();
+    }
+  }]);
+  return BSDialogQuizzConfig;
+}(_bs_dialog__WEBPACK_IMPORTED_MODULE_0__.BSDialog);
+var quizzConfigDialog = null;
+function getQuizzConfigDialog() {
+  if (!quizzConfigDialog) {
+    quizzConfigDialog = new BSDialogQuizzConfig();
+  }
+  return quizzConfigDialog;
 }
 
 /***/ })
@@ -2162,14 +2752,19 @@ var __webpack_exports__ = {};
 !function() {
 /* harmony import */ var _editor_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(68);
 /* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(75);
-/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(78);
-/* harmony import */ var _mchoiceWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(80);
-/* harmony import */ var _clozeWidget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(82);
+/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(79);
+/* harmony import */ var _mchoiceWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(81);
+/* harmony import */ var _clozeWidget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(83);
+/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
+/* harmony import */ var _quizzEditorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(85);
 
 
 
 
 
+
+
+_loader__WEBPACK_IMPORTED_MODULE_5__["default"].bootstrap([_quizzEditorComponent__WEBPACK_IMPORTED_MODULE_6__["default"]]);
 }();
 /******/ })()
 ;

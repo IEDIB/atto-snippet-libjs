@@ -1,5 +1,7 @@
 import { ComponentHTML } from "../decorators"; 
+import { base64Encode } from "../_shared/utilsShared";
 import { getMchoiceDialog } from "./mchoiceDialog";
+import registry from "./registry";
 import { WidgetElement } from "./widgetElement";  
  
 
@@ -9,6 +11,7 @@ import { WidgetElement } from "./widgetElement";
     styles: { "display": "block" }
 })
 class IBQuizzMchoice extends WidgetElement {
+    private editor: HTMLElement | null | undefined;
     private successCb(updated?: {[key:string]:unknown}): void {
         if(!updated){
             return;
@@ -22,7 +25,7 @@ class IBQuizzMchoice extends WidgetElement {
         updated['ans'] = selected.join(',');
         // Get rid of property right
         delete updated['right'];
-        const output = btoa(JSON.stringify(updated));
+        const output = base64Encode(updated);
         console.log("New data-src --> ", output);
         if (output) {
             this.setAttribute("data-src", output);
@@ -32,14 +35,15 @@ class IBQuizzMchoice extends WidgetElement {
         }
     }
     edit(): void {
-        if (!this.editor) {
+        const group = registry.findGroupObject(this);
+        if (!group || !group.getAttoEditor()) {
+            console.error("Edit: Cannot find group or atto editor");
             return;
         }
-        this.updateConfig();
-        console.log(this.config);
-        // Update controls with values from config  
+        this.editor = group.getAttoEditor();
+        this.updateConfig(); 
         const dialog = getMchoiceDialog('ib-quizz-editor-dlg', 'Editar "Opció múltiple"');
-        dialog.setBindings(this.config);
+        dialog.setBindings(this.config, group.getGroupContext());
         dialog.show(this.successCb.bind(this));
     }
 }

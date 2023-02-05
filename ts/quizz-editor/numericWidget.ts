@@ -1,5 +1,7 @@
 import { ComponentHTML } from "../decorators"; 
+import { base64Encode } from "../_shared/utilsShared";
 import { getNumericDialog } from "./numericDialog";
+import registry from "./registry";
 import { WidgetElement } from "./widgetElement";  
  
 
@@ -9,11 +11,12 @@ import { WidgetElement } from "./widgetElement";
     styles: { "display": "inline-block" }
 })
 class IBQuizzNumeric extends WidgetElement {
+    private editor: HTMLElement | undefined | null;
     private successCb(updated?: {[key:string]:unknown}): void {
         if(!updated){
             return;
         }
-        const output = btoa(JSON.stringify(updated));
+        const output = base64Encode(updated);
         console.log("New data-src --> ", output);
         if (output) {
             this.setAttribute("data-src", output);
@@ -23,13 +26,15 @@ class IBQuizzNumeric extends WidgetElement {
         } 
     }
     edit(): void {
-        if (!this.editor) {
+        const group = registry.findGroupObject(this);
+        if (!group || !group.getAttoEditor()) {
+            console.error("Edit: Cannot find group or atto editor");
             return;
         }
-        this.updateConfig();
-        console.log(this.config); 
-        const dialog = getNumericDialog('ib-quizz-editor-dlg', 'Editar "Numèric""');
-        dialog.setBindings(this.config);
+        this.editor = group.getAttoEditor();
+        this.updateConfig(); 
+        const dialog = getNumericDialog('ib-quizz-editor-dlg', 'Editar "Numèric"');
+        dialog.setBindings(this.config, group.getGroupContext());
         dialog.show(this.successCb.bind(this));
     }
 }

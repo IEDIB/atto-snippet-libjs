@@ -10,7 +10,7 @@ import "./numericWidget";
 import "./clozeWidget";
 import { addScript, createElement } from "../_shared/utilsShared";
 import { WidgetGroupContext } from "./quizzTypes";
-import { runInScope } from "./quizzUtil";
+import { runIBScript } from "./quizzUtil";
 
 const SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice"; //".ib-quizz-elem"; 
 const SEARCH_QUERY2 = "ib-quizz-cloze";  //Requires loading Mathquill
@@ -74,7 +74,7 @@ export default class QuizzComponent extends BaseComponent {
         console.log(this.allQuizzElements, this.allClozeElements);
         this.checkButton = createElement("button", {
             class: "btn btn-sm btn-primary d-print-none",
-            style: "margin: 10px",
+            style: "margin: 10px;display:block",
             html: '<i class="fa fas fa-check"></i> ' + getI18n(this.lang, 'check')
         }) as HTMLButtonElement;
 
@@ -97,27 +97,8 @@ export default class QuizzComponent extends BaseComponent {
         };
     }
     generateGroup() {
-        const utilities = {};
-        Object.defineProperty(utilities, "alea", {
-            value: function (a: number, b: number) {
-                return Math.floor((b - a) * Math.random()) + a;
-            },
-            enumerable: true,
-            configurable: false,
-            writable: false
-        });
-        Object.defineProperty(utilities, "dec", {
-            value: function (v: number, n: number) {
-                const p = Math.pow(10, n);
-                return Math.floor(v * p) / p;
-            },
-            enumerable: true,
-            configurable: false,
-            writable: false
-        });
-
         try {
-            runInScope('var _this=this;\n'+this.groupContext.s.replace(/#/g,'_this.'), utilities, this.groupContext._s); 
+            runIBScript(this.groupContext.s, {}, this.groupContext._s); 
         } catch (ex) {
             console.error("GroupContext:: No es pot interpretar el codi.\n", ex);
         }

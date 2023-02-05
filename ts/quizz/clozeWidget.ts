@@ -1,6 +1,6 @@
 import { ComponentHTML } from "../decorators";  
 import { scopedEval } from "../_shared/utilsShared";
-import { runInScope, treatIniPlaceholders } from "./quizzUtil";
+import { runIBScript, treatIniPlaceholders } from "./quizzUtil";
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
 
@@ -55,7 +55,7 @@ class IBQuizzCloze extends WidgetElement {
                 (localContext.u as string[]).forEach( (e, i) => localContext['u'+i]=e);
                 //Evaluate check function that must return true or false
                 const scriptFn = (this.widgetConfig?.cfn || 'return true').replace(/#/g, '');
-                result = runInScope('var _this=this;\n'+scriptFn.replace(/#/g,'_this.'), localContext, this.groupContext?._s || {}) as boolean;
+                result = runIBScript(scriptFn, localContext, this.groupContext?._s || {}) as boolean;
                 console.log("Avaluant ", scriptFn, "Retorna ", result);
             } else {
                 //Must rely on .ans to be an array with answers

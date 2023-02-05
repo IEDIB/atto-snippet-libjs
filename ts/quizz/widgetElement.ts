@@ -1,5 +1,6 @@
 
 
+import { base64Decode } from "../_shared/utilsShared";
 import { WidgetConfig, WidgetGroupContext } from "./quizzTypes";
 import { StatusDisplay } from "./statusDisplay";
 
@@ -39,11 +40,9 @@ export abstract class WidgetElement extends HTMLElement {
         this.classList.add("d-print-none");
         this.statusDisplay = new StatusDisplay();
         // Parse the widgetConfig from data-src
-        // Make sure that has data-src field
-        let src = this.dataset.src || "";
-        try {
-            src = atob(src);
-            this.widgetConfig = JSON.parse(src) as WidgetConfig;
+        // Make sure that has data-src field 
+        try { 
+            this.widgetConfig = base64Decode(this.dataset.src) as WidgetConfig;
         } catch (ex) {
             console.error(ex);
             return;

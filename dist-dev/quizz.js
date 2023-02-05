@@ -530,6 +530,7 @@ function _bootstrap(classes) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addScript": function() { return /* binding */ addScript; },
+/* harmony export */   "base64Decode": function() { return /* binding */ base64Decode; },
 /* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
 /* harmony export */   "createElement": function() { return /* binding */ createElement; },
 /* harmony export */   "genID": function() { return /* binding */ genID; },
@@ -537,7 +538,7 @@ function _bootstrap(classes) {
 /* harmony export */   "scopedEval": function() { return /* binding */ scopedEval; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
-/* unused harmony exports querySelectorProp, addLinkSheet, pathJoin, addBaseToUrl */
+/* unused harmony exports querySelectorProp, addLinkSheet, pathJoin, addBaseToUrl, base64Encode */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -772,6 +773,13 @@ function scopedEval(context, expr) {
   var contextValues = Object.values(context);
   var listVals = [].concat(contextValues, [expr]);
   return evaluator.apply(void 0, _toConsumableArray(listVals));
+}
+function base64Encode(obj) {
+  return btoa(JSON.stringify(obj || {}));
+}
+function base64Decode(b64) {
+  b64 = b64 || '';
+  return JSON.parse(atob(b64) || '{}');
 }
 
 /***/ }),
@@ -1185,26 +1193,8 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
   _createClass(QuizzComponent, [{
     key: "generateGroup",
     value: function generateGroup() {
-      var utilities = {};
-      Object.defineProperty(utilities, "alea", {
-        value: function value(a, b) {
-          return Math.floor((b - a) * Math.random()) + a;
-        },
-        enumerable: true,
-        configurable: false,
-        writable: false
-      });
-      Object.defineProperty(utilities, "dec", {
-        value: function value(v, n) {
-          var p = Math.pow(10, n);
-          return Math.floor(v * p) / p;
-        },
-        enumerable: true,
-        configurable: false,
-        writable: false
-      });
       try {
-        (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_7__.runInScope)('var _this=this;\n' + this.groupContext.s.replace(/#/g, '_this.'), utilities, this.groupContext._s);
+        (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_7__.runIBScript)(this.groupContext.s, {}, this.groupContext._s);
       } catch (ex) {
         console.error("GroupContext:: No es pot interpretar el codi.\n", ex);
       }
@@ -1807,7 +1797,6 @@ var BSDialog = /*#__PURE__*/function () {
       this.primaryButton && this.primaryButton.off();
       if (this.form) {
         this.form.off();
-        this.form.removeClass('was-validated');
       }
       this.validationDiv.css('display', 'none');
       this.validationDiv.html('');
@@ -1954,6 +1943,7 @@ var BSDialog = /*#__PURE__*/function () {
     key: "show",
     value: function show(acceptCb) {
       var _this3 = this;
+      this.form.removeClass('was-validated');
       //@ts-ignore
       this.elem.modal('show');
       //It is strange, but it rquires a timeout!!!
@@ -2103,6 +2093,7 @@ function setPathValue(barPath, scope, newValue) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WidgetElement": function() { return /* binding */ WidgetElement; }
 /* harmony export */ });
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
 /* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(57);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2121,6 +2112,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
   _inherits(WidgetElement, _HTMLElement);
@@ -2168,11 +2160,9 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
       this.classList.add("d-print-none");
       this.statusDisplay = new _statusDisplay__WEBPACK_IMPORTED_MODULE_0__.StatusDisplay();
       // Parse the widgetConfig from data-src
-      // Make sure that has data-src field
-      var src = this.dataset.src || "";
+      // Make sure that has data-src field 
       try {
-        src = atob(src);
-        this.widgetConfig = JSON.parse(src);
+        this.widgetConfig = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Decode)(this.dataset.src);
       } catch (ex) {
         console.error(ex);
         return;
@@ -2713,7 +2703,7 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
           });
           //Evaluate check function that must return true or false
           var scriptFn = (((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.cfn) || 'return true').replace(/#/g, '');
-          result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runInScope)('var _this=this;\n' + scriptFn.replace(/#/g, '_this.'), localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
+          result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
           console.log("Avaluant ", scriptFn, "Retorna ", result);
         } else {
           var _this$widgetConfig4;
@@ -2804,12 +2794,70 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "runInScope": function() { return /* binding */ runInScope; },
+/* harmony export */   "runIBScript": function() { return /* binding */ runIBScript; },
 /* harmony export */   "treatIniPlaceholders": function() { return /* binding */ treatIniPlaceholders; }
 /* harmony export */ });
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+//Add all Math utilities
+var utilities = {};
+Object.getOwnPropertyNames(Math).forEach(function (key) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  utilities[key] = Math[key];
+});
+Object.defineProperty(utilities, "alea", {
+  value: function value() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    var na = args.length;
+    if (na === 0) {
+      //cap argument - retorna un signe [-1 o 1]
+      return Math.random() < 0.5 ? -1 : 1;
+    } else if (na === 1) {
+      //un argument - llista
+      if (Array.isArray(args[0])) {
+        var indx = Math.floor(Math.random() * args[0].length);
+        return args[0][indx];
+      }
+      //un argument - numeric [-a, a]
+      else if (typeof args[0] === 'number') {
+        return Math.floor(2 * args[0] * Math.random()) + args[0];
+      }
+    } else if (na >= 2) {
+      var a = args[0];
+      var b = args[1];
+      var pp = 1;
+      var ndec = 0;
+      var retVal = (b - a) * Math.random();
+      if (na === 3) {
+        //The third argument is the number of decimals
+        ndec = Math.abs(args[2]);
+        ndec = ndec > 8 ? 8 : ndec;
+        pp = Math.pow(10, ndec);
+      }
+      //TODO: Performance issue, but no other way to ensure correct number of decimals!!
+      retVal = +(Math.round(retVal * pp) / pp + a).toFixed(ndec);
+      return retVal;
+    }
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+Object.defineProperty(utilities, "dec", {
+  value: function value(v) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var pp = Math.pow(10, n);
+    return Math.round(v * pp) / pp;
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+
 /**
  * Runs a whole script within a scope
  *  * #bar exports the variable to the scope 
@@ -2829,6 +2877,10 @@ function runInScope(scriptCode, context, scope) {
   //By default run in strict mode
   var evaluator = _construct(Function, contextKeys.concat(['"use' + ' strict"\n' + scriptCode]));
   return evaluator.apply(scope, contextValues);
+}
+function runIBScript(scriptCode, context, scope) {
+  context = Object.assign(context || {}, utilities);
+  return runInScope('var _this=this;\n' + scriptCode.replace(/#/g, '_this.'), context, scope);
 }
 
 /**

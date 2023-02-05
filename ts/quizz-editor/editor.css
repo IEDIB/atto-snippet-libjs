@@ -1,3 +1,9 @@
+body.editing [ib-quizz-group] {
+    border: 1px dotted greenyellow;
+}
+body.editing [ib-quizz-group]::before {
+    content: "quizz::group"
+}
 body.editing ib-quizz-dropdown, 
 body.editing ib-quizz-mchoice,
 body.editing ib-quizz-numeric,

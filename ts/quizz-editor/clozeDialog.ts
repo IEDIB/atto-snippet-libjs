@@ -1,6 +1,6 @@
 import { BSDialog, BSDialogType } from "../bs-dialog";
 import { WidgetConfig, WidgetGroupContext } from "../quizz/quizzTypes";
-import { runInScope, treatIniPlaceholders } from "../quizz/quizzUtil";
+import { runIBScript, treatIniPlaceholders } from "../quizz/quizzUtil";
  
 const idPrefix = "quizzCloze";
 const placeholder_cfn = 'check = (u0==1 && u1==2 && u2==-4)\nreturn check';
@@ -70,7 +70,7 @@ class ClozeDialog extends BSDialog {
             (localContext.u as string[]).forEach( (e, i) => localContext['u'+i]=e);
             // Prova d'executar i a veure si funciona i si retorna un booleà
             try {
-                const retVal = runInScope(wc.cfn, localContext, (this.groupContext?._s || {}) as Dict<unknown>);
+                const retVal = runIBScript(wc.cfn, localContext, (this.groupContext?._s || {}) as Dict<unknown>);
                 if(typeof(retVal)!=='boolean') {
                     return "El codi de verificació ha de retornar boolèa però ha generat "+typeof(retVal)+
                     "<br>Segur que no t'has oblidat return check;";
