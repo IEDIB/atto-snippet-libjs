@@ -63,7 +63,7 @@ export function waitForRequire(cb: ()=>void, nattempt: number) {
     }
     window.setTimeout(function(){
         waitForRequire(cb, nattempt+1);
-    }, 500);
+    }, 50*(nattempt+1));
 }
 
 /**
@@ -73,7 +73,7 @@ export function waitForRequire(cb: ()=>void, nattempt: number) {
  * @param def 
  * @returns 
  */
-export function convertInt(str: string | undefined | null, def: number): number {
+export function convertInt(str: string | undefined | null | number, def: number): number {
     if(str && typeof str === 'number') {
         return str;
     }

@@ -1,8 +1,12 @@
-body.editing [ib-quizz-group] {
-    border: 1px dotted greenyellow;
+body.editing [data-quizz-group] {
+    border: 4px dotted green;
+    padding: 5px;
 }
-body.editing [ib-quizz-group]::before {
-    content: "quizz::group"
+body.editing [data-quizz-group]::before {
+    content: "quizz::group";
+    display: block;
+    float: right;
+    color: green;
 }
 body.editing ib-quizz-dropdown, 
 body.editing ib-quizz-mchoice,

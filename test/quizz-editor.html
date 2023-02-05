@@ -21,31 +21,41 @@
 
   <!--this becomes the atto mock editor-->
   <div id="content-editor-mock" class="editor_atto_content">
-  
-  <button id="edit-group1">Edit this group 1</button>
-  <div id="group1" data-quizz-group data-lang="en">
-    1+1=<ib-quizz-numeric data-src=""></ib-quizz-numeric>
+
+    <div class="iedib-tasca-exercici">
+
+      <button id="edit-group1">Edit this group 1</button>
+      <button data-cmd="dropdown" data-grp="1">Add dropdown</button>
+      <button data-cmd="mchoice" data-grp="1">Add mchoice</button>
+      <button data-cmd="numeric" data-grp="1">Add numeric</button>
+      <button data-cmd="cloze" data-grp="1">Add cloze</button>
+      <div id="group1" data-quizz-group data-lang="en">
+        1+1=<ib-quizz-numeric data-src=""></ib-quizz-numeric>
+      </div>
+
+      <hr>
+
+      <button id="edit-group2">Edit this group 2</button>
+      <button data-cmd="dropdown" data-grp="2">Add dropdown</button>
+      <button data-cmd="mchoice" data-grp="2">Add mchoice</button>
+      <button data-cmd="numeric" data-grp="2">Add numeric</button>
+      <button data-cmd="cloze" data-grp="2">Add cloze</button>
+      <div id="group2" data-quizz-group data-lang="ca">
+        3+4=<ib-quizz-numeric data-src=""></ib-quizz-numeric>
+      </div>
+
+    </div>
   </div>
 
-  <hr>
+  <button id="codegen">Get HTML to test</button><br>
 
-  <button id="edit-group2">Edit this group 2</button>
-  <div id="group2" data-quizz-group data-lang="ca">
-    3+4=<ib-quizz-numeric data-src=""></ib-quizz-numeric>
-  </div>
+  <textarea id="codegenarea" style="width: 99%;" rows="15"></textarea>
 
-</div>
-
-<button id="codegen">Get HTML to test</button><br>
-
-<textarea id="codegenarea" style="width: 99%;" rows="15"></textarea>
-
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" 
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
     crossorigin="anonymous"></script>
-  
+
   <script>
     //fake requirejs
     window.require = function (deps, cb) {
@@ -57,22 +67,41 @@
 
   <script src="./dist-dev/quizz-editor.js"></script>
   <script>
+
+    const generateCode = function() {
+      const raw = $('.editor_atto_content').html().trim()
+      const out = raw.replace(/data-active="1"/g, '')
+        .replace(/<button[^>]*>([^<>]*?)<\/button>/g, '')
+        .replace(/^\s*\n+/gm,'\n'); 
+      return out;
+    }
+
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
-      $('#edit-group1').on('click', function() {
-          document.querySelector('#group1').dispatchEvent(new Event('editorRequest'));
+      $('#edit-group1').on('click', function () {
+        document.querySelector('#group1').dispatchEvent(new Event('editorRequest'));
       });
-      $('#edit-group2').on('click', function() {
-          document.querySelector('#group2').dispatchEvent(new Event('editorRequest'));
+      $('#edit-group2').on('click', function () {
+        document.querySelector('#group2').dispatchEvent(new Event('editorRequest'));
       });
-      document.querySelector('.editor_atto_content').addEventListener('updated', function(){
+      document.querySelector('.editor_atto_content').addEventListener('updated', function () {
         console.log("The mock atto editor has recieved an update event");
-        $('#codegenarea').val($('.editor_atto_content').html().replace(/data-active="1"/g,''));
+        $('#codegenarea').val(generateCode());
       });
 
-      $('#codegen').on('click', function(){
-        $('#codegenarea').val($('.editor_atto_content').html().replace(/data-active="1"/g,''));
+      $('#codegen').on('click', function () {
+        $('#codegenarea').val(generateCode());
       });
+
+      $("button[data-cmd]").each((i, elem)=> {
+        $(elem).on('click', (evt) => {
+          const cmd = $(elem).attr("data-cmd");
+          const grp = parseInt($(elem).attr("data-grp") || '1');
+          const groupDivs = [$('#group1'), $('#group2')];
+          const paragraph = $('<p>Fake text <ib-quizz-'+cmd+' data-quizz=""></ib-quizz-'+cmd+'></p>')
+          groupDivs[grp-1].append(paragraph);
+        });
+      })
     }) 
   </script>
 </body>

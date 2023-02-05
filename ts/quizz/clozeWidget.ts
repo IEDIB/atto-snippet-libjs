@@ -45,6 +45,11 @@ class IBQuizzCloze extends WidgetElement {
         }
     }
     check(): boolean {
+        if(this.statusDisplay?.getStatus()===WidgetStatus.RIGHT) {
+            return true;
+        } else if(this.statusDisplay?.getStatus()!==WidgetStatus.PENDING) {
+            return false;
+        }
         //TODO set tolerance
         let result = false;
         try {
@@ -119,7 +124,7 @@ class IBQuizzCloze extends WidgetElement {
         this.mathInput.innerFields.forEach((e: MQ.InnerField) => {
             e.__controller.textarea.on('keyup', (ev: Event) => {
                 ev.preventDefault();
-                this.setStatus(WidgetStatus.UNSET);
+                this.setStatus(WidgetStatus.PENDING);
             });
         }); 
        

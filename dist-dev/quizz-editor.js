@@ -529,12 +529,14 @@ function _bootstrap(classes) {
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "base64Decode": function() { return /* binding */ base64Decode; },
 /* harmony export */   "base64Encode": function() { return /* binding */ base64Encode; },
+/* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
 /* harmony export */   "createElement": function() { return /* binding */ createElement; },
 /* harmony export */   "genID": function() { return /* binding */ genID; },
 /* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
 /* harmony export */ });
-/* unused harmony exports parseUrlParams, querySelectorProp, convertInt, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval, base64Decode */
+/* unused harmony exports parseUrlParams, querySelectorProp, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -607,7 +609,7 @@ function waitForRequire(cb, nattempt) {
   }
   window.setTimeout(function () {
     waitForRequire(cb, nattempt + 1);
-  }, 500);
+  }, 50 * (nattempt + 1));
 }
 
 /**
@@ -1438,7 +1440,7 @@ var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_g
 var ___CSS_LOADER_URL_REPLACEMENT_2___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
 var ___CSS_LOADER_URL_REPLACEMENT_3___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_3___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body.editing [ib-quizz-group]{border:1px dotted greenyellow}body.editing [ib-quizz-group]::before{content:\"quizz::group\"}body.editing ib-quizz-dropdown,body.editing ib-quizz-mchoice,body.editing ib-quizz-numeric,body.editing ib-quizz-cloze{display:inline-block;vertical-align:middle;position:relative;margin:4px;min-width:39px}body.editing :not(div[data-quizz-group]) ib-quizz-mchoice::after{content:\"ibquizz::mchoice\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-dropdown::after{content:\"ibquizz::dropdown\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-numeric::after{content:\"ibquizz::numeric\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-cloze::after{content:\"ibquizz::cloze\";color:lightgray;display:block;background:gray}body.editing div[data-quizz-group] ib-quizz-dropdown::after{content:\"\";display:block;width:133px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing div[data-quizz-group] ib-quizz-mchoice::after{content:\"\";display:block;width:80px;height:86px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing div[data-quizz-group] ib-quizz-numeric::after{content:\"\";display:block;width:92px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}body.editing div[data-quizz-group] ib-quizz-cloze::after{content:\"\";display:block;width:96px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "body.editing [data-quizz-group]{border:4px dotted green;padding:5px}body.editing [data-quizz-group]::before{content:\"quizz::group\";display:block;float:right;color:green}body.editing ib-quizz-dropdown,body.editing ib-quizz-mchoice,body.editing ib-quizz-numeric,body.editing ib-quizz-cloze{display:inline-block;vertical-align:middle;position:relative;margin:4px;min-width:39px}body.editing :not(div[data-quizz-group]) ib-quizz-mchoice::after{content:\"ibquizz::mchoice\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-dropdown::after{content:\"ibquizz::dropdown\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-numeric::after{content:\"ibquizz::numeric\";color:lightgray;display:block;background:gray}body.editing :not(div[data-quizz-group]) ib-quizz-cloze::after{content:\"ibquizz::cloze\";color:lightgray;display:block;background:gray}body.editing div[data-quizz-group] ib-quizz-dropdown::after{content:\"\";display:block;width:133px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing div[data-quizz-group] ib-quizz-mchoice::after{content:\"\";display:block;width:80px;height:86px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");background-size:cover;background-repeat:no-repeat;background-position:center center}body.editing div[data-quizz-group] ib-quizz-numeric::after{content:\"\";display:block;width:92px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}body.editing div[data-quizz-group] ib-quizz-cloze::after{content:\"\";display:block;width:96px;height:39px;background-image:url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ");background-repeat:no-repeat;background-position:center center;background-size:cover}", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -1553,6 +1555,9 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
         e && selected.push(i + '');
       });
       updated['ans'] = selected.join(',');
+      updated['vars'] = updated['vars'].filter(function (e) {
+        return (e + '').trim().length > 0;
+      });
       // Get rid of property right
       delete updated['right'];
       var output = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Encode)(updated);
@@ -1909,6 +1914,7 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
 /* harmony export */   "getNumericDialog": function() { return /* binding */ getNumericDialog; }
 /* harmony export */ });
 /* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(60);
+/* harmony import */ var _quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(66);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -1923,8 +1929,9 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+
 var idPrefix = "quizzNum";
-var bodyHTML = "\n<div class=\"form-group\">\n    <label for=\"".concat(idPrefix, "_ini\">Contingut inicial</label>\n    <input id=\"").concat(idPrefix, "_ini\" class=\"form-control\" type=\"text\" placeholder=\"E.g. 0\"> \n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_ans\">Resposta correcta</label>\n    <input id=\"").concat(idPrefix, "_ans\" class=\"form-control\" type=\"text\" placeholder=\"E.g. 1.25 o #a*(#b-1), etc.\" required>\n    <div class=\"invalid-feedback\">\n        Cal especificar una resposta correcta\n    </div>\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_opts.err\">Error de precisi\xF3</label>\n    <input id=\"").concat(idPrefix, "_opts.err\" class=\"form-control\" type=\"numeric\" min=\"0\" value=\"0\">\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_opts.errunit\">Tipus de precisi\xF3</label>\n    <select class=\"form-control\" id=\"").concat(idPrefix, "_opts.errunit\">\n        <option value=\"relative\">Relativa</option>\n        <option value=\"absolute\">Absoluta</option>\n        <option value=\"%\">Percentual</option>\n    </select>\n</div>   \n<hr>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_hint\">Una pista</label>\n    <textarea id=\"").concat(idPrefix, "_hint\" class=\"form-control\" rows=\"2\" style=\"width:98%\"></textarea>\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_fbk\">Feedback global</label>\n    <textarea id=\"").concat(idPrefix, "_fbk\" class=\"form-control\" rows=\"2\" style=\"width:98%\"></textarea>\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_pre\">Text abans de l'element</label>\n    <textarea id=\"").concat(idPrefix, "_pre\" class=\"form-control\" rows=\"2\" style=\"width:98%\"></textarea>\n<div>\n");
+var bodyHTML = "\n<div class=\"form-group\">\n    <label for=\"".concat(idPrefix, "_ini\">Contingut inicial</label>\n    <input id=\"").concat(idPrefix, "_ini\" class=\"form-control\" type=\"text\" placeholder=\"E.g. 0\"> \n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_ans\">Resposta correcta</label>\n    <textarea id=\"").concat(idPrefix, "_ans\" class=\"form-control\" type=\"text\" placeholder=\"E.g. 1.25 o #a*(#b-1), etc.\" rows=\"2\" style=\"width:98%\" required></textarea>\n    <div class=\"invalid-feedback\">\n        Cal especificar una resposta correcta\n    </div>\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_opts.err\">Error de precisi\xF3</label>\n    <input id=\"").concat(idPrefix, "_opts.err\" class=\"form-control\" type=\"numeric\" min=\"0\" value=\"0\">\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_opts.errunit\">Tipus de precisi\xF3</label>\n    <select class=\"form-control\" id=\"").concat(idPrefix, "_opts.errunit\">\n        <option value=\"relative\">Relativa</option>\n        <option value=\"absolute\">Absoluta</option>\n        <option value=\"%\">Percentual</option>\n    </select>\n</div>   \n<hr>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_hint\">Una pista</label>\n    <textarea id=\"").concat(idPrefix, "_hint\" class=\"form-control\" rows=\"2\" style=\"width:98%\"></textarea>\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_fbk\">Feedback global</label>\n    <textarea id=\"").concat(idPrefix, "_fbk\" class=\"form-control\" rows=\"2\" style=\"width:98%\"></textarea>\n</div>\n<div class=\"form-group\">\n    <label for=\"").concat(idPrefix, "_pre\">Text abans de l'element</label>\n    <textarea id=\"").concat(idPrefix, "_pre\" class=\"form-control\" rows=\"2\" style=\"width:98%\"></textarea>\n<div>\n");
 var NumericDialog = /*#__PURE__*/function (_BSDialog) {
   _inherits(NumericDialog, _BSDialog);
   var _super = _createSuper(NumericDialog);
@@ -1937,6 +1944,7 @@ var NumericDialog = /*#__PURE__*/function (_BSDialog) {
     value: function setBindings(scope, groupContext) {
       var _scope$opts, _scope$opts2;
       this.groupContext = groupContext;
+      console.log("numericDialog-setbindings recieved ", this.groupContext);
       var defaultScope = {
         ini: scope.ini || '',
         ans: scope.ans || '0',
@@ -1957,8 +1965,26 @@ var NumericDialog = /*#__PURE__*/function (_BSDialog) {
       if (!wc) {
         return null;
       }
-      if (!wc.ans.trim()) {
+      var ans = wc.ans.trim().replace(/^\s*\n/gm, '');
+      if (!ans) {
         return "Cal una resposta correcta";
+      }
+      try {
+        var _this$groupContext;
+        var evalContext = Object.assign({}, ((_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext._s) || {});
+        //For one line expressions must add a return statement if not there!
+
+        if (ans.split('\n').length === 1 && ans.indexOf('return') < 0) {
+          ans = 'return ' + ans;
+        }
+        console.log(evalContext);
+        var result = (0,_quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runIBScript)(ans, {}, evalContext);
+        if (typeof result !== 'number') {
+          //Invalid return type
+          return "El tipus de la resposta ha de ser numèric però s'ha obtingut " + _typeof(result);
+        }
+      } catch (ex) {
+        return "La resposta conté una expressió incorrecta.\n" + ex;
       }
       //TODO scopeEval the ans field if everything is ok????
       return null;
@@ -2029,6 +2055,9 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         e && selected.push(i + '');
       });
       updated['ans'] = selected.join(',');
+      updated['vars'] = updated['vars'].filter(function (e) {
+        return (e + '').trim().length > 0;
+      });
       // Get rid of property right
       delete updated['right'];
       var output = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Encode)(updated);
@@ -2352,11 +2381,12 @@ function getClozeDialog(id, title) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ QuizzComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(24);
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 /* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
 /* harmony import */ var _groupDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(86);
 /* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+/* harmony import */ var _quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(66);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2377,6 +2407,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 //Manually import the customElements that should be loaded 
+
 
 
 
@@ -2429,7 +2460,7 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       _this.parent.addEventListener("editorRequest", function () {
         // Must open a dialog
         var dlg = (0,_groupDialog__WEBPACK_IMPORTED_MODULE_2__.getQuizzConfigDialog)();
-        dlg.setBindings(_this.groupContext);
+        dlg.setBindings(_this.groupContext, _this.parent);
         dlg.show(function (updated) {
           var _this$editor;
           if (!updated) {
@@ -2437,14 +2468,17 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
           }
           delete updated['_s'];
           var groupContext = updated;
-          _this.parent.setAttribute("data-quizz-group", (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.base64Encode)(groupContext));
+          groupContext.o.hint = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.convertInt)(groupContext.o.hint, 2);
+          groupContext.o.ans = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.convertInt)(groupContext.o.ans, 4);
+          var b64 = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.base64Encode)(groupContext);
+          _this.parent.setAttribute("data-quizz-group", b64);
           var event = new Event('updated');
           (_this$editor = _this.editor) === null || _this$editor === void 0 ? void 0 : _this$editor.dispatchEvent(event);
           console.info("Event dispatched");
 
           // update changes in the groupContext
           // widgets will pull this new object when needed 
-          _this.groupContext = groupContext;
+          _this.updateGroupContext(b64);
         });
       });
     } else {
@@ -2456,11 +2490,19 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     key: "updateGroupContext",
     value: function updateGroupContext(contextRaw64) {
       try {
-        var contextRaw = atob(contextRaw64) || '{}';
-        console.log(contextRaw);
-        var context = JSON.parse(contextRaw);
+        var context = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.base64Decode)(contextRaw64);
+        //Create an instance 
         this.groupContext = Object.assign(this.groupContext, context);
-        console.log(contextRaw, context, this.groupContext);
+        this.groupContext._s = {};
+        //Get a _s instance by running the script
+        if (this.groupContext.s) {
+          try {
+            (0,_quizz_quizzUtil__WEBPACK_IMPORTED_MODULE_4__.runIBScript)(this.groupContext.s, {}, this.groupContext._s);
+          } catch (ex) {
+            console.error(ex);
+          }
+        }
+        console.log(context, this.groupContext);
       } catch (ex) {
         console.error(ex);
       }
@@ -2517,7 +2559,7 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     }
   }]);
   return QuizzComponent;
-}(_base__WEBPACK_IMPORTED_MODULE_4__.BaseComponent)) || _class);
+}(_base__WEBPACK_IMPORTED_MODULE_5__.BaseComponent)) || _class);
 
 /*
 function textNodesUnder(el: HTMLElement) {
@@ -2584,7 +2626,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 var placeholder = '// Això és un comentari\n' + '// a és una variable local. No s\'exporta\n' + 'var a=7\n' + '// Si s\'indica la variable amb #, serà pública. # és un shortcut per indicar this. \n' + '#b=a*alea(-10,20)\n' + '// alea(a,b) i dec(a,n) són funcions predefinides.';
-var bodyHTML = "<h6>Opcions</h6>\n        <div class=\"form-group row\">\n        <label for=\"bsDialogQuizzConfig_o.hint\" class=\"col-sm-6 col-form-label\">Mostra ajuda a l'intent</label>\n        <div class=\"\"col-sm-6\">\n        <input type=\"numeric\" class=\"form-control\" id=\"bsDialogQuizzConfig_o.hint\" value=\"2\" required/> \n        </div>\n        <div class=\"invalid-feedback\">Proporcionau un valor.</div> \n        </div>\n        <div class=\"form-group row\">\n        <label for=\"bsDialogQuizzConfig_o.ans\" class=\"col-sm-6 col-form-label\">Mostra soluci\xF3 a l'intent</label>\n        <div class=\"\"col-sm-6\">\n        <input type=\"numeric\" class=\"form-control\" id=\"bsDialogQuizzConfig_o.ans\" value=\"4\" required/>\n        </div>\n        <div class=\"invalid-feedback\">Proporcionau un valor.</div> \n        </div>\n        <h6>Algoritme</h6>\n        <div class=\"form-group\">\n        <textarea id=\"bsDialogQuizzConfig_s\" class=\"form-control\" rows=\"10\" style=\"width:99%;\" \n         placeholder=\"".concat(placeholder, "\"></textarea>\n        <div class=\"invalid-feedback\">Hi ha un error en el codi.</div>\n        </div> \n        <button type=\"button\" id=\"bsDialogQuizzConfig-exec\" class=\"btn btn-sm btn-secondary\"><i class=\"fas fa fa-cog\"></i> Executa</button>\n        <div id=\"bsDialogQuizzConfig-out\" class=\"alert alert-info\" style=\"display:none;font-size:small;\"></div>");
+var bodyHTML = "\n        <button type=\"button\" id=\"bsDialogQuizzConfig-save\" class=\"btn btn-sm btn-info\" style=\"float:right;\" title=\"Desa el codi del grup al porta-retalls per tal d'aferrar-lo en un altre lloc\"><i class=\"fas fa fa-save\"></i> Exporta el grup</button>\n        <h6 style=\"clear:both;\">Opcions</h6>\n        <div class=\"form-group row\">\n        <label for=\"bsDialogQuizzConfig_o.hint\" class=\"col-sm-6 col-form-label\">Mostra ajuda a l'intent</label>\n        <div class=\"\"col-sm-6\">\n        <input type=\"numeric\" class=\"form-control\" id=\"bsDialogQuizzConfig_o.hint\" value=\"2\" required/> \n        </div>\n        <div class=\"invalid-feedback\">Proporcionau un valor.</div> \n        </div>\n        <div class=\"form-group row\">\n        <label for=\"bsDialogQuizzConfig_o.ans\" class=\"col-sm-6 col-form-label\">Mostra soluci\xF3 a l'intent</label>\n        <div class=\"\"col-sm-6\">\n        <input type=\"numeric\" class=\"form-control\" id=\"bsDialogQuizzConfig_o.ans\" value=\"4\" required/>\n        </div>\n        <div class=\"invalid-feedback\">Proporcionau un valor.</div> \n        </div>\n        <button type=\"button\" id=\"bsDialogQuizzConfig-exec\" class=\"btn btn-sm btn-secondary\" style=\"float:right;\"><i class=\"fas fa fa-cog\"></i> Executa</button>\n        <h6>Algoritme</h6>\n        <div class=\"form-group\">\n        <textarea id=\"bsDialogQuizzConfig_s\" class=\"form-control\" rows=\"10\" style=\"width:99%;\" \n         placeholder=\"".concat(placeholder, "\"></textarea>\n        <div class=\"invalid-feedback\">Hi ha un error en el codi.</div>\n        </div> \n       \n        <div id=\"bsDialogQuizzConfig-out\" class=\"alert alert-info\" style=\"display:none;font-size:small;\"></div>");
 var BSDialogQuizzConfig = /*#__PURE__*/function (_BSDialog) {
   _inherits(BSDialogQuizzConfig, _BSDialog);
   var _super = _createSuper(BSDialogQuizzConfig);
@@ -2604,7 +2646,7 @@ var BSDialogQuizzConfig = /*#__PURE__*/function (_BSDialog) {
   }
   _createClass(BSDialogQuizzConfig, [{
     key: "setBindings",
-    value: function setBindings(groupContext) {
+    value: function setBindings(groupContext, parent) {
       var _this2 = this;
       this.groupContext = groupContext;
       var defaultScope = {
@@ -2626,6 +2668,13 @@ var BSDialogQuizzConfig = /*#__PURE__*/function (_BSDialog) {
         } catch (ex) {
           _this2.body.find('#bsDialogQuizzConfig-out').html("Hi ha alguna errada en el codi. T'has oblidat algun var o #?\n" + ex);
         }
+        window.setTimeout(function () {
+          return _this2.body.scrollTop(_this2.body.height() || 0);
+        }, 400);
+      });
+      this.body.find('#bsDialogQuizzConfig-save').on("click", function () {
+        var html = parent.outerHTML.replace(/data-active="1"/gi, '').replace(/^\s+/, ' ');
+        navigator.clipboard.writeText(html);
       });
     }
   }, {

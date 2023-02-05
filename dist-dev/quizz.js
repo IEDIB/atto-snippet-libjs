@@ -611,7 +611,7 @@ function waitForRequire(cb, nattempt) {
   }
   window.setTimeout(function () {
     waitForRequire(cb, nattempt + 1);
-  }, 500);
+  }, 50 * (nattempt + 1));
 }
 
 /**
@@ -1149,11 +1149,11 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
     // Determine the groupContext --> Pass to form components
     var contextRaw64 = parent.getAttribute("data-quizz-group") || '';
     try {
-      var contextRaw = atob(contextRaw64) || '{}';
-      console.log(contextRaw);
-      var context = JSON.parse(contextRaw);
+      var context = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.base64Decode)(contextRaw64);
       _this.groupContext = Object.assign(_this.groupContext, context);
-      console.log(contextRaw, context, _this.groupContext);
+      _this.groupContext.o.hint = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.convertInt)(_this.groupContext.o.hint, 2);
+      _this.groupContext.o.ans = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.convertInt)(_this.groupContext.o.ans, 4);
+      console.log(context, _this.groupContext);
     } catch (ex) {
       console.error(ex);
     }
@@ -1168,7 +1168,7 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
     console.log(_this.allQuizzElements, _this.allClozeElements);
     _this.checkButton = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.createElement)("button", {
       "class": "btn btn-sm btn-primary d-print-none",
-      style: "margin: 10px",
+      style: "margin: 10px;display:block",
       html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_6__["default"])(_this.lang, 'check')
     });
     _this.parent.append(_this.checkButton);
@@ -1369,7 +1369,12 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
   }, {
     key: "check",
     value: function check() {
-      var _this$widgetConfig;
+      var _this$statusDisplay, _this$statusDisplay2, _this$widgetConfig;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
       var result = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) === this.userAns + "";
       this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
       this.enable(!result);
@@ -1391,21 +1396,21 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
   }, {
     key: "render",
     value: function render() {
-      var _this$groupContext,
+      var _this$widgetConfig2,
+        _this$groupContext,
         _this2 = this,
         _this$widgetConfig3,
-        _this$widgetConfig3$v,
-        _this$widgetConfig4,
-        _this$widgetConfig4$o;
+        _this$widgetConfig3$o;
       if (!this.widgetConfig) {
+        console.error("The widgetConfig is not set");
         return;
       }
-
+      var theVars = (((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.vars) || []).filter(function (e) {
+        return (e + '').trim().length > 0;
+      });
       // Here groupContext._v map is available and parsed
       // Must evaluate in the context the rightanswer and all the options
       if ((_this$groupContext = this.groupContext) !== null && _this$groupContext !== void 0 && _this$groupContext.s.length) {
-        var _this$widgetConfig2;
-        var theVars = ((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.vars) || [];
         theVars.forEach(function (v, i) {
           if (v.indexOf('#') < 0) {
             return;
@@ -1438,17 +1443,17 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
         "class": "dropdown-menu",
         "aria-labelledby": "dropdownMenuButton"
       });
-      var n = ((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : (_this$widgetConfig3$v = _this$widgetConfig3.vars) === null || _this$widgetConfig3$v === void 0 ? void 0 : _this$widgetConfig3$v.length) || 0;
+      var n = theVars.length || 0;
       var permutationIndices = new Array(n);
       for (var i = 0; i < n; i++) {
         permutationIndices[i] = i;
       }
-      if ((_this$widgetConfig4 = this.widgetConfig) !== null && _this$widgetConfig4 !== void 0 && (_this$widgetConfig4$o = _this$widgetConfig4.opts) !== null && _this$widgetConfig4$o !== void 0 && _this$widgetConfig4$o.shuffle) {
+      if ((_this$widgetConfig3 = this.widgetConfig) !== null && _this$widgetConfig3 !== void 0 && (_this$widgetConfig3$o = _this$widgetConfig3.opts) !== null && _this$widgetConfig3$o !== void 0 && _this$widgetConfig3$o.shuffle) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_4__.shuffleArray)(permutationIndices);
       }
       permutationIndices.forEach(function (index) {
-        var _this2$widgetConfig, _this2$options;
-        var opt = (((_this2$widgetConfig = _this2.widgetConfig) === null || _this2$widgetConfig === void 0 ? void 0 : _this2$widgetConfig.vars) || [])[index];
+        var _this2$options;
+        var opt = theVars[index];
         var anchor = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("a", {
           "class": "dropdown-item",
           "href": "#",
@@ -1462,7 +1467,7 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
           if (opt.indexOf('\\(') >= 0) {
             _this2.reflowLatex();
           }
-          _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.UNSET);
+          _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
         });
         (_this2$options = _this2.options) === null || _this2$options === void 0 ? void 0 : _this2$options.append(anchor);
       });
@@ -1505,12 +1510,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
+
+// Only PENDING require checking
 var WidgetStatus;
 (function (WidgetStatus) {
-  WidgetStatus[WidgetStatus["ERROR"] = 0] = "ERROR";
-  WidgetStatus[WidgetStatus["UNSET"] = 1] = "UNSET";
-  WidgetStatus[WidgetStatus["WRONG"] = 2] = "WRONG";
-  WidgetStatus[WidgetStatus["RIGHT"] = 3] = "RIGHT";
+  WidgetStatus[WidgetStatus["UNTOUCHED"] = 0] = "UNTOUCHED";
+  WidgetStatus[WidgetStatus["PENDING"] = 1] = "PENDING";
+  WidgetStatus[WidgetStatus["ERROR"] = 2] = "ERROR";
+  WidgetStatus[WidgetStatus["WRONG"] = 3] = "WRONG";
+  WidgetStatus[WidgetStatus["RIGHT"] = 4] = "RIGHT";
 })(WidgetStatus || (WidgetStatus = {}));
 var ICON_RIGHT = "fa fas fa-check";
 var ICON_WRONG = "fa fas fa-times";
@@ -1520,7 +1528,7 @@ var ICON_ANSWER = "fa fas fa-question";
 var StatusDisplay = /*#__PURE__*/function () {
   function StatusDisplay() {
     _classCallCheck(this, StatusDisplay);
-    _defineProperty(this, "status", WidgetStatus.UNSET);
+    _defineProperty(this, "status", WidgetStatus.UNTOUCHED);
     _defineProperty(this, "lang", "ca");
     this.spanStatus = document.createElement("span");
     this.spanStatus.setAttribute("data-toggle", "tooltip");
@@ -1552,7 +1560,8 @@ var StatusDisplay = /*#__PURE__*/function () {
       var cl = this.spanStatus.classList;
       var msg2 = msg;
       switch (status) {
-        case WidgetStatus.UNSET:
+        case WidgetStatus.UNTOUCHED:
+        case WidgetStatus.PENDING:
           cl.remove("ib-quizz-right", "ib-quizz-wrong", "ib-quizz-error");
           this.spanStatus.innerHTML = "";
           break;
@@ -2333,7 +2342,12 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   }, {
     key: "check",
     value: function check() {
-      var _this$widgetConfig;
+      var _this$statusDisplay, _this$statusDisplay2, _this$widgetConfig;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
       var expectedAns = (((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) || '').split(",").map(function (e) {
         return e.trim();
       });
@@ -2351,22 +2365,23 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   }, {
     key: "render",
     value: function render() {
-      var _this$groupContext,
+      var _this$widgetConfig2,
+        _this$groupContext,
         _this2 = this,
         _this$widgetConfig3,
         _this$widgetConfig4,
-        _this$widgetConfig4$v,
-        _this$widgetConfig5,
-        _this$widgetConfig5$o;
+        _this$widgetConfig4$o;
       console.log("MCHOICE RENDER:: ", this.groupContext, this.widgetConfig);
       if (!this.widgetConfig) {
         return;
       }
       // Here groupContext._v map is available and parsed
       // Must evaluate in the context the rightanswer and all the options
+      var theVars = (((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.vars) || []).filter(function (e) {
+        return (e + '').trim().length > 0;
+      });
+      console.log("thevars", theVars);
       if ((_this$groupContext = this.groupContext) !== null && _this$groupContext !== void 0 && _this$groupContext.s.length) {
-        var _this$widgetConfig2;
-        var theVars = ((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.vars) || [];
         console.log("The vars,", theVars);
         theVars.forEach(function (v, i) {
           console.log("Searching for # in ", v);
@@ -2382,18 +2397,18 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       this.form = document.createElement("form");
       this.form.style.setProperty("display", "inline-block");
       var isMultiple = ((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.ans.indexOf(",")) > 0;
-      var n = ((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : (_this$widgetConfig4$v = _this$widgetConfig4.vars) === null || _this$widgetConfig4$v === void 0 ? void 0 : _this$widgetConfig4$v.length) || 0;
+      var n = theVars.length || 0;
       var permutationIndices = new Array(n);
       for (var i = 0; i < n; i++) {
         permutationIndices[i] = i;
       }
-      if ((_this$widgetConfig5 = this.widgetConfig) !== null && _this$widgetConfig5 !== void 0 && (_this$widgetConfig5$o = _this$widgetConfig5.opts) !== null && _this$widgetConfig5$o !== void 0 && _this$widgetConfig5$o.shuffle) {
+      if ((_this$widgetConfig4 = this.widgetConfig) !== null && _this$widgetConfig4 !== void 0 && (_this$widgetConfig4$o = _this$widgetConfig4.opts) !== null && _this$widgetConfig4$o !== void 0 && _this$widgetConfig4$o.shuffle) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.shuffleArray)(permutationIndices);
       }
       var radioName = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.genID)();
       permutationIndices.forEach(function (index) {
-        var _this2$widgetConfig, _this2$form;
-        var opt = (((_this2$widgetConfig = _this2.widgetConfig) === null || _this2$widgetConfig === void 0 ? void 0 : _this2$widgetConfig.vars) || [])[index];
+        var _this2$form;
+        var opt = theVars[index];
         var formCheck = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
           "class": "form-check"
         });
@@ -2414,7 +2429,7 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         _this2.radios.push(input);
         input.addEventListener("click", function (evt) {
           input.checked ? _this2.userAnsSet.add(index + '') : _this2.userAnsSet["delete"](index + '');
-          _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.UNSET);
+          _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
         });
       });
       _get(_getPrototypeOf(IBQuizzMchoice.prototype), "init", this).call(this, this.widgetConfig.pre);
@@ -2511,6 +2526,12 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   }, {
     key: "check",
     value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
       //TODO set tolerance
       var result = false;
       try {
@@ -2580,7 +2601,7 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         style: "display:inline-block;width:100px;"
       });
       this.input.addEventListener("change", function (evt) {
-        _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.UNSET);
+        _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
       });
       _get(_getPrototypeOf(IBQuizzNumeric.prototype), "init", this).call(this, this.widgetConfig.pre);
       this.append(this.input);
@@ -2605,8 +2626,8 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
 
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 /* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
-/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(66);
-/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(57);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(66);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(57);
 /* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(62);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
@@ -2687,6 +2708,12 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
   }, {
     key: "check",
     value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
       //TODO set tolerance
       var result = false;
       try {
@@ -2703,7 +2730,7 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
           });
           //Evaluate check function that must return true or false
           var scriptFn = (((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.cfn) || 'return true').replace(/#/g, '');
-          result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
+          result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
           console.log("Avaluant ", scriptFn, "Retorna ", result);
         } else {
           var _this$widgetConfig4;
@@ -2726,10 +2753,10 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
       } catch (ex) {
         //Error
         console.error(ex);
-        this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.ERROR);
+        this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
         return false;
       }
-      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.WRONG);
+      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
       console.log("Matquill Cloze, ", this.getUserInput(), result);
       this.enable(!result);
       if (!result) {
@@ -2759,7 +2786,7 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
         }
       }
       this.input = document.createElement("span");
-      this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_1__.treatIniPlaceholders)(this.widgetConfig.ini || '?');
+      this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.treatIniPlaceholders)(this.widgetConfig.ini || '?');
       console.log(this.input.innerText);
       this.append(this.input);
       //Important MUST BE appended before calling StaticMath
@@ -2770,7 +2797,7 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
       this.mathInput.innerFields.forEach(function (e) {
         e.__controller.textarea.on('keyup', function (ev) {
           ev.preventDefault();
-          _this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_2__.WidgetStatus.UNSET);
+          _this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
         });
       });
       _get(_getPrototypeOf(IBQuizzCloze.prototype), "init", this).call(this, this.widgetConfig.pre);

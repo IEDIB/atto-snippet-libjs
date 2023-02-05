@@ -35,6 +35,11 @@ class IBQuizzDropdown extends WidgetElement {
         this.enable(false);
     }
     check(): boolean {
+        if(this.statusDisplay?.getStatus()===WidgetStatus.RIGHT) {
+            return true;
+        } else if(this.statusDisplay?.getStatus()!==WidgetStatus.PENDING) {
+            return false;
+        }
         const result = this.widgetConfig?.ans === this.userAns + "";
         this.setStatus(result ? WidgetStatus.RIGHT : WidgetStatus.WRONG);
         this.enable(!result);
@@ -52,14 +57,14 @@ class IBQuizzDropdown extends WidgetElement {
         }
     } 
     render() {
-         if(!this.widgetConfig) {
+        if(!this.widgetConfig) {
+            console.error("The widgetConfig is not set");
             return;
-         }
-
+        }
+        const theVars = (this.widgetConfig?.vars || []).filter(e => (e+'').trim().length > 0);
         // Here groupContext._v map is available and parsed
         // Must evaluate in the context the rightanswer and all the options
         if(this.groupContext?.s.length) {
-            const theVars = this.widgetConfig?.vars || [];
             theVars.forEach((v: string, i: number)=>{
                 if(v.indexOf('#') < 0) {
                     return;
@@ -95,7 +100,7 @@ class IBQuizzDropdown extends WidgetElement {
             "aria-labelledby": "dropdownMenuButton"
         }) as HTMLDivElement;
 
-        const n = this.widgetConfig?.vars?.length || 0;
+        const n = theVars.length || 0;
         const permutationIndices: number[] = new Array(n);
         for (let i = 0; i < n; i++) {
             permutationIndices[i] = i;
@@ -105,7 +110,7 @@ class IBQuizzDropdown extends WidgetElement {
         }
 
         permutationIndices.forEach((index: number) => {
-            const opt = (this.widgetConfig?.vars || [])[index];
+            const opt = theVars[index];
             const anchor = createElement("a", {
                 "class": "dropdown-item",
                 "href": "#",
@@ -120,7 +125,7 @@ class IBQuizzDropdown extends WidgetElement {
                 if(opt.indexOf('\\(')>=0) {
                     this.reflowLatex();
                 }
-                this.setStatus(WidgetStatus.UNSET);
+                this.setStatus(WidgetStatus.PENDING);
             });
             this.options?.append(anchor);
         });

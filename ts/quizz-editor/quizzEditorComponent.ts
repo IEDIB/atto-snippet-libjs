@@ -6,7 +6,8 @@ import registry from "./registry";
 //Manually import the customElements that should be loaded 
 import { WidgetGroupContext } from "../quizz/quizzTypes";
 import { getQuizzConfigDialog } from "./groupDialog";
-import { base64Encode } from "../_shared/utilsShared";
+import { base64Decode, base64Encode, convertInt } from "../_shared/utilsShared";
+import { runIBScript } from "../quizz/quizzUtil";
 
 const SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice, ib-quizz-cloze";
 
@@ -56,21 +57,24 @@ export default class QuizzComponent extends BaseComponent {
             this.parent.addEventListener("editorRequest", () => {
                 // Must open a dialog
                 const dlg = getQuizzConfigDialog();
-                dlg.setBindings(this.groupContext);
+                dlg.setBindings(this.groupContext, this.parent);
                 dlg.show((updated?: { [key: string]: unknown }) => {
                     if (!updated) {
                         return;
                     }
                     delete updated['_s'];
                     const groupContext = updated as unknown as WidgetGroupContext;
-                    this.parent.setAttribute("data-quizz-group", base64Encode(groupContext));
+                    groupContext.o.hint=convertInt(groupContext.o.hint, 2);
+                    groupContext.o.ans=convertInt(groupContext.o.ans, 4);
+                    const b64 = base64Encode(groupContext);
+                    this.parent.setAttribute("data-quizz-group", b64);
                     const event = new Event('updated');
                     this.editor?.dispatchEvent(event);
                     console.info("Event dispatched");
 
                     // update changes in the groupContext
                     // widgets will pull this new object when needed 
-                    this.groupContext = groupContext;
+                    this.updateGroupContext(b64);
 
                 });
             });
@@ -81,11 +85,19 @@ export default class QuizzComponent extends BaseComponent {
 
     updateGroupContext(contextRaw64: string): void {
         try {
-            const contextRaw = atob(contextRaw64) || '{}';
-            console.log(contextRaw);
-            const context = JSON.parse(contextRaw);
+            const context = base64Decode(contextRaw64);
+            //Create an instance 
             this.groupContext = Object.assign(this.groupContext, context);
-            console.log(contextRaw, context, this.groupContext);
+            this.groupContext._s = {};
+            //Get a _s instance by running the script
+            if(this.groupContext.s) {
+                try {
+                    runIBScript(this.groupContext.s, {}, this.groupContext._s);
+                } catch(ex) {
+                    console.error(ex);
+                }
+            }
+            console.log(context, this.groupContext);
         } catch (ex) {
             console.error(ex);
         }

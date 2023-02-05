@@ -1,5 +1,6 @@
 import { BSDialog, BSDialogType } from "../bs-dialog";
 import { WidgetConfig, WidgetGroupContext } from "../quizz/quizzTypes";
+import { runIBScript } from "../quizz/quizzUtil";
  
 const idPrefix = "quizzNum"; 
 const bodyHTML = `
@@ -9,7 +10,7 @@ const bodyHTML = `
 </div>
 <div class="form-group">
     <label for="${idPrefix}_ans">Resposta correcta</label>
-    <input id="${idPrefix}_ans" class="form-control" type="text" placeholder="E.g. 1.25 o #a*(#b-1), etc." required>
+    <textarea id="${idPrefix}_ans" class="form-control" type="text" placeholder="E.g. 1.25 o #a*(#b-1), etc." rows="2" style="width:98%" required></textarea>
     <div class="invalid-feedback">
         Cal especificar una resposta correcta
     </div>
@@ -49,6 +50,7 @@ class NumericDialog extends BSDialog {
     }    
     setBindings(scope: WidgetConfig, groupContext?: WidgetGroupContext) {
         this.groupContext = groupContext;
+        console.log("numericDialog-setbindings recieved ", this.groupContext);
         const defaultScope = {
             ini: scope.ini || '', 
             ans: scope.ans || '0',
@@ -67,8 +69,25 @@ class NumericDialog extends BSDialog {
         if(!wc) {
             return null;
         }
-        if(!wc.ans.trim()) {
+        let ans = wc.ans.trim().replace(/^\s*\n/gm,'');
+        if(!ans) {
             return "Cal una resposta correcta";
+        }
+        try {
+            const evalContext = Object.assign({}, this.groupContext?._s || {});
+            //For one line expressions must add a return statement if not there!
+            
+            if(ans.split('\n').length===1 && ans.indexOf('return')<0) {
+                ans = 'return '+ans;
+            }
+            console.log(evalContext);
+            const result = runIBScript(ans, {}, evalContext); 
+            if(typeof result !== 'number') {
+                //Invalid return type
+                return "El tipus de la resposta ha de ser numèric però s'ha obtingut "+ typeof(result);
+            }
+        } catch(ex) {
+            return "La resposta conté una expressió incorrecta.\n"+ex;
         }
         //TODO scopeEval the ans field if everything is ok????
         return null;

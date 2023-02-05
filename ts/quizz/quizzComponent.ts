@@ -8,7 +8,7 @@ import "./dropdownWidget";
 import "./mchoiceWidget";
 import "./numericWidget";
 import "./clozeWidget";
-import { addScript, createElement } from "../_shared/utilsShared";
+import { addScript, base64Decode, convertInt, createElement } from "../_shared/utilsShared";
 import { WidgetGroupContext } from "./quizzTypes";
 import { runIBScript } from "./quizzUtil";
 
@@ -51,12 +51,12 @@ export default class QuizzComponent extends BaseComponent {
         // Determine the groupContext --> Pass to form components
         const contextRaw64: string = parent.getAttribute("data-quizz-group") || '';
 
-        try {
-            const contextRaw = atob(contextRaw64) || '{}';
-            console.log(contextRaw);
-            const context = JSON.parse(contextRaw);
+        try {           
+            const context = base64Decode(contextRaw64);
             this.groupContext = Object.assign(this.groupContext, context);
-            console.log(contextRaw, context, this.groupContext);
+            this.groupContext.o.hint = convertInt(this.groupContext.o.hint, 2);
+            this.groupContext.o.ans = convertInt(this.groupContext.o.ans, 4);
+            console.log(context, this.groupContext);
         } catch (ex) {
             console.error(ex);
         }

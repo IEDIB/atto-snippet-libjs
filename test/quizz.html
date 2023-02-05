@@ -9,9 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
     integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
 
 
   <style>
@@ -19,6 +19,7 @@
       max-width: 700px;
       margin: auto;
     }
+
     button:not(.btn) {
       display: none;
     }
@@ -27,39 +28,39 @@
 
 <body>
   <div id="content-editor-mock" class="editor_atto_content">
-   <!--begin atto-->
+    <!--begin atto-->
 
-   <button id="edit-group1">Edit this group 1</button>
-    <div id="group1" data-quizz-group="eyJzIjoiI2E9MVxuI2I9YWxlYSgtMTAsMTAsMikiLCJvIjp7ImhpbnQiOiIyIiwiYW5zIjoiNCJ9fQ==" data-lang="en" >
-      #a+#b=<ib-quizz-numeric data-src="eyJpbmkiOiIiLCJhbnMiOiIjYSsjYiIsIm9wdHMiOnsiZXJyIjoiMC4wMSIsImVycnVuaXQiOiJhYnNvbHV0ZSJ9LCJoaW50IjoiIiwiZmJrIjoiIiwicHJlIjoiIn0=" class="ib-quizz-elem" style="display: inline-block;"></ib-quizz-numeric>
-    </div>
-  
-    <hr>
-  
-    <button id="edit-group2">Edit this group 2</button>
-    <div id="group2" data-quizz-group="" data-lang="ca" >
-      3+4=<ib-quizz-numeric class="ib-quizz-elem" style="display: inline-block;"></ib-quizz-numeric>
-    </div>
+    <div class="iedib-tasca-exercici">
 
+      <div id="group1" data-quizz-group="eyJzIjoiI2E9MyIsIm8iOnsiaGludCI6IjIiLCJhbnMiOiI0In19" data-lang="en" >
+        1+1=<ib-quizz-numeric data-src="eyJpbmkiOiIiLCJhbnMiOiIjYSIsIm9wdHMiOnsiZXJyIjoiMCIsImVycnVuaXQiOiJhYnNvbHV0ZSJ9LCJoaW50IjoiIiwiZmJrIjoiIiwicHJlIjoiIn0=" class="ib-quizz-elem" style="display: inline-block;"></ib-quizz-numeric>
+      </div>
+
+      <hr>
+
+      <div id="group2" data-quizz-group="" data-lang="ca" >
+        3+4=<ib-quizz-numeric data-src="" class="ib-quizz-elem" style="display: inline-block;"></ib-quizz-numeric>
+      <p>Fake text <ib-quizz-cloze data-quizz="" class="ib-quizz-elem" style="display: inline-block;" data-src="eyJpbmkiOiJWWzNdIiwiY2ZuIjoiIiwiYW5zIjoiWzEsMSwxXSIsImhpbnQiOiJQaXN0YSIsImZiayI6IlJlc3Bvc3RhIFsxLDEsMV0iLCJwcmUiOiIifQ=="></ib-quizz-cloze></p></div>
+
+</div>
 
     <!--end atto-->
   </div>
-  
-  
+
+
 
 
 
   <script src="./dist-dev/sd/quizz.min.js"></script>
 
-</div>
+  </div>
 
- 
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" 
-    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
     crossorigin="anonymous"></script>
-  
+
 
   <script>
     //fake requirejs
@@ -67,15 +68,13 @@
       cb(jQuery);
     };
     window.requirejs = window.require;
-  </script>
-
-
-  <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     }); 
- 
   </script>
+
+
+
 </body>
 
 </html>

@@ -605,7 +605,7 @@ function waitForRequire(cb, nattempt) {
   }
   window.setTimeout(function () {
     waitForRequire(cb, nattempt + 1);
-  }, 500);
+  }, 50 * (nattempt + 1));
 }
 
 /**

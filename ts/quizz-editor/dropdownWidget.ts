@@ -24,6 +24,7 @@ class IBQuizzDropdown extends WidgetElement {
             e && selected.push(i+'');
         });
         updated['ans'] = selected.join(',');
+        updated['vars'] = (updated['vars'] as string[]).filter( (e) => (e+'').trim().length>0);
         // Get rid of property right
         delete updated['right'];
         const output = base64Encode(updated);

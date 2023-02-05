@@ -33,6 +33,11 @@ class IBQuizzNumeric extends WidgetElement {
         }
     }
     check(): boolean {
+        if(this.statusDisplay?.getStatus()===WidgetStatus.RIGHT) {
+            return true;
+        } else if(this.statusDisplay?.getStatus()!==WidgetStatus.PENDING) {
+            return false;
+        }
         //TODO set tolerance
         let result = false;
         try {
@@ -96,8 +101,8 @@ class IBQuizzNumeric extends WidgetElement {
             type: "number",
             style: "display:inline-block;width:100px;"
         }) as HTMLInputElement;
-        this.input.addEventListener("change", (evt) => {
-            this.setStatus(WidgetStatus.UNSET);
+        this.input.addEventListener("change", (evt: Event) => {
+            this.setStatus(WidgetStatus.PENDING);
         });
        
         super.init(this.widgetConfig.pre); 

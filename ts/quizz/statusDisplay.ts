@@ -2,8 +2,9 @@ import { createElement } from "../_shared/utilsShared";
 import { getCachedMsgDialog } from "./bsMsgDialog";
 import getI18n from "./i18n";
 
+// Only PENDING require checking
 export enum WidgetStatus {
-    ERROR, UNSET, WRONG, RIGHT
+    UNTOUCHED, PENDING, ERROR, WRONG, RIGHT
 }
 
 const ICON_RIGHT = "fa fas fa-check";
@@ -14,7 +15,7 @@ const ICON_HINT = "fa fas fa-life-ring";
 const ICON_ANSWER = "fa fas fa-question";
 
 export class StatusDisplay {
-    private status: WidgetStatus = WidgetStatus.UNSET;
+    private status: WidgetStatus = WidgetStatus.UNTOUCHED;
     private spanStatus: HTMLSpanElement;
     private spanHint: HTMLSpanElement;
     private feedbackSpan: HTMLSpanElement;
@@ -51,7 +52,8 @@ export class StatusDisplay {
         const cl = this.spanStatus.classList;
         let msg2 = msg; 
         switch(status) {
-            case(WidgetStatus.UNSET):
+            case(WidgetStatus.UNTOUCHED):
+            case(WidgetStatus.PENDING):
                 cl.remove("ib-quizz-right", "ib-quizz-wrong", "ib-quizz-error");
                 this.spanStatus.innerHTML="";
                 break;

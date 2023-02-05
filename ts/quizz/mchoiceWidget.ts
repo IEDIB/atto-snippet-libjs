@@ -39,6 +39,11 @@ class IBQuizzMchoice extends WidgetElement {
         this.enable(false);
     }
     check(): boolean {
+        if(this.statusDisplay?.getStatus()===WidgetStatus.RIGHT) {
+            return true;
+        } else if(this.statusDisplay?.getStatus()!==WidgetStatus.PENDING) {
+            return false;
+        }
         const expectedAns = (this.widgetConfig?.ans || '').split(",").map(e => e.trim());
         const expectedSet = new Set(expectedAns);
         const result = isSameSet(this.userAnsSet, expectedSet);
@@ -58,8 +63,9 @@ class IBQuizzMchoice extends WidgetElement {
         } 
         // Here groupContext._v map is available and parsed
         // Must evaluate in the context the rightanswer and all the options
+        const theVars = (this.widgetConfig?.vars || []).filter(e => (e+'').trim().length > 0);
+        console.log("thevars", theVars);
         if(this.groupContext?.s.length) {
-            const theVars = this.widgetConfig?.vars || [];
             console.log("The vars,", theVars);
             theVars.forEach((v: string, i: number)=>{
                 console.log("Searching for # in ", v);
@@ -78,7 +84,7 @@ class IBQuizzMchoice extends WidgetElement {
 
         const isMultiple = this.widgetConfig?.ans.indexOf(",")>0;
        
-        const n = this.widgetConfig?.vars?.length || 0;
+        const n = theVars.length || 0;
         const permutationIndices: number[] = new Array(n);
         for (let i=0; i < n; i++) {
             permutationIndices[i] = i;
@@ -89,7 +95,7 @@ class IBQuizzMchoice extends WidgetElement {
 
         const radioName = genID();
         permutationIndices.forEach( (index: number) => {
-            const opt = (this.widgetConfig?.vars || [])[index];
+            const opt = theVars[index];
             const formCheck =  createElement("div", {
                 "class": "form-check"
             }); 
@@ -111,9 +117,9 @@ class IBQuizzMchoice extends WidgetElement {
             formCheck.appendChild(label);
             this.radios.push(input);
 
-            input.addEventListener("click", (evt) => {
+            input.addEventListener("click", (evt: Event) => {
                 input.checked? this.userAnsSet.add(index+'') : this.userAnsSet.delete(index+''); 
-                this.setStatus(WidgetStatus.UNSET);
+                this.setStatus(WidgetStatus.PENDING);
             }); 
         });   
         super.init(this.widgetConfig.pre); 
