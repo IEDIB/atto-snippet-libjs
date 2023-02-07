@@ -134,11 +134,7 @@ export default class QuizzComponent extends BaseComponent {
     }
 
     init(): void {
-        const ds = this.parent.dataset;
-        if (ds.active === "1") {
-            return;
-        }
-        ds.active = "1";
+        //Everyting is done in the constructor
     }
 
     dispose(): void {

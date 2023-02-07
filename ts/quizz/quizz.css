@@ -1,3 +1,8 @@
+[data-quizz-group] { 
+    padding: 5px;
+    border-left: 3px solid lightblue;
+}
+
 .ib-quizz-right {
     margin-left: 8px;
     border-radius:50%;

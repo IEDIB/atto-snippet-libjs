@@ -1,6 +1,7 @@
 body.editing [data-quizz-group] {
-    border: 4px dotted green;
+    border: 3px dotted lightblue;
     padding: 5px;
+    border-left: 3px solid lightblue;
 }
 body.editing [data-quizz-group]::before {
     content: "quizz::group";
