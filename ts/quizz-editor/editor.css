@@ -7,7 +7,11 @@ body.editing [data-quizz-group]::before {
     content: "quizz::group";
     display: block;
     float: right;
-    color: green;
+    color: lightblue;
+    font-size: 90%;
+}
+body.editing [data-quizz-group]::after {
+   clear: both;
 }
 body.editing ib-quizz-dropdown, 
 body.editing ib-quizz-mchoice,

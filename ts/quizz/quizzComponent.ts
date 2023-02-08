@@ -66,19 +66,19 @@ export default class QuizzComponent extends BaseComponent {
 
         // Must find placeholders in the dom by replacing #key by _v[#key]
         this.findPlaceholders();
-
-
+ 
 
         this.allQuizzElements = this.parent.querySelectorAll(SEARCH_QUERY) as NodeListOf<WidgetElement>;
         this.allClozeElements = document.querySelectorAll(SEARCH_QUERY2) as NodeListOf<WidgetElement>; 
         console.log(this.allQuizzElements, this.allClozeElements);
+
         this.checkButton = createElement("button", {
             class: "btn btn-sm btn-primary d-print-none",
             style: "margin: 10px;display:block",
             html: '<i class="fa fas fa-check"></i> ' + getI18n(this.lang, 'check')
         }) as HTMLButtonElement;
 
-        this.parent.append(this.checkButton);
+       
         this.listener = (evt: Event) => {
             evt.preventDefault();
             let check = true;
@@ -95,6 +95,10 @@ export default class QuizzComponent extends BaseComponent {
                 this.checkButton.setAttribute("disabled", "true");
             }
         };
+        //Si no hi ha cap control, no té sentit afegir el botó
+        if(this.allQuizzElements.length + this.allClozeElements.length > 0) {
+            this.parent.append(this.checkButton);
+        }
     }
     generateGroup() {
         try {
