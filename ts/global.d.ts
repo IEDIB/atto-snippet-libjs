@@ -31,6 +31,7 @@ declare interface ZoomwheelDefaults {
 
 declare interface VoicePlayer {
     src?: string,
+    setSrc(src: string): void,
     play(): void,
     pause(): void,
     dispose(): void

@@ -104,6 +104,7 @@ export default class WordReferencePlayer implements VoicePlayer {
 
     constructor(elem: HTMLElement) {
         this.elem = elem;
+        elem.classList.add("sd-speak-enabled");
         this.init();
     }
 
@@ -149,11 +150,15 @@ export default class WordReferencePlayer implements VoicePlayer {
                         const $menu = $dropdown.find(".dropdown-menu");
                         variants.forEach((variant)=> {
                             const varDef = audioMap[variant];
-                            const $menuItem = $(`<a class="dropdown-item" href="#">${varDef.name}</a>`);
+                            const $menuItem = $(`<a class="dropdown-item" data-variant="${variant}" href="#">${varDef.name}</a>`);
                             $menuItem.on("click", (evt) => {
                                 evt.preventDefault();
+                                const variant2 = evt.target.dataset.variant || '';
+                                console.log(variant2, audioMap);
+                                const varDef = audioMap[variant2];
                                 if(this.audioElement) {
-                                    this.audioElement.src = varDef.url;
+                                    console.log("Setting url ", varDef, varDef.url);
+                                    this.audioElement.setSrc(varDef.url);
                                     this.audioElement.play();
                                 }
                             });
@@ -174,17 +179,23 @@ export default class WordReferencePlayer implements VoicePlayer {
             });
         };
         this.elem.addEventListener("click", this.handler);
-        this.elem.title = "wordReference";
+        //this.elem.title = "wordReference";
     }
 
     play(): void {
         this.audioElement && this.audioElement.play();
+    } 
+    setSrc(src: string): void {
+        if(this.audioElement) { 
+            this.audioElement.src = src;
+        } 
     }
     pause(): void {
         this.audioElement && this.audioElement.pause();
     }
     dispose(): void {
         this.pause();
+        this.elem.classList.remove("sd-speak-enabled");
         if (this.handler) {
             this.elem.removeEventListener("click", this.handler);
             this.handler = null;

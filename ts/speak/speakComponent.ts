@@ -58,6 +58,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
                 this.audioPlayer = new NavigatorPlayer(this.parent, voices);
             },
                 () => {
+                    console.warn("Using GTTS Player instead.");
                     //On error, rely on GTTS
                     this.audioPlayer = new GTTSPlayer(this.parent);
                 });
@@ -66,6 +67,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
                 window.speechSynthesis.cancel();
             });
         } else {
+            console.warn("Using GTTS Player instead.");
             // If no navigator support, rely on GTTS
             this.audioPlayer = new GTTSPlayer(this.parent);
         }
@@ -80,6 +82,10 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
     }
     play(): void {
         this.audioPlayer && this.audioPlayer.play();
+    }
+
+    setSrc(src: string): void {
+     //
     }
     pause(): void {
         this.audioPlayer && this.audioPlayer.pause();

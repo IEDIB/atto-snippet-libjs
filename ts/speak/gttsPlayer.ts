@@ -21,9 +21,11 @@ export default class GTTSPlayer implements VoicePlayer {
         if (elem.title == "-") {
             //remove it
             elem.removeAttribute("title");
-        } else if (!elem.title) {
-            elem.title = "gTTS Speak!";
-        }
+        } 
+        //else if (!elem.title) {
+        //    elem.title = "gTTS Speak!";
+        //}
+        elem.classList.add("sd-speak-enabled");
         this.url = GTTS_URL + encodeURIComponent(sText) + "&l=" + idioma;
         this.audio = null;
         this.handler = (evt) => {
@@ -43,7 +45,13 @@ export default class GTTSPlayer implements VoicePlayer {
             this.audio.currentTime = 0;
         }
         this.audio.src = this.url;
+        //this is async
         this.audio.play();
+    }
+    setSrc(src: string): void {
+        if(this.audio) { 
+            this.audio.src = src;
+        } 
     }
     pause(): void {
         if(this.audio) {
@@ -58,6 +66,9 @@ export default class GTTSPlayer implements VoicePlayer {
             this.audio = null;
         }
         if (this.handler) {
+            this._elem.classList.remove("sd-speak-enabled");
+            this._elem.removeAttribute('data-active'); 
+            //this._elem.removeAttribute('title'); 
             this._elem.removeEventListener("click", this.handler);
             this.handler = null;
         }

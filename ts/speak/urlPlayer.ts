@@ -28,6 +28,12 @@ export default class UrlPlayer implements VoicePlayer {
         }
     }
 
+    setSrc(url: string): void {
+        if(this.audioElement) {
+            this.audioElement.src=url;
+        }
+    }
+ 
     private bindHandler(): void {
         this.handler = (evt) => {
             evt.preventDefault();

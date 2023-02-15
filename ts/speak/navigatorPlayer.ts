@@ -25,9 +25,10 @@ export default class NavigatorPlayer implements VoicePlayer {
         if(elem.title == "-") {
             //remove it
             elem.removeAttribute("title");
-        } else if(!elem.title) {
-            elem.title = "Speak!";
         } 
+        //else if(!elem.title) {
+        //    elem.title = "Speak!";
+        //} 
         const voice = findVoice(idioma, voices);
         this.handler = null;
         if (voice) { 
@@ -50,6 +51,9 @@ export default class NavigatorPlayer implements VoicePlayer {
        window.speechSynthesis.cancel(); 
        this.utterance && window.speechSynthesis.speak(this.utterance); 
     }
+    setSrc(src: string): void { 
+        //Do nothing
+    }
     pause(): void {
         window.speechSynthesis.cancel();
     }
@@ -57,7 +61,7 @@ export default class NavigatorPlayer implements VoicePlayer {
         this._elem.removeEventListener("click", this.handler);
         this._elem.classList.remove("sd-speak-enabled"); 
         this._elem.removeAttribute('data-active'); 
-        this._elem.removeAttribute('title'); 
+        //this._elem.removeAttribute('title'); 
     }
 
 }
