@@ -2168,7 +2168,8 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
   _createClass(SpeakComponent, [{
     key: "init",
     value: function init() {
-      var _this = this;
+      var _this$parent$getAttri,
+        _this = this;
       var ds = this.parent.dataset;
       if (ds.active === "1") {
         return;
@@ -2178,10 +2179,16 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         this.audioPlayer = new _urlPlayer__WEBPACK_IMPORTED_MODULE_1__["default"](this.parent);
         return;
       }
-      if (ds.wr === "1" || ds.wr === "true") {
-        //use wordreference
-        this.audioPlayer = new _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.parent);
-        return;
+      //Single word and wordReference variant set
+      if ((_this$parent$getAttri = this.parent.getAttribute('href')) !== null && _this$parent$getAttri !== void 0 && _this$parent$getAttri.endsWith("#speak_en-wr")) {
+        if (this.parent.innerText.trim().indexOf(" ") < 0) {
+          //use wordreference
+          this.audioPlayer = new _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_2__["default"](this.parent);
+          return;
+        } else {
+          console.error("WordReference only works for single words.");
+          this.parent.setAttribute('href', '#speak_en-US');
+        }
       }
       var synth = window.speechSynthesis;
       var supported = synth != null && window.SpeechSynthesisUtterance != null;
@@ -2411,70 +2418,82 @@ var WordReferencePlayer = /*#__PURE__*/function () {
     elem.classList.add("sd-speak-enabled");
     this.init();
   }
+
+  //Show dropdown but do lazy wordreference loading
   _createClass(WordReferencePlayer, [{
+    key: "lazyLoad",
+    value: function lazyLoad(mustPlay) {
+      var _this$$dropdown,
+        _this = this;
+      if (this.audioElement != null) {
+        return; //Already loaded
+      }
+      // Defer the search of sources until the first click
+      //TODO if no region specified show dropdown with variants
+
+      var $menu = (_this$$dropdown = this.$dropdown) === null || _this$$dropdown === void 0 ? void 0 : _this$$dropdown.find(".dropdown-menu");
+      var lang = "en";
+      wr_define(lang, this.elem.innerText).then(function (audioMap) {
+        console.log(audioMap);
+        var variants = Object.keys(audioMap);
+        if (variants.length > 0) {
+          //Agafa la primera variant
+          var theURL = audioMap[variants[0]];
+          var url = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.addBaseToUrl)(wordReferencePrefix, theURL.url);
+          _this.audioElement = new _urlPlayer__WEBPACK_IMPORTED_MODULE_1__["default"](undefined, url);
+          if (variants.length > 1) {
+            // Add a dropdown to change variant                      
+            variants.forEach(function (variant) {
+              var varDef = audioMap[variant];
+              var $menuItem = $("<a class=\"dropdown-item\" data-variant=\"".concat(variant, "\" href=\"#\">").concat(varDef.name, "</a>"));
+              $menuItem.on("click", function (evt) {
+                evt.preventDefault();
+                var variant2 = evt.target.dataset.variant || '';
+                console.log(variant2, audioMap);
+                var varDef = audioMap[variant2];
+                if (_this.audioElement) {
+                  console.log("Setting url ", varDef, varDef.url);
+                  _this.audioElement.setSrc(varDef.url);
+                  _this.audioElement.play();
+                }
+              });
+              $menu && $menu.append($menuItem);
+            });
+          }
+        } else {
+          // Fallback on google
+          console.warn("Fallback on GTTSPlayer US");
+          _this.elem.setAttribute('href', '#speak_en-US');
+          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
+        }
+        mustPlay && _this.audioElement.play();
+      }, function (err) {
+        // Fallback on google
+        _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
+        _this.elem.setAttribute('href', '#speak_en-US');
+        _this.audioElement.play();
+      });
+    }
+  }, {
     key: "init",
     value: function init() {
-      var _this = this;
+      var _this2 = this;
+      var id = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.genID)();
+      this.$dropdown = $("\n        <div class=\"dropdown\" style=\"display:inline-block;\">\n          <button class=\"btn btn-secondary btn-sm\" style=\"margin:2px;padding:4px;height:15px;\" type=\"button\" id=\"dmb_".concat(id, "\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n          <i class=\"fas fa fa-globe\" style=\"transform: translateY(-9px);font-size:90%;\"></i>\n          </button>\n          <div class=\"dropdown-menu\" aria-labelledby=\"dmb_").concat(id, "\"> \n          </div>\n        </div>"));
+      this.$dropdown.insertAfter($(this.elem));
+      this.$dropdown.find("button").on("click", function (evt) {
+        _this2.lazyLoad();
+      });
+
+      //Lazy load
       this.handler = function (evt) {
         evt.preventDefault(); // Evita que executi el link  
-        if (_this.audioElement != null) {
-          _this.play();
+        if (_this2.audioElement != null) {
+          _this2.play();
+          // Ja ha estat iniciat
           return;
         }
-        // Defer the search of sources until the first click
-        //TODO if no region specified show dropdown with variants
-        var lang = _this.elem.getAttribute("href") || _this.elem.dataset.lang || "en";
-        var region = "";
-        lang = lang.replace("#speak_", "");
-        if (lang.indexOf("-") > 0) {
-          var parts = lang.split("-");
-          lang = parts[0].toLowerCase().trim();
-          region = parts[1].toLowerCase().trim();
-        }
-        wr_define(lang, _this.elem.innerText).then(function (audioMap) {
-          console.log(audioMap);
-          var variants = Object.keys(audioMap);
-          if (variants.length > 0) {
-            //use the one that matches "region"
-            var theURL = audioMap[region];
-            if (!theURL) {
-              theURL = audioMap[variants[0]];
-            }
-            var url = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.addBaseToUrl)(wordReferencePrefix, theURL.url);
-            _this.audioElement = new _urlPlayer__WEBPACK_IMPORTED_MODULE_1__["default"](undefined, url);
-            if (!region && variants.length > 1) {
-              // Add a dropdown to change variant
-              var id = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.genID)();
-              var $dropdown = $("\n<div class=\"dropdown\" style=\"display:inline-block;\">\n  <button class=\"btn btn-secondary btn-sm\" style=\"margin:2px;padding:4px;height:15px;\" type=\"button\" id=\"dmb_".concat(id, "\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n  <i class=\"fas fa fa-globe\" style=\"transform: translateY(-9px);font-size:90%;\"></i>\n  </button>\n  <div class=\"dropdown-menu\" aria-labelledby=\"dmb_").concat(id, "\"> \n  </div>\n</div>"));
-              var $menu = $dropdown.find(".dropdown-menu");
-              variants.forEach(function (variant) {
-                var varDef = audioMap[variant];
-                var $menuItem = $("<a class=\"dropdown-item\" data-variant=\"".concat(variant, "\" href=\"#\">").concat(varDef.name, "</a>"));
-                $menuItem.on("click", function (evt) {
-                  evt.preventDefault();
-                  var variant2 = evt.target.dataset.variant || '';
-                  console.log(variant2, audioMap);
-                  var varDef = audioMap[variant2];
-                  if (_this.audioElement) {
-                    console.log("Setting url ", varDef, varDef.url);
-                    _this.audioElement.setSrc(varDef.url);
-                    _this.audioElement.play();
-                  }
-                });
-                $menu.append($menuItem);
-              });
-              $dropdown.insertAfter($(_this.elem));
-            }
-          } else {
-            // Fallback on google
-            _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
-          }
-          _this.audioElement.play();
-        }, function (err) {
-          // Fallback on google
-          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
-          _this.audioElement.play();
-        });
+        _this2.lazyLoad(true);
       };
       this.elem.addEventListener("click", this.handler);
       //this.elem.title = "wordReference";
@@ -2499,65 +2518,18 @@ var WordReferencePlayer = /*#__PURE__*/function () {
   }, {
     key: "dispose",
     value: function dispose() {
+      var _this$$dropdown2;
       this.pause();
       this.elem.classList.remove("sd-speak-enabled");
       if (this.handler) {
         this.elem.removeEventListener("click", this.handler);
         this.handler = null;
       }
+      (_this$$dropdown2 = this.$dropdown) === null || _this$$dropdown2 === void 0 ? void 0 : _this$$dropdown2.find("button").off();
     }
   }]);
   return WordReferencePlayer;
 }();
-/*
-const wr_translate = function (from: string, to: string, word: string): Promise<string[]> {
-    const url2 = 'https://www.wordreference.com/' + from + to + '/' + encodeURIComponent(word);
-    console.log(url2);
-    // Make the request
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            method: 'GET',
-            dataType: 'html',
-            url: url2
-        }).done(function (data) {
-            console.log("Processing ", data);
-            let audioList = []
-            const matches = data.match(/<script>const audioFiles =(.*?)\]/m);
-            console.log("matches audioFiles ", matches);
-            if (matches && matches.length == 2) {
-                const found = matches[1].trim().replace(/'/g, '"');
-                if (found.endsWith(",")) {
-                    found = found.substring(0, found.length - 1);
-                }
-                audioList = JSON.parse(found + "]")
-                console.log(audioList);
-                resolve(audioList);
-                return;
-            }
-            /*
-            matches = data.match(/<div\s+class='entry'>((.|\n)*?)<\/div>/m);
-            console.log("matches entry ", matches);
-            if (matches && matches.length > 0) {
-                const text = $(matches[0]).text();
-                console.log(text);
-            }
-
-            console.log(data.indexOf("<table class='WRD'"));
-            const reg = /<table\s+class='WRD'((.|\n)*?)<\/table>/gi;
-            matches = data.match(reg);
-            console.log("matches table ", matches);
-            if (matches && matches.length > 0) {
-                const text = $(matches[0]).text();
-                console.log(text);
-            }
-             
-           reject();
-        }).fail(function (err) {
-            reject();
-        });
-    });
-};
-*/
 
 
 /***/ }),

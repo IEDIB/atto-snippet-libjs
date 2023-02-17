@@ -44,11 +44,17 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
         if (ds.src) {
             this.audioPlayer = new UrlPlayer(this.parent);
             return;
-        }
-        if (ds.wr === "1" || ds.wr === "true") {
-            //use wordreference
-            this.audioPlayer = new WordReferencePlayer(this.parent);
-            return;
+        } 
+        //Single word and wordReference variant set
+        if (this.parent.getAttribute('href')?.endsWith("#speak_en-wr") ) {
+            if(this.parent.innerText.trim().indexOf(" ") < 0) {
+                //use wordreference
+                this.audioPlayer = new WordReferencePlayer(this.parent);
+                return;
+            } else {
+                console.error("WordReference only works for single words.")
+                this.parent.setAttribute('href', '#speak_en-US');
+            }
         }
         const synth = window.speechSynthesis;
         const supported = synth != null && window.SpeechSynthesisUtterance != null;
