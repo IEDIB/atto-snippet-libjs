@@ -40,6 +40,7 @@ declare interface VoicePlayer {
 interface Window {
     MathJax: any,
     MathQuill: MQ.MathQuill,
+    require(deps: string[], cbSuccess: ()=>void, cbError?: ()=>void): void
 }
 
 /**

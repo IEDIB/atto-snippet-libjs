@@ -3,17 +3,10 @@
  * Bootstrap utils
 */
 //Requires jQuery
-import { waitForRequire } from "../_shared/utilsShared";
-   //wait for requirejs
-   waitForRequire(() => { 
-    //wait for jquery
-    requirejs(['jquery'], function(){ 
-        //wait for document ready
-        $(function(){
-            //@ts-ignore
-            $('[data-toggle="popover"][data-trigger="hover"]').popover({
-                trigger: "hover"
-            });
-        });                        
-    })                    
-}, 15);
+import { onJQueryReady } from "../_shared/utilsShared";
+onJQueryReady( () => {
+    //@ts-ignore
+    $('[data-toggle="popover"][data-trigger="hover"]').popover({
+        trigger: "hover"
+    });
+});

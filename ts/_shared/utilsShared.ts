@@ -52,19 +52,61 @@ export function genID(): string {
  * @param nattempt 
  * @returns 
  */
-export function waitForRequire(cb: ()=>void, nattempt: number) {
+function waitForFunction(funName: string, cbSuccess: () => void, cbError: () => void, nattempt: number) {
     nattempt = nattempt || 0;
-    if(window.require && typeof window.require ==='function') {
-        cb();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const win = window as unknown as any;
+    if(win[funName] && typeof win[funName] ==='function') {
+        cbSuccess && cbSuccess();
         return;
     } else if(nattempt > 15) {
         console.error("ERROR: Cannot find requirejs");
+        cbError && cbError();
         return;
     }
     window.setTimeout(function(){
-        waitForRequire(cb, nattempt+1);
+        waitForFunction(funName, cbSuccess, cbError, nattempt+1);
     }, 50*(nattempt+1));
 }
+
+function waitForRequire(cbSuccess: () => void, cbError: () => void, nattempt: number): void {
+   waitForFunction("require", cbSuccess, cbError, nattempt);
+}
+
+
+function waitForJQuery(cbSuccess: () => void, cbError: () => void, nattempt: number): void {
+    waitForFunction("jQuery", cbSuccess, cbError, nattempt);
+}
+
+export function onJQueryReady(cb: () => void): void {
+    waitForRequire(
+        () => { 
+        //wait for jquery 
+            window.require(['jquery'], 
+            () => { 
+                //wait for document ready
+                $(cb);                        
+            }, 
+            () => {
+                // An error occurred but try to load anyway!
+                // Try jQuery directly
+                waitForJQuery(() => { 
+                    //wait for document ready
+                    $(cb);   
+                }, ()=> cb(), 15);
+            });                       
+        }
+        , 
+        () => {
+            // wait for jQuery directly
+            waitForJQuery(() => { 
+                //wait for document ready
+                $(cb);   
+            }, ()=> cb(), 15);
+        },
+    10); 
+}
+
 
 /**
  * Safe conversion of a string to integer by handling errors and NaN values

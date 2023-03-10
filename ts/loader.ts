@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IBase } from "./types";
-import { waitForRequire } from "./_shared/utilsShared";
+import { onJQueryReady } from "./_shared/utilsShared";
 
 function genID() {
     return "sd_" + Math.random().toString(32).substring(2);
@@ -98,20 +98,14 @@ export default {
         //check if some of the components to be bootstrap need jQuery
         const use$ = arrayDefs.map( (d) => d.meta?.use$ || false).reduce((pv, cv)=> cv || pv);
 
+       
         if (use$) {
-            //wait for requirejs
-            waitForRequire(() => { 
-                //wait for jquery
-                requirejs(['jquery'], function(){ 
-                    //wait for document ready
-                    $(function(){
-                        if(typeof window.IB?.on$Ready === 'function') {
-                            window.IB.on$Ready();
-                        } 
-                        _bootstrap(arrayDefs);
-                    });                        
-                })                    
-            }, 15);
+            onJQueryReady( () => {
+                if(typeof window.IB?.on$Ready === 'function') {
+                    window.IB.on$Ready();
+                } 
+                _bootstrap(arrayDefs);
+            });    
         } else {
             _bootstrap(arrayDefs);
         }
