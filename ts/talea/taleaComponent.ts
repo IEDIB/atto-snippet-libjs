@@ -1,7 +1,7 @@
 import { BaseComponent } from "../base";   
 import { Component } from "../decorators";
 import { getPageInfo, pran } from "../utils";
-import { convertInt } from '../_shared/utilsShared';
+import { convertInt, onJQueryReady } from '../_shared/utilsShared';
 import SmartTabMenu from "./smartTabMenu";
 
 
@@ -14,8 +14,8 @@ import SmartTabMenu from "./smartTabMenu";
 @Component({
     name: 'talea',
     author: 'Josep Mulet Pol',
-    version: '2.1',
-    use$: true
+    version: '2.2',
+    use$: false
 })
 export default class TaleaComponent extends BaseComponent {
     private pi: PageInfo;
@@ -23,6 +23,7 @@ export default class TaleaComponent extends BaseComponent {
     private workingMode = "urandom";
     private smartMenus: SmartTabMenu[] = [];
     private mapStudents: {[key: number]: string} = {};
+    private controlsListener: (() => void) | undefined;
 
     constructor(parent: HTMLElement) {
         super(parent);  
@@ -45,17 +46,23 @@ export default class TaleaComponent extends BaseComponent {
         } 
 
         if (this.pi.userId > 1) {
-            const payload: any = {...this.pi};
-            payload.isTeacher = payload.isTeacher? 1:0;
-            $.ajax({
-                method: "POST",
-                url: "https://piworld.es/iedibapi/p1/users/create",
-                data: payload,
-                dataType: 'json'
+            try {
+                onJQueryReady( ()=> {
+                    const payload: any = {...this.pi};
+                    payload.isTeacher = payload.isTeacher? 1:0;
+                    $.ajax({
+                        method: "POST",
+                        url: "https://piworld.es/iedibapi/p1/users/create",
+                        data: payload,
+                        dataType: 'json'
+                    }
+                    ).done(function (res) {
+                        console.log(res);
+                    });
+                });
+            } catch(ex) {
+                console.error(ex);
             }
-            ).done(function (res) {
-                console.log(res);
-            });
         }
         this.parent = parent;
     }
@@ -88,23 +95,29 @@ export default class TaleaComponent extends BaseComponent {
             const payload: any = {...this.pi};
             payload.isTeacher = payload.isTeacher?1:0;
             this.setupTeacher();
-            $.ajax({
-                method: "POST",
-                url: "https://piworld.es/iedibapi/p1/users/list",
-                data: payload,
-                dataType: 'json'}
-            ).done((res) => { 
-                const $dataList = $('#list_controls_userid_'+this.parent.id);
-                // add options to dataList
-                this.mapStudents = {};
-                this.mapStudents[-1]='Sense filtre';
-                for(let i=0, len=res.length; i<len; i++) {
-                    const user = res[i];
-                    const idUser = convertInt(user.userid, 0);
-                    this.mapStudents[idUser] = user.userfullname;
-                    $dataList.append($('<option value="'+user.userid+'">'+user.userfullname+'</option>'));
-                }
-            });
+            try {
+                onJQueryReady( ()=> {
+                    $.ajax({
+                        method: "POST",
+                        url: "https://piworld.es/iedibapi/p1/users/list",
+                        data: payload,
+                        dataType: 'json'}
+                    ).done((res) => { 
+                        const $dataList = $('#list_controls_userid_'+this.parent.id);
+                        // add options to dataList
+                        this.mapStudents = {};
+                        this.mapStudents[-1]='Sense filtre';
+                        for(let i=0, len=res.length; i<len; i++) {
+                            const user = res[i];
+                            const idUser = convertInt(user.userid, 0);
+                            this.mapStudents[idUser] = user.userfullname;
+                            $dataList.append($('<option value="'+user.userid+'">'+user.userfullname+'</option>'));
+                        }
+                    });
+                });
+            } catch(ex) {
+                console.error(ex);
+            }
             
         } else { 
             headerP.innerText = 'Tasca de ' + (this.pi.userFullname || '???'); 
@@ -114,11 +127,11 @@ export default class TaleaComponent extends BaseComponent {
 
     private showUser(idUser: number): void { 
         if (this.pi.isTeacher) {
-            const ele = $('#talea_name_'+this.parent.id);
-            if(this.mapStudents && this.mapStudents[idUser]) {
-                ele.text('Tasca de ' + this.mapStudents[idUser]);  
-            } else {
-                ele.text('Tasca d\'usuari #' + idUser);  
+            const ele = document.querySelector('#talea_name_'+this.parent.id);
+            if(ele && this.mapStudents && this.mapStudents[idUser]) {
+                ele.innerHTML = 'Tasca de ' + this.mapStudents[idUser];  
+            } else if(ele){
+                ele.innerHTML = 'Tasca d\'usuari #' + idUser;  
             }
         }  
         let randomGen: Nullable<RanGen> = null;
@@ -132,7 +145,8 @@ export default class TaleaComponent extends BaseComponent {
 
     private clear(): void {
         if (this.pi.isTeacher) {
-            $('#talea_name_'+this.parent.id).text('Sense filtre');
+            const ele = document.querySelector('#talea_name_'+this.parent.id);
+            ele && (ele.innerHTML = 'Sense filtre');
         } 
         this.smartMenus.forEach( (sm) => sm.clear() );         
     }
@@ -151,21 +165,23 @@ export default class TaleaComponent extends BaseComponent {
 
         controlsDiv.innerHTML = contentText;
 
-        const elem = $("#controls_userid_"+pid);
-        elem.on('change', (evt) => {
-            const current_userId = convertInt(elem.val()+"", -2);
-            if(current_userId === -2) {
-                return;
-            }
-            if (current_userId < 0) {
-                // clear all 
-                this.clear();
-            } else {
-                // refresh all instances with the new generator
-                this.showUser(current_userId);
-            }
-        });
-        
+        const elem = document.querySelector("#controls_userid_"+pid) as HTMLInputElement;
+        if(elem) {
+            this.controlsListener = () => {
+                const current_userId = convertInt(elem.value+"", -2);
+                if(current_userId === -2) {
+                    return;
+                }
+                if (current_userId < 0) {
+                    // clear all 
+                    this.clear();
+                } else {
+                    // refresh all instances with the new generator
+                    this.showUser(current_userId);
+                }
+            };
+            elem.addEventListener('change', this.controlsListener);
+        }
     }
  
     dispose(): void {
@@ -174,9 +190,15 @@ export default class TaleaComponent extends BaseComponent {
         }
         this.clear();
         const pid = this.parent.id;
-        $("#talea_name_" + pid).remove();
-        $('#controls_userid_' + pid).off();
-        $('#talea_controls_' + pid).remove();
+        const taleaNameElem = document.querySelector("#talea_name_" + pid);
+        taleaNameElem && taleaNameElem.remove();
+        if(this.controlsListener) {
+            const controlsElemUser = document.querySelector('#controls_userid_' + pid);
+            controlsElemUser && controlsElemUser.removeEventListener('change', this.controlsListener);
+            this.controlsListener = undefined;
+        }
+        const controlsElem = document.querySelector('#talea_controls_' + pid);
+        controlsElem && controlsElem.remove();
         this.parent.removeAttribute("data-active");
     }
 }

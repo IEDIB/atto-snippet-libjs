@@ -107,7 +107,14 @@ export default {
                 _bootstrap(arrayDefs);
             });    
         } else {
-            _bootstrap(arrayDefs);
+            // Do not require $ at startup
+            // But make sure that page is already rendered
+            if (document.readyState === 'complete') {
+                // The page is fully loaded
+                _bootstrap(arrayDefs);
+            } else {
+                window.addEventListener('DOMContentLoaded', () => _bootstrap(arrayDefs));
+            }        
         }
     }
 
