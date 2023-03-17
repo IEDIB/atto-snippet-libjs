@@ -19,7 +19,7 @@ function createButton(classNames: string, classFawesome: string): HTMLButtonElem
 @Component({
     name: 'presentacio',
     author: 'Tomeu Fiol, Josep Mulet',
-    version: '2.1' 
+    version: '2.2' 
 })
 export default class PresentacioComponent extends BaseComponent {
 
@@ -261,7 +261,7 @@ export default class PresentacioComponent extends BaseComponent {
     // detecció de pulsació dels botons i cridades a les funcions
 
     private carregaListeners() {
-        if(!this.buttonBack || !this.buttonFirst || !this.buttonLast || !this.buttonNext || !this.buttonPlay) {
+        if(!this.buttonBack || !this.buttonFirst || !this.buttonLast || !this.buttonNext) {
             return;
         }
         this.evListener1 = (evt: Event) => this.primer();
@@ -283,7 +283,7 @@ export default class PresentacioComponent extends BaseComponent {
                     this.pausa();
                 }
             };
-            this.buttonPlay.addEventListener("click", this.evListener5);
+            this.buttonPlay && this.buttonPlay.addEventListener("click", this.evListener5);
         }
     }
 

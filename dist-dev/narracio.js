@@ -506,22 +506,24 @@ function _bootstrap(classes) {
       return cv || pv;
     });
     if (use$) {
-      //wait for requirejs
-      (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {
-        //wait for jquery
-        requirejs(['jquery'], function () {
-          //wait for document ready
-          $(function () {
-            var _window$IB;
-            if (typeof ((_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : _window$IB.on$Ready) === 'function') {
-              window.IB.on$Ready();
-            }
-            _bootstrap(arrayDefs);
-          });
-        });
-      }, 15);
+      (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.onJQueryReady)(function () {
+        var _window$IB;
+        if (typeof ((_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : _window$IB.on$Ready) === 'function') {
+          window.IB.on$Ready();
+        }
+        _bootstrap(arrayDefs);
+      });
     } else {
-      _bootstrap(arrayDefs);
+      // Do not require $ at startup
+      // But make sure that page is already rendered
+      if (document.readyState === 'complete') {
+        // The page is fully loaded
+        _bootstrap(arrayDefs);
+      } else {
+        window.addEventListener('DOMContentLoaded', function () {
+          return _bootstrap(arrayDefs);
+        });
+      }
     }
   }
 });
@@ -531,7 +533,7 @@ function _bootstrap(classes) {
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
+/* harmony export */   "onJQueryReady": function() { return /* binding */ onJQueryReady; }
 /* harmony export */ });
 /* unused harmony exports parseUrlParams, querySelectorProp, genID, convertInt, createElement, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval, base64Encode, base64Decode */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -595,18 +597,53 @@ function genID() {
  * @param nattempt 
  * @returns 
  */
-function waitForRequire(cb, nattempt) {
+function waitForFunction(funName, cbSuccess, cbError, nattempt) {
   nattempt = nattempt || 0;
-  if (window.require && typeof window.require === 'function') {
-    cb();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  var win = window;
+  if (win[funName] && typeof win[funName] === 'function') {
+    cbSuccess && cbSuccess();
     return;
   } else if (nattempt > 15) {
-    console.error("ERROR: Cannot find requirejs");
+    cbError && cbError();
     return;
   }
   window.setTimeout(function () {
-    waitForRequire(cb, nattempt + 1);
+    waitForFunction(funName, cbSuccess, cbError, nattempt + 1);
   }, 50 * (nattempt + 1));
+}
+function onJQueryReady(cb) {
+  waitForFunction('require', function () {
+    //wait for jquery 
+    window.require(['jquery'], function () {
+      //wait for document ready
+      console.info("$ready1");
+      $(cb);
+    }, function () {
+      console.error("Error requiring $. Waiting for $");
+      // An error occurred but try to load anyway!
+      // Try jQuery directly
+      waitForFunction('jQuery', function () {
+        console.info("$ready2");
+        //wait for document ready
+        $(cb);
+      }, function () {
+        console.error("Cannot find $. Bootstrap anyway!");
+        cb();
+      }, 35);
+    });
+  }, function () {
+    console.error("Cannot find requirejs. Waiting for $");
+    // wait for jQuery directly
+    waitForFunction('jQuery', function () {
+      console.info("$ready3");
+      //wait for document ready
+      $(cb);
+    }, function () {
+      console.error("Cannot find $. Bootstrap anyway!");
+      cb();
+    }, 35);
+  }, 10);
 }
 
 /**

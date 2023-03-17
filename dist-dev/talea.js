@@ -7,8 +7,8 @@
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
-/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
-/* harmony export */   "waitForRequire": function() { return /* binding */ waitForRequire; }
+/* harmony export */   "onJQueryReady": function() { return /* binding */ onJQueryReady; },
+/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; }
 /* harmony export */ });
 /* unused harmony exports querySelectorProp, genID, createElement, addScript, addLinkSheet, pathJoin, addBaseToUrl, scopedEval, base64Encode, base64Decode */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -72,18 +72,53 @@ function genID() {
  * @param nattempt 
  * @returns 
  */
-function waitForRequire(cb, nattempt) {
+function waitForFunction(funName, cbSuccess, cbError, nattempt) {
   nattempt = nattempt || 0;
-  if (window.require && typeof window.require === 'function') {
-    cb();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  var win = window;
+  if (win[funName] && typeof win[funName] === 'function') {
+    cbSuccess && cbSuccess();
     return;
   } else if (nattempt > 15) {
-    console.error("ERROR: Cannot find requirejs");
+    cbError && cbError();
     return;
   }
   window.setTimeout(function () {
-    waitForRequire(cb, nattempt + 1);
+    waitForFunction(funName, cbSuccess, cbError, nattempt + 1);
   }, 50 * (nattempt + 1));
+}
+function onJQueryReady(cb) {
+  waitForFunction('require', function () {
+    //wait for jquery 
+    window.require(['jquery'], function () {
+      //wait for document ready
+      console.info("$ready1");
+      $(cb);
+    }, function () {
+      console.error("Error requiring $. Waiting for $");
+      // An error occurred but try to load anyway!
+      // Try jQuery directly
+      waitForFunction('jQuery', function () {
+        console.info("$ready2");
+        //wait for document ready
+        $(cb);
+      }, function () {
+        console.error("Cannot find $. Bootstrap anyway!");
+        cb();
+      }, 35);
+    });
+  }, function () {
+    console.error("Cannot find requirejs. Waiting for $");
+    // wait for jQuery directly
+    waitForFunction('jQuery', function () {
+      console.info("$ready3");
+      //wait for document ready
+      $(cb);
+    }, function () {
+      console.error("Cannot find $. Bootstrap anyway!");
+      cb();
+    }, 35);
+  }, 10);
 }
 
 /**
@@ -439,22 +474,24 @@ function _bootstrap(classes) {
       return cv || pv;
     });
     if (use$) {
-      //wait for requirejs
-      (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.waitForRequire)(function () {
-        //wait for jquery
-        requirejs(['jquery'], function () {
-          //wait for document ready
-          $(function () {
-            var _window$IB;
-            if (typeof ((_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : _window$IB.on$Ready) === 'function') {
-              window.IB.on$Ready();
-            }
-            _bootstrap(arrayDefs);
-          });
-        });
-      }, 15);
+      (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.onJQueryReady)(function () {
+        var _window$IB;
+        if (typeof ((_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : _window$IB.on$Ready) === 'function') {
+          window.IB.on$Ready();
+        }
+        _bootstrap(arrayDefs);
+      });
     } else {
-      _bootstrap(arrayDefs);
+      // Do not require $ at startup
+      // But make sure that page is already rendered
+      if (document.readyState === 'complete') {
+        // The page is fully loaded
+        _bootstrap(arrayDefs);
+      } else {
+        window.addEventListener('DOMContentLoaded', function () {
+          return _bootstrap(arrayDefs);
+        });
+      }
     }
   }
 });
@@ -635,8 +672,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component)({
   name: 'talea',
   author: 'Josep Mulet Pol',
-  version: '2.1',
-  use$: true
+  version: '2.2',
+  use$: false
 }), _dec(_class = /*#__PURE__*/function (_BaseComponent) {
   _inherits(TaleaComponent, _BaseComponent);
   var _super = _createSuper(TaleaComponent);
@@ -666,16 +703,22 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       parent.append(newDiv);
     }
     if (_this.pi.userId > 1) {
-      var payload = _objectSpread({}, _this.pi);
-      payload.isTeacher = payload.isTeacher ? 1 : 0;
-      $.ajax({
-        method: "POST",
-        url: "https://piworld.es/iedibapi/p1/users/create",
-        data: payload,
-        dataType: 'json'
-      }).done(function (res) {
-        console.log(res);
-      });
+      try {
+        (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.onJQueryReady)(function () {
+          var payload = _objectSpread({}, _this.pi);
+          payload.isTeacher = payload.isTeacher ? 1 : 0;
+          $.ajax({
+            method: "POST",
+            url: "https://piworld.es/iedibapi/p1/users/create",
+            data: payload,
+            dataType: 'json'
+          }).done(function (res) {
+            console.log(res);
+          });
+        });
+      } catch (ex) {
+        console.error(ex);
+      }
     }
     _this.parent = parent;
     return _this;
@@ -708,23 +751,29 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         var payload = _objectSpread({}, this.pi);
         payload.isTeacher = payload.isTeacher ? 1 : 0;
         this.setupTeacher();
-        $.ajax({
-          method: "POST",
-          url: "https://piworld.es/iedibapi/p1/users/list",
-          data: payload,
-          dataType: 'json'
-        }).done(function (res) {
-          var $dataList = $('#list_controls_userid_' + _this2.parent.id);
-          // add options to dataList
-          _this2.mapStudents = {};
-          _this2.mapStudents[-1] = 'Sense filtre';
-          for (var _i = 0, _len = res.length; _i < _len; _i++) {
-            var user = res[_i];
-            var idUser = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.convertInt)(user.userid, 0);
-            _this2.mapStudents[idUser] = user.userfullname;
-            $dataList.append($('<option value="' + user.userid + '">' + user.userfullname + '</option>'));
-          }
-        });
+        try {
+          (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.onJQueryReady)(function () {
+            $.ajax({
+              method: "POST",
+              url: "https://piworld.es/iedibapi/p1/users/list",
+              data: payload,
+              dataType: 'json'
+            }).done(function (res) {
+              var $dataList = $('#list_controls_userid_' + _this2.parent.id);
+              // add options to dataList
+              _this2.mapStudents = {};
+              _this2.mapStudents[-1] = 'Sense filtre';
+              for (var _i = 0, _len = res.length; _i < _len; _i++) {
+                var user = res[_i];
+                var idUser = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.convertInt)(user.userid, 0);
+                _this2.mapStudents[idUser] = user.userfullname;
+                $dataList.append($('<option value="' + user.userid + '">' + user.userfullname + '</option>'));
+              }
+            });
+          });
+        } catch (ex) {
+          console.error(ex);
+        }
       } else {
         headerP.innerText = 'Tasca de ' + (this.pi.userFullname || '???');
         this.showUser(this.pi.userId);
@@ -734,11 +783,11 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     key: "showUser",
     value: function showUser(idUser) {
       if (this.pi.isTeacher) {
-        var ele = $('#talea_name_' + this.parent.id);
-        if (this.mapStudents && this.mapStudents[idUser]) {
-          ele.text('Tasca de ' + this.mapStudents[idUser]);
-        } else {
-          ele.text('Tasca d\'usuari #' + idUser);
+        var ele = document.querySelector('#talea_name_' + this.parent.id);
+        if (ele && this.mapStudents && this.mapStudents[idUser]) {
+          ele.innerHTML = 'Tasca de ' + this.mapStudents[idUser];
+        } else if (ele) {
+          ele.innerHTML = 'Tasca d\'usuari #' + idUser;
         }
       }
       var randomGen = null;
@@ -755,7 +804,8 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     key: "clear",
     value: function clear() {
       if (this.pi.isTeacher) {
-        $('#talea_name_' + this.parent.id).text('Sense filtre');
+        var ele = document.querySelector('#talea_name_' + this.parent.id);
+        ele && (ele.innerHTML = 'Sense filtre');
       }
       this.smartMenus.forEach(function (sm) {
         return sm.clear();
@@ -776,20 +826,23 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       contentText += '<option value="-1">Sense filtre</option>';
       contentText += '</datalist>';
       controlsDiv.innerHTML = contentText;
-      var elem = $("#controls_userid_" + pid);
-      elem.on('change', function (evt) {
-        var current_userId = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.convertInt)(elem.val() + "", -2);
-        if (current_userId === -2) {
-          return;
-        }
-        if (current_userId < 0) {
-          // clear all 
-          _this3.clear();
-        } else {
-          // refresh all instances with the new generator
-          _this3.showUser(current_userId);
-        }
-      });
+      var elem = document.querySelector("#controls_userid_" + pid);
+      if (elem) {
+        this.controlsListener = function () {
+          var current_userId = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.convertInt)(elem.value + "", -2);
+          if (current_userId === -2) {
+            return;
+          }
+          if (current_userId < 0) {
+            // clear all 
+            _this3.clear();
+          } else {
+            // refresh all instances with the new generator
+            _this3.showUser(current_userId);
+          }
+        };
+        elem.addEventListener('change', this.controlsListener);
+      }
     }
   }, {
     key: "dispose",
@@ -799,9 +852,15 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       }
       this.clear();
       var pid = this.parent.id;
-      $("#talea_name_" + pid).remove();
-      $('#controls_userid_' + pid).off();
-      $('#talea_controls_' + pid).remove();
+      var taleaNameElem = document.querySelector("#talea_name_" + pid);
+      taleaNameElem && taleaNameElem.remove();
+      if (this.controlsListener) {
+        var controlsElemUser = document.querySelector('#controls_userid_' + pid);
+        controlsElemUser && controlsElemUser.removeEventListener('change', this.controlsListener);
+        this.controlsListener = undefined;
+      }
+      var controlsElem = document.querySelector('#talea_controls_' + pid);
+      controlsElem && controlsElem.remove();
       this.parent.removeAttribute("data-active");
     }
   }]);
