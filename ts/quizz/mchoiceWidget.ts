@@ -118,7 +118,11 @@ class IBQuizzMchoice extends WidgetElement {
             this.radios.push(input);
 
             input.addEventListener("click", (evt: Event) => {
-                input.checked? this.userAnsSet.add(index+'') : this.userAnsSet.delete(index+''); 
+                if(isMultiple) {
+                    input.checked? this.userAnsSet.add(index+'') : this.userAnsSet.delete(index+''); 
+                } else {
+                    this.userAnsSet = new Set<string>([index+'']);
+                }
                 this.setStatus(WidgetStatus.PENDING);
             }); 
         });   

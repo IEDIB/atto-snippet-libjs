@@ -24,6 +24,19 @@ body.editing ib-quizz-cloze {
     min-width: 39px; 
 }
 
+body.editing [data-quizz-group] span[data-quizz-interpol] {
+    border-bottom: 1px solid gray;
+    margin-right: 2px;
+}
+
+body.editing [data-quizz-group] span[data-quizz-interpol]::before {
+    content: attr(data-quizz-interpol);
+    font-size: 80%;
+    background-color: gray;
+    color:white;
+    padding: 2px;
+}
+
 body.editing :not(div[data-quizz-group]) ib-quizz-mchoice::after {
     content: "ibquizz::mchoice";
     color: lightgray;

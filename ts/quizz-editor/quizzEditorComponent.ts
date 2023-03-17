@@ -53,6 +53,26 @@ export default class QuizzComponent extends BaseComponent {
 
         this.discoverAttoId();
         if (this.editor) {
+
+            // Lookup of clicks on the editor which are span +  data-quizz-interpol
+            this.editor?.addEventListener("dblclick", (evt) => {
+                const target = evt.target as HTMLElement;
+                if(target && target.nodeName==='SPAN' && target.dataset.quizzInterpol) {
+
+                    const edited = window.prompt("Expressió d'interpolació", target.dataset.quizzInterpol);
+                    if(edited!=null) {
+                        if(edited.trim()) {
+                            target.setAttribute("data-quizz-interpol", edited.trim());
+                        } else {
+                            target.removeAttribute("data-quizz-interpol");                
+                        }
+                    }
+                    const event = new Event('updated');
+                    this.editor?.dispatchEvent(event);
+                    console.info("Event dispatched");
+                }
+            });
+
             // This quizzGroup must listen to requests from atto
             this.parent.addEventListener("editorRequest", () => {
                 // Must open a dialog

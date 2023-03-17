@@ -22,7 +22,7 @@ export abstract class WidgetElement extends HTMLElement {
     connectedCallback() { 
         //Register myself as widget
         registry.addWidget(this);
-        this.addEventListener("click", this.edit);  
+        this.addEventListener("dblclick", this.edit);  
     }
 
     updateConfig() {
