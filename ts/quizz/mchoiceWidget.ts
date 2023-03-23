@@ -3,6 +3,7 @@ import { createElement, genID } from "../_shared/utilsShared";
 import { shuffleArray } from "../utils";  
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement";  
+import { doVariablesInterpolation } from "./quizzUtil";
 
 
 
@@ -72,9 +73,7 @@ class IBQuizzMchoice extends WidgetElement {
                 if(v.indexOf('#') < 0) {
                     return;
                 }
-                theVars[i] = v.replace(/#([a-zA-Z0-9_]+)/g, ($0, $1)=>{
-                    return this.groupContext?._s[$1] || $0;
-                });
+                theVars[i] = doVariablesInterpolation(v, this.groupContext?._s);                
             });
         }
 

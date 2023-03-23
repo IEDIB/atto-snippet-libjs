@@ -2,6 +2,7 @@
 
 import { base64Decode } from "../_shared/utilsShared";
 import { WidgetConfig, WidgetGroupContext } from "./quizzTypes";
+import { doVariablesInterpolation } from "./quizzUtil";
 import { StatusDisplay } from "./statusDisplay";
 
 export abstract class WidgetElement extends HTMLElement {
@@ -77,6 +78,27 @@ export abstract class WidgetElement extends HTMLElement {
         this.groupContext = groupContext;
         console.log("Setting context ", this.groupContext);
         this._syncCount++;
+        //Interpolate the variables in the groupContext if any
+        if(Object.keys(groupContext._s).length) {
+            if(this.widgetConfig?.hint) {
+                this.widgetConfig.hint = doVariablesInterpolation(this.widgetConfig.hint, groupContext._s);
+            }
+            if(this.widgetConfig?.fbk) {
+                this.widgetConfig.fbk = doVariablesInterpolation(this.widgetConfig.fbk, groupContext._s);
+            }
+            if(this.widgetConfig?.ini) {
+                this.widgetConfig.ini = doVariablesInterpolation(this.widgetConfig.ini, groupContext._s);
+            }
+            if(this.widgetConfig?.pre) {
+                this.widgetConfig.pre = doVariablesInterpolation(this.widgetConfig.pre, groupContext._s);
+            }
+            /*
+            if(this.widgetConfig?.ans) {
+                this.widgetConfig.ans = doVariablesInterpolation(this.widgetConfig.ans, groupContext._s);
+            }
+            */
+        }
+
         if (this._syncCount === 3) {
             this.render();
         }

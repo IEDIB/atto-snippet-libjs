@@ -5,42 +5,25 @@ import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
 
 @ComponentHTML({
-    elementName: "ib-quizz-cloze",
+    elementName: "ib-quizz-mathquill",
     classes: ["iedib-quizz-widget"],
     styles: { "display": "inline-block" }
 })
-class IBQuizzCloze extends WidgetElement {  
+class IBQuizzMathquill extends WidgetElement {  
     input: HTMLSpanElement | undefined;
     mathInput: MQ.MathField | undefined;
      
     enable(state: boolean): void {
         //TODO
-        const v = this.mathInput?.innerFields || [];
-        for (let i = 0, lenv = v.length; i < lenv; i++) {
-            v[i].__controller.editable = state;
-        }
+        console.log(this.mathInput)
     }
     getUserInput(): string {
-        return JSON.stringify(this.getUserInputArray());
-    }
-    private getUserInputArray(): string[] {
-        const parts: string[] = [];
-        console.log(this.mathInput?.innerFields);
-        const v = this.mathInput?.innerFields || [];
-        for (let i = 0, lenv = v.length; i < lenv; i++) {
-            parts.push((v[i].latex() || '').replace(/\\\s/g,'').trim());
-        }
-        return parts;
-    }
+        return this.mathInput?.latex() || '';        
+    } 
     displayRightAnswer(): void {
         if(this.mathInput) {
-            const parts = JSON.parse(this.widgetConfig?.ans || "[]");
-            const v = this.mathInput.innerFields || [];
-            for (let i = 0, lenv = v.length; i < lenv; i++) {
-                if(i < parts.length) {
-                    parts.push(v[i].latex(parts[i]));
-                }
-            }
+            const ansLatex = this.widgetConfig?.ans || '';
+            this.mathInput.latex(ansLatex);
             this.enable(false);
         }
     }
@@ -53,30 +36,22 @@ class IBQuizzCloze extends WidgetElement {
         //TODO set tolerance
         let result = false;
         try {
-            // See if there is a check function
+            // See if there is a check function (És obligatori que hi sigui)
             if(this.widgetConfig?.cfn) {
-                const localContext: {[key:string]: unknown} = {u: this.getUserInputArray()};
-                Object.assign(localContext, this.groupContext?._s);
-                (localContext.u as string[]).forEach( (e, i) => localContext['u'+i]=e);
+                const localContext: {[key:string]: unknown} = {u: this.getUserInput()};
+                Object.assign(localContext, this.groupContext?._s); 
                 //Evaluate check function that must return true or false
                 const scriptFn = (this.widgetConfig?.cfn || 'return true').replace(/#/g, '');
                 result = runIBScript(scriptFn, localContext, this.groupContext?._s || {}) as boolean;
                 console.log("Avaluant ", scriptFn, "Retorna ", result);
             } else {
-                //Must rely on .ans to be an array with answers
-                let expected = (this.widgetConfig?.ans || "[]") as unknown as any[];
-                if(typeof expected === 'string') {
-                    expected = JSON.parse(expected) as unknown[];
-                }
-                console.log(expected);
-                const given = this.getUserInputArray();
-                result = true;
-                for (let i = 0, lenv = given.length; i < lenv; i++) {
-                    if(i < expected.length) {
-                        result = result && (expected[i]==(given[i] || '').trim());
-                    } else {
-                        result = false;
-                    }
+                //Suposa que empram nerdamer
+                if(window.nerdamer) {
+                    const N = window.nerdamer;
+                    N.fromLatex(this.getUserInput());
+                    
+                } else {
+                    throw new Error("Check funcion must be set");
                 }
             }
         } catch(ex) {
@@ -116,31 +91,22 @@ class IBQuizzCloze extends WidgetElement {
         }
 
         this.input = document.createElement("span") as HTMLSpanElement;
-        this.input.innerText = treatIniPlaceholders(this.widgetConfig.ini || '?');
+        this.input.innerText = treatIniPlaceholders(this.widgetConfig.ini || '');
         console.log(this.input.innerText);
         this.append(this.input);
         //Important MUST BE appended before calling StaticMath
         const MQI: MQ.MathQuill = window.MathQuill.getInterface(2);
-        this.mathInput = MQI.StaticMath(this.input);
+        this.mathInput = MQI.MathField(this.input, {});
         // TODO: listen to changes to set status to unmodified
 
-        this.mathInput.innerFields.forEach((e: MQ.InnerField) => {
-            e.__controller.textarea.on('keyup', (ev: Event) => {
+        this.mathInput.__controller.textarea.on('keyup', (ev: Event) => {
                 ev.preventDefault();
                 this.setStatus(WidgetStatus.PENDING);
-            });
         }); 
        
         super.init(this.widgetConfig.pre);  
         this.statusDisplay && this.append(this.statusDisplay.getElement());
         this.reflowLatex();
-    }
-    /*
-    attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
-        console.log('The ', name, ' has changed to', newValue);
-    }
-    static get observedAttributes(): string[] {
-        return ['data-src'];
     } 
-    */
+
 }

@@ -397,9 +397,73 @@ module.exports = function (cssWithMappingToString) {
 /* 19 */,
 /* 20 */,
 /* 21 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "[data-quizz-group]{padding:5px;border-left:3px solid lightblue}.ib-quizz-right{margin-left:8px;border-radius:50%;background-color:#438c43;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-wrong{margin-left:8px;border-radius:50%;background-color:#a43c3c;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-error{margin-left:8px;border-radius:50%;background-color:#72395a;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-hint,.ib-quizz-feedback{margin-left:8px;border-radius:50%;background-color:#a3a3a3;color:black;width:23px;display:inline-block;height:23px;text-align:center;cursor:pointer}", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+/* 23 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 
@@ -529,7 +593,7 @@ function _bootstrap(classes) {
 });
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -822,8 +886,8 @@ function base64Decode(b64) {
 }
 
 /***/ }),
-/* 23 */,
-/* 24 */
+/* 25 */,
+/* 26 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -876,8 +940,8 @@ function ComponentHTML(componentOptions) {
 }
 
 /***/ }),
-/* 25 */,
-/* 26 */
+/* 27 */,
+/* 28 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -895,22 +959,22 @@ var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
 });
 
 /***/ }),
-/* 27 */,
-/* 28 */,
 /* 29 */,
 /* 30 */,
 /* 31 */,
 /* 32 */,
 /* 33 */,
 /* 34 */,
-/* 35 */
+/* 35 */,
+/* 36 */,
+/* 37 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "shuffleArray": function() { return /* binding */ shuffleArray; }
 /* harmony export */ });
 /* unused harmony exports getPageInfo, pran */
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 
 
 /**
@@ -1021,104 +1085,23 @@ function pran(seed) {
 }
 
 /***/ }),
-/* 36 */,
-/* 37 */,
 /* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */
-/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(56);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "[data-quizz-group]{padding:5px;border-left:3px solid lightblue}.ib-quizz-right{margin-left:8px;border-radius:50%;background-color:#438c43;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-wrong{margin-left:8px;border-radius:50%;background-color:#a43c3c;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-error{margin-left:8px;border-radius:50%;background-color:#72395a;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-hint,.ib-quizz-feedback{margin-left:8px;border-radius:50%;background-color:#a3a3a3;color:black;width:23px;display:inline-block;height:23px;text-align:center;cursor:pointer}", ""]);
-// Exports
-/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-/* 57 */
+/* 39 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ QuizzComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(26);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(60);
-/* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(58);
-/* harmony import */ var _mchoiceWidget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(65);
-/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(66);
-/* harmony import */ var _clozeWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(67);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(22);
-/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(68);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(28);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(26);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(42);
+/* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _mchoiceWidget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(48);
+/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(49);
+/* harmony import */ var _clozeWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(50);
+/* harmony import */ var _mathquillWidget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(51);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(46);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1145,8 +1128,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
+
 var SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice"; //".ib-quizz-elem"; 
-var SEARCH_QUERY2 = "ib-quizz-cloze"; //Requires loading Mathquill
+var SEARCH_QUERY2 = "ib-quizz-cloze, ib-quizz-mathquill"; //Requires loading Mathquill + Nerdamer
 
 function textNodesUnder(el) {
   var a = [],
@@ -1158,7 +1142,7 @@ function textNodesUnder(el) {
   }
   return a;
 }
-var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Component)({
+var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Component)({
   name: "quizz",
   author: "Josep Mulet Pol",
   version: "1.0",
@@ -1188,10 +1172,10 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
     // Determine the groupContext --> Pass to form components
     var contextRaw64 = parent.getAttribute("data-quizz-group") || '';
     try {
-      var context = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.base64Decode)(contextRaw64);
+      var context = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.base64Decode)(contextRaw64);
       _this.groupContext = Object.assign(_this.groupContext, context);
-      _this.groupContext.o.hint = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.convertInt)(_this.groupContext.o.hint, 2);
-      _this.groupContext.o.ans = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.convertInt)(_this.groupContext.o.ans, 4);
+      _this.groupContext.o.hint = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.convertInt)(_this.groupContext.o.hint, 2);
+      _this.groupContext.o.ans = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.convertInt)(_this.groupContext.o.ans, 4);
       console.log(context, _this.groupContext);
     } catch (ex) {
       console.error(ex);
@@ -1205,10 +1189,10 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
     _this.allQuizzElements = _this.parent.querySelectorAll(SEARCH_QUERY);
     _this.allClozeElements = document.querySelectorAll(SEARCH_QUERY2);
     console.log(_this.allQuizzElements, _this.allClozeElements);
-    _this.checkButton = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.createElement)("button", {
+    _this.checkButton = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.createElement)("button", {
       "class": "btn btn-sm btn-primary d-print-none",
       style: "margin: 10px;display:block",
-      html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_6__["default"])(_this.lang, 'check')
+      html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_7__["default"])(_this.lang, 'check')
     });
     _this.listener = function (evt) {
       evt.preventDefault();
@@ -1236,16 +1220,16 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
     key: "generateGroup",
     value: function generateGroup() {
       try {
-        (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_7__.runIBScript)(this.groupContext.s, {}, this.groupContext._s);
+        (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.runIBScript)(this.groupContext.s, {}, this.groupContext._s);
       } catch (ex) {
         console.error("GroupContext:: No es pot interpretar el codi.\n", ex);
       }
 
       //Tell the user that this quizz contains random questions
       if (this.groupContext.s.trim().length) {
-        var noticeDiv = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.createElement)('div', {
-          "class": 'alert alert-info',
-          html: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\" style=\"height:20px;\"><path fill=\"#154b5e\" d=\"M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg> \n                <small>".concat((0,_i18n__WEBPACK_IMPORTED_MODULE_6__["default"])(this.lang, 'random_msg'), "</small>")
+        var noticeDiv = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.createElement)('div', {
+          "class": 'alert alert-info d-print-none',
+          html: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\" style=\"height:20px;\"><path fill=\"#154b5e\" d=\"M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg> \n                <small>".concat((0,_i18n__WEBPACK_IMPORTED_MODULE_7__["default"])(this.lang, 'random_msg'), "</small>")
         });
         var secondChild = this.parent.querySelector(':nth-child(2)');
         if ((secondChild === null || secondChild === void 0 ? void 0 : secondChild.nodeName) === 'H4') {
@@ -1258,26 +1242,38 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
   }, {
     key: "findPlaceholders",
     value: function findPlaceholders() {
-      var _this2 = this;
       if (this.groupContext.s.trim().length === 0) {
         return; //Nothing to do
       }
 
+      this.findPlaceholdersSpan();
+      this.findPlaceholdersText();
+    }
+  }, {
+    key: "findPlaceholdersText",
+    value: function findPlaceholdersText() {
+      var _this2 = this;
       textNodesUnder(this.parent).forEach(function (textNode) {
-        var valor = textNode.nodeValue || '';
+        var text = textNode.textContent || '';
+        textNode.textContent = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.doVariablesInterpolation)(text, _this2.groupContext._s);
+      });
+    }
+  }, {
+    key: "findPlaceholdersSpan",
+    value: function findPlaceholdersSpan() {
+      var _this3 = this;
+      this.parent.querySelectorAll("span[data-quizz-interpol]").forEach(function (spanNode) {
+        var valor = spanNode.getAttribute("data-quizz-interpol") || '';
         if (valor.indexOf('#') < 0) {
           return;
         }
-        var interpolated = valor.replace(/#([a-zA-Z0-9_]+)/g, function ($0, $1) {
-          return _this2.groupContext._s[$1];
-        });
-        textNode.nodeValue = interpolated;
+        spanNode.innerHTML = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.doVariablesInterpolation)(valor, _this3.groupContext._s);
       });
     }
   }, {
     key: "init",
     value: function init() {
-      var _this3 = this;
+      var _this4 = this;
       var ds = this.parent.dataset;
       if (ds.active === "1") {
         return;
@@ -1290,8 +1286,8 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
           console.error("No custom element registered for ", quizzElem);
           return;
         }
-        quizzElem.setLang(_this3.lang);
-        quizzElem.setGroupContext(_this3.groupContext);
+        quizzElem.setLang(_this4.lang);
+        quizzElem.setGroupContext(_this4.groupContext);
       });
       //cloze elements needs mathquill to be loaded on demand
 
@@ -1306,15 +1302,15 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
         if (scriptFound) {
           mathQuillURL = (scriptFound.getAttribute('src') || '').replace('/sd/quizz.min.js', '/sd/mathquill.min.js');
         }
-        (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.addScript)(mathQuillURL, 'mathquill.matrix4quizz', function () {
+        (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.addScript)(mathQuillURL, 'mathquill.matrix4quizz', function () {
           //When mathquill ready must initialize this widgets
-          _this3.allClozeElements.forEach(function (quizzElem) {
+          _this4.allClozeElements.forEach(function (quizzElem) {
             if (typeof quizzElem.setLang !== 'function') {
               console.error("No custom element registered for ", quizzElem);
               return;
             }
-            quizzElem.setLang(_this3.lang);
-            quizzElem.setGroupContext(_this3.groupContext);
+            quizzElem.setLang(_this4.lang);
+            quizzElem.setGroupContext(_this4.groupContext);
           });
         });
       }
@@ -1331,19 +1327,20 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_4__.Compone
     }
   }]);
   return QuizzComponent;
-}(_base__WEBPACK_IMPORTED_MODULE_8__.BaseComponent)) || _class);
+}(_base__WEBPACK_IMPORTED_MODULE_9__.BaseComponent)) || _class);
 
 
 /***/ }),
-/* 58 */
+/* 40 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(35);
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(60);
-/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(59);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(64);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(37);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(42);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(46);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1361,6 +1358,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -1454,18 +1452,16 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
       // Must evaluate in the context the rightanswer and all the options
       if ((_this$groupContext = this.groupContext) !== null && _this$groupContext !== void 0 && _this$groupContext.s.length) {
         theVars.forEach(function (v, i) {
+          var _this2$groupContext;
           if (v.indexOf('#') < 0) {
             return;
           }
-          theVars[i] = v.replace(/#([a-zA-Z0-9_]+)/g, function ($0, $1) {
-            var _this2$groupContext;
-            return ((_this2$groupContext = _this2.groupContext) === null || _this2$groupContext === void 0 ? void 0 : _this2$groupContext._s[$1]) || $0;
-          });
+          theVars[i] = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_3__.doVariablesInterpolation)(v, (_this2$groupContext = _this2.groupContext) === null || _this2$groupContext === void 0 ? void 0 : _this2$groupContext._s);
         });
       }
 
       // Attach editListener of edit pages 
-      this.dropdown = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
+      this.dropdown = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
         "class": "dropdown",
         style: "display:inline-block;"
       });
@@ -1473,7 +1469,7 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
       if (!this.widgetConfig) {
         return;
       }
-      this.button = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("button", {
+      this.button = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("button", {
         "class": "btn btn-outline-primary dropdown-toggle",
         "type": "button",
         "data-toggle": "dropdown",
@@ -1481,7 +1477,7 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
         "aria-expanded": "false",
         "html": (0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(this.lang, "chooseone")
       });
-      this.options = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
+      this.options = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
         "class": "dropdown-menu",
         "aria-labelledby": "dropdownMenuButton"
       });
@@ -1491,12 +1487,12 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
         permutationIndices[i] = i;
       }
       if ((_this$widgetConfig3 = this.widgetConfig) !== null && _this$widgetConfig3 !== void 0 && (_this$widgetConfig3$o = _this$widgetConfig3.opts) !== null && _this$widgetConfig3$o !== void 0 && _this$widgetConfig3$o.shuffle) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_4__.shuffleArray)(permutationIndices);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_5__.shuffleArray)(permutationIndices);
       }
       permutationIndices.forEach(function (index) {
         var _this2$options;
         var opt = theVars[index];
-        var anchor = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("a", {
+        var anchor = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("a", {
           "class": "dropdown-item",
           "href": "#",
           "data-index": index + "",
@@ -1529,19 +1525,19 @@ var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compon
     }*/
   }]);
   return IBQuizzDropdown;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_5__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_6__.WidgetElement)) || _class);
 
 /***/ }),
-/* 59 */
+/* 41 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StatusDisplay": function() { return /* binding */ StatusDisplay; },
 /* harmony export */   "WidgetStatus": function() { return /* binding */ WidgetStatus; }
 /* harmony export */ });
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _bsMsgDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(61);
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(60);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _bsMsgDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(43);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(42);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -1678,7 +1674,7 @@ var StatusDisplay = /*#__PURE__*/function () {
 }();
 
 /***/ }),
-/* 60 */
+/* 42 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1735,13 +1731,13 @@ function getI18n(lang, key) {
 }
 
 /***/ }),
-/* 61 */
+/* 43 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getCachedMsgDialog": function() { return /* binding */ getCachedMsgDialog; }
 /* harmony export */ });
-/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(62);
+/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -1777,15 +1773,15 @@ function getCachedMsgDialog(id, title) {
 }
 
 /***/ }),
-/* 62 */
+/* 44 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "BSDialog": function() { return /* binding */ BSDialog; },
 /* harmony export */   "BSDialogType": function() { return /* binding */ BSDialogType; }
 /* harmony export */ });
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
-/* harmony import */ var _jsPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(63);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _jsPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(45);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -2008,7 +2004,7 @@ var BSDialog = /*#__PURE__*/function () {
 }();
 
 /***/ }),
-/* 63 */
+/* 45 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2138,14 +2134,166 @@ function setPathValue(barPath, scope, newValue) {
 }
 
 /***/ }),
-/* 64 */
+/* 46 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "doVariablesInterpolation": function() { return /* binding */ doVariablesInterpolation; },
+/* harmony export */   "runIBScript": function() { return /* binding */ runIBScript; },
+/* harmony export */   "treatIniPlaceholders": function() { return /* binding */ treatIniPlaceholders; }
+/* harmony export */ });
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+//Add all Math utilities
+var utilities = {};
+Object.getOwnPropertyNames(Math).forEach(function (key) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  utilities[key] = Math[key];
+});
+Object.defineProperty(utilities, "alea", {
+  value: function value() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    var na = args.length;
+    if (na === 0) {
+      //cap argument - retorna un signe [-1 o 1]
+      return Math.random() < 0.5 ? -1 : 1;
+    } else if (na === 1) {
+      //un argument - llista
+      if (Array.isArray(args[0])) {
+        var indx = Math.floor(Math.random() * args[0].length);
+        return args[0][indx];
+      }
+      //un argument - numeric [-a, a]
+      else if (typeof args[0] === 'number') {
+        return Math.floor(2 * args[0] * Math.random()) + args[0];
+      }
+    } else if (na >= 2) {
+      var a = args[0];
+      var b = args[1];
+      var pp = 1;
+      var ndec = 0;
+      var retVal = (b - a) * Math.random();
+      if (na === 3) {
+        //The third argument is the number of decimals
+        ndec = Math.abs(args[2]);
+        ndec = ndec > 8 ? 8 : ndec;
+        pp = Math.pow(10, ndec);
+      }
+      //TODO: Performance issue, but no other way to ensure correct number of decimals!!
+      retVal = +(Math.round(retVal * pp) / pp + a).toFixed(ndec);
+      return retVal;
+    }
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+Object.defineProperty(utilities, "dec", {
+  value: function value(v) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var pp = Math.pow(10, n);
+    return Math.round(v * pp) / pp;
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+
+/**
+ * Runs a whole script within a scope
+ *  * #bar exports the variable to the scope 
+ * while
+ * bar is a local variable that is not exported
+ * # is a shortcut for this.
+ * @param scriptCode The js code to be run
+ * @param context The variables that must be passed as argument to Function
+ * @param scope Where the execution variables are exported
+ * @returns the updated scope
+ */
+function runInScope(scriptCode, context, scope) {
+  context = context || {};
+  scope = scope || {};
+  var contextKeys = Object.keys(context);
+  var contextValues = Object.values(context);
+  //By default run in strict mode
+  var evaluator = _construct(Function, contextKeys.concat(['"use' + ' strict"\n' + scriptCode]));
+  return evaluator.apply(scope, contextValues);
+}
+function runIBScript(scriptCode, context, scope) {
+  if (window.nerdamer && !utilities.N) {
+    Object.defineProperty(utilities, "N", {
+      value: window.nerdamer,
+      enumerable: true,
+      configurable: false,
+      writable: false
+    });
+  }
+  if (window.mathjs && !utilities.M) {
+    Object.defineProperty(utilities, "M", {
+      value: window.mathjs,
+      enumerable: true,
+      configurable: false,
+      writable: false
+    });
+  }
+  context = Object.assign(context || {}, utilities);
+  return runInScope('var _this=this;\n' + scriptCode.replace(/#/g, '_this.'), context, scope);
+}
+
+/**
+* Replace V[N] by (?,?,...,?)
+* Replace M[pxq] by matrix pxq with ? elements
+* @param iniTxt 
+* @returns 
+*/
+function treatIniPlaceholders(iniTxt) {
+  if (!iniTxt) {
+    return iniTxt;
+  }
+  return iniTxt.replace(/V\[(\d+)\]/g, function ($0, $1) {
+    var n = parseInt($1);
+    return '\\left(' + new Array(n).fill('\\MathQuillMathField{}').join(',') + '\\right)';
+  }).replace(/M\[(\d+)x(\d+)\]/g, function ($0, $1, $2) {
+    var n = parseInt($1);
+    var m = parseInt($2);
+    var line = new Array(n).fill('\\MathQuillMathField{}').join(' & ');
+    var mtex = new Array(m).fill(line).join(' \\\\ ');
+    return '\\begin{pmatrix}' + mtex + '\\end{pmatrix}';
+  }).replace(/\?/g, '\\MathQuillMathField{ }');
+}
+function doVariablesInterpolation(text, map) {
+  if (!map) {
+    return text;
+  }
+  var interpolated = text.replace(/#([a-zA-Z0-9_]+)($|[ .,"'])/gm, function ($0, $1, $2) {
+    if (map[$1] != null) {
+      return map[$1] + ($2 || '');
+    }
+    return $0;
+  });
+  //Support dynamic LaTeX in placeholders (by using $...$ and $$...$$)
+  interpolated = interpolated.replace(/\${2}(.*)?\${2}/gm, function ($0, $1) {
+    return "\\" + "[" + $1 + "\\" + "]";
+  }).replace(/\$(.*)?\$/gm, function ($0, $1) {
+    return "\\" + "(" + $1 + "\\" + ")";
+  });
+  return interpolated;
+}
+
+/***/ }),
+/* 47 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WidgetElement": function() { return /* binding */ WidgetElement; }
 /* harmony export */ });
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
-/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(59);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -2163,6 +2311,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
@@ -2251,6 +2400,28 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
       this.groupContext = groupContext;
       console.log("Setting context ", this.groupContext);
       this._syncCount++;
+      //Interpolate the variables in the groupContext if any
+      if (Object.keys(groupContext._s).length) {
+        var _this$widgetConfig, _this$widgetConfig2, _this$widgetConfig3, _this$widgetConfig4;
+        if ((_this$widgetConfig = this.widgetConfig) !== null && _this$widgetConfig !== void 0 && _this$widgetConfig.hint) {
+          this.widgetConfig.hint = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.hint, groupContext._s);
+        }
+        if ((_this$widgetConfig2 = this.widgetConfig) !== null && _this$widgetConfig2 !== void 0 && _this$widgetConfig2.fbk) {
+          this.widgetConfig.fbk = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.fbk, groupContext._s);
+        }
+        if ((_this$widgetConfig3 = this.widgetConfig) !== null && _this$widgetConfig3 !== void 0 && _this$widgetConfig3.ini) {
+          this.widgetConfig.ini = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.ini, groupContext._s);
+        }
+        if ((_this$widgetConfig4 = this.widgetConfig) !== null && _this$widgetConfig4 !== void 0 && _this$widgetConfig4.pre) {
+          this.widgetConfig.pre = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.pre, groupContext._s);
+        }
+        /*
+        if(this.widgetConfig?.ans) {
+            this.widgetConfig.ans = doVariablesInterpolation(this.widgetConfig.ans, groupContext._s);
+        }
+        */
+      }
+
       if (this._syncCount === 3) {
         this.render();
       }
@@ -2264,29 +2435,29 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
   }, {
     key: "incAttempts",
     value: function incAttempts() {
-      var _this$groupContext, _this$groupContext2, _this$widgetConfig, _this$widgetConfig3;
+      var _this$groupContext, _this$groupContext2, _this$widgetConfig5, _this$widgetConfig7;
       this.attempts++;
       var limitHint = ((_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext.o.hint) || 0;
       var limitFeedback = ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2.o.ans) || 0;
-      if (!this.hintSet && limitHint > 0 && this.attempts >= limitHint && (_this$widgetConfig = this.widgetConfig) !== null && _this$widgetConfig !== void 0 && _this$widgetConfig.hint) {
-        var _this$statusDisplay3, _this$widgetConfig2;
+      if (!this.hintSet && limitHint > 0 && this.attempts >= limitHint && (_this$widgetConfig5 = this.widgetConfig) !== null && _this$widgetConfig5 !== void 0 && _this$widgetConfig5.hint) {
+        var _this$statusDisplay3, _this$widgetConfig6;
         this.hintSet = true;
-        (_this$statusDisplay3 = this.statusDisplay) === null || _this$statusDisplay3 === void 0 ? void 0 : _this$statusDisplay3.setHint((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.hint);
+        (_this$statusDisplay3 = this.statusDisplay) === null || _this$statusDisplay3 === void 0 ? void 0 : _this$statusDisplay3.setHint((_this$widgetConfig6 = this.widgetConfig) === null || _this$widgetConfig6 === void 0 ? void 0 : _this$widgetConfig6.hint);
       }
-      if (!this.feedbackSet && limitFeedback > 0 && this.attempts >= limitFeedback && (_this$widgetConfig3 = this.widgetConfig) !== null && _this$widgetConfig3 !== void 0 && _this$widgetConfig3.fbk) {
-        var _this$statusDisplay4, _this$widgetConfig4;
+      if (!this.feedbackSet && limitFeedback > 0 && this.attempts >= limitFeedback && (_this$widgetConfig7 = this.widgetConfig) !== null && _this$widgetConfig7 !== void 0 && _this$widgetConfig7.fbk) {
+        var _this$statusDisplay4, _this$widgetConfig8;
         this.feedbackSet = true;
-        (_this$statusDisplay4 = this.statusDisplay) === null || _this$statusDisplay4 === void 0 ? void 0 : _this$statusDisplay4.setFeedback((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : _this$widgetConfig4.fbk);
+        (_this$statusDisplay4 = this.statusDisplay) === null || _this$statusDisplay4 === void 0 ? void 0 : _this$statusDisplay4.setFeedback((_this$widgetConfig8 = this.widgetConfig) === null || _this$widgetConfig8 === void 0 ? void 0 : _this$widgetConfig8.fbk);
       }
     }
   }, {
     key: "showFeedback",
     value: function showFeedback() {
-      var _this$widgetConfig5;
-      if (!this.feedbackSet && (_this$widgetConfig5 = this.widgetConfig) !== null && _this$widgetConfig5 !== void 0 && _this$widgetConfig5.fbk) {
-        var _this$statusDisplay5, _this$widgetConfig6;
+      var _this$widgetConfig9;
+      if (!this.feedbackSet && (_this$widgetConfig9 = this.widgetConfig) !== null && _this$widgetConfig9 !== void 0 && _this$widgetConfig9.fbk) {
+        var _this$statusDisplay5, _this$widgetConfig10;
         this.feedbackSet = true;
-        (_this$statusDisplay5 = this.statusDisplay) === null || _this$statusDisplay5 === void 0 ? void 0 : _this$statusDisplay5.setFeedback((_this$widgetConfig6 = this.widgetConfig) === null || _this$widgetConfig6 === void 0 ? void 0 : _this$widgetConfig6.fbk);
+        (_this$statusDisplay5 = this.statusDisplay) === null || _this$statusDisplay5 === void 0 ? void 0 : _this$statusDisplay5.setFeedback((_this$widgetConfig10 = this.widgetConfig) === null || _this$widgetConfig10 === void 0 ? void 0 : _this$widgetConfig10.fbk);
       }
     }
   }]);
@@ -2294,14 +2465,15 @@ var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
 }( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
 
 /***/ }),
-/* 65 */
+/* 48 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(35);
-/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(59);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(64);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(37);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(47);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2325,6 +2497,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+
 
 
 
@@ -2426,14 +2599,12 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
       if ((_this$groupContext = this.groupContext) !== null && _this$groupContext !== void 0 && _this$groupContext.s.length) {
         console.log("The vars,", theVars);
         theVars.forEach(function (v, i) {
+          var _this2$groupContext;
           console.log("Searching for # in ", v);
           if (v.indexOf('#') < 0) {
             return;
           }
-          theVars[i] = v.replace(/#([a-zA-Z0-9_]+)/g, function ($0, $1) {
-            var _this2$groupContext;
-            return ((_this2$groupContext = _this2.groupContext) === null || _this2$groupContext === void 0 ? void 0 : _this2$groupContext._s[$1]) || $0;
-          });
+          theVars[i] = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(v, (_this2$groupContext = _this2.groupContext) === null || _this2$groupContext === void 0 ? void 0 : _this2$groupContext._s);
         });
       }
       this.form = document.createElement("form");
@@ -2445,23 +2616,23 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         permutationIndices[i] = i;
       }
       if ((_this$widgetConfig4 = this.widgetConfig) !== null && _this$widgetConfig4 !== void 0 && (_this$widgetConfig4$o = _this$widgetConfig4.opts) !== null && _this$widgetConfig4$o !== void 0 && _this$widgetConfig4$o.shuffle) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.shuffleArray)(permutationIndices);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.shuffleArray)(permutationIndices);
       }
-      var radioName = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.genID)();
+      var radioName = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.genID)();
       permutationIndices.forEach(function (index) {
         var _this2$form;
         var opt = theVars[index];
-        var formCheck = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", {
+        var formCheck = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
           "class": "form-check"
         });
         (_this2$form = _this2.form) === null || _this2$form === void 0 ? void 0 : _this2$form.append(formCheck);
-        var input = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("input", {
+        var input = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("input", {
           "class": "form-check-input",
           type: isMultiple ? "checkbox" : "radio",
           name: radioName,
           id: radioName + "_" + index
         });
-        var label = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)("label", {
+        var label = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("label", {
           "class": "form-check-label",
           "for": radioName + "_" + index,
           html: opt
@@ -2470,7 +2641,11 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
         formCheck.appendChild(label);
         _this2.radios.push(input);
         input.addEventListener("click", function (evt) {
-          input.checked ? _this2.userAnsSet.add(index + '') : _this2.userAnsSet["delete"](index + '');
+          if (isMultiple) {
+            input.checked ? _this2.userAnsSet.add(index + '') : _this2.userAnsSet["delete"](index + '');
+          } else {
+            _this2.userAnsSet = new Set([index + '']);
+          }
           _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
         });
       });
@@ -2488,16 +2663,16 @@ var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
     }*/
   }]);
   return IBQuizzMchoice;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_5__.WidgetElement)) || _class);
 
 /***/ }),
-/* 66 */
+/* 49 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
-/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(59);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(64);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2663,14 +2838,14 @@ var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
 }(_widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetElement)) || _class);
 
 /***/ }),
-/* 67 */
+/* 50 */
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(22);
-/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(68);
-/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(59);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(64);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(47);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2816,7 +2991,11 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
       if (!this.widgetConfig) {
         return;
       }
-      console.log("Render numeric ", this.widgetConfig);
+      console.log("Render cloze widget ", this.widgetConfig);
+      if (!window.MathQuill) {
+        console.error("MathQuill not found on page");
+        return;
+      }
 
       // Here groupContext._v map is available and parsed
       // Must evaluate in the context the rightanswer
@@ -2859,120 +3038,156 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
 }(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
 
 /***/ }),
-/* 68 */
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/* 51 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "runIBScript": function() { return /* binding */ runIBScript; },
-/* harmony export */   "treatIniPlaceholders": function() { return /* binding */ treatIniPlaceholders; }
-/* harmony export */ });
-function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(47);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-//Add all Math utilities
-var utilities = {};
-Object.getOwnPropertyNames(Math).forEach(function (key) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  utilities[key] = Math[key];
-});
-Object.defineProperty(utilities, "alea", {
-  value: function value() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    var na = args.length;
-    if (na === 0) {
-      //cap argument - retorna un signe [-1 o 1]
-      return Math.random() < 0.5 ? -1 : 1;
-    } else if (na === 1) {
-      //un argument - llista
-      if (Array.isArray(args[0])) {
-        var indx = Math.floor(Math.random() * args[0].length);
-        return args[0][indx];
-      }
-      //un argument - numeric [-a, a]
-      else if (typeof args[0] === 'number') {
-        return Math.floor(2 * args[0] * Math.random()) + args[0];
-      }
-    } else if (na >= 2) {
-      var a = args[0];
-      var b = args[1];
-      var pp = 1;
-      var ndec = 0;
-      var retVal = (b - a) * Math.random();
-      if (na === 3) {
-        //The third argument is the number of decimals
-        ndec = Math.abs(args[2]);
-        ndec = ndec > 8 ? 8 : ndec;
-        pp = Math.pow(10, ndec);
-      }
-      //TODO: Performance issue, but no other way to ensure correct number of decimals!!
-      retVal = +(Math.round(retVal * pp) / pp + a).toFixed(ndec);
-      return retVal;
-    }
-  },
-  enumerable: true,
-  configurable: false,
-  writable: false
-});
-Object.defineProperty(utilities, "dec", {
-  value: function value(v) {
-    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var pp = Math.pow(10, n);
-    return Math.round(v * pp) / pp;
-  },
-  enumerable: true,
-  configurable: false,
-  writable: false
-});
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-/**
- * Runs a whole script within a scope
- *  * #bar exports the variable to the scope 
- * while
- * bar is a local variable that is not exported
- * # is a shortcut for this.
- * @param scriptCode The js code to be run
- * @param context The variables that must be passed as argument to Function
- * @param scope Where the execution variables are exported
- * @returns the updated scope
- */
-function runInScope(scriptCode, context, scope) {
-  context = context || {};
-  scope = scope || {};
-  var contextKeys = Object.keys(context);
-  var contextValues = Object.values(context);
-  //By default run in strict mode
-  var evaluator = _construct(Function, contextKeys.concat(['"use' + ' strict"\n' + scriptCode]));
-  return evaluator.apply(scope, contextValues);
-}
-function runIBScript(scriptCode, context, scope) {
-  context = Object.assign(context || {}, utilities);
-  return runInScope('var _this=this;\n' + scriptCode.replace(/#/g, '_this.'), context, scope);
-}
 
-/**
-* Replace V[N] by (?,?,...,?)
-* Replace M[pxq] by matrix pxq with ? elements
-* @param iniTxt 
-* @returns 
-*/
-function treatIniPlaceholders(iniTxt) {
-  if (!iniTxt) {
-    return iniTxt;
+
+
+
+var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-mathquill",
+  classes: ["iedib-quizz-widget"],
+  styles: {
+    "display": "inline-block"
   }
-  return iniTxt.replace(/V\[(\d+)\]/g, function ($0, $1) {
-    var n = parseInt($1);
-    return '\\left(' + new Array(n).fill('\\MathQuillMathField{}').join(',') + '\\right)';
-  }).replace(/M\[(\d+)x(\d+)\]/g, function ($0, $1, $2) {
-    var n = parseInt($1);
-    var m = parseInt($2);
-    var line = new Array(n).fill('\\MathQuillMathField{}').join(' & ');
-    var mtex = new Array(m).fill(line).join(' \\\\ ');
-    return '\\begin{pmatrix}' + mtex + '\\end{pmatrix}';
-  }).replace(/\?/g, '\\MathQuillMathField{ }');
-}
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzMathquill, _WidgetElement);
+  var _super = _createSuper(IBQuizzMathquill);
+  function IBQuizzMathquill() {
+    _classCallCheck(this, IBQuizzMathquill);
+    return _super.apply(this, arguments);
+  }
+  _createClass(IBQuizzMathquill, [{
+    key: "enable",
+    value: function enable(state) {
+      //TODO
+      console.log(this.mathInput);
+    }
+  }, {
+    key: "getUserInput",
+    value: function getUserInput() {
+      var _this$mathInput;
+      return ((_this$mathInput = this.mathInput) === null || _this$mathInput === void 0 ? void 0 : _this$mathInput.latex()) || '';
+    }
+  }, {
+    key: "displayRightAnswer",
+    value: function displayRightAnswer() {
+      if (this.mathInput) {
+        var _this$widgetConfig;
+        var ansLatex = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) || '';
+        this.mathInput.latex(ansLatex);
+        this.enable(false);
+      }
+    }
+  }, {
+    key: "check",
+    value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
+      //TODO set tolerance
+      var result = false;
+      try {
+        var _this$widgetConfig2;
+        // See if there is a check function (És obligatori que hi sigui)
+        if ((_this$widgetConfig2 = this.widgetConfig) !== null && _this$widgetConfig2 !== void 0 && _this$widgetConfig2.cfn) {
+          var _this$groupContext, _this$widgetConfig3, _this$groupContext2;
+          var localContext = {
+            u: this.getUserInput()
+          };
+          Object.assign(localContext, (_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext._s);
+          //Evaluate check function that must return true or false
+          var scriptFn = (((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.cfn) || 'return true').replace(/#/g, '');
+          result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
+          console.log("Avaluant ", scriptFn, "Retorna ", result);
+        } else {
+          throw new Error("Check funcion must be set");
+        }
+      } catch (ex) {
+        //Error
+        console.error(ex);
+        this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
+        return false;
+      }
+      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
+      console.log("Matquill Cloze, ", this.getUserInput(), result);
+      this.enable(!result);
+      if (!result) {
+        this.incAttempts();
+      } else {
+        this.showFeedback();
+      }
+      return result;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$groupContext3,
+        _this = this;
+      if (!this.widgetConfig) {
+        return;
+      }
+      console.log("Render cloze widget ", this.widgetConfig);
+      if (!window.MathQuill) {
+        console.error("MathQuill not found on page");
+        return;
+      }
+
+      // Here groupContext._v map is available and parsed
+      // Must evaluate in the context the rightanswer
+      if ((_this$groupContext3 = this.groupContext) !== null && _this$groupContext3 !== void 0 && _this$groupContext3.s.length && this.widgetConfig) {
+        var theAns = this.widgetConfig.ans || '';
+        if (theAns.indexOf('#') >= 0) {
+          theAns = theAns.replace(/#/g, '');
+          this.widgetConfig.ans = '' + (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.scopedEval)(this.groupContext._s || {}, theAns);
+        }
+      }
+      this.input = document.createElement("span");
+      this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.treatIniPlaceholders)(this.widgetConfig.ini || '');
+      console.log(this.input.innerText);
+      this.append(this.input);
+      //Important MUST BE appended before calling StaticMath
+      var MQI = window.MathQuill.getInterface(2);
+      this.mathInput = MQI.MathField(this.input, {});
+      // TODO: listen to changes to set status to unmodified
+
+      this.mathInput.__controller.textarea.on('keyup', function (ev) {
+        ev.preventDefault();
+        _this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+      });
+      _get(_getPrototypeOf(IBQuizzMathquill.prototype), "init", this).call(this, this.widgetConfig.pre);
+      this.statusDisplay && this.append(this.statusDisplay.getElement());
+      this.reflowLatex();
+    }
+  }]);
+  return IBQuizzMathquill;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
 
 /***/ })
 /******/ 	]);
@@ -3040,9 +3255,9 @@ function treatIniPlaceholders(iniTxt) {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
-/* harmony import */ var _quizz_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(55);
-/* harmony import */ var _quizzComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(57);
+/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var _quizz_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _quizzComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(39);
 
 
 

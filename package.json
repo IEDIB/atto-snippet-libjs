@@ -38,6 +38,8 @@
     "handlebars": "^4.7.7",
     "js-beautify": "^1.14.0",
     "js-yaml": "^2.0.5",
+    "mathjs": "^11.7.0",
+    "nerdamer": "^1.1.13",
     "uglify-js": "^2.4.24"
   },
   "devDependencies": {

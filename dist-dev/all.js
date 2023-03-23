@@ -747,9 +747,73 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@media print and (color) {\n    .pw-ta
 
 /***/ }),
 /* 21 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_quizz_min_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "[data-quizz-group]{padding:5px;border-left:3px solid lightblue}.ib-quizz-right{margin-left:8px;border-radius:50%;background-color:#438c43;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-wrong{margin-left:8px;border-radius:50%;background-color:#a43c3c;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-error{margin-left:8px;border-radius:50%;background-color:#72395a;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-hint,.ib-quizz-feedback{margin-left:8px;border-radius:50%;background-color:#a3a3a3;color:black;width:23px;display:inline-block;height:23px;text-align:center;cursor:pointer}", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+/* 23 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 
@@ -879,17 +943,21 @@ function _bootstrap(classes) {
 });
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addBaseToUrl": function() { return /* binding */ addBaseToUrl; },
+/* harmony export */   "addScript": function() { return /* binding */ addScript; },
+/* harmony export */   "base64Decode": function() { return /* binding */ base64Decode; },
 /* harmony export */   "convertInt": function() { return /* binding */ convertInt; },
+/* harmony export */   "createElement": function() { return /* binding */ createElement; },
 /* harmony export */   "genID": function() { return /* binding */ genID; },
 /* harmony export */   "onJQueryReady": function() { return /* binding */ onJQueryReady; },
-/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; }
+/* harmony export */   "parseUrlParams": function() { return /* binding */ parseUrlParams; },
+/* harmony export */   "scopedEval": function() { return /* binding */ scopedEval; }
 /* harmony export */ });
-/* unused harmony exports querySelectorProp, createElement, addScript, addLinkSheet, pathJoin, scopedEval, base64Encode, base64Decode */
+/* unused harmony exports querySelectorProp, addLinkSheet, pathJoin, base64Encode */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -1169,16 +1237,16 @@ function base64Decode(b64) {
 }
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ ZoomComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(26);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
-/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(28);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _wheelzoom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1265,13 +1333,13 @@ var ZoomComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Componen
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Component": function() { return /* binding */ Component; }
+/* harmony export */   "Component": function() { return /* binding */ Component; },
+/* harmony export */   "ComponentHTML": function() { return /* binding */ ComponentHTML; }
 /* harmony export */ });
-/* unused harmony export ComponentHTML */
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -1318,7 +1386,7 @@ function ComponentHTML(componentOptions) {
 }
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(__unused_webpack_module, __webpack_exports__) {
 
 /*!
@@ -1531,7 +1599,7 @@ function ComponentHTML(componentOptions) {
 })());
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -1549,15 +1617,15 @@ var BaseComponent = /*#__PURE__*/_createClass(function BaseComponent(parent) {
 });
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ LightboxComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1786,15 +1854,15 @@ var LightboxComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Comp
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ PresentacioComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(26);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(28);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2143,18 +2211,18 @@ var PresentacioComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.C
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ SpeakComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(26);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(32);
-/* harmony import */ var _navigatorPlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(33);
-/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
-/* harmony import */ var _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(28);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(34);
+/* harmony import */ var _navigatorPlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(35);
+/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
+/* harmony import */ var _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(33);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2279,7 +2347,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2351,15 +2419,15 @@ var UrlPlayer = /*#__PURE__*/function () {
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ WordReferencePlayer; }
 /* harmony export */ });
-/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(32);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(30);
+/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(34);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -2570,7 +2638,7 @@ var WordReferencePlayer = /*#__PURE__*/function () {
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2669,7 +2737,7 @@ var GTTSPlayer = /*#__PURE__*/function () {
 
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -2756,17 +2824,17 @@ var NavigatorPlayer = /*#__PURE__*/function () {
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ TaleaComponent; }
 /* harmony export */ });
-/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(26);
-/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
-/* harmony import */ var _smartTabMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(36);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(28);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(37);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _smartTabMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(38);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -2996,15 +3064,15 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
 
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
-/* harmony export */   "pran": function() { return /* binding */ pran; }
+/* harmony export */   "pran": function() { return /* binding */ pran; },
+/* harmony export */   "shuffleArray": function() { return /* binding */ shuffleArray; }
 /* harmony export */ });
-/* unused harmony export shuffleArray */
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 
 
 /**
@@ -3115,13 +3183,13 @@ function pran(seed) {
 }
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ SmartTabMenu; }
 /* harmony export */ });
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -3244,6 +3312,2110 @@ var SmartTabMenu = /*#__PURE__*/function () {
 }();
 
 
+/***/ }),
+/* 39 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ QuizzComponent; }
+/* harmony export */ });
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(28);
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(26);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(42);
+/* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
+/* harmony import */ var _mchoiceWidget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(48);
+/* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(49);
+/* harmony import */ var _clozeWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(50);
+/* harmony import */ var _mathquillWidget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(51);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(46);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+
+//Manually import the customElements that should be loaded
+
+
+
+
+
+
+
+var SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice"; //".ib-quizz-elem"; 
+var SEARCH_QUERY2 = "ib-quizz-cloze, ib-quizz-mathquill"; //Requires loading Mathquill + Nerdamer
+
+function textNodesUnder(el) {
+  var a = [],
+    walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+  var n = walk.nextNode();
+  while (n != null) {
+    a.push(n);
+    n = walk.nextNode();
+  }
+  return a;
+}
+var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Component)({
+  name: "quizz",
+  author: "Josep Mulet Pol",
+  version: "1.0",
+  query: "[data-quizz-group]",
+  use$: true
+}), _dec(_class = /*#__PURE__*/function (_BaseComponent) {
+  _inherits(QuizzComponent, _BaseComponent);
+  var _super = _createSuper(QuizzComponent);
+  function QuizzComponent(parent) {
+    var _this;
+    _classCallCheck(this, QuizzComponent);
+    _this = _super.call(this, parent);
+    // Determine the lang --> Pass to form components
+    _defineProperty(_assertThisInitialized(_this), "groupContext", {
+      s: '',
+      _s: {},
+      o: {
+        hint: 2,
+        ans: 4
+      }
+    });
+    var searchLang = parent.getAttribute("data-lang");
+    if (!searchLang) {
+      var _parent$parentElement;
+      searchLang = ((_parent$parentElement = parent.parentElement) === null || _parent$parentElement === void 0 ? void 0 : _parent$parentElement.getAttribute("data-lang")) || null;
+    }
+    // Determine the groupContext --> Pass to form components
+    var contextRaw64 = parent.getAttribute("data-quizz-group") || '';
+    try {
+      var context = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.base64Decode)(contextRaw64);
+      _this.groupContext = Object.assign(_this.groupContext, context);
+      _this.groupContext.o.hint = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.convertInt)(_this.groupContext.o.hint, 2);
+      _this.groupContext.o.ans = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.convertInt)(_this.groupContext.o.ans, 4);
+      console.log(context, _this.groupContext);
+    } catch (ex) {
+      console.error(ex);
+    }
+    _this.lang = searchLang || "ca";
+    // Must generate an instance of the group vars into map _v
+    _this.generateGroup();
+
+    // Must find placeholders in the dom by replacing #key by _v[#key]
+    _this.findPlaceholders();
+    _this.allQuizzElements = _this.parent.querySelectorAll(SEARCH_QUERY);
+    _this.allClozeElements = document.querySelectorAll(SEARCH_QUERY2);
+    console.log(_this.allQuizzElements, _this.allClozeElements);
+    _this.checkButton = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.createElement)("button", {
+      "class": "btn btn-sm btn-primary d-print-none",
+      style: "margin: 10px;display:block",
+      html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_7__["default"])(_this.lang, 'check')
+    });
+    _this.listener = function (evt) {
+      evt.preventDefault();
+      var check = true;
+      _this.allQuizzElements.forEach(function (quizzElem) {
+        var partial = quizzElem.check();
+        check = check && partial;
+      });
+      _this.allClozeElements.forEach(function (quizzElem) {
+        var partial = quizzElem.check();
+        check = check && partial;
+      });
+      if (check) {
+        // All widgets are correct. Then disable the check button
+        _this.checkButton.setAttribute("disabled", "true");
+      }
+    };
+    //Si no hi ha cap control, no té sentit afegir el botó
+    if (_this.allQuizzElements.length + _this.allClozeElements.length > 0) {
+      _this.parent.append(_this.checkButton);
+    }
+    return _this;
+  }
+  _createClass(QuizzComponent, [{
+    key: "generateGroup",
+    value: function generateGroup() {
+      try {
+        (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.runIBScript)(this.groupContext.s, {}, this.groupContext._s);
+      } catch (ex) {
+        console.error("GroupContext:: No es pot interpretar el codi.\n", ex);
+      }
+
+      //Tell the user that this quizz contains random questions
+      if (this.groupContext.s.trim().length) {
+        var noticeDiv = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.createElement)('div', {
+          "class": 'alert alert-info d-print-none',
+          html: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\" style=\"height:20px;\"><path fill=\"#154b5e\" d=\"M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg> \n                <small>".concat((0,_i18n__WEBPACK_IMPORTED_MODULE_7__["default"])(this.lang, 'random_msg'), "</small>")
+        });
+        var secondChild = this.parent.querySelector(':nth-child(2)');
+        if ((secondChild === null || secondChild === void 0 ? void 0 : secondChild.nodeName) === 'H4') {
+          this.parent.insertBefore(noticeDiv, secondChild.nextSibling);
+        } else {
+          this.parent.prepend(noticeDiv);
+        }
+      }
+    }
+  }, {
+    key: "findPlaceholders",
+    value: function findPlaceholders() {
+      if (this.groupContext.s.trim().length === 0) {
+        return; //Nothing to do
+      }
+
+      this.findPlaceholdersSpan();
+      this.findPlaceholdersText();
+    }
+  }, {
+    key: "findPlaceholdersText",
+    value: function findPlaceholdersText() {
+      var _this2 = this;
+      textNodesUnder(this.parent).forEach(function (textNode) {
+        var text = textNode.textContent || '';
+        textNode.textContent = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.doVariablesInterpolation)(text, _this2.groupContext._s);
+      });
+    }
+  }, {
+    key: "findPlaceholdersSpan",
+    value: function findPlaceholdersSpan() {
+      var _this3 = this;
+      this.parent.querySelectorAll("span[data-quizz-interpol]").forEach(function (spanNode) {
+        var valor = spanNode.getAttribute("data-quizz-interpol") || '';
+        if (valor.indexOf('#') < 0) {
+          return;
+        }
+        spanNode.innerHTML = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.doVariablesInterpolation)(valor, _this3.groupContext._s);
+      });
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var _this4 = this;
+      var ds = this.parent.dataset;
+      if (ds.active === "1") {
+        return;
+      }
+      ds.active = "1";
+      this.checkButton.addEventListener("click", this.listener);
+      //Pass language to all QuizzElements
+      this.allQuizzElements.forEach(function (quizzElem) {
+        if (typeof quizzElem.setLang !== 'function') {
+          console.error("No custom element registered for ", quizzElem);
+          return;
+        }
+        quizzElem.setLang(_this4.lang);
+        quizzElem.setGroupContext(_this4.groupContext);
+      });
+      //cloze elements needs mathquill to be loaded on demand
+
+      if (this.allClozeElements.length) {
+        //Needs to load mathquill js file on demand
+        //Needs the lookup document.head for a script with src="....../sd/quizz.min.js"
+        //and build a new url with ....../sd/mathquill.min.js
+        //In this way, we share the same base url than the main plugin
+        //Fallback
+        var mathQuillURL = 'https://piworld.es/iedib/snippets/sd/mathquill.min.js';
+        var scriptFound = document.body.querySelector('script[src$="/sd/quizz.min.js"]');
+        if (scriptFound) {
+          mathQuillURL = (scriptFound.getAttribute('src') || '').replace('/sd/quizz.min.js', '/sd/mathquill.min.js');
+        }
+        (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.addScript)(mathQuillURL, 'mathquill.matrix4quizz', function () {
+          //When mathquill ready must initialize this widgets
+          _this4.allClozeElements.forEach(function (quizzElem) {
+            if (typeof quizzElem.setLang !== 'function') {
+              console.error("No custom element registered for ", quizzElem);
+              return;
+            }
+            quizzElem.setLang(_this4.lang);
+            quizzElem.setGroupContext(_this4.groupContext);
+          });
+        });
+      }
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      var ds = this.parent.dataset;
+      if (ds.active === "0") {
+        return;
+      }
+      this.parent.removeAttribute("data-active");
+      this.checkButton.removeEventListener("click", this.listener);
+    }
+  }]);
+  return QuizzComponent;
+}(_base__WEBPACK_IMPORTED_MODULE_9__.BaseComponent)) || _class);
+
+
+/***/ }),
+/* 40 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(37);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(42);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(46);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+
+
+
+
+var IBQuizzDropdown = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-dropdown",
+  classes: ["ib-quizz-elem"],
+  styles: {
+    "display": "inline-block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzDropdown, _WidgetElement);
+  var _super = _createSuper(IBQuizzDropdown);
+  function IBQuizzDropdown() {
+    var _this;
+    _classCallCheck(this, IBQuizzDropdown);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "userAns", -1);
+    return _this;
+  }
+  _createClass(IBQuizzDropdown, [{
+    key: "enable",
+    value: function enable(state) {
+      if (!this.button) {
+        return;
+      }
+      if (state) {
+        this.button.disabled = false;
+      } else {
+        this.button.disabled = true;
+      }
+    }
+  }, {
+    key: "getUserInput",
+    value: function getUserInput() {
+      return this.userAns + "";
+    }
+  }, {
+    key: "displayRightAnswer",
+    value: function displayRightAnswer() {
+      this.enable(false);
+    }
+  }, {
+    key: "check",
+    value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2, _this$widgetConfig;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
+      var result = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) === this.userAns + "";
+      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
+      this.enable(!result);
+      if (result) {
+        this.showFeedback();
+      } else {
+        this.incAttempts();
+      }
+      return result;
+    }
+  }, {
+    key: "setLang",
+    value: function setLang(lang) {
+      _get(_getPrototypeOf(IBQuizzDropdown.prototype), "setLang", this).call(this, lang);
+      if (this.button) {
+        this.button.innerHTML = (0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(lang, "chooseone");
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$widgetConfig2,
+        _this$groupContext,
+        _this2 = this,
+        _this$widgetConfig3,
+        _this$widgetConfig3$o;
+      if (!this.widgetConfig) {
+        console.error("The widgetConfig is not set");
+        return;
+      }
+      var theVars = (((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.vars) || []).filter(function (e) {
+        return (e + '').trim().length > 0;
+      });
+      // Here groupContext._v map is available and parsed
+      // Must evaluate in the context the rightanswer and all the options
+      if ((_this$groupContext = this.groupContext) !== null && _this$groupContext !== void 0 && _this$groupContext.s.length) {
+        theVars.forEach(function (v, i) {
+          var _this2$groupContext;
+          if (v.indexOf('#') < 0) {
+            return;
+          }
+          theVars[i] = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_3__.doVariablesInterpolation)(v, (_this2$groupContext = _this2.groupContext) === null || _this2$groupContext === void 0 ? void 0 : _this2$groupContext._s);
+        });
+      }
+
+      // Attach editListener of edit pages 
+      this.dropdown = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
+        "class": "dropdown",
+        style: "display:inline-block;"
+      });
+      console.log("connectedCallback ", this.widgetConfig);
+      if (!this.widgetConfig) {
+        return;
+      }
+      this.button = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("button", {
+        "class": "btn btn-outline-primary dropdown-toggle",
+        "type": "button",
+        "data-toggle": "dropdown",
+        "aria-haspopup": "true",
+        "aria-expanded": "false",
+        "html": (0,_i18n__WEBPACK_IMPORTED_MODULE_2__["default"])(this.lang, "chooseone")
+      });
+      this.options = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
+        "class": "dropdown-menu",
+        "aria-labelledby": "dropdownMenuButton"
+      });
+      var n = theVars.length || 0;
+      var permutationIndices = new Array(n);
+      for (var i = 0; i < n; i++) {
+        permutationIndices[i] = i;
+      }
+      if ((_this$widgetConfig3 = this.widgetConfig) !== null && _this$widgetConfig3 !== void 0 && (_this$widgetConfig3$o = _this$widgetConfig3.opts) !== null && _this$widgetConfig3$o !== void 0 && _this$widgetConfig3$o.shuffle) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_5__.shuffleArray)(permutationIndices);
+      }
+      permutationIndices.forEach(function (index) {
+        var _this2$options;
+        var opt = theVars[index];
+        var anchor = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("a", {
+          "class": "dropdown-item",
+          "href": "#",
+          "data-index": index + "",
+          "html": opt
+        });
+        anchor.addEventListener("click", function (evt) {
+          _this2.userAns = index;
+          evt.preventDefault();
+          _this2.button && (_this2.button.innerHTML = opt);
+          if (opt.indexOf('\\(') >= 0) {
+            _this2.reflowLatex();
+          }
+          _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+        });
+        (_this2$options = _this2.options) === null || _this2$options === void 0 ? void 0 : _this2$options.append(anchor);
+      });
+      this.dropdown.append(this.button);
+      this.dropdown.append(this.options);
+      _get(_getPrototypeOf(IBQuizzDropdown.prototype), "init", this).call(this, this.widgetConfig.pre);
+      this.append(this.dropdown);
+      this.statusDisplay && this.append(this.statusDisplay.getElement());
+      this.reflowLatex();
+    }
+    /*
+    attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
+        console.log('The ', name, ' has changed to', newValue);
+    }
+    static get observedAttributes(): string[] {
+        return ['data-src'];
+    }*/
+  }]);
+  return IBQuizzDropdown;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_6__.WidgetElement)) || _class);
+
+/***/ }),
+/* 41 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "StatusDisplay": function() { return /* binding */ StatusDisplay; },
+/* harmony export */   "WidgetStatus": function() { return /* binding */ WidgetStatus; }
+/* harmony export */ });
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _bsMsgDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(43);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(42);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+
+// Only PENDING require checking
+var WidgetStatus;
+(function (WidgetStatus) {
+  WidgetStatus[WidgetStatus["UNTOUCHED"] = 0] = "UNTOUCHED";
+  WidgetStatus[WidgetStatus["PENDING"] = 1] = "PENDING";
+  WidgetStatus[WidgetStatus["ERROR"] = 2] = "ERROR";
+  WidgetStatus[WidgetStatus["WRONG"] = 3] = "WRONG";
+  WidgetStatus[WidgetStatus["RIGHT"] = 4] = "RIGHT";
+})(WidgetStatus || (WidgetStatus = {}));
+var ICON_RIGHT = "fa fas fa-check";
+var ICON_WRONG = "fa fas fa-times";
+var ICON_ERROR = "fa fas fa-exclamation";
+var ICON_HINT = "fa fas fa-life-ring";
+var ICON_ANSWER = "fa fas fa-question";
+var StatusDisplay = /*#__PURE__*/function () {
+  function StatusDisplay() {
+    _classCallCheck(this, StatusDisplay);
+    _defineProperty(this, "status", WidgetStatus.UNTOUCHED);
+    _defineProperty(this, "lang", "ca");
+    this.spanStatus = document.createElement("span");
+    this.spanStatus.setAttribute("data-toggle", "tooltip");
+    this.spanHint = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      dataToggle: 'tooltip',
+      "class": 'ib-quizz-hint',
+      title: 'Mostrar pista',
+      style: "display:none;",
+      html: "<i class=\"".concat(ICON_HINT, "\"></i>")
+    });
+    this.feedbackSpan = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      "class": 'ib-quizz-feedback',
+      dataToggle: 'tooltip',
+      title: 'Mostrar solució',
+      style: "display:none;",
+      html: "<i class=\"".concat(ICON_ANSWER, "\"></i>")
+    });
+    this.divBlock = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      style: "display:inline-block;"
+    });
+    this.divBlock.append(this.spanStatus);
+    this.divBlock.append(this.spanHint);
+    this.divBlock.append(this.feedbackSpan);
+  }
+  _createClass(StatusDisplay, [{
+    key: "setStatus",
+    value: function setStatus(status, msg) {
+      this.status = status;
+      var cl = this.spanStatus.classList;
+      var msg2 = msg;
+      switch (status) {
+        case WidgetStatus.UNTOUCHED:
+        case WidgetStatus.PENDING:
+          cl.remove("ib-quizz-right", "ib-quizz-wrong", "ib-quizz-error");
+          this.spanStatus.innerHTML = "";
+          break;
+        case WidgetStatus.RIGHT:
+          cl.add("ib-quizz-right");
+          if (!msg2) {
+            msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_1__["default"])(this.lang, 'right');
+          }
+          this.spanStatus.innerHTML = "<i class=\"".concat(ICON_RIGHT, "\"></i>");
+          break;
+        case WidgetStatus.WRONG:
+          cl.add("ib-quizz-wrong");
+          if (!msg2) {
+            msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_1__["default"])(this.lang, 'wrong');
+          }
+          this.spanStatus.innerHTML = "<i class=\"".concat(ICON_WRONG, "\"></i>");
+          break;
+        default:
+          cl.add("ib-quizz-error");
+          if (!msg2) {
+            msg2 = (0,_i18n__WEBPACK_IMPORTED_MODULE_1__["default"])(this.lang, 'error');
+          }
+          this.spanStatus.innerHTML = "<i class=\"".concat(ICON_ERROR, "\"></i>");
+          break;
+      }
+      msg2 && this.spanStatus.setAttribute("title", msg2);
+    }
+  }, {
+    key: "getStatus",
+    value: function getStatus() {
+      return this.status;
+    }
+  }, {
+    key: "setLang",
+    value: function setLang(lang) {
+      this.lang = lang;
+    }
+  }, {
+    key: "setHint",
+    value: function setHint(hint) {
+      this.spanHint.addEventListener('click', function () {
+        var dlg = (0,_bsMsgDialog__WEBPACK_IMPORTED_MODULE_2__.getCachedMsgDialog)('ib-quizz-modal-dlg', 'Una pista...');
+        var hintDiv = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.createElement)('div', {
+          html: hint
+        });
+        dlg.setBody(hintDiv);
+        dlg.show();
+      });
+      this.spanHint.style.setProperty('display', '');
+    }
+  }, {
+    key: "setFeedback",
+    value: function setFeedback(feedback) {
+      this.feedbackSpan.addEventListener('click', function () {
+        var dlg = (0,_bsMsgDialog__WEBPACK_IMPORTED_MODULE_2__.getCachedMsgDialog)('ib-quizz-modal-dlg', 'Retroacció');
+        var hintDiv = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.createElement)('div', {
+          html: feedback
+        });
+        dlg.setBody(hintDiv);
+        dlg.show();
+      });
+      this.spanHint.style.setProperty('display', 'none');
+      this.feedbackSpan.style.setProperty('display', '');
+    }
+  }, {
+    key: "getElement",
+    value: function getElement() {
+      return this.divBlock;
+    }
+  }]);
+  return StatusDisplay;
+}();
+
+/***/ }),
+/* 42 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ getI18n; }
+/* harmony export */ });
+var I18n = {
+  "ca": {
+    "check": "Comprova",
+    "chooseone": "Tria una opció",
+    "right": "Ben fet!",
+    "wrong": "Ho sento. Intentau-ho de nou",
+    "error": "Hi ha hagut un error processant la resposta",
+    "random_msg": "Aquestes activitats contenen preguntes aleatòries que es generen cada vegada que es carrega la pàgina."
+  },
+  "es": {
+    "check": "Comprueba",
+    "chooseone": "Elige una opción",
+    "right": "¡Bien hecho!",
+    "wrong": "Lo siento. Inténtalo de nuevo.",
+    "error": "Ha habido un error procesando la respuesta",
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+  },
+  "en": {
+    "check": "Check",
+    "chooseone": "Choose one",
+    "right": "Well done!",
+    "wrong": "Try it again.",
+    "error": "There has been an error processing the answer",
+    "random_msg": "These activities contain random questions that are generated at every page load."
+  },
+  "fr": {
+    "check": "Vérifier",
+    "chooseone": "Choisis une option",
+    "right": "¡Bien hecho!",
+    "wrong": "Lo siento. Inténtalo de nuevo.",
+    "error": "Ha habido un error procesando la respuesta",
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+  },
+  "de": {
+    "check": "Prüfen",
+    "chooseone": "Wähle eine option",
+    "right": "¡Bien hecho!",
+    "wrong": "Lo siento. Inténtalo de nuevo.",
+    "error": "Ha habido un error procesando la respuesta",
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+  }
+};
+function getI18n(lang, key) {
+  var locale = I18n[lang];
+  if (!locale) {
+    locale = I18n["ca"];
+  }
+  return locale[key] || key;
+}
+
+/***/ }),
+/* 43 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getCachedMsgDialog": function() { return /* binding */ getCachedMsgDialog; }
+/* harmony export */ });
+/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var MsgDialog = /*#__PURE__*/function (_BSDialog) {
+  _inherits(MsgDialog, _BSDialog);
+  var _super = _createSuper(MsgDialog);
+  function MsgDialog(id) {
+    _classCallCheck(this, MsgDialog);
+    return _super.call(this, id, _bs_dialog__WEBPACK_IMPORTED_MODULE_0__.BSDialogType.CLOSE, '');
+  }
+  return _createClass(MsgDialog);
+}(_bs_dialog__WEBPACK_IMPORTED_MODULE_0__.BSDialog); // Cache
+var _chachedDlg = {};
+function getCachedMsgDialog(id, title) {
+  var dlg = _chachedDlg[id];
+  if (!dlg) {
+    dlg = new MsgDialog(id);
+    _chachedDlg[id] = dlg;
+  }
+  dlg.setTitle(title);
+  return dlg;
+}
+
+/***/ }),
+/* 44 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BSDialog": function() { return /* binding */ BSDialog; },
+/* harmony export */   "BSDialogType": function() { return /* binding */ BSDialogType; }
+/* harmony export */ });
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _jsPath__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(45);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
+
+
+
+/**
+ * Type of dialog
+ * CLOSE, Only close button
+ * CANCEL_ACCEPT, Accept and cancel buttons
+ * CANCEL_ACCEPT_FORM, wraps body and footer into a form element
+ * CANCEL_ACCEPT_FORM_VALIDATION, performs validation checks to the form when submitting
+ */
+var BSDialogType;
+
+/**
+ * Simple dialog based on Boostrap dialogs
+ * Extend this class to include further functionality
+ */
+(function (BSDialogType) {
+  BSDialogType[BSDialogType["CLOSE"] = 0] = "CLOSE";
+  BSDialogType[BSDialogType["CANCEL_ACCEPT"] = 1] = "CANCEL_ACCEPT";
+  BSDialogType[BSDialogType["CANCEL_ACCEPT_FORM"] = 2] = "CANCEL_ACCEPT_FORM";
+  BSDialogType[BSDialogType["CANCEL_ACCEPT_FORM_VALIDATION"] = 3] = "CANCEL_ACCEPT_FORM_VALIDATION";
+})(BSDialogType || (BSDialogType = {}));
+var BSDialog = /*#__PURE__*/function () {
+  function BSDialog(id, type) {
+    var title = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "Diàleg";
+    _classCallCheck(this, BSDialog);
+    this.type = type;
+    var hasForm = type === BSDialogType.CANCEL_ACCEPT_FORM || type === BSDialogType.CANCEL_ACCEPT_FORM_VALIDATION;
+    this.hasValidation = type === BSDialogType.CANCEL_ACCEPT_FORM_VALIDATION;
+    var formBegin = '';
+    var formEnd = '';
+    if (hasForm) {
+      formBegin = "<form".concat(this.hasValidation ? ' class="needs-validation" novalidate' : '', ">");
+      formEnd = '</form>';
+    }
+    var footerContent = "<button type=\"button\" class=\"btn btn-sm btn-secondary\" data-dismiss=\"modal\">".concat(type === BSDialogType.CLOSE ? 'Tancar' : 'Cancel·lar', "</button>");
+    if (type !== BSDialogType.CLOSE) {
+      footerContent += "<button type=\"".concat(hasForm ? 'submit' : 'button', "\" class=\"btn btn-sm btn-primary\">Acceptar</button>");
+    }
+    this.elem = $("\n            <div class=\"modal fade moodle-dialogue\" id=\"".concat(id, "\" tabindex=\"-1\" aria-labelledby=\"bsdialog\" aria-hidden=\"true\">\n            <div class=\"modal-dialog\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\">").concat(title, "</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  ").concat(formBegin, "\n                  <div class=\"modal-body\" style=\"max-height:400px;overflow-y:auto;font-size:90%;\">\n                  </div>\n                  <div class=\"modal-footer\">\n                    ").concat(footerContent, "\n                  </div>\n                  ").concat(formEnd, "\n                </div>\n                </div>"));
+    this.body = this.elem.find('div.modal-body');
+    this.header = this.elem.find('h5.modal-title');
+    this.primaryButton = this.elem.find('button.btn.btn-primary');
+    this.form = this.elem.find('form');
+    this.validationDiv = this.elem.find('div.alert.alert-danger');
+    $('body').append(this.elem);
+  }
+  _createClass(BSDialog, [{
+    key: "resetDialog",
+    value: function resetDialog() {
+      this.body.html('');
+      this.primaryButton && this.primaryButton.off();
+      if (this.form) {
+        this.form.off();
+      }
+      this.validationDiv.css('display', 'none');
+      this.validationDiv.html('');
+    }
+  }, {
+    key: "setBody",
+    value: function setBody(htmlElem) {
+      var _this = this;
+      this.resetDialog();
+      var $htmlElem = $(htmlElem);
+      this.validationDiv = $("<div class=\"alert alert-danger\" style=\"display:none;max-height:100px;overflow-y:auto;\"></div>");
+      this.body.append(this.validationDiv);
+      this.body.append($htmlElem);
+      // Check if has primary button
+      if (this.primaryButton) {
+        if (this.form) {
+          //Attach action to formElement because it is of submit type
+          this.form.on('submit', function (evt) {
+            // Do validation
+            evt.preventDefault();
+            evt.stopPropagation();
+            if (_this.hasValidation) {
+              _this.form.addClass('was-validated');
+              // Needs validation
+              // First check userDefined validation
+              _this.updateValues();
+              var error = _this.customValidation();
+              console.log("Custom validation is ", error);
+              if (error && _this.validationDiv != null) {
+                _this.validationDiv.css('display', '');
+                _this.validationDiv.html(error);
+                var offset = _this.validationDiv.offset();
+                offset && _this.body.animate({
+                  scrollTop: 0
+                });
+                return;
+              }
+              // Then build-in validation
+              if (_this.form[0].checkValidity()) {
+                // close dialog
+                //@ts-ignore
+                _this.elem.modal('hide');
+                // execute succesCb 
+                _this.acceptCb && _this.acceptCb(_this.scope);
+              }
+            } else {
+              //No validation required
+              _this.updateValues();
+              _this.acceptCb && _this.acceptCb(_this.scope);
+            }
+          });
+        } else {
+          //Directly attach action to primary button if not of submit type
+          this.primaryButton.on('click', function (evt) {
+            evt.preventDefault();
+            _this.acceptCb && _this.acceptCb();
+            //@ts-ignore
+            _this.elem.modal('hide');
+          });
+        }
+      }
+    }
+  }, {
+    key: "setValues",
+    value: function setValues(scope) {
+      this.scope = scope;
+      var allBindable = this.body.find('input[id], textarea[id], select[id]');
+      allBindable.each(function (i, elem) {
+        var idParts = (elem.getAttribute("id") || '').split("_");
+        if (idParts.length < 2) {
+          return;
+        }
+        var barPath = (0,_jsPath__WEBPACK_IMPORTED_MODULE_0__.splitBar)(idParts[idParts.length - 1]);
+        //Seach the value in scope
+        var value = (0,_jsPath__WEBPACK_IMPORTED_MODULE_0__.getPathValue)(barPath, scope);
+        //TODO serialize the value and handle [0] syntax
+        if (elem.nodeName === 'TEXTAREA') {
+          elem.value = value || '';
+        } else {
+          var inputElem = elem;
+          var t = (inputElem.getAttribute('type') || '').toLowerCase();
+          var isCheckRadio = t === 'radio' || t === 'checkbox';
+          if (isCheckRadio) {
+            inputElem.checked = value === 'true';
+          } else {
+            inputElem.value = value || '';
+          }
+        }
+      });
+    }
+  }, {
+    key: "updateValues",
+    value: function updateValues() {
+      var _this2 = this;
+      if (this.scope == null) {
+        return;
+      }
+      var allBindable = this.body.find('input[id], textarea[id], select[id]');
+      allBindable.each(function (i, elem) {
+        var idParts = (elem.getAttribute("id") || '').split("_");
+        if (idParts.length < 2) {
+          return;
+        }
+        var barPath = (0,_jsPath__WEBPACK_IMPORTED_MODULE_0__.splitBar)(idParts[idParts.length - 1]);
+        //Seach the parent bar in scope
+        if (elem.nodeName === 'TEXTAREA') {
+          var newValue = elem.value || '';
+          (0,_jsPath__WEBPACK_IMPORTED_MODULE_0__.setPathValue)(barPath, _this2.scope, newValue);
+        } else {
+          var inputElem = elem;
+          var t = (inputElem.getAttribute('type') || '').toLowerCase();
+          var isCheckRadio = t === 'radio' || t === 'checkbox';
+          if (isCheckRadio) {
+            (0,_jsPath__WEBPACK_IMPORTED_MODULE_0__.setPathValue)(barPath, _this2.scope, inputElem.checked);
+          } else {
+            (0,_jsPath__WEBPACK_IMPORTED_MODULE_0__.setPathValue)(barPath, _this2.scope, inputElem.value);
+          }
+        }
+      });
+    }
+  }, {
+    key: "setBodyBindings",
+    value: function setBodyBindings(bodyHTML, scope) {
+      var panel = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.createElement)('div', {
+        style: 'width:100%;padding:10px',
+        html: bodyHTML
+      });
+      this.setBody(panel);
+      console.log('bs-dialog recieved the scope', scope);
+      this.setValues(scope);
+    }
+  }, {
+    key: "customValidation",
+    value: function customValidation() {
+      //Overide me! Return the error/s description
+      return null;
+    }
+  }, {
+    key: "setTitle",
+    value: function setTitle(title) {
+      this.header.html(title);
+    }
+  }, {
+    key: "show",
+    value: function show(acceptCb) {
+      var _this3 = this;
+      this.form.removeClass('was-validated');
+      //@ts-ignore
+      this.elem.modal('show');
+      //It is strange, but it rquires a timeout!!!
+      window.setTimeout(function () {
+        return _this3.body.scrollTop(0);
+      }, 400);
+      this.acceptCb = acceptCb;
+    }
+  }]);
+  return BSDialog;
+}();
+
+/***/ }),
+/* 45 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getPathValue": function() { return /* binding */ getPathValue; },
+/* harmony export */   "setPathValue": function() { return /* binding */ setPathValue; },
+/* harmony export */   "splitBar": function() { return /* binding */ splitBar; }
+/* harmony export */ });
+/* unused harmony export searchParentInPath */
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+/**
+ * 'a.b[0].c' --> ['a','b','[0]','c']
+ * @param bar 
+ */
+function splitBar(bar) {
+  var path = [];
+  bar.split('.').forEach(function (p) {
+    var parts = p.split('[');
+    var pt = parts[0].trim();
+    if (pt.length) {
+      path.push(pt);
+      if (parts.length > 1) {
+        path.push('[' + parts[1].trim());
+      }
+    }
+  });
+  return path;
+}
+
+/**
+ * scope ={
+ *    a: 'hello',
+ *    b: [1,2,3],
+ *    c: {
+ *       k: 'world'
+ *         }
+ *      }
+ *    a    -> scope
+ *    b[0] -> scope.b
+ *    c.k  -> scope.c
+ *    w    -> null
+ *    c.x  -> null
+ *    @param barPath 
+ *    @param scope 
+ *    @returns 
+ */
+function searchParentInPath(barPath, scope) {
+  if (barPath.length === 0) {
+    return null;
+  } else if (barPath.length === 1) {
+    return scope;
+  }
+  var currentObject = scope;
+  var i = 0;
+  var barPathLen = barPath.length - 1; //Stop to the parent
+  while (currentObject != null && i < barPathLen) {
+    var bar = barPath[i];
+    if (bar.indexOf('[') >= 0) {
+      //Test against array
+      var pos = parseInt(bar.replace(/[[\]]/g, ''));
+      if (Array.isArray(currentObject)) {
+        var cObjLst = currentObject;
+        if (pos < cObjLst.length) {
+          currentObject = cObjLst[pos];
+        } else {
+          console.error("Index out of bounds ", barPath.join(''), pos, cObjLst);
+          currentObject = null;
+        }
+      } else {
+        console.error("Not an array", barPath.join(''), currentObject);
+        currentObject = null;
+      }
+    } else {
+      //Lookup the object
+      var cObj = currentObject;
+      if (cObj[bar] != null) {
+        currentObject = cObj[bar];
+      } else {
+        currentObject = null;
+      }
+    }
+    i++;
+  }
+  return currentObject;
+}
+function getPathValue(barPath, scope) {
+  var currentObject = searchParentInPath([].concat(_toConsumableArray(barPath), ['']), scope);
+  if (currentObject != null) {
+    if (['string', 'boolean', 'number'].includes(_typeof(currentObject))) {
+      return currentObject + '';
+    } else {
+      return JSON.stringify(currentObject);
+    }
+  }
+  return null;
+}
+function setPathValue(barPath, scope, newValue) {
+  var currentObject = searchParentInPath(barPath, scope);
+  var applied = false;
+  if (currentObject != null) {
+    var _key = barPath[barPath.length - 1];
+    if (_key.indexOf('[') >= 0) {
+      //An array?
+      if (Array.isArray(currentObject)) {
+        var cObjLst = currentObject;
+        var pos = parseInt(_key.replace(/[[\]]/g, ''));
+        if (pos < cObjLst.length) {
+          cObjLst[pos] = newValue;
+          applied = true;
+        }
+      }
+    } else {
+      //Set property to the object
+      if (_typeof(currentObject) === 'object') {
+        var cObj = currentObject;
+        cObj[_key] = newValue;
+        applied = true;
+      }
+    }
+  }
+  return applied;
+}
+
+/***/ }),
+/* 46 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "doVariablesInterpolation": function() { return /* binding */ doVariablesInterpolation; },
+/* harmony export */   "runIBScript": function() { return /* binding */ runIBScript; },
+/* harmony export */   "treatIniPlaceholders": function() { return /* binding */ treatIniPlaceholders; }
+/* harmony export */ });
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+//Add all Math utilities
+var utilities = {};
+Object.getOwnPropertyNames(Math).forEach(function (key) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  utilities[key] = Math[key];
+});
+Object.defineProperty(utilities, "alea", {
+  value: function value() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    var na = args.length;
+    if (na === 0) {
+      //cap argument - retorna un signe [-1 o 1]
+      return Math.random() < 0.5 ? -1 : 1;
+    } else if (na === 1) {
+      //un argument - llista
+      if (Array.isArray(args[0])) {
+        var indx = Math.floor(Math.random() * args[0].length);
+        return args[0][indx];
+      }
+      //un argument - numeric [-a, a]
+      else if (typeof args[0] === 'number') {
+        return Math.floor(2 * args[0] * Math.random()) + args[0];
+      }
+    } else if (na >= 2) {
+      var a = args[0];
+      var b = args[1];
+      var pp = 1;
+      var ndec = 0;
+      var retVal = (b - a) * Math.random();
+      if (na === 3) {
+        //The third argument is the number of decimals
+        ndec = Math.abs(args[2]);
+        ndec = ndec > 8 ? 8 : ndec;
+        pp = Math.pow(10, ndec);
+      }
+      //TODO: Performance issue, but no other way to ensure correct number of decimals!!
+      retVal = +(Math.round(retVal * pp) / pp + a).toFixed(ndec);
+      return retVal;
+    }
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+Object.defineProperty(utilities, "dec", {
+  value: function value(v) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var pp = Math.pow(10, n);
+    return Math.round(v * pp) / pp;
+  },
+  enumerable: true,
+  configurable: false,
+  writable: false
+});
+
+/**
+ * Runs a whole script within a scope
+ *  * #bar exports the variable to the scope 
+ * while
+ * bar is a local variable that is not exported
+ * # is a shortcut for this.
+ * @param scriptCode The js code to be run
+ * @param context The variables that must be passed as argument to Function
+ * @param scope Where the execution variables are exported
+ * @returns the updated scope
+ */
+function runInScope(scriptCode, context, scope) {
+  context = context || {};
+  scope = scope || {};
+  var contextKeys = Object.keys(context);
+  var contextValues = Object.values(context);
+  //By default run in strict mode
+  var evaluator = _construct(Function, contextKeys.concat(['"use' + ' strict"\n' + scriptCode]));
+  return evaluator.apply(scope, contextValues);
+}
+function runIBScript(scriptCode, context, scope) {
+  if (window.nerdamer && !utilities.N) {
+    Object.defineProperty(utilities, "N", {
+      value: window.nerdamer,
+      enumerable: true,
+      configurable: false,
+      writable: false
+    });
+  }
+  if (window.mathjs && !utilities.M) {
+    Object.defineProperty(utilities, "M", {
+      value: window.mathjs,
+      enumerable: true,
+      configurable: false,
+      writable: false
+    });
+  }
+  context = Object.assign(context || {}, utilities);
+  return runInScope('var _this=this;\n' + scriptCode.replace(/#/g, '_this.'), context, scope);
+}
+
+/**
+* Replace V[N] by (?,?,...,?)
+* Replace M[pxq] by matrix pxq with ? elements
+* @param iniTxt 
+* @returns 
+*/
+function treatIniPlaceholders(iniTxt) {
+  if (!iniTxt) {
+    return iniTxt;
+  }
+  return iniTxt.replace(/V\[(\d+)\]/g, function ($0, $1) {
+    var n = parseInt($1);
+    return '\\left(' + new Array(n).fill('\\MathQuillMathField{}').join(',') + '\\right)';
+  }).replace(/M\[(\d+)x(\d+)\]/g, function ($0, $1, $2) {
+    var n = parseInt($1);
+    var m = parseInt($2);
+    var line = new Array(n).fill('\\MathQuillMathField{}').join(' & ');
+    var mtex = new Array(m).fill(line).join(' \\\\ ');
+    return '\\begin{pmatrix}' + mtex + '\\end{pmatrix}';
+  }).replace(/\?/g, '\\MathQuillMathField{ }');
+}
+function doVariablesInterpolation(text, map) {
+  if (!map) {
+    return text;
+  }
+  var interpolated = text.replace(/#([a-zA-Z0-9_]+)($|[ .,"'])/gm, function ($0, $1, $2) {
+    if (map[$1] != null) {
+      return map[$1] + ($2 || '');
+    }
+    return $0;
+  });
+  //Support dynamic LaTeX in placeholders (by using $...$ and $$...$$)
+  interpolated = interpolated.replace(/\${2}(.*)?\${2}/gm, function ($0, $1) {
+    return "\\" + "[" + $1 + "\\" + "]";
+  }).replace(/\$(.*)?\$/gm, function ($0, $1) {
+    return "\\" + "(" + $1 + "\\" + ")";
+  });
+  return interpolated;
+}
+
+/***/ }),
+/* 47 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "WidgetElement": function() { return /* binding */ WidgetElement; }
+/* harmony export */ });
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(41);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+var WidgetElement = /*#__PURE__*/function (_HTMLElement) {
+  _inherits(WidgetElement, _HTMLElement);
+  var _super = _createSuper(WidgetElement);
+  function WidgetElement() {
+    var _this;
+    _classCallCheck(this, WidgetElement);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "lang", "ca");
+    _defineProperty(_assertThisInitialized(_this), "_syncCount", 0);
+    _defineProperty(_assertThisInitialized(_this), "attempts", 0);
+    _defineProperty(_assertThisInitialized(_this), "hintSet", false);
+    _defineProperty(_assertThisInitialized(_this), "feedbackSet", false);
+    return _this;
+  }
+  _createClass(WidgetElement, [{
+    key: "init",
+    value:
+    /*
+    constructor() {
+        super();
+      
+        //this.append(this.statusDisplay);
+        //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        //$(this.statusDisplay).tooltip();
+    }
+    */
+
+    function init(pre) {
+      if (pre) {
+        var spanPre = document.createElement("span");
+        spanPre.innerHTML = pre;
+        this.prepend(spanPre);
+      }
+    }
+  }, {
+    key: "connectedCallback",
+    value: function connectedCallback() {
+      console.log("Widget connected callback");
+      this.innerHTML = "";
+      this.classList.add("d-print-none");
+      this.statusDisplay = new _statusDisplay__WEBPACK_IMPORTED_MODULE_0__.StatusDisplay();
+      // Parse the widgetConfig from data-src
+      // Make sure that has data-src field 
+      try {
+        this.widgetConfig = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.base64Decode)(this.dataset.src);
+      } catch (ex) {
+        console.error(ex);
+        return;
+      }
+      console.log("Widget config is ", this.widgetConfig);
+      this._syncCount++;
+      if (this._syncCount === 3) {
+        this.render();
+      }
+    }
+  }, {
+    key: "reflowLatex",
+    value: function reflowLatex() {
+      // Reflow Mathjax if exists in page
+      if (window.MathJax) {
+        window.MathJax.typesetPromise && window.MathJax.typesetPromise();
+        window.MathJax.Hub && window.MathJax.Hub.Queue && window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+      }
+    }
+  }, {
+    key: "setLang",
+    value: function setLang(lang) {
+      var _this$statusDisplay;
+      this.lang = lang;
+      (_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.setLang(lang);
+      console.log("Setting lang ", lang);
+      this._syncCount++;
+      if (this._syncCount === 3) {
+        this.render();
+      }
+    }
+  }, {
+    key: "setGroupContext",
+    value: function setGroupContext(groupContext) {
+      this.groupContext = groupContext;
+      console.log("Setting context ", this.groupContext);
+      this._syncCount++;
+      //Interpolate the variables in the groupContext if any
+      if (Object.keys(groupContext._s).length) {
+        var _this$widgetConfig, _this$widgetConfig2, _this$widgetConfig3, _this$widgetConfig4;
+        if ((_this$widgetConfig = this.widgetConfig) !== null && _this$widgetConfig !== void 0 && _this$widgetConfig.hint) {
+          this.widgetConfig.hint = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.hint, groupContext._s);
+        }
+        if ((_this$widgetConfig2 = this.widgetConfig) !== null && _this$widgetConfig2 !== void 0 && _this$widgetConfig2.fbk) {
+          this.widgetConfig.fbk = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.fbk, groupContext._s);
+        }
+        if ((_this$widgetConfig3 = this.widgetConfig) !== null && _this$widgetConfig3 !== void 0 && _this$widgetConfig3.ini) {
+          this.widgetConfig.ini = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.ini, groupContext._s);
+        }
+        if ((_this$widgetConfig4 = this.widgetConfig) !== null && _this$widgetConfig4 !== void 0 && _this$widgetConfig4.pre) {
+          this.widgetConfig.pre = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(this.widgetConfig.pre, groupContext._s);
+        }
+        /*
+        if(this.widgetConfig?.ans) {
+            this.widgetConfig.ans = doVariablesInterpolation(this.widgetConfig.ans, groupContext._s);
+        }
+        */
+      }
+
+      if (this._syncCount === 3) {
+        this.render();
+      }
+    }
+  }, {
+    key: "setStatus",
+    value: function setStatus(status, msg) {
+      var _this$statusDisplay2;
+      (_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.setStatus(status, msg);
+    }
+  }, {
+    key: "incAttempts",
+    value: function incAttempts() {
+      var _this$groupContext, _this$groupContext2, _this$widgetConfig5, _this$widgetConfig7;
+      this.attempts++;
+      var limitHint = ((_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext.o.hint) || 0;
+      var limitFeedback = ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2.o.ans) || 0;
+      if (!this.hintSet && limitHint > 0 && this.attempts >= limitHint && (_this$widgetConfig5 = this.widgetConfig) !== null && _this$widgetConfig5 !== void 0 && _this$widgetConfig5.hint) {
+        var _this$statusDisplay3, _this$widgetConfig6;
+        this.hintSet = true;
+        (_this$statusDisplay3 = this.statusDisplay) === null || _this$statusDisplay3 === void 0 ? void 0 : _this$statusDisplay3.setHint((_this$widgetConfig6 = this.widgetConfig) === null || _this$widgetConfig6 === void 0 ? void 0 : _this$widgetConfig6.hint);
+      }
+      if (!this.feedbackSet && limitFeedback > 0 && this.attempts >= limitFeedback && (_this$widgetConfig7 = this.widgetConfig) !== null && _this$widgetConfig7 !== void 0 && _this$widgetConfig7.fbk) {
+        var _this$statusDisplay4, _this$widgetConfig8;
+        this.feedbackSet = true;
+        (_this$statusDisplay4 = this.statusDisplay) === null || _this$statusDisplay4 === void 0 ? void 0 : _this$statusDisplay4.setFeedback((_this$widgetConfig8 = this.widgetConfig) === null || _this$widgetConfig8 === void 0 ? void 0 : _this$widgetConfig8.fbk);
+      }
+    }
+  }, {
+    key: "showFeedback",
+    value: function showFeedback() {
+      var _this$widgetConfig9;
+      if (!this.feedbackSet && (_this$widgetConfig9 = this.widgetConfig) !== null && _this$widgetConfig9 !== void 0 && _this$widgetConfig9.fbk) {
+        var _this$statusDisplay5, _this$widgetConfig10;
+        this.feedbackSet = true;
+        (_this$statusDisplay5 = this.statusDisplay) === null || _this$statusDisplay5 === void 0 ? void 0 : _this$statusDisplay5.setFeedback((_this$widgetConfig10 = this.widgetConfig) === null || _this$widgetConfig10 === void 0 ? void 0 : _this$widgetConfig10.fbk);
+      }
+    }
+  }]);
+  return WidgetElement;
+}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+/***/ }),
+/* 48 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(37);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(47);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+
+
+
+
+
+
+var isSameSet = function isSameSet(set1, set2) {
+  var s = new Set([].concat(_toConsumableArray(set1), _toConsumableArray(set2)));
+  return s.size == set1.size && s.size == set2.size;
+};
+var IBQuizzMchoice = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-mchoice",
+  classes: ["iedib-quizz-widget"],
+  styles: {
+    display: "flex",
+    "align-items": "center"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzMchoice, _WidgetElement);
+  var _super = _createSuper(IBQuizzMchoice);
+  function IBQuizzMchoice() {
+    var _this;
+    _classCallCheck(this, IBQuizzMchoice);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "radios", []);
+    _defineProperty(_assertThisInitialized(_this), "userAnsSet", new Set());
+    return _this;
+  }
+  _createClass(IBQuizzMchoice, [{
+    key: "enable",
+    value: function enable(state) {
+      var _this$radios;
+      (_this$radios = this.radios) === null || _this$radios === void 0 ? void 0 : _this$radios.forEach(function (radio) {
+        if (state) {
+          var _radio$parentElement;
+          radio.disabled = false;
+          (_radio$parentElement = radio.parentElement) === null || _radio$parentElement === void 0 ? void 0 : _radio$parentElement.classList.remove("disabled");
+        } else {
+          var _radio$parentElement2;
+          radio.disabled = true;
+          (_radio$parentElement2 = radio.parentElement) === null || _radio$parentElement2 === void 0 ? void 0 : _radio$parentElement2.classList.add("disabled");
+        }
+      });
+    }
+  }, {
+    key: "getUserInput",
+    value: function getUserInput() {
+      return _toConsumableArray(this.userAnsSet).join(",");
+    }
+  }, {
+    key: "displayRightAnswer",
+    value: function displayRightAnswer() {
+      this.enable(false);
+    }
+  }, {
+    key: "check",
+    value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2, _this$widgetConfig;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
+      var expectedAns = (((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) || '').split(",").map(function (e) {
+        return e.trim();
+      });
+      var expectedSet = new Set(expectedAns);
+      var result = isSameSet(this.userAnsSet, expectedSet);
+      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
+      this.enable(!result);
+      if (result) {
+        this.showFeedback();
+      } else {
+        this.incAttempts();
+      }
+      return result;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$widgetConfig2,
+        _this$groupContext,
+        _this2 = this,
+        _this$widgetConfig3,
+        _this$widgetConfig4,
+        _this$widgetConfig4$o;
+      console.log("MCHOICE RENDER:: ", this.groupContext, this.widgetConfig);
+      if (!this.widgetConfig) {
+        return;
+      }
+      // Here groupContext._v map is available and parsed
+      // Must evaluate in the context the rightanswer and all the options
+      var theVars = (((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.vars) || []).filter(function (e) {
+        return (e + '').trim().length > 0;
+      });
+      console.log("thevars", theVars);
+      if ((_this$groupContext = this.groupContext) !== null && _this$groupContext !== void 0 && _this$groupContext.s.length) {
+        console.log("The vars,", theVars);
+        theVars.forEach(function (v, i) {
+          var _this2$groupContext;
+          console.log("Searching for # in ", v);
+          if (v.indexOf('#') < 0) {
+            return;
+          }
+          theVars[i] = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.doVariablesInterpolation)(v, (_this2$groupContext = _this2.groupContext) === null || _this2$groupContext === void 0 ? void 0 : _this2$groupContext._s);
+        });
+      }
+      this.form = document.createElement("form");
+      this.form.style.setProperty("display", "inline-block");
+      var isMultiple = ((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.ans.indexOf(",")) > 0;
+      var n = theVars.length || 0;
+      var permutationIndices = new Array(n);
+      for (var i = 0; i < n; i++) {
+        permutationIndices[i] = i;
+      }
+      if ((_this$widgetConfig4 = this.widgetConfig) !== null && _this$widgetConfig4 !== void 0 && (_this$widgetConfig4$o = _this$widgetConfig4.opts) !== null && _this$widgetConfig4$o !== void 0 && _this$widgetConfig4$o.shuffle) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.shuffleArray)(permutationIndices);
+      }
+      var radioName = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.genID)();
+      permutationIndices.forEach(function (index) {
+        var _this2$form;
+        var opt = theVars[index];
+        var formCheck = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("div", {
+          "class": "form-check"
+        });
+        (_this2$form = _this2.form) === null || _this2$form === void 0 ? void 0 : _this2$form.append(formCheck);
+        var input = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("input", {
+          "class": "form-check-input",
+          type: isMultiple ? "checkbox" : "radio",
+          name: radioName,
+          id: radioName + "_" + index
+        });
+        var label = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_4__.createElement)("label", {
+          "class": "form-check-label",
+          "for": radioName + "_" + index,
+          html: opt
+        });
+        formCheck.appendChild(input);
+        formCheck.appendChild(label);
+        _this2.radios.push(input);
+        input.addEventListener("click", function (evt) {
+          if (isMultiple) {
+            input.checked ? _this2.userAnsSet.add(index + '') : _this2.userAnsSet["delete"](index + '');
+          } else {
+            _this2.userAnsSet = new Set([index + '']);
+          }
+          _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+        });
+      });
+      _get(_getPrototypeOf(IBQuizzMchoice.prototype), "init", this).call(this, this.widgetConfig.pre);
+      this.append(this.form);
+      this.statusDisplay && this.append(this.statusDisplay.getElement());
+      this.reflowLatex();
+    }
+    /*
+    attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
+        console.log('The ', name, ' has changed to', newValue); 
+    }
+    static get observedAttributes(): string[] {
+         return ['data-src']; 
+    }*/
+  }]);
+  return IBQuizzMchoice;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_5__.WidgetElement)) || _class);
+
+/***/ }),
+/* 49 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(47);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+
+var IBQuizzNumeric = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-numeric",
+  classes: ["iedib-quizz-widget"],
+  styles: {
+    "display": "inline-block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzNumeric, _WidgetElement);
+  var _super = _createSuper(IBQuizzNumeric);
+  function IBQuizzNumeric() {
+    var _this;
+    _classCallCheck(this, IBQuizzNumeric);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "userAns", -1);
+    return _this;
+  }
+  _createClass(IBQuizzNumeric, [{
+    key: "enable",
+    value: function enable(state) {
+      if (!this.input) {
+        return;
+      }
+      if (state) {
+        this.input.disabled = false;
+      } else {
+        this.input.disabled = true;
+      }
+    }
+  }, {
+    key: "getUserInput",
+    value: function getUserInput() {
+      var _this$input;
+      return ((_this$input = this.input) === null || _this$input === void 0 ? void 0 : _this$input.value) || "";
+    }
+  }, {
+    key: "displayRightAnswer",
+    value: function displayRightAnswer() {
+      if (this.input) {
+        var _this$widgetConfig;
+        this.input.value = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) || "";
+        this.enable(false);
+      }
+    }
+  }, {
+    key: "check",
+    value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
+      //TODO set tolerance
+      var result = false;
+      try {
+        var _this$widgetConfig2;
+        var userFloat = parseFloat(this.getUserInput());
+        var ansFloat = parseFloat(((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : _this$widgetConfig2.ans) || "0");
+        if (!isNaN(userFloat) && !isNaN(ansFloat)) {
+          var _this$widgetConfig3, _this$widgetConfig3$o, _this$widgetConfig4, _this$widgetConfig4$o;
+          var tolerance = ((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : (_this$widgetConfig3$o = _this$widgetConfig3.opts) === null || _this$widgetConfig3$o === void 0 ? void 0 : _this$widgetConfig3$o.err) || 0;
+          var units = ((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : (_this$widgetConfig4$o = _this$widgetConfig4.opts) === null || _this$widgetConfig4$o === void 0 ? void 0 : _this$widgetConfig4$o.errunit) || 'absolute';
+          if (units === '%') {
+            tolerance = 0.01 * tolerance;
+          }
+          if (ansFloat === 0) {
+            units = 'absolute';
+          }
+          switch (units) {
+            case 'absolute':
+              result = Math.abs(userFloat - ansFloat) <= tolerance;
+              break;
+            default:
+              // Assume relative
+              result = Math.abs(userFloat / ansFloat - 1) <= tolerance;
+          }
+        } else {
+          var _this$widgetConfig5;
+          console.error("ERROR", this.getUserInput(), (_this$widgetConfig5 = this.widgetConfig) === null || _this$widgetConfig5 === void 0 ? void 0 : _this$widgetConfig5.ans);
+          this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
+          return false;
+        }
+      } catch (ex) {
+        console.error(ex);
+        //Error
+        this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
+        return false;
+      }
+      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
+      console.log("Numeric, ", this.getUserInput(), result);
+      this.enable(!result);
+      if (result) {
+        this.showFeedback();
+      } else {
+        this.incAttempts();
+      }
+      return result;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$groupContext,
+        _this2 = this;
+      if (!this.widgetConfig) {
+        return;
+      }
+      // Here groupContext._v map is available and parsed
+      // Must evaluate in the context the rightanswer
+      if ((_this$groupContext = this.groupContext) !== null && _this$groupContext !== void 0 && _this$groupContext.s.length && this.widgetConfig) {
+        var theAns = this.widgetConfig.ans || '';
+        if (theAns.indexOf('#') >= 0) {
+          theAns = theAns.replace(/#/g, '');
+          this.widgetConfig.ans = '' + (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.scopedEval)(this.groupContext._s || {}, theAns);
+        }
+      }
+      this.input = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.createElement)("input", {
+        "class": "form-control",
+        type: "number",
+        style: "display:inline-block;width:100px;"
+      });
+      this.input.addEventListener("change", function (evt) {
+        _this2.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+      });
+      _get(_getPrototypeOf(IBQuizzNumeric.prototype), "init", this).call(this, this.widgetConfig.pre);
+      this.append(this.input);
+      this.statusDisplay && this.append(this.statusDisplay.getElement());
+      this.reflowLatex();
+    }
+    /*
+    attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
+        console.log('The ', name, ' has changed to', newValue);
+    }
+    static get observedAttributes(): string[] {
+        return ['data-src'];
+    } 
+    */
+  }]);
+  return IBQuizzNumeric;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_3__.WidgetElement)) || _class);
+
+/***/ }),
+/* 50 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(47);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-cloze",
+  classes: ["iedib-quizz-widget"],
+  styles: {
+    "display": "inline-block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzCloze, _WidgetElement);
+  var _super = _createSuper(IBQuizzCloze);
+  function IBQuizzCloze() {
+    _classCallCheck(this, IBQuizzCloze);
+    return _super.apply(this, arguments);
+  }
+  _createClass(IBQuizzCloze, [{
+    key: "enable",
+    value: function enable(state) {
+      var _this$mathInput;
+      //TODO
+      var v = ((_this$mathInput = this.mathInput) === null || _this$mathInput === void 0 ? void 0 : _this$mathInput.innerFields) || [];
+      for (var i = 0, lenv = v.length; i < lenv; i++) {
+        v[i].__controller.editable = state;
+      }
+    }
+  }, {
+    key: "getUserInput",
+    value: function getUserInput() {
+      return JSON.stringify(this.getUserInputArray());
+    }
+  }, {
+    key: "getUserInputArray",
+    value: function getUserInputArray() {
+      var _this$mathInput2, _this$mathInput3;
+      var parts = [];
+      console.log((_this$mathInput2 = this.mathInput) === null || _this$mathInput2 === void 0 ? void 0 : _this$mathInput2.innerFields);
+      var v = ((_this$mathInput3 = this.mathInput) === null || _this$mathInput3 === void 0 ? void 0 : _this$mathInput3.innerFields) || [];
+      for (var i = 0, lenv = v.length; i < lenv; i++) {
+        parts.push((v[i].latex() || '').replace(/\\\s/g, '').trim());
+      }
+      return parts;
+    }
+  }, {
+    key: "displayRightAnswer",
+    value: function displayRightAnswer() {
+      if (this.mathInput) {
+        var _this$widgetConfig;
+        var parts = JSON.parse(((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) || "[]");
+        var v = this.mathInput.innerFields || [];
+        for (var i = 0, lenv = v.length; i < lenv; i++) {
+          if (i < parts.length) {
+            parts.push(v[i].latex(parts[i]));
+          }
+        }
+        this.enable(false);
+      }
+    }
+  }, {
+    key: "check",
+    value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
+      //TODO set tolerance
+      var result = false;
+      try {
+        var _this$widgetConfig2;
+        // See if there is a check function
+        if ((_this$widgetConfig2 = this.widgetConfig) !== null && _this$widgetConfig2 !== void 0 && _this$widgetConfig2.cfn) {
+          var _this$groupContext, _this$widgetConfig3, _this$groupContext2;
+          var localContext = {
+            u: this.getUserInputArray()
+          };
+          Object.assign(localContext, (_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext._s);
+          localContext.u.forEach(function (e, i) {
+            return localContext['u' + i] = e;
+          });
+          //Evaluate check function that must return true or false
+          var scriptFn = (((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.cfn) || 'return true').replace(/#/g, '');
+          result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
+          console.log("Avaluant ", scriptFn, "Retorna ", result);
+        } else {
+          var _this$widgetConfig4;
+          //Must rely on .ans to be an array with answers
+          var expected = ((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : _this$widgetConfig4.ans) || "[]";
+          if (typeof expected === 'string') {
+            expected = JSON.parse(expected);
+          }
+          console.log(expected);
+          var given = this.getUserInputArray();
+          result = true;
+          for (var i = 0, lenv = given.length; i < lenv; i++) {
+            if (i < expected.length) {
+              result = result && expected[i] == (given[i] || '').trim();
+            } else {
+              result = false;
+            }
+          }
+        }
+      } catch (ex) {
+        //Error
+        console.error(ex);
+        this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
+        return false;
+      }
+      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
+      console.log("Matquill Cloze, ", this.getUserInput(), result);
+      this.enable(!result);
+      if (!result) {
+        this.incAttempts();
+      } else {
+        this.showFeedback();
+      }
+      return result;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$groupContext3,
+        _this = this;
+      if (!this.widgetConfig) {
+        return;
+      }
+      console.log("Render cloze widget ", this.widgetConfig);
+      if (!window.MathQuill) {
+        console.error("MathQuill not found on page");
+        return;
+      }
+
+      // Here groupContext._v map is available and parsed
+      // Must evaluate in the context the rightanswer
+      if ((_this$groupContext3 = this.groupContext) !== null && _this$groupContext3 !== void 0 && _this$groupContext3.s.length && this.widgetConfig) {
+        var theAns = this.widgetConfig.ans || '';
+        if (theAns.indexOf('#') >= 0) {
+          theAns = theAns.replace(/#/g, '');
+          this.widgetConfig.ans = '' + (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.scopedEval)(this.groupContext._s || {}, theAns);
+        }
+      }
+      this.input = document.createElement("span");
+      this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.treatIniPlaceholders)(this.widgetConfig.ini || '?');
+      console.log(this.input.innerText);
+      this.append(this.input);
+      //Important MUST BE appended before calling StaticMath
+      var MQI = window.MathQuill.getInterface(2);
+      this.mathInput = MQI.StaticMath(this.input);
+      // TODO: listen to changes to set status to unmodified
+
+      this.mathInput.innerFields.forEach(function (e) {
+        e.__controller.textarea.on('keyup', function (ev) {
+          ev.preventDefault();
+          _this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+        });
+      });
+      _get(_getPrototypeOf(IBQuizzCloze.prototype), "init", this).call(this, this.widgetConfig.pre);
+      this.statusDisplay && this.append(this.statusDisplay.getElement());
+      this.reflowLatex();
+    }
+    /*
+    attributeChangedCallback(name: string, oldValue: any, newValue: any): void {
+        console.log('The ', name, ' has changed to', newValue);
+    }
+    static get observedAttributes(): string[] {
+        return ['data-src'];
+    } 
+    */
+  }]);
+  return IBQuizzCloze;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
+
+/***/ }),
+/* 51 */
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+
+/* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
+/* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(47);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.ComponentHTML)({
+  elementName: "ib-quizz-mathquill",
+  classes: ["iedib-quizz-widget"],
+  styles: {
+    "display": "inline-block"
+  }
+}), _dec(_class = /*#__PURE__*/function (_WidgetElement) {
+  _inherits(IBQuizzMathquill, _WidgetElement);
+  var _super = _createSuper(IBQuizzMathquill);
+  function IBQuizzMathquill() {
+    _classCallCheck(this, IBQuizzMathquill);
+    return _super.apply(this, arguments);
+  }
+  _createClass(IBQuizzMathquill, [{
+    key: "enable",
+    value: function enable(state) {
+      //TODO
+      console.log(this.mathInput);
+    }
+  }, {
+    key: "getUserInput",
+    value: function getUserInput() {
+      var _this$mathInput;
+      return ((_this$mathInput = this.mathInput) === null || _this$mathInput === void 0 ? void 0 : _this$mathInput.latex()) || '';
+    }
+  }, {
+    key: "displayRightAnswer",
+    value: function displayRightAnswer() {
+      if (this.mathInput) {
+        var _this$widgetConfig;
+        var ansLatex = ((_this$widgetConfig = this.widgetConfig) === null || _this$widgetConfig === void 0 ? void 0 : _this$widgetConfig.ans) || '';
+        this.mathInput.latex(ansLatex);
+        this.enable(false);
+      }
+    }
+  }, {
+    key: "check",
+    value: function check() {
+      var _this$statusDisplay, _this$statusDisplay2;
+      if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
+        return true;
+      } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
+        return false;
+      }
+      //TODO set tolerance
+      var result = false;
+      try {
+        var _this$widgetConfig2;
+        // See if there is a check function (És obligatori que hi sigui)
+        if ((_this$widgetConfig2 = this.widgetConfig) !== null && _this$widgetConfig2 !== void 0 && _this$widgetConfig2.cfn) {
+          var _this$groupContext, _this$widgetConfig3, _this$groupContext2;
+          var localContext = {
+            u: this.getUserInput()
+          };
+          Object.assign(localContext, (_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext._s);
+          //Evaluate check function that must return true or false
+          var scriptFn = (((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.cfn) || 'return true').replace(/#/g, '');
+          result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
+          console.log("Avaluant ", scriptFn, "Retorna ", result);
+        } else {
+          throw new Error("Check funcion must be set");
+        }
+      } catch (ex) {
+        //Error
+        console.error(ex);
+        this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
+        return false;
+      }
+      this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
+      console.log("Matquill Cloze, ", this.getUserInput(), result);
+      this.enable(!result);
+      if (!result) {
+        this.incAttempts();
+      } else {
+        this.showFeedback();
+      }
+      return result;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$groupContext3,
+        _this = this;
+      if (!this.widgetConfig) {
+        return;
+      }
+      console.log("Render cloze widget ", this.widgetConfig);
+      if (!window.MathQuill) {
+        console.error("MathQuill not found on page");
+        return;
+      }
+
+      // Here groupContext._v map is available and parsed
+      // Must evaluate in the context the rightanswer
+      if ((_this$groupContext3 = this.groupContext) !== null && _this$groupContext3 !== void 0 && _this$groupContext3.s.length && this.widgetConfig) {
+        var theAns = this.widgetConfig.ans || '';
+        if (theAns.indexOf('#') >= 0) {
+          theAns = theAns.replace(/#/g, '');
+          this.widgetConfig.ans = '' + (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.scopedEval)(this.groupContext._s || {}, theAns);
+        }
+      }
+      this.input = document.createElement("span");
+      this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.treatIniPlaceholders)(this.widgetConfig.ini || '');
+      console.log(this.input.innerText);
+      this.append(this.input);
+      //Important MUST BE appended before calling StaticMath
+      var MQI = window.MathQuill.getInterface(2);
+      this.mathInput = MQI.MathField(this.input, {});
+      // TODO: listen to changes to set status to unmodified
+
+      this.mathInput.__controller.textarea.on('keyup', function (ev) {
+        ev.preventDefault();
+        _this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+      });
+      _get(_getPrototypeOf(IBQuizzMathquill.prototype), "init", this).call(this, this.widgetConfig.pre);
+      this.statusDisplay && this.append(this.statusDisplay.getElement());
+      this.reflowLatex();
+    }
+  }]);
+  return IBQuizzMathquill;
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -3339,17 +5511,19 @@ var SmartTabMenu = /*#__PURE__*/function () {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(23);
 /* harmony import */ var _lightbox_lightbox_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _presentacio_presentacio_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
 /* harmony import */ var _presentacio_presentacio_skipall_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
 /* harmony import */ var _speak_speak_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
 /* harmony import */ var _talea_talea_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
-/* harmony import */ var _lightbox_lightboxComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(27);
-/* harmony import */ var _zoom_zoomComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(23);
-/* harmony import */ var _presentacio_presentacioComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(28);
-/* harmony import */ var _speak_speakComponent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(29);
-/* harmony import */ var _talea_taleaComponent__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(34);
+/* harmony import */ var _quizz_quizz_min_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/* harmony import */ var _lightbox_lightboxComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(29);
+/* harmony import */ var _zoom_zoomComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(25);
+/* harmony import */ var _presentacio_presentacioComponent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(30);
+/* harmony import */ var _speak_speakComponent__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(31);
+/* harmony import */ var _talea_taleaComponent__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(36);
+/* harmony import */ var _quizz_quizzComponent__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(39);
 
 
 
@@ -3361,7 +5535,9 @@ var __webpack_exports__ = {};
 
 
 
-_loader__WEBPACK_IMPORTED_MODULE_5__["default"].bootstrap([_zoom_zoomComponent__WEBPACK_IMPORTED_MODULE_6__["default"], _lightbox_lightboxComponent__WEBPACK_IMPORTED_MODULE_7__["default"], _presentacio_presentacioComponent__WEBPACK_IMPORTED_MODULE_8__["default"], _speak_speakComponent__WEBPACK_IMPORTED_MODULE_9__["default"], _talea_taleaComponent__WEBPACK_IMPORTED_MODULE_10__["default"]]);
+
+
+_loader__WEBPACK_IMPORTED_MODULE_6__["default"].bootstrap([_zoom_zoomComponent__WEBPACK_IMPORTED_MODULE_7__["default"], _lightbox_lightboxComponent__WEBPACK_IMPORTED_MODULE_8__["default"], _presentacio_presentacioComponent__WEBPACK_IMPORTED_MODULE_9__["default"], _speak_speakComponent__WEBPACK_IMPORTED_MODULE_10__["default"], _talea_taleaComponent__WEBPACK_IMPORTED_MODULE_11__["default"], _quizz_quizzComponent__WEBPACK_IMPORTED_MODULE_12__["default"]]);
 }();
 /******/ })()
 ;

@@ -8,12 +8,13 @@ import "./dropdownWidget";
 import "./mchoiceWidget";
 import "./numericWidget";
 import "./clozeWidget";
+import "./mathquillWidget";
 import { addScript, base64Decode, convertInt, createElement } from "../_shared/utilsShared";
 import { WidgetGroupContext } from "./quizzTypes";
-import { runIBScript } from "./quizzUtil";
+import { doVariablesInterpolation, runIBScript } from "./quizzUtil";
 
 const SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice"; //".ib-quizz-elem"; 
-const SEARCH_QUERY2 = "ib-quizz-cloze";  //Requires loading Mathquill
+const SEARCH_QUERY2 = "ib-quizz-cloze, ib-quizz-mathquill";  //Requires loading Mathquill + Nerdamer
 
 function textNodesUnder(el: HTMLElement) {
     const a: Node[] = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
@@ -126,19 +127,22 @@ export default class QuizzComponent extends BaseComponent {
         if (this.groupContext.s.trim().length === 0) {
             return; //Nothing to do
         }
-        this.parent.querySelectorAll("span[data-quizz-interpol]").forEach(textNode => {
-            const valor = (textNode.getAttribute("data-quizz-interpol") || '');
+        this.findPlaceholdersSpan();
+        this.findPlaceholdersText();
+    }
+    private findPlaceholdersText() {
+        textNodesUnder(this.parent).forEach( (textNode)=> {
+            const text = textNode.textContent || ''; 
+            textNode.textContent = doVariablesInterpolation(text, this.groupContext._s);
+        });
+    }
+    private findPlaceholdersSpan() {
+        this.parent.querySelectorAll("span[data-quizz-interpol]").forEach(spanNode => {
+            const valor = (spanNode.getAttribute("data-quizz-interpol") || '');
             if (valor.indexOf('#') < 0) {
                 return;
-            }
-            let interpolated = valor.replace(/#([a-zA-Z0-9_]+)/g, ($0, $1) => {
-                return this.groupContext._s[$1];
-            });
-            //Support dynamic LaTeX in placeholders (by using $...$)
-            interpolated = interpolated.replace(/\$(.*)?\$/gm, ($0, $1) => {
-                return "\\"+"("+$1+"\\"+")";
-            });
-            textNode.innerHTML = interpolated;
+            } 
+            spanNode.innerHTML = doVariablesInterpolation(valor, this.groupContext._s);
         });
     }
     init(): void {

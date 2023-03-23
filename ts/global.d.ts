@@ -39,7 +39,9 @@ declare interface VoicePlayer {
 
 interface Window {
     MathJax: any,
-    MathQuill: MQ.MathQuill,
+    MathQuill?: MQ.MathQuill,
+    nerdamer?: any, 
+    mathjs?: any,
     require(deps: string[], cbSuccess: ()=>void, cbError?: ()=>void): void
 }
 
@@ -89,6 +91,7 @@ declare namespace MQ {
     export interface MathField {
         id: any;
         innerFields: InnerField[];
+        __controller: InnerFieldController;
         revert(): void;
         reflow(): void;
         el(): HTMLElement;
