@@ -9,7 +9,7 @@ import { getQuizzConfigDialog } from "./groupDialog";
 import { base64Decode, base64Encode, convertInt } from "../_shared/utilsShared";
 import { runIBScript } from "../quizz/quizzUtil";
 
-const SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice, ib-quizz-cloze";
+const SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice, ib-quizz-cloze, ib-quizz-mathquill";
 
 
 @Component({

@@ -3,6 +3,7 @@ import './dropdownWidget';
 import './numericWidget';
 import './mchoiceWidget';
 import './clozeWidget';
+import './mathquillWidget';
 
 import Loader from '../loader'; 
 import QuizzEditorComponent from './quizzEditorComponent';
