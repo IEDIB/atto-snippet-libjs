@@ -1,5 +1,8 @@
 import { ComponentHTML } from "../decorators";  
-import { createElement, scopedEval } from "../_shared/utilsShared";
+import { createElement, genID, scopedEval } from "../_shared/utilsShared";
+import { PayloadCAS, ResponseCAS } from "./engines/engineCAS";
+import { getNerdamerCAS } from "./engines/nerdamerEngine";
+import { parseLatexNerdamer } from "./engines/parseLatexNerdamer";
 import getI18n from "./i18n";
 import { getCachedMathEditorDialog, MathEditorDialog } from "./mathEditorDialog";
 import { runIBScript, treatIniPlaceholders } from "./quizzUtil";
@@ -32,7 +35,7 @@ class IBQuizzMathquill extends WidgetElement {
             this.enable(false);
         }
     }
-    check(): boolean {
+    async check(): Promise<boolean> {
         if(this.statusDisplay?.getStatus()===WidgetStatus.RIGHT) {
             return true;
         } else if(this.statusDisplay?.getStatus()!==WidgetStatus.PENDING) {
@@ -42,23 +45,13 @@ class IBQuizzMathquill extends WidgetElement {
         let result = false;
         const ngx: string = (this.widgetConfig?.opts?.ngx || 'nermader').trim().toLowerCase();
         
-        try {
-            if(window.nerdamer && ngx==='nermader') {
-                const N = window.nerdamer;
-                N.clearVars()
-                this.widgetConfig?.vars?.forEach( (vd: string) => {
-                    const parts = vd.split(":=");
-                    if(vd.length===2) {
-                        N.setVar(parts[0].trim(), parts[1].trim());
-                    }
-                });
-            }
+        try { 
             // See if there is a check function (És obligatori que hi sigui)
             if(this.widgetConfig?.cfn) {
                 const raw = this.getUserInput() || '';                
                 let uNerd = null;
                 if(window.nerdamer) {
-                    uNerd = window.nerdamer.convertFromLaTeX(raw);
+                    uNerd = parseLatexNerdamer(raw);
                 }
                 const localContext: {[key:string]: unknown} = {uTex: raw, uNerd: uNerd };
                 Object.assign(localContext, this.groupContext?._s); 
@@ -73,13 +66,17 @@ class IBQuizzMathquill extends WidgetElement {
                     // Process
                     const userInput = this.getUserInput() || '';
                     
-                    //TODO parse matrices and other stuff
-                    const userN = N.convertFromLaTeX(userInput);
-                    const rightAnsN = N(this.widgetConfig?.ans || '');
-                    
-                    // Comprova la igualtat matemàtica
-                    result = rightAnsN.eq(userN);  
-                    // TODO: enable other check strategies to simplify function definition                                      
+                    // Send to the Engine
+                    const cas = getNerdamerCAS(this.lang);
+                    const payload: PayloadCAS = {
+                        latex: [userInput],
+                        ans: [this.widgetConfig?.ans || ''],
+                        symbols: this.widgetConfig?.vars || [],
+                        qid: genID()
+                    };
+                    const res: ResponseCAS = await cas.compare(payload);
+                    console.log(res);
+                    result = res.correct > 0;                                  
                 } else {
                     throw new Error("Check function must be set");
                 }

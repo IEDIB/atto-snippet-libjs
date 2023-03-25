@@ -112,3 +112,71 @@ export function pran(seed: number): RanGen {
     ranGen(); ranGen(); ranGen();
     return ranGen;
 }
+
+
+export function reflowLatex() {
+    if(window.MathJax) {
+        window.MathJax.typesetPromise && window.MathJax.typesetPromise();
+        window.MathJax.Hub && window.MathJax.Hub.Queue && window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+    }
+} 
+
+export function sanitizeLaTeX(tex: string): string {
+    return tex.replace(/·/g, '*');
+}
+
+export function sum(iter: number[]): number {
+    let total = 0;
+    for(let i=0, len=iter.length; i<len; i++) {
+        total += iter[i];
+    }
+    return total;
+}
+
+export function items(obj: any[] | {[name: string]:any}, cb: (key: string | number, value: any) => void) {
+    if(Array.isArray(obj)) {
+        for(let i=0, len=obj.length; i<len; i++) {
+            cb(i, obj[i]);    
+        }
+    } else {
+        const keys = Object.keys(obj);
+        for(let i=0, len=keys.length; i<len; i++) {
+            const key = keys[i];
+            cb(key, obj[key]);    
+        }
+    }
+}
+
+export function zip(l1: any[], l2: any[]): any[] {
+    const n = Math.min(l1.length, l2.length)
+    const l: any[] = []
+    for(let i=0; i<n; i++) {
+        l.push([l1[i], l2[i]])
+    }
+    return l
+} 
+
+export function hasValue(dict: {[name:string]: any}, target: any): boolean {
+    let found = false;
+    const keys: string[] = Object.keys(dict)
+    let i = 0
+    while(!found && i < keys.length) {
+        const k = keys[i]
+        found = (dict[k] == target)
+        i++
+    }
+    return found;
+}
+
+export function copyPropsFromTo(source: any, target: any) {
+    const props = Object.keys(source);
+    for(let i=0, len=props.length; i < len; i++) {
+        const prop = props[i];
+        target[prop] = source[prop];
+    }
+}
+ 
+ 
+export function isNumeric(str: string): boolean {
+   return (str ||'').replace(/\s+/g,'').match(/^[+-]?[0-9]+\.?[0-9]*$/)!=null
+} 

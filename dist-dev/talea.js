@@ -877,7 +877,7 @@ var TaleaComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compone
 /* harmony export */   "getPageInfo": function() { return /* binding */ getPageInfo; },
 /* harmony export */   "pran": function() { return /* binding */ pran; }
 /* harmony export */ });
-/* unused harmony export shuffleArray */
+/* unused harmony exports shuffleArray, reflowLatex, sanitizeLaTeX, sum, items, zip, hasValue, copyPropsFromTo, isNumeric */
 /* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 
 
@@ -987,10 +987,68 @@ function pran(seed) {
   ranGen();
   return ranGen;
 }
+function reflowLatex() {
+  if (window.MathJax) {
+    window.MathJax.typesetPromise && window.MathJax.typesetPromise();
+    window.MathJax.Hub && window.MathJax.Hub.Queue && window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+  }
+}
+function sanitizeLaTeX(tex) {
+  return tex.replace(/·/g, '*');
+}
+function sum(iter) {
+  var total = 0;
+  for (var i = 0, len = iter.length; i < len; i++) {
+    total += iter[i];
+  }
+  return total;
+}
+function items(obj, cb) {
+  if (Array.isArray(obj)) {
+    for (var i = 0, len = obj.length; i < len; i++) {
+      cb(i, obj[i]);
+    }
+  } else {
+    var keys = Object.keys(obj);
+    for (var _i = 0, _len = keys.length; _i < _len; _i++) {
+      var _key = keys[_i];
+      cb(_key, obj[_key]);
+    }
+  }
+}
+function zip(l1, l2) {
+  var n = Math.min(l1.length, l2.length);
+  var l = [];
+  for (var i = 0; i < n; i++) {
+    l.push([l1[i], l2[i]]);
+  }
+  return l;
+}
+function hasValue(dict, target) {
+  var found = false;
+  var keys = Object.keys(dict);
+  var i = 0;
+  while (!found && i < keys.length) {
+    var k = keys[i];
+    found = dict[k] == target;
+    i++;
+  }
+  return found;
+}
+function copyPropsFromTo(source, target) {
+  var props = Object.keys(source);
+  for (var i = 0, len = props.length; i < len; i++) {
+    var prop = props[i];
+    target[prop] = source[prop];
+  }
+}
+function isNumeric(str) {
+  return (str || '').replace(/\s+/g, '').match(/^[+-]?[0-9]+\.?[0-9]*$/) != null;
+}
 
 /***/ }),
 
-/***/ 100:
+/***/ 102:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -1111,7 +1169,7 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 99:
+/***/ 101:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -1126,7 +1184,7 @@ module.exports = function (i) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_talea_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(100);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_talea_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(102);
 
       
       
@@ -1512,7 +1570,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var _talea_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(99);
+/* harmony import */ var _talea_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(101);
 /* harmony import */ var _taleaComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(36);
 
 

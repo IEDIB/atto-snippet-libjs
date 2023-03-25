@@ -496,7 +496,7 @@ function _bootstrap(classes) {
 
 /***/ }),
 
-/***/ 67:
+/***/ 69:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -563,7 +563,7 @@ var NarracioComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Comp
 
 /***/ }),
 
-/***/ 66:
+/***/ 68:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -684,7 +684,7 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 65:
+/***/ 67:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -699,7 +699,7 @@ module.exports = function (i) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_narracio_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(66);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_narracio_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(68);
 
       
       
@@ -1085,8 +1085,8 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var _narracio_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(65);
-/* harmony import */ var _narracioComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(67);
+/* harmony import */ var _narracio_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(67);
+/* harmony import */ var _narracioComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(69);
 
 
 

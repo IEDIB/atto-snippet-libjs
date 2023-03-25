@@ -90,3 +90,8 @@ ib-quizz-mathquill {
 ib-quizz-mathquill.ib-enable-future {
     display: inline-block!important;
 }
+
+.ibquizz-editor-palette {
+    padding: 2px;
+    background: whitesmoke;
+}

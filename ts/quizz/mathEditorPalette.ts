@@ -27,7 +27,7 @@ const tabs =  [
         name: "Símbols",
         buttons: [
             {name: "pi", latex: "\\pi", tab: 2, icon: '\\pi' },
-            {name: "e", latex: "\\e", tab: 2, icon: 'e' },
+            {name: "e", latex: "e", tab: 2, icon: 'e' },
             {name: "infinit", latex: "\\infty", tab: 2, icon: '\\infty' },
             {name: "Més menys", latex: "\\pm", tab: 2, icon: '\\pm' },
             {name: "Diferent", latex: "\\neq", tab: 2, icon: '\\neq' },
@@ -53,11 +53,16 @@ const tabs =  [
 ];
 
 export class MathEditorPalette {
+   
     private view: HTMLDivElement;
+    staticMathFields: MQ.MathField[];
     constructor(private panel: MathEditorPanel) {
-        this.view = document.createElement("div");
+        this.staticMathFields = [];
+        this.view = createElement("div", {
+            class: "ibquizz-editor-palette"
+        }) as HTMLDivElement;
         this.createPalettes();
-    }
+    } 
     private createPalettes(): void { 
         tabs.forEach(tab => { 
             const panelTab = document.createElement("div");
@@ -69,9 +74,9 @@ export class MathEditorPalette {
     }
     private createButton(def: PaletteButton): HTMLButtonElement {
         const iconHtml = document.createElement('span');
-        iconHtml.innerHTML = def.latex;
+        iconHtml.innerHTML = def.icon;
         const MQI: MQ.MathQuill = window.MathQuill!.getInterface(2);
-        MQI.StaticMath(iconHtml) 
+        this.staticMathFields.push( MQI.StaticMath(iconHtml) );
         
         const btn = createElement('button', {
             class: 'btn btn-sm ibquizz-me-btn-toolbar',
@@ -86,8 +91,10 @@ export class MathEditorPalette {
 
         return btn;
     }
-
     getView(): HTMLElement {
         return this.view;
+    }
+    reflow() {
+       this.staticMathFields.forEach(f => f.reflow());
     }
 }

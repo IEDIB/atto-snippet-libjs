@@ -80,18 +80,17 @@ export default class QuizzComponent extends BaseComponent {
         }) as HTMLButtonElement;
 
        
-        this.listener = (evt: Event) => {
-            evt.preventDefault();
-            let check = true;
+        this.listener = async (evt: Event) => {
+            evt.preventDefault(); 
+            const allPromises: Promise<boolean>[] = [];
             this.allQuizzElements.forEach((quizzElem) => {
-                const partial = quizzElem.check();
-                check = check && partial;
+                allPromises.push(quizzElem.check()); 
             });
             this.allClozeElements.forEach((quizzElem) => {
-                const partial = quizzElem.check();
-                check = check && partial;
+                allPromises.push(quizzElem.check()); 
             });
-            if (check) {
+            const checksList = await Promise.all(allPromises);
+            if (checksList.every(chk => chk===true)) {
                 // All widgets are correct. Then disable the check button
                 this.checkButton.setAttribute("disabled", "true");
             }

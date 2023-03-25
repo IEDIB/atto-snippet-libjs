@@ -132,6 +132,6 @@ export abstract class WidgetElement extends HTMLElement {
     abstract enable(state: boolean): void
     abstract getUserInput(): string
     abstract displayRightAnswer(): void
-    abstract check(): boolean
+    abstract check(): Promise<boolean>
     abstract render(): void
 }

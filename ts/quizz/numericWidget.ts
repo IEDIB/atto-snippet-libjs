@@ -32,7 +32,7 @@ class IBQuizzNumeric extends WidgetElement {
             this.enable(false);
         }
     }
-    check(): boolean {
+    async check(): Promise<boolean> {
         if(this.statusDisplay?.getStatus()===WidgetStatus.RIGHT) {
             return true;
         } else if(this.statusDisplay?.getStatus()!==WidgetStatus.PENDING) {

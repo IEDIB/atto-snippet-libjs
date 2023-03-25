@@ -1,3 +1,4 @@
+import { createElement } from "../_shared/utilsShared";
 import { MathEditorPalette } from "./mathEditorPalette";
 
 export class MathEditorPanel {
@@ -6,7 +7,9 @@ export class MathEditorPanel {
     private mathInput: MQ.MathField;
     constructor() {
         //The root view
-        this.view = document.createElement("div");
+        this.view = createElement("div", {
+            class: "ibquizz-editor-panel"
+        }) as HTMLDivElement;
         this.palette = new MathEditorPalette(this);
         this.view.append(this.palette.getView());
         const MQI: MQ.MathQuill = window.MathQuill!.getInterface(2); 
@@ -37,5 +40,10 @@ export class MathEditorPanel {
                 this.mathInput.keystroke(moveTo);
             }
         }
+    }
+    reflow(): void {
+        this.mathInput.focus();
+        this.mathInput.reflow();
+        this.palette.reflow();
     }
 }

@@ -28,6 +28,11 @@ export class MathEditorDialog extends BSDialog {
     getLatex(): string {
         return this.mathEditorPanel.getLatex();
     }
+    //@Override
+    show(acceptCb?: (s?: {[key:string]:unknown}) => void) {
+        super.show(acceptCb);
+        setTimeout(()=>this.mathEditorPanel.reflow(), 300);
+    }
 }
 
 // Cache

@@ -855,7 +855,7 @@ var PresentacioComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.C
 
 /***/ }),
 
-/***/ 70:
+/***/ 72:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -874,7 +874,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@media not print{body.editing div[role
 
 /***/ }),
 
-/***/ 72:
+/***/ 74:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -995,7 +995,7 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 69:
+/***/ 71:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -1010,7 +1010,7 @@ module.exports = function (i) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(70);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(72);
 
       
       
@@ -1042,7 +1042,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ 71:
+/***/ 73:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -1057,7 +1057,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(72);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(74);
 
       
       
@@ -1443,8 +1443,8 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
-/* harmony import */ var _presentacio_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(69);
-/* harmony import */ var _presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(71);
+/* harmony import */ var _presentacio_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(71);
+/* harmony import */ var _presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(73);
 /* harmony import */ var _presentacioComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(30);
 
 
