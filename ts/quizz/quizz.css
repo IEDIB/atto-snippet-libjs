@@ -82,3 +82,11 @@
 .ibquizz-me-btn-toolbar:hover {
     background: white;
 }
+
+/*Not supported yet*/
+ib-quizz-mathquill {
+    display: none!important;
+}
+ib-quizz-mathquill.ib-enable-future {
+    display: inline-block!important;
+}
