@@ -454,7 +454,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "[data-quizz-group]{padding:5px;border-left:3px solid lightblue}.ib-quizz-right{margin-left:8px;border-radius:50%;background-color:#438c43;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-wrong{margin-left:8px;border-radius:50%;background-color:#a43c3c;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-error{margin-left:8px;border-radius:50%;background-color:#72395a;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-hint,.ib-quizz-feedback{margin-left:8px;border-radius:50%;background-color:#a3a3a3;color:black;width:23px;display:inline-block;height:23px;text-align:center;cursor:pointer}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "[data-quizz-group]{padding:5px;border-left:3px solid lightblue}.ib-quizz-right{margin-left:8px;border-radius:50%;background-color:#438c43;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-wrong{margin-left:8px;border-radius:50%;background-color:#a43c3c;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-error{margin-left:8px;border-radius:50%;background-color:#72395a;color:white;width:23px;display:inline-block;height:23px;text-align:center}.ib-quizz-hint,.ib-quizz-feedback{margin-left:8px;border-radius:50%;background-color:#a3a3a3;color:black;width:23px;display:inline-block;height:23px;text-align:center;cursor:pointer}.ibquizz-me-btn-openeditor{background:whitesmoke;vertical-align:top}.ibquizz-me-btn-openeditor:hover{background:white}.ibquizz-me-btn-openeditor>i.fas{color:darkred}.ibquizz-square-root{background-position:50% 50%;background-size:20px 20px;background-repeat:no-repeat;background-image:url(\"https://piworld.es/iedib/mqwidgets2/pw-square-root.png\");display:inline-block;width:16px;height:16px}.ibquizz-me-btn-toolbar{height:35px;overflow:hidden;font-weight:bold}.ibquizz-me-btn-toolbar>span{cursor:pointer;font-size:90%}.ibquizz-me-btn-toolbar:hover{background:white}", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -1687,7 +1687,9 @@ var I18n = {
     "right": "Ben fet!",
     "wrong": "Ho sento. Intentau-ho de nou",
     "error": "Hi ha hagut un error processant la resposta",
-    "random_msg": "Aquestes activitats contenen preguntes aleatòries que es generen cada vegada que es carrega la pàgina."
+    "random_msg": "Aquestes activitats contenen preguntes aleatòries que es generen cada vegada que es carrega la pàgina.",
+    "open_editor": "Obrir l'editor matemàtic",
+    "math_editor": "Editor matemàtic"
   },
   "es": {
     "check": "Comprueba",
@@ -1695,7 +1697,9 @@ var I18n = {
     "right": "¡Bien hecho!",
     "wrong": "Lo siento. Inténtalo de nuevo.",
     "error": "Ha habido un error procesando la respuesta",
-    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página.",
+    "open_editor": "Abrir el editor matemático",
+    "math_editor": "Editor matemático"
   },
   "en": {
     "check": "Check",
@@ -1703,7 +1707,9 @@ var I18n = {
     "right": "Well done!",
     "wrong": "Try it again.",
     "error": "There has been an error processing the answer",
-    "random_msg": "These activities contain random questions that are generated at every page load."
+    "random_msg": "These activities contain random questions that are generated at every page load.",
+    "open_editor": "Open math editor",
+    "math_editor": "Math editor"
   },
   "fr": {
     "check": "Vérifier",
@@ -1711,7 +1717,9 @@ var I18n = {
     "right": "¡Bien hecho!",
     "wrong": "Lo siento. Inténtalo de nuevo.",
     "error": "Ha habido un error procesando la respuesta",
-    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página.",
+    "open_editor": "Open math editor",
+    "math_editor": "Math editor"
   },
   "de": {
     "check": "Prüfen",
@@ -1719,7 +1727,9 @@ var I18n = {
     "right": "¡Bien hecho!",
     "wrong": "Lo siento. Inténtalo de nuevo.",
     "error": "Ha habido un error procesando la respuesta",
-    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+    "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página.",
+    "open_editor": "Open math editor",
+    "math_editor": "Math editor"
   }
 };
 function getI18n(lang, key) {
@@ -3043,9 +3053,11 @@ var IBQuizzCloze = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Component
 
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
 /* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(24);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(42);
+/* harmony import */ var _mathEditorDialog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(52);
 /* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(46);
 /* harmony import */ var _statusDisplay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
-/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(47);
+/* harmony import */ var _widgetElement__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3062,6 +3074,8 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 
@@ -3090,7 +3104,9 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
     key: "getUserInput",
     value: function getUserInput() {
       var _this$mathInput;
-      return ((_this$mathInput = this.mathInput) === null || _this$mathInput === void 0 ? void 0 : _this$mathInput.latex()) || '';
+      var l = (_this$mathInput = this.mathInput) === null || _this$mathInput === void 0 ? void 0 : _this$mathInput.latex();
+      console.log(l);
+      return (l || '').replace(/\\,/g, ' ').replace(/\\/g, ' ').trim();
     }
   }, {
     key: "displayRightAnswer",
@@ -3105,7 +3121,7 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
   }, {
     key: "check",
     value: function check() {
-      var _this$statusDisplay, _this$statusDisplay2;
+      var _this$statusDisplay, _this$statusDisplay2, _this$widgetConfig2, _this$widgetConfig2$o;
       if (((_this$statusDisplay = this.statusDisplay) === null || _this$statusDisplay === void 0 ? void 0 : _this$statusDisplay.getStatus()) === _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT) {
         return true;
       } else if (((_this$statusDisplay2 = this.statusDisplay) === null || _this$statusDisplay2 === void 0 ? void 0 : _this$statusDisplay2.getStatus()) !== _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING) {
@@ -3113,21 +3129,53 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
       }
       //TODO set tolerance
       var result = false;
+      var ngx = (((_this$widgetConfig2 = this.widgetConfig) === null || _this$widgetConfig2 === void 0 ? void 0 : (_this$widgetConfig2$o = _this$widgetConfig2.opts) === null || _this$widgetConfig2$o === void 0 ? void 0 : _this$widgetConfig2$o.ngx) || 'nermader').trim().toLowerCase();
       try {
-        var _this$widgetConfig2;
+        var _this$widgetConfig4;
+        if (window.nerdamer && ngx === 'nermader') {
+          var _this$widgetConfig3, _this$widgetConfig3$v;
+          var N = window.nerdamer;
+          N.clearVars();
+          (_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : (_this$widgetConfig3$v = _this$widgetConfig3.vars) === null || _this$widgetConfig3$v === void 0 ? void 0 : _this$widgetConfig3$v.forEach(function (vd) {
+            var parts = vd.split(":=");
+            if (vd.length === 2) {
+              N.setVar(parts[0].trim(), parts[1].trim());
+            }
+          });
+        }
         // See if there is a check function (És obligatori que hi sigui)
-        if ((_this$widgetConfig2 = this.widgetConfig) !== null && _this$widgetConfig2 !== void 0 && _this$widgetConfig2.cfn) {
-          var _this$groupContext, _this$widgetConfig3, _this$groupContext2;
+        if ((_this$widgetConfig4 = this.widgetConfig) !== null && _this$widgetConfig4 !== void 0 && _this$widgetConfig4.cfn) {
+          var _this$groupContext, _this$widgetConfig5, _this$groupContext2;
+          var raw = this.getUserInput() || '';
+          var uNerd = null;
+          if (window.nerdamer) {
+            uNerd = window.nerdamer.convertFromLaTeX(raw);
+          }
           var localContext = {
-            u: this.getUserInput()
+            uTex: raw,
+            uNerd: uNerd
           };
           Object.assign(localContext, (_this$groupContext = this.groupContext) === null || _this$groupContext === void 0 ? void 0 : _this$groupContext._s);
           //Evaluate check function that must return true or false
-          var scriptFn = (((_this$widgetConfig3 = this.widgetConfig) === null || _this$widgetConfig3 === void 0 ? void 0 : _this$widgetConfig3.cfn) || 'return true').replace(/#/g, '');
+          var scriptFn = (((_this$widgetConfig5 = this.widgetConfig) === null || _this$widgetConfig5 === void 0 ? void 0 : _this$widgetConfig5.cfn) || 'return true').replace(/#/g, '');
           result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
           console.log("Avaluant ", scriptFn, "Retorna ", result);
         } else {
-          throw new Error("Check funcion must be set");
+          //Suposa que empram nerdamer
+          if (window.nerdamer && ngx === 'nermader') {
+            var _this$widgetConfig6;
+            var _N = window.nerdamer;
+            // Process
+            var userInput = this.getUserInput() || '';
+            var userN = _N.convertFromLaTeX(userInput);
+            var rightAnsN = _N(((_this$widgetConfig6 = this.widgetConfig) === null || _this$widgetConfig6 === void 0 ? void 0 : _this$widgetConfig6.ans) || '');
+
+            // Comprova igualtat matemàtica
+            result = rightAnsN.eq(userN);
+            // TODO: enable other check strategies to simplify function definition                                      
+          } else {
+            throw new Error("Check function must be set");
+          }
         }
       } catch (ex) {
         //Error
@@ -3170,16 +3218,40 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
       }
       this.input = document.createElement("span");
       this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_2__.treatIniPlaceholders)(this.widgetConfig.ini || '');
-      console.log(this.input.innerText);
+      this.input.style.minWidth = "100px";
       this.append(this.input);
       //Important MUST BE appended before calling StaticMath
       var MQI = window.MathQuill.getInterface(2);
-      this.mathInput = MQI.MathField(this.input, {});
-      // TODO: listen to changes to set status to unmodified
-
-      this.mathInput.__controller.textarea.on('keyup', function (ev) {
+      this.mathInput = MQI.MathField(this.input, {
+        handlers: {
+          edit: function edit() {
+            console.log("Edit ev on mathquill ");
+            _this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+          }
+        }
+      });
+      // Add editor button dialog
+      this.dlg_btn_el = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_3__.createElement)('button', {
+        "class": "btn btn-sm ibquizz-me-btn-openeditor",
+        title: (0,_i18n__WEBPACK_IMPORTED_MODULE_4__["default"])(this.lang, 'open_editor'),
+        html: '<i class="ibquizz-square-root"></i>'
+      });
+      this.append(this.dlg_btn_el);
+      this.dlg_btn_el.addEventListener("click", function (ev) {
+        var _this$mathInput3;
         ev.preventDefault();
-        _this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.PENDING);
+        // open a editordlg
+        // must do the binding when closing
+        var dlg = (0,_mathEditorDialog__WEBPACK_IMPORTED_MODULE_5__.getCachedMathEditorDialog)((0,_i18n__WEBPACK_IMPORTED_MODULE_4__["default"])(_this.lang, 'math_editor'));
+        dlg.setLatex('');
+        dlg.show(function () {
+          var latex = dlg.getLatex();
+          if (latex) {
+            var _this$mathInput2;
+            (_this$mathInput2 = _this.mathInput) === null || _this$mathInput2 === void 0 ? void 0 : _this$mathInput2.latex(latex);
+          }
+        });
+        dlg.setLatex(((_this$mathInput3 = _this.mathInput) === null || _this$mathInput3 === void 0 ? void 0 : _this$mathInput3.latex()) || '');
       });
       _get(_getPrototypeOf(IBQuizzMathquill.prototype), "init", this).call(this, this.widgetConfig.pre);
       this.statusDisplay && this.append(this.statusDisplay.getElement());
@@ -3187,7 +3259,379 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
     }
   }]);
   return IBQuizzMathquill;
-}(_widgetElement__WEBPACK_IMPORTED_MODULE_4__.WidgetElement)) || _class);
+}(_widgetElement__WEBPACK_IMPORTED_MODULE_6__.WidgetElement)) || _class);
+
+/***/ }),
+/* 52 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getCachedMathEditorDialog": function() { return /* binding */ getCachedMathEditorDialog; }
+/* harmony export */ });
+/* unused harmony export MathEditorDialog */
+/* harmony import */ var _bs_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(44);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _mathEditorPanel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(53);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
+
+
+var MathEditorDialog = /*#__PURE__*/function (_BSDialog) {
+  _inherits(MathEditorDialog, _BSDialog);
+  var _super = _createSuper(MathEditorDialog);
+  function MathEditorDialog(id) {
+    var _this;
+    _classCallCheck(this, MathEditorDialog);
+    _this = _super.call(this, id, _bs_dialog__WEBPACK_IMPORTED_MODULE_0__.BSDialogType.CANCEL_ACCEPT, '');
+    _this.mathEditorPanel = new _mathEditorPanel__WEBPACK_IMPORTED_MODULE_1__.MathEditorPanel();
+    _this.setBody(_this.mathEditorPanel.getView());
+    return _this;
+  }
+  //@Override
+  _createClass(MathEditorDialog, [{
+    key: "setBody",
+    value: function setBody(htmlElem) {
+      var _this2 = this;
+      this.body.html('');
+      this.body.append($(htmlElem));
+      //Directly attach action to primary button if not of submit type
+      this.primaryButton.on('click', function (evt) {
+        evt.preventDefault();
+        _this2.acceptCb && _this2.acceptCb();
+        //@ts-ignore
+        _this2.elem.modal('hide');
+      });
+    }
+  }, {
+    key: "setLatex",
+    value: function setLatex(latex) {
+      this.mathEditorPanel.setLatex(latex);
+    }
+  }, {
+    key: "getLatex",
+    value: function getLatex() {
+      return this.mathEditorPanel.getLatex();
+    }
+  }]);
+  return MathEditorDialog;
+}(_bs_dialog__WEBPACK_IMPORTED_MODULE_0__.BSDialog);
+
+// Cache
+var _chachedDlg;
+function getCachedMathEditorDialog(title) {
+  if (!_chachedDlg) {
+    var id = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_2__.genID)();
+    _chachedDlg = new MathEditorDialog(id);
+  }
+  _chachedDlg.setTitle(title);
+  return _chachedDlg;
+}
+
+/***/ }),
+/* 53 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MathEditorPanel": function() { return /* binding */ MathEditorPanel; }
+/* harmony export */ });
+/* harmony import */ var _mathEditorPalette__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(54);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var MathEditorPanel = /*#__PURE__*/function () {
+  function MathEditorPanel() {
+    _classCallCheck(this, MathEditorPanel);
+    //The root view
+    this.view = document.createElement("div");
+    this.palette = new _mathEditorPalette__WEBPACK_IMPORTED_MODULE_0__.MathEditorPalette(this);
+    this.view.append(this.palette.getView());
+    var MQI = window.MathQuill.getInterface(2);
+    var spanElem = document.createElement("span");
+    spanElem.style.display = "block";
+    spanElem.style.width = "100%";
+    spanElem.style.minHeight = "100px";
+    this.view.append(spanElem);
+    this.mathInput = MQI.MathField(spanElem, {});
+  }
+  _createClass(MathEditorPanel, [{
+    key: "getView",
+    value: function getView() {
+      return this.view;
+    }
+  }, {
+    key: "setLatex",
+    value: function setLatex(latex) {
+      this.mathInput.latex(latex);
+    }
+  }, {
+    key: "getLatex",
+    value: function getLatex() {
+      return this.mathInput.latex();
+    }
+  }, {
+    key: "write",
+    value: function write(latex, moveTo, moveFor) {
+      if (moveFor === undefined) {
+        moveFor = 1;
+      }
+      this.mathInput.write(latex);
+      this.mathInput.focus();
+      if (moveTo) {
+        for (var i = 0; i < moveFor; i++) {
+          this.mathInput.keystroke(moveTo);
+        }
+      }
+    }
+  }]);
+  return MathEditorPanel;
+}();
+
+/***/ }),
+/* 54 */
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MathEditorPalette": function() { return /* binding */ MathEditorPalette; }
+/* harmony export */ });
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var tabs = [{
+  name: "General",
+  buttons: [{
+    name: "Multiplicació",
+    latex: "\\times",
+    tab: 1,
+    icon: '\\times'
+  }, {
+    name: "Fracció",
+    latex: "\\frac{}{}",
+    moveto: "Up",
+    movefor: 1,
+    tab: 1,
+    icon: '\\frac{\\square}{\\square}'
+  }, {
+    name: "Exponent",
+    latex: "\\^{}",
+    moveto: "Up",
+    movefor: 1,
+    tab: 1,
+    icon: '\\square^2'
+  }, {
+    name: "Parèntesis",
+    latex: "\\left(\\right)",
+    moveto: "Left",
+    movefor: 1,
+    tab: 1,
+    icon: '\\left(\\square\\right)'
+  }, {
+    name: "Arrel quadrada",
+    latex: "\\sqrt{}",
+    moveto: "Left",
+    movefor: 1,
+    tab: 1,
+    icon: '\\sqrt{\\square}'
+  }, {
+    name: "Arrel cúbica",
+    latex: "\\sqrt[3]{}",
+    moveto: "Left",
+    movefor: 1,
+    tab: 1,
+    icon: '\\sqrt[3]{\\square}'
+  }, {
+    name: "Radical",
+    latex: "\\sqrt[{}]{}",
+    moveto: "Left",
+    movefor: 2,
+    tab: 1,
+    icon: '\\sqrt[\\square]{\\square}'
+  }, {
+    name: "Matriu 2x2",
+    latex: "\\begin{pmatrix} & \\\\ & \\end{pmatrix}",
+    tab: 1,
+    icon: 'M_{2\\times 2}'
+  }, {
+    name: "Matriu 3x3",
+    latex: "\\begin{pmatrix} & & \\\\ & &  \\\\ & & \\end{pmatrix}",
+    tab: 1,
+    icon: 'M_{3\\times 3}'
+  }]
+}, {
+  name: "Símbols",
+  buttons: [{
+    name: "pi",
+    latex: "\\pi",
+    tab: 2,
+    icon: '\\pi'
+  }, {
+    name: "e",
+    latex: "\\e",
+    tab: 2,
+    icon: 'e'
+  }, {
+    name: "infinit",
+    latex: "\\infty",
+    tab: 2,
+    icon: '\\infty'
+  }, {
+    name: "Més menys",
+    latex: "\\pm",
+    tab: 2,
+    icon: '\\pm'
+  }, {
+    name: "Diferent",
+    latex: "\\neq",
+    tab: 2,
+    icon: '\\neq'
+  }, {
+    name: "Major o igual",
+    latex: "\\geq",
+    tab: 2,
+    icon: '\\geq'
+  }, {
+    name: "Menor o igual",
+    latex: "\\leq",
+    tab: 2,
+    icon: '\\leq'
+  }, {
+    name: "Major que",
+    latex: "\\gt",
+    tab: 2,
+    icon: '\\gt'
+  }, {
+    name: "Menor que",
+    latex: "\\lt",
+    tab: 2,
+    icon: '\\lt'
+  }]
+}, {
+  name: "Funcions",
+  buttons: [{
+    name: "Sinus",
+    latex: "\\sin()",
+    moveto: "Left",
+    movefor: 1,
+    tab: 5,
+    icon: '\\sin{\\square}'
+  }, {
+    name: "Cosinus",
+    latex: "\\cos()",
+    moveto: "Left",
+    movefor: 1,
+    tab: 5,
+    icon: '\\cos{\\square}'
+  }, {
+    name: "Tangent",
+    latex: "\\tan()",
+    moveto: "Left",
+    movefor: 1,
+    tab: 5,
+    icon: '\\tan{\\square}'
+  }, {
+    name: "Arcsinus",
+    latex: "\\arcsin()",
+    moveto: "Left",
+    movefor: 1,
+    tab: 5,
+    icon: '\\arcsin{\\square}'
+  }, {
+    name: "Arccosinus",
+    latex: "\\arccos()",
+    moveto: "Left",
+    movefor: 1,
+    tab: 5,
+    icon: '\\arccos{\\square}'
+  }, {
+    name: "Arctangent",
+    latex: "\\arctan()",
+    moveto: "Left",
+    movefor: 1,
+    tab: 5,
+    icon: '\\arctan{\\square}'
+  }, {
+    name: "Logaritme Neperià",
+    latex: "\\ln()",
+    moveto: "Left",
+    movefor: 1,
+    tab: 5,
+    icon: '\\ln{\\square}'
+  }, {
+    name: "Logaritme en base b",
+    latex: "\\frac{\\log()}{\\log{b}}",
+    moveto: "Left",
+    movefor: 4,
+    tab: 5,
+    icon: '\\log_b{\\square}'
+  }]
+}];
+var MathEditorPalette = /*#__PURE__*/function () {
+  function MathEditorPalette(panel) {
+    _classCallCheck(this, MathEditorPalette);
+    this.panel = panel;
+    this.view = document.createElement("div");
+    this.createPalettes();
+  }
+  _createClass(MathEditorPalette, [{
+    key: "createPalettes",
+    value: function createPalettes() {
+      var _this = this;
+      tabs.forEach(function (tab) {
+        var panelTab = document.createElement("div");
+        _this.view.append(panelTab);
+        tab.buttons.forEach(function (button) {
+          panelTab.append(_this.createButton(button));
+        });
+      });
+    }
+  }, {
+    key: "createButton",
+    value: function createButton(def) {
+      var _this2 = this;
+      var iconHtml = document.createElement('span');
+      iconHtml.innerHTML = def.latex;
+      var MQI = window.MathQuill.getInterface(2);
+      MQI.StaticMath(iconHtml);
+      var btn = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.createElement)('button', {
+        "class": 'btn btn-sm ibquizz-me-btn-toolbar',
+        title: def.name
+      });
+      btn.append(iconHtml);
+      btn.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        _this2.panel.write(def.latex, def.moveto, def.movefor);
+      });
+      return btn;
+    }
+  }, {
+    key: "getView",
+    value: function getView() {
+      return this.view;
+    }
+  }]);
+  return MathEditorPalette;
+}();
 
 /***/ })
 /******/ 	]);

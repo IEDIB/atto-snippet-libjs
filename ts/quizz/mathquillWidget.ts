@@ -1,5 +1,7 @@
 import { ComponentHTML } from "../decorators";  
-import { scopedEval } from "../_shared/utilsShared";
+import { createElement, scopedEval } from "../_shared/utilsShared";
+import getI18n from "./i18n";
+import { getCachedMathEditorDialog, MathEditorDialog } from "./mathEditorDialog";
 import { runIBScript, treatIniPlaceholders } from "./quizzUtil";
 import { WidgetStatus } from "./statusDisplay";
 import { WidgetElement } from "./widgetElement"; 
@@ -12,13 +14,16 @@ import { WidgetElement } from "./widgetElement";
 class IBQuizzMathquill extends WidgetElement {  
     input: HTMLSpanElement | undefined;
     mathInput: MQ.MathField | undefined;
+    dlg_btn_el: HTMLElement | undefined;
      
     enable(state: boolean): void {
         //TODO
         console.log(this.mathInput)
     }
     getUserInput(): string {
-        return this.mathInput?.latex() || '';        
+        const l = this.mathInput?.latex();
+        console.log(l)
+        return (l || '').replace(/\\,/g,' ').replace(/\\/g,' ').trim();        
     } 
     displayRightAnswer(): void {
         if(this.mathInput) {
@@ -35,10 +40,27 @@ class IBQuizzMathquill extends WidgetElement {
         }
         //TODO set tolerance
         let result = false;
+        const ngx: string = (this.widgetConfig?.opts?.ngx || 'nermader').trim().toLowerCase();
+        
         try {
+            if(window.nerdamer && ngx==='nermader') {
+                const N = window.nerdamer;
+                N.clearVars()
+                this.widgetConfig?.vars?.forEach( (vd: string) => {
+                    const parts = vd.split(":=");
+                    if(vd.length===2) {
+                        N.setVar(parts[0].trim(), parts[1].trim());
+                    }
+                });
+            }
             // See if there is a check function (És obligatori que hi sigui)
             if(this.widgetConfig?.cfn) {
-                const localContext: {[key:string]: unknown} = {u: this.getUserInput()};
+                const raw = this.getUserInput() || '';                
+                let uNerd = null;
+                if(window.nerdamer) {
+                    uNerd = window.nerdamer.convertFromLaTeX(raw);
+                }
+                const localContext: {[key:string]: unknown} = {uTex: raw, uNerd: uNerd };
                 Object.assign(localContext, this.groupContext?._s); 
                 //Evaluate check function that must return true or false
                 const scriptFn = (this.widgetConfig?.cfn || 'return true').replace(/#/g, '');
@@ -46,12 +68,20 @@ class IBQuizzMathquill extends WidgetElement {
                 console.log("Avaluant ", scriptFn, "Retorna ", result);
             } else {
                 //Suposa que empram nerdamer
-                if(window.nerdamer) {
-                    const N = window.nerdamer;
-                    N.fromLatex(this.getUserInput());
+                if(window.nerdamer && ngx==='nermader') {
+                    const N = window.nerdamer; 
+                    // Process
+                    const userInput = this.getUserInput() || '';
                     
+                    //TODO parse matrices and other stuff
+                    const userN = N.convertFromLaTeX(userInput);
+                    const rightAnsN = N(this.widgetConfig?.ans || '');
+                    
+                    // Comprova la igualtat matemàtica
+                    result = rightAnsN.eq(userN);  
+                    // TODO: enable other check strategies to simplify function definition                                      
                 } else {
-                    throw new Error("Check funcion must be set");
+                    throw new Error("Check function must be set");
                 }
             }
         } catch(ex) {
@@ -61,7 +91,7 @@ class IBQuizzMathquill extends WidgetElement {
             return false;
         } 
         this.setStatus(result ? WidgetStatus.RIGHT : WidgetStatus.WRONG);
-        console.log("Matquill Cloze, ", this.getUserInput(), result);
+        console.log("Matquill mathinput, ", this.getUserInput(), result);
         this.enable(!result);
         if(!result) {
             this.incAttempts();
@@ -92,18 +122,41 @@ class IBQuizzMathquill extends WidgetElement {
 
         this.input = document.createElement("span") as HTMLSpanElement;
         this.input.innerText = treatIniPlaceholders(this.widgetConfig.ini || '');
-        console.log(this.input.innerText);
+        this.input.style.minWidth = "100px";
         this.append(this.input);
         //Important MUST BE appended before calling StaticMath
         const MQI: MQ.MathQuill = window.MathQuill.getInterface(2);
-        this.mathInput = MQI.MathField(this.input, {});
-        // TODO: listen to changes to set status to unmodified
-
-        this.mathInput.__controller.textarea.on('keyup', (ev: Event) => {
-                ev.preventDefault();
-                this.setStatus(WidgetStatus.PENDING);
-        }); 
-       
+ 
+        this.mathInput = MQI.MathField(this.input,  {
+            handlers: {
+                edit: () => {
+                    console.log("Edit ev on mathquill ");
+                    this.setStatus(WidgetStatus.PENDING);
+                }
+            }
+        });
+        // Add editor button dialog
+        this.dlg_btn_el = createElement('button', {
+            class: "btn btn-sm ibquizz-me-btn-openeditor",
+            title: getI18n(this.lang, 'open_editor'),
+            html: '<i class="ibquizz-square-root"></i>'
+        });
+        this.append(this.dlg_btn_el);
+        this.dlg_btn_el.addEventListener("click", (ev: Event) => {
+            ev.preventDefault();
+            // open a editordlg
+            // must do the binding when closing
+            const dlg: MathEditorDialog = getCachedMathEditorDialog(getI18n(this.lang, 'math_editor'));
+            dlg.setLatex('');
+            dlg.show( () => {
+                const latex = dlg.getLatex();
+                if(latex) {
+                    this.mathInput?.latex(latex);
+                }
+            });
+            dlg.setLatex(this.mathInput?.latex() || '');
+        });
+        
         super.init(this.widgetConfig.pre);  
         this.statusDisplay && this.append(this.statusDisplay.getElement());
         this.reflowLatex();

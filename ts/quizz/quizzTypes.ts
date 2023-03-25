@@ -3,6 +3,7 @@ export interface WidgetConfigOpts {
     shuffle?: boolean,
     err?: number,
     errunit?: string,
+    ngx?: string
 }
 
 export interface WidgetConfig {

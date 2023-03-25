@@ -44,3 +44,41 @@
     text-align: center;
     cursor: pointer;
 } 
+/* MathEditor*/
+.ibquizz-me-btn-openeditor {
+    background: whitesmoke;
+    vertical-align: top;
+}
+
+.ibquizz-me-btn-openeditor:hover {
+    background: white;
+}
+
+.ibquizz-me-btn-openeditor>i.fas {
+    color: darkred;
+}
+
+.ibquizz-square-root { 
+    background-position: 50% 50%;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-image: url("https://piworld.es/iedib/mqwidgets2/pw-square-root.png");
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.ibquizz-me-btn-toolbar {
+    height: 35px;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.ibquizz-me-btn-toolbar>span {
+    cursor: pointer;
+    font-size: 90%;
+}
+
+.ibquizz-me-btn-toolbar:hover {
+    background: white;
+}

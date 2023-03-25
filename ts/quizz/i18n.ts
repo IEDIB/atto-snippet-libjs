@@ -5,7 +5,9 @@ const I18n = {
         "right": "Ben fet!",
         "wrong": "Ho sento. Intentau-ho de nou",
         "error": "Hi ha hagut un error processant la resposta",
-        "random_msg": "Aquestes activitats contenen preguntes aleatòries que es generen cada vegada que es carrega la pàgina."
+        "random_msg": "Aquestes activitats contenen preguntes aleatòries que es generen cada vegada que es carrega la pàgina.",
+        "open_editor": "Obrir l'editor matemàtic",
+        "math_editor": "Editor matemàtic"
     },
     "es": {
         "check": "Comprueba",
@@ -13,7 +15,9 @@ const I18n = {
         "right": "¡Bien hecho!",
         "wrong": "Lo siento. Inténtalo de nuevo.",
         "error": "Ha habido un error procesando la respuesta",
-        "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+        "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página.",
+        "open_editor": "Abrir el editor matemático",
+        "math_editor": "Editor matemático"
     },
     "en": {
         "check": "Check",
@@ -21,7 +25,9 @@ const I18n = {
         "right": "Well done!",
         "wrong": "Try it again.",
         "error": "There has been an error processing the answer",
-        "random_msg": "These activities contain random questions that are generated at every page load."
+        "random_msg": "These activities contain random questions that are generated at every page load.",
+        "open_editor": "Open math editor",
+        "math_editor": "Math editor"
     },
     "fr": {
         "check": "Vérifier",
@@ -29,7 +35,9 @@ const I18n = {
         "right": "¡Bien hecho!",
         "wrong": "Lo siento. Inténtalo de nuevo.",
         "error": "Ha habido un error procesando la respuesta",
-        "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+        "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página.",
+        "open_editor": "Open math editor",
+        "math_editor": "Math editor"
     },
     "de": {
         "check": "Prüfen",
@@ -37,7 +45,9 @@ const I18n = {
         "right": "¡Bien hecho!",
         "wrong": "Lo siento. Inténtalo de nuevo.",
         "error": "Ha habido un error procesando la respuesta",
-        "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página."
+        "random_msg": "Estas actividades contienen preguntas aleatorias que se generan cada vez que se carga la página.",
+        "open_editor": "Open math editor",
+        "math_editor": "Math editor"
     }
 } as unknown as {[key:string]:{[key:string]:string}} ;
 
