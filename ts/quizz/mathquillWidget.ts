@@ -26,7 +26,7 @@ class IBQuizzMathquill extends WidgetElement {
     getUserInput(): string {
         const l = this.mathInput?.latex();
         console.log(l)
-        return (l || '').replace(/\\,/g,' ').replace(/\\/g,' ').trim();        
+        return (l || '').replace(/\\,/g,' ').replace(/\\ /g,' ').trim();        
     } 
     displayRightAnswer(): void {
         if(this.mathInput) {
@@ -74,8 +74,9 @@ class IBQuizzMathquill extends WidgetElement {
                         symbols: this.widgetConfig?.vars || [],
                         qid: genID()
                     };
+                    console.log("PAYLOAD ", payload);
                     const res: ResponseCAS = await cas.compare(payload);
-                    console.log(res);
+                    console.log("Response ", res);
                     result = res.correct > 0;                                  
                 } else {
                     throw new Error("Check function must be set");

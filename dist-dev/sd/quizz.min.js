@@ -3342,7 +3342,7 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
       var _this$mathInput;
       var l = (_this$mathInput = this.mathInput) === null || _this$mathInput === void 0 ? void 0 : _this$mathInput.latex();
       console.log(l);
-      return (l || '').replace(/\\,/g, ' ').replace(/\\/g, ' ').trim();
+      return (l || '').replace(/\\,/g, ' ').replace(/\\ /g, ' ').trim();
     }
   }, {
     key: "displayRightAnswer",
@@ -3397,11 +3397,11 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
               scriptFn = (((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : _this$widgetConfig4.cfn) || 'return true').replace(/#/g, '');
               result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_3__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
               console.log("Avaluant ", scriptFn, "Retorna ", result);
-              _context.next = 33;
+              _context.next = 34;
               break;
             case 20:
               if (!(window.nerdamer && ngx === 'nermader')) {
-                _context.next = 32;
+                _context.next = 33;
                 break;
               }
               N = window.nerdamer; // Process
@@ -3413,27 +3413,28 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
                 symbols: ((_this$widgetConfig6 = this.widgetConfig) === null || _this$widgetConfig6 === void 0 ? void 0 : _this$widgetConfig6.vars) || [],
                 qid: (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.genID)()
               };
-              _context.next = 27;
+              console.log("PAYLOAD ", payload);
+              _context.next = 28;
               return cas.compare(payload);
-            case 27:
+            case 28:
               res = _context.sent;
-              console.log(res);
+              console.log("Response ", res);
               result = res.correct > 0;
-              _context.next = 33;
+              _context.next = 34;
               break;
-            case 32:
-              throw new Error("Check function must be set");
             case 33:
-              _context.next = 40;
+              throw new Error("Check function must be set");
+            case 34:
+              _context.next = 41;
               break;
-            case 35:
-              _context.prev = 35;
+            case 36:
+              _context.prev = 36;
               _context.t0 = _context["catch"](8);
               //Error
               console.error(_context.t0);
               this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
               return _context.abrupt("return", false);
-            case 40:
+            case 41:
               this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
               console.log("Matquill mathinput, ", this.getUserInput(), result);
               this.enable(!result);
@@ -3443,11 +3444,11 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
                 this.showFeedback();
               }
               return _context.abrupt("return", result);
-            case 45:
+            case 46:
             case "end":
               return _context.stop();
           }
-        }, _callee, this, [[8, 35]]);
+        }, _callee, this, [[8, 36]]);
       }));
       function check() {
         return _check.apply(this, arguments);
@@ -3716,11 +3717,12 @@ var NerdamerCAS = /*#__PURE__*/function () {
         //Prepares local scope for evaluation
         try {
           (p.symbols || []).forEach(function (symb) {
+            symb = (symb || '').trim();
             if (symb.indexOf(':=') > 0) {
               var pos = symb.indexOf(":=");
               var symb_name = symb.substring(0, pos);
               var symb_raw = symb.substring(pos + 2);
-              cas.setVar(symb_name, symb_raw);
+              cas.setVar(symb_name.trim(), symb_raw.trim());
             } else {
               cas.setVar(symb, symb);
             }
@@ -3848,10 +3850,9 @@ var NerdamerCAS = /*#__PURE__*/function () {
                 //This condition takes into account if expanded or not
                 expr = ans_obj.eq(parsed_input);
               } else {
-                //expr = ans_obj.eq(parsed_input)    
                 //Check for subtraction eq 0?
                 expr = ans_obj.subtract(parsed_input).simplify();
-                expr = expr.text() == '0';
+                expr = expr.toString() === '0';
               }
               console.log('remainder', expr);
             }
@@ -3935,14 +3936,14 @@ var NerdamerCAS = /*#__PURE__*/function () {
           't': cas('t'),
           'e': cas('exp(1)')
         };
-        //Prepares local scope for evaluation
         try {
           (p['symbols'] || []).forEach(function (symb) {
+            symb = (symb || '').trim();
             if (symb.indexOf(':=') > 0) {
               var pos = symb.indexOf(":=");
               var symb_name = symb.substring(0, pos);
               var symb_raw = symb.substring(pos + 2);
-              cas.setVar(symb_name, symb_raw);
+              cas.setVar(symb_name.trim(), symb_raw.trim());
             } else {
               cas.setVar(symb, symb);
             }

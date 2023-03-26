@@ -1,6 +1,6 @@
 import { ComponentHTML } from "../decorators"; 
 import { WidgetConfig } from "../quizz/quizzTypes"; 
-import { base64Encode } from "../_shared/utilsShared";
+import { addScript, base64Encode } from "../_shared/utilsShared";
 import { getClozeDialog } from "./clozeDialog";
 import registry from "./registry";
 import { WidgetElement } from "./widgetElement";  
@@ -29,6 +29,23 @@ class IBQuizzCloze extends WidgetElement {
         } 
     }  
     edit(): void {
+        if(!window.nerdamer) {
+            let url = "https://piworld.es/iedib/snippets/sd/mathquill.min.js";
+            const script = document.querySelector('script[src$="sd/quizz-editor.min.js"]') as HTMLScriptElement;
+            if(script) {
+                url = script.src.replace("sd/quizz-editor.min.js", "sd/mathquill.min.js");
+            }
+            addScript(url, "mathquill-nerdamer", () => {
+                this.editProxy();
+            }, () => {
+                console.error("Cannot load mathquill-nerdamer");
+                this.editProxy();
+            })
+        } else {
+            this.editProxy();
+        }
+    }
+    private editProxy(): void {
         const group = registry.findGroupObject(this);
         if (!group || !group.getAttoEditor()) {
             console.error("Edit: Cannot find group or atto editor");

@@ -122,19 +122,20 @@ class NerdamerCAS implements EngineCAS {
             //Prepares local scope for evaluation
             try {
                 (p.symbols || []).forEach( (symb: string) => {
+                    symb = (symb || '').trim();
                     if (symb.indexOf(':=') > 0) {
-                        const pos = symb.indexOf(":=")
-                        const symb_name = symb.substring(0, pos)
-                        const symb_raw = symb.substring(pos+2)
-                        cas.setVar(symb_name, symb_raw)  
+                        const pos = symb.indexOf(":=");
+                        const symb_name = symb.substring(0, pos);
+                        const symb_raw = symb.substring(pos+2);
+                        cas.setVar(symb_name.trim(), symb_raw.trim());
                     } else {
-                        cas.setVar(symb, symb)  
+                        cas.setVar(symb, symb);
                     }
                 })
             } catch(ex) {
-                console.error(ex)
-                resolve({"qid": p["qid"], "correct": -2, "msg": "Error: no es poden processar els símbols: " + ex})
-                return
+                console.error(ex);
+                resolve({"qid": p["qid"], "correct": -2, "msg": "Error: no es poden processar els símbols: " + ex});
+                return;
             }
 
             console.log("The scope:: ") 
@@ -226,21 +227,20 @@ class NerdamerCAS implements EngineCAS {
                     // decide if precision is set
                     if(rules['precision']) {
                         // Numerical equivalence within precision
-                        expr = Math.abs(ans_obj.toDecimal()-parsed_input.toDecimal()) < rules['precision']
-                        console.log('epsilon', expr)
+                        expr = Math.abs(ans_obj.toDecimal()-parsed_input.toDecimal()) < rules['precision'];
+                        console.log('epsilon', expr);
                     } else{
                         if(is_matrix(ans_obj)) {
-                            const delta = ans_obj.subtract(parsed_input)
-                            console.log('debug ', ans_obj.text(), parsed_input.text(), delta.text())
-                            expr = is_zero_matrix(delta)
+                            const delta = ans_obj.subtract(parsed_input);
+                            console.log('debug ', ans_obj.text(), parsed_input.text(), delta.text());
+                            expr = is_zero_matrix(delta);
                         } else if(rules['factor'] || rules['expand']) {
                             //This condition takes into account if expanded or not
-                            expr = ans_obj.eq(parsed_input)   
-                        } else {
-                            //expr = ans_obj.eq(parsed_input)    
+                            expr = ans_obj.eq(parsed_input);   
+                        } else { 
                             //Check for subtraction eq 0?
-                            expr = ans_obj.subtract(parsed_input).simplify()
-                            expr = expr.text()=='0'
+                            expr = ans_obj.subtract(parsed_input).simplify();
+                            expr = expr.toString()==='0';
                         }
                         console.log('remainder', expr)
                     }
@@ -314,28 +314,28 @@ class NerdamerCAS implements EngineCAS {
     }
     
     getAnswer(p: any): Promise<any> {
-        const cas = window.nerdamer
-        p = NerdamerCAS.clone(p)
+        const cas = window.nerdamer;
+        p = NerdamerCAS.clone(p);
         return new Promise<any>((resolve, reject) => { 
           
         // Prepares local scope for evaluation
         const scope: Dict<any> = {'x': cas('x'), 'y': cas('y'), 'z': cas('z'), 't': cas('t'), 'e': cas('exp(1)')}  
-        //Prepares local scope for evaluation
         try {
             (p['symbols'] || []).forEach( (symb: string) => {
+                symb = (symb || '').trim();
                 if (symb.indexOf(':=') > 0) {
-                    const pos = symb.indexOf(":=")
-                    const symb_name = symb.substring(0, pos)
-                    const symb_raw = symb.substring(pos+2)
-                    cas.setVar(symb_name, symb_raw)  
+                    const pos = symb.indexOf(":=");
+                    const symb_name = symb.substring(0, pos);
+                    const symb_raw = symb.substring(pos+2);
+                    cas.setVar(symb_name.trim(), symb_raw.trim());
                 } else {
-                    cas.setVar(symb, symb)  
+                    cas.setVar(symb, symb);
                 }
             })
         } catch(ex) {
-            console.error(ex)
-            resolve({"msg": "Error: no es poden processar els símbols: " + ex})
-            return
+            console.error(ex);
+            resolve({"msg": "Error: no es poden processar els símbols: " + ex});
+            return;
         }
 
         //TODO assume ans is str
