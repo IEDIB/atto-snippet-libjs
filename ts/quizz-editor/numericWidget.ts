@@ -7,8 +7,7 @@ import { WidgetElement } from "./widgetElement";
 
 @ComponentHTML({
     elementName: "ib-quizz-numeric",
-    classes: ["ib-quizz-elem"],
-    styles: { "display": "inline-block" }
+    classes: ["ib-quizz-elem"]
 })
 class IBQuizzNumeric extends WidgetElement {
     private editor: HTMLElement | undefined | null;

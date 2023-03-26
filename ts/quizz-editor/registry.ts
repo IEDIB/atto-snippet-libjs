@@ -52,10 +52,17 @@ function findWidgetsForGroup(quizzComponent: QuizzComponent): WidgetElement[] {
 
 // To be used by widgets to know about the group
 function findGroupObject(widgetElement: WidgetElement): QuizzComponent | null {
-    const groupElem = widgetElement.closest('div[data-quizz-group]');
+    const groupElem = widgetElement.closest('div[data-quizz-group]') as HTMLElement;
     if(groupElem && groupElem.getAttribute('id')) {
         const id = groupElem.getAttribute('id') || '';
-        return dictGroups[id];
+        let found = dictGroups[id];
+        if(!found) {
+            //Possibly the group is added after the page is loaded
+            //Create it dynamically
+            found = new QuizzComponent(groupElem);
+            addGroup(found);
+        }
+        return found;
     }
     return null;
 }

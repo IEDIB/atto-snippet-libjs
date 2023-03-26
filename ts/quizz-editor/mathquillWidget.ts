@@ -5,8 +5,7 @@ import registry from "./registry";
 
 @ComponentHTML({
     elementName: "ib-quizz-mathquill",
-    classes: ["ib-quizz-elem"],
-    styles: { "display": "inline-block" }
+    classes: ["ib-quizz-elem"]
 })
 class IBQuizzMathquill extends WidgetElement {
     private editor: HTMLElement | null | undefined;

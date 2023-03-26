@@ -7,8 +7,7 @@ import { base64Encode } from "../_shared/utilsShared";
 
 @ComponentHTML({
     elementName: "ib-quizz-dropdown",
-    classes: ["ib-quizz-elem"],
-    styles: { "display": "inline-block" }
+    classes: ["ib-quizz-elem"]
 })
 class IBQuizzDropdown extends WidgetElement {
     private editor: HTMLElement | null | undefined;
