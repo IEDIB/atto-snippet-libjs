@@ -20,7 +20,7 @@ export abstract class WidgetElement extends HTMLElement {
     }
     
     connectedCallback() { 
-        this.setAttribute("title", "Doble-click per editar");
+        //this.setAttribute("title", "Doble-click per editar");
         //Register myself as widget
         registry.addWidget(this);
         this.addEventListener("dblclick", this.edit);  

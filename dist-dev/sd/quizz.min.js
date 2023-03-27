@@ -3530,19 +3530,21 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "parseLatexNerdamer": function() { return /* binding */ parseLatexNerdamer; }
 /* harmony export */ });
+/* unused harmony export parse_pmatrix */
 var pmatrix_re = /\\begin\{pmatrix\}(.*?)\\end\{pmatrix\}/gm;
 var mcount = 0;
 // Convert a \begin{pmatrix} a & b \\ c & d \end{pmatrix} in to nermader matrix([a,b],[c,d]) 
 function parse_pmatrix(latex) {
   latex = latex.replace("\\begin{pmatrix}", "").replace("\\end{pmatrix}", "");
-  var rows = latex.split("\\\\").map(function (row) {
+  var rows = latex.split("\\" + "\\").map(function (row) {
     var cols = row.split("&").map(function (col) {
       return col.trim();
     });
     return '[' + cols.join(',') + ']';
   });
   var out = 'matrix(' + rows.join(',') + ')';
-  var varName = 'M_' + mcount;
+  var varName = 'MM_' + mcount;
+  console.log(window.nerdamer.getVars(), varName, out);
   window.nerdamer.setVar(varName, out);
   mcount++;
   return varName;
@@ -3552,6 +3554,10 @@ function parseLatexNerdamer(tex) {
   tex = tex.replace(pmatrix_re, function ($0, $1) {
     return parse_pmatrix($0);
   });
+  // Treat spaces 
+  tex = tex.replace(/\\,/g, ' ').replace(/ \\\s+/g, ' ');
+  console.log("The variables -- ", window.nerdamer.getVars());
+  console.log("Resulting tex -- ", tex);
   return window.nerdamer.convertFromLaTeX(tex);
 }
 

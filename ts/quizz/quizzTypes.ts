@@ -17,6 +17,17 @@ export interface WidgetConfig {
     hint?: string
 }
 
+export type Nerdamer = (cmd: string)=> Nerdamer & {
+    simplify(): Nerdamer,
+    flush(): void,
+    clearVars(): void,
+    setVar(varname: string, varvalue: string): void,
+    getVar(varname: string): Nerdamer,
+    getVars(): string[],
+    convertFromLaTeX(latex: string): Nerdamer,
+    subtract(expr: string): Nerdamer
+} 
+
 export interface WidgetGroupContext {
     s: string,
     _s: {[key: string]: any},

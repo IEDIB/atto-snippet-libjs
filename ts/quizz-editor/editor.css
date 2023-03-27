@@ -25,6 +25,19 @@ body.editing ib-quizz-mathquill {
     min-width: 39px; 
 }
 
+body.editing .ib-quizz-elem:hover::before {
+    content: 'Doble-clic per editar';
+    display: inline-block;
+    position: absolute;
+    bottom: -20px;
+    left: 0px;
+    font-size: 70%;
+    overflow: hidden;
+    background-color: gray;
+    color: whitesmoke;
+    padding: 1px;
+}
+
 body.editing [data-quizz-group] span[data-quizz-interpol] {
     border-bottom: 1px solid gray;
     margin-right: 2px;
