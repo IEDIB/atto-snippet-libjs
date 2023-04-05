@@ -46,8 +46,11 @@ export function extendNerdamer(N: any): void {
         return _.expand(_.multiply(poly, new Symbol(alea(1, r))));
     };
 
-    const aleaMatrixFn = function(n: number, m: number, r: number) {
+    const aleaMatrixFn = function(n: any, m: any, r: any) {
         const rows: number[][] = [];
+        n = parseInt(n.toString());
+        m = parseInt(m.toString());
+        r = parseInt(r.toString());
         for(let i=0; i < n; i++) {
             const aRow: number[] = [];
             for(let j=0; j < m; j++) {
@@ -88,10 +91,14 @@ export function extendNerdamer(N: any): void {
         return new Symbol(count);
     }
 
-    const aleaRegularMatrixFn = function(n: any, r: number) {
-        let mat = aleaMatrixFn(n.clone(), n.clone(), r);
-        while(mat.isSingular()) {
-            mat = aleaMatrixFn(n, n, r);
+    const aleaRegularMatrixFn = function(n: any, r: any) {
+        let mat = aleaMatrixFn(n.clone(), n.clone(), r.clone());
+        const det = mat.determinant().toString();
+        console.log("He generat ", mat.toString()+ " amb det "+ det);
+        let count = 0;
+        while(det==='0' && count < 100) {
+            mat = aleaMatrixFn(n.clone(), n.clone(), r.clone());
+            count++;
         }
         return mat;
     };

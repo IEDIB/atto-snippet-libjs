@@ -1,11 +1,16 @@
-
-import * as nerdamer from 'nerdamer/all.js' 
-const N = nerdamer.default
-console.log(N)
-
+import nerdamer from '../../../ts/mathquill/mathquill.nerdamer' 
+ 
+ 
 global.window = {
-    nerdamer: N
+    nerdamer: nerdamer
 } as any; 
+const N = nerdamer;
+ 
+
+const w = window as any;
+
+import { utilities } from '../../../ts/quizz/quizzUtil' 
+ 
 
 import { parseLatexNerdamer, parse_pmatrix } from '../../../ts/quizz/engines/parseLatexNerdamer'
 
@@ -24,6 +29,12 @@ test('Parse matrix', ()=> {
     const out = parse_pmatrix('\\begin{pmatrix} 1 & 2 \\\\ 4 & 5 \\end{pmatrix}'); 
     expect(out).toBe("MM_0");
 
-    const nerd = parseLatexNerdamer('\\begin{pmatrix} 1 & 2 \\\\ 4 & 5 \\end{pmatrix}');
-    expect(nerd.subtract('matrix([1,2],[4,5])').toString()).toBe(ZeroMatrix.toString())
+    const nerd = parseLatexNerdamer('3\\begin{pmatrix} 1 & 2 \\\\ 4 & 5 \\end{pmatrix} + \\begin{pmatrix} 2& 0 \\\\ 0 & 2 \\end{pmatrix}') as any;
+    console.log(nerd);
+
+    const core = N.getCore();
+    //expect(core.Utils.isMatrix(nerd.evaluate())).toBe(true);
+    expect(nerd.toString()).toBe('matrix([5,6],[12,17])')
+    expect(N.matget(nerd, 0, 0).toString()).toBe("5"); 
+    expect(N.matget(nerd, 1, 0).toString()).toBe("12"); 
 })

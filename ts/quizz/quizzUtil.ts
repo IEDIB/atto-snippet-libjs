@@ -124,13 +124,13 @@ export function treatIniPlaceholders(iniTxt: string): string {
         const line = new Array(n).fill('\\MathQuillMathField{}').join(' & ');
         const mtex = new Array(m).fill(line).join(' \\\\ ');
         return '\\begin{pmatrix}' + mtex + '\\end{pmatrix}'
-    }).replace(/\?/g, '\\MathQuillMathField{ }');
+    }).replace(/\?/g, '\\MathQuillMathField{}');
 }
 
 // Make sure that if a Nerdamer object has to be displayed, then call the toLaTeX function
 const serializeObject = function(obj: any): string {
     if(typeof(obj.toTeX)==='function') {
-        return obj.toTeX();
+        return obj.toTeX().replace(/vmatrix/g, 'matrix');
     } else if(typeof(obj.toString)==='function') {
         return obj.toString();
     }

@@ -67,11 +67,30 @@ class IBQuizzMathquill extends WidgetElement {
                     const userInput = this.getUserInput() || '';
                     
                     // Send to the Engine
+                    // Vars might contain #... that must be send to the CAS
+                    const map = this.groupContext?._s || {};
+                    console.log("The map is ", map)
+                    const symbolsProcessed: string[] = (this.widgetConfig?.vars || []).map( text => {
+                        const interpolated = text.replace(/#([a-zA-Z0-9_]+)/gm, ($0, $1) => {
+                            const obj = map[$1];
+                            if(obj != null) {
+                                if(typeof(obj.text)==='function') {
+                                    return obj.text();
+                                } else if(typeof(obj.toString)==='function') {
+                                    return obj.toString();
+                                }
+                                return obj+'';
+                            }
+                            return $0;
+                        });
+                        return interpolated;
+                    });
+
                     const cas = getNerdamerCAS(this.lang);
                     const payload: PayloadCAS = {
                         latex: [userInput],
                         ans: [this.widgetConfig?.ans || ''],
-                        symbols: this.widgetConfig?.vars || [],
+                        symbols: symbolsProcessed,
                         qid: genID()
                     };
                     console.log("PAYLOAD ", payload);
@@ -119,7 +138,7 @@ class IBQuizzMathquill extends WidgetElement {
         }
 
         this.input = document.createElement("span") as HTMLSpanElement;
-        this.input.innerText = treatIniPlaceholders(this.widgetConfig.ini || '');
+        this.input.innerText = treatIniPlaceholders(this.widgetConfig.ini || '').replace(/\\MathQuillMathField{}/gm, '');
         this.input.style.minWidth = "100px";
         this.append(this.input);
         //Important MUST BE appended before calling StaticMath

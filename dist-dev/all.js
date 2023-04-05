@@ -3382,14 +3382,14 @@ var SmartTabMenu = /*#__PURE__*/function () {
 /* harmony export */ });
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(28);
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(26);
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(42);
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(42);
 /* harmony import */ var _dropdownWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(40);
 /* harmony import */ var _mchoiceWidget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(48);
 /* harmony import */ var _numericWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(49);
 /* harmony import */ var _clozeWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(50);
 /* harmony import */ var _mathquillWidget__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(51);
 /* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(24);
-/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(46);
+/* harmony import */ var _quizzUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(46);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _dec, _class;
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -3472,64 +3472,14 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Compone
       console.error(ex);
     }
     _this.lang = searchLang || "ca";
-    // Must generate an instance of the group vars into map _v
-    _this.generateGroup();
-
-    // Must find placeholders in the dom by replacing #key by _v[#key]
-    _this.findPlaceholders();
-    _this.allQuizzElements = _this.parent.querySelectorAll(SEARCH_QUERY);
-    _this.allClozeElements = document.querySelectorAll(SEARCH_QUERY2);
-    console.log(_this.allQuizzElements, _this.allClozeElements);
-    _this.checkButton = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.createElement)("button", {
-      "class": "btn btn-sm btn-primary d-print-none",
-      style: "margin: 10px;display:block",
-      html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_7__["default"])(_this.lang, 'check')
-    });
-    _this.listener = /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(evt) {
-        var allPromises, checksList;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              evt.preventDefault();
-              allPromises = [];
-              _this.allQuizzElements.forEach(function (quizzElem) {
-                allPromises.push(quizzElem.check());
-              });
-              _this.allClozeElements.forEach(function (quizzElem) {
-                allPromises.push(quizzElem.check());
-              });
-              _context.next = 6;
-              return Promise.all(allPromises);
-            case 6:
-              checksList = _context.sent;
-              if (checksList.every(function (chk) {
-                return chk === true;
-              })) {
-                // All widgets are correct. Then disable the check button
-                _this.checkButton.setAttribute("disabled", "true");
-              }
-            case 8:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }));
-      return function (_x) {
-        return _ref.apply(this, arguments);
-      };
-    }();
-    //Si no hi ha cap control, no té sentit afegir el botó
-    if (_this.allQuizzElements.length + _this.allClozeElements.length > 0) {
-      _this.parent.append(_this.checkButton);
-    }
     return _this;
   }
   _createClass(QuizzComponent, [{
     key: "generateGroup",
     value: function generateGroup() {
+      console.log("generateGroup");
       try {
-        (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.runIBScript)(this.groupContext.s, {}, this.groupContext._s);
+        (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_7__.runIBScript)(this.groupContext.s, {}, this.groupContext._s);
       } catch (ex) {
         console.error("GroupContext:: No es pot interpretar el codi.\n", ex);
       }
@@ -3538,7 +3488,8 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Compone
       if (this.groupContext.s.trim().length) {
         var noticeDiv = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.createElement)('div', {
           "class": 'alert alert-info d-print-none',
-          html: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\" style=\"height:20px;\"><path fill=\"#154b5e\" d=\"M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg> \n                <small>".concat((0,_i18n__WEBPACK_IMPORTED_MODULE_7__["default"])(this.lang, 'random_msg'), "</small>")
+          style: 'float:right;display:inline',
+          html: "<svg data-toggle=\"tooltip\" title=\"".concat((0,_i18n__WEBPACK_IMPORTED_MODULE_8__["default"])(this.lang, 'random_msg'), "+\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\" style=\"height:20px;\"><path fill=\"#154b5e\" d=\"M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z\"/></svg> \n                ")
         });
         var secondChild = this.parent.querySelector(':nth-child(2)');
         if ((secondChild === null || secondChild === void 0 ? void 0 : secondChild.nodeName) === 'H4') {
@@ -3564,7 +3515,7 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Compone
       var _this2 = this;
       textNodesUnder(this.parent).forEach(function (textNode) {
         var text = textNode.textContent || '';
-        textNode.textContent = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.doVariablesInterpolation)(text, _this2.groupContext._s);
+        textNode.textContent = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_7__.doVariablesInterpolation)(text, _this2.groupContext._s);
       });
     }
   }, {
@@ -3576,31 +3527,117 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Compone
         if (valor.indexOf('#') < 0) {
           return;
         }
-        spanNode.innerHTML = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_8__.doVariablesInterpolation)(valor, _this3.groupContext._s);
+        spanNode.innerHTML = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_7__.doVariablesInterpolation)(valor, _this3.groupContext._s);
       });
     }
   }, {
     key: "init",
     value: function init() {
       var _this4 = this;
+      console.log("Init called");
       var ds = this.parent.dataset;
       if (ds.active === "1") {
         return;
       }
       ds.active = "1";
-      this.checkButton.addEventListener("click", this.listener);
+
+      // Must generate an instance of the group vars into map _v
+      if (this.groupContext.s.trim().length) {
+        // Make sure that nerdamer + mathquill is loaded in page
+        if (!window.nerdamer) {
+          var url = "https://piworld.es/iedib/snippets/sd/mathquill.min.js";
+          var script = document.querySelector('script[src$="sd/quizz-editor.min.js"]');
+          if (script) {
+            url = script.src.replace("sd/quizz-editor.min.js", "sd/mathquill.min.js");
+          }
+          (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.addScript)(url, "mathquill.matrix4quizz", function () {
+            _this4.generateGroup();
+            _this4.initProxy();
+          }, function () {
+            console.error("Cannot load mathquill-nerdamer");
+            _this4.generateGroup();
+            _this4.initProxy();
+          });
+        } else {
+          this.generateGroup();
+          this.initProxy();
+        }
+      } else {
+        this.initProxy();
+      }
+    }
+  }, {
+    key: "initProxy",
+    value: function initProxy() {
+      var _this5 = this,
+        _this$allQuizzElement,
+        _this$allClozeElement;
+      console.log("In initProxy....");
+      // Must find placeholders in the dom by replacing #key by _v[#key]
+      this.findPlaceholders();
+      this.allQuizzElements = this.parent.querySelectorAll(SEARCH_QUERY);
+      this.allClozeElements = this.parent.querySelectorAll(SEARCH_QUERY2);
+      console.log(this.allQuizzElements, this.allClozeElements);
+      this.checkButton = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.createElement)("button", {
+        "class": "btn btn-sm btn-primary d-print-none",
+        style: "margin: 10px;display:block",
+        html: '<i class="fa fas fa-check"></i> ' + (0,_i18n__WEBPACK_IMPORTED_MODULE_8__["default"])(this.lang, 'check')
+      });
+      this.listener = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(evt) {
+          var _this5$allQuizzElemen, _this5$allClozeElemen;
+          var allPromises, checksList, _this5$checkButton;
+          return _regeneratorRuntime().wrap(function _callee$(_context) {
+            while (1) switch (_context.prev = _context.next) {
+              case 0:
+                evt.preventDefault();
+                allPromises = [];
+                (_this5$allQuizzElemen = _this5.allQuizzElements) === null || _this5$allQuizzElemen === void 0 ? void 0 : _this5$allQuizzElemen.forEach(function (quizzElem) {
+                  allPromises.push(quizzElem.check());
+                });
+                (_this5$allClozeElemen = _this5.allClozeElements) === null || _this5$allClozeElemen === void 0 ? void 0 : _this5$allClozeElemen.forEach(function (quizzElem) {
+                  allPromises.push(quizzElem.check());
+                });
+                _context.next = 6;
+                return Promise.all(allPromises);
+              case 6:
+                checksList = _context.sent;
+                if (checksList.every(function (chk) {
+                  return chk === true;
+                })) {
+                  // All widgets are correct. Then disable the check button
+                  (_this5$checkButton = _this5.checkButton) === null || _this5$checkButton === void 0 ? void 0 : _this5$checkButton.setAttribute("disabled", "true");
+                }
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }, _callee);
+        }));
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }();
+      //Si no hi ha cap control, no té sentit afegir el botó
+      if (this.allQuizzElements.length + this.allClozeElements.length > 0) {
+        this.parent.append(this.checkButton);
+      }
+      if (this.listener) {
+        var _this$checkButton;
+        (_this$checkButton = this.checkButton) === null || _this$checkButton === void 0 ? void 0 : _this$checkButton.addEventListener("click", this.listener);
+      }
       //Pass language to all QuizzElements
-      this.allQuizzElements.forEach(function (quizzElem) {
+      (_this$allQuizzElement = this.allQuizzElements) === null || _this$allQuizzElement === void 0 ? void 0 : _this$allQuizzElement.forEach(function (quizzElem) {
         if (typeof quizzElem.setLang !== 'function') {
           console.error("No custom element registered for ", quizzElem);
           return;
         }
-        quizzElem.setLang(_this4.lang);
-        quizzElem.setGroupContext(_this4.groupContext);
+        quizzElem.setLang(_this5.lang);
+        quizzElem.setGroupContext(_this5.groupContext);
       });
       //cloze elements needs mathquill to be loaded on demand
 
-      if (this.allClozeElements.length) {
+      if ((_this$allClozeElement = this.allClozeElements) !== null && _this$allClozeElement !== void 0 && _this$allClozeElement.length) {
         //Needs to load mathquill js file on demand
         //Needs the lookup document.head for a script with src="....../sd/quizz.min.js"
         //and build a new url with ....../sd/mathquill.min.js
@@ -3612,14 +3649,15 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Compone
           mathQuillURL = (scriptFound.getAttribute('src') || '').replace('/sd/quizz.min.js', '/sd/mathquill.min.js');
         }
         (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_6__.addScript)(mathQuillURL, 'mathquill.matrix4quizz', function () {
+          var _this5$allClozeElemen2;
           //When mathquill ready must initialize this widgets
-          _this4.allClozeElements.forEach(function (quizzElem) {
+          (_this5$allClozeElemen2 = _this5.allClozeElements) === null || _this5$allClozeElemen2 === void 0 ? void 0 : _this5$allClozeElemen2.forEach(function (quizzElem) {
             if (typeof quizzElem.setLang !== 'function') {
               console.error("No custom element registered for ", quizzElem);
               return;
             }
-            quizzElem.setLang(_this4.lang);
-            quizzElem.setGroupContext(_this4.groupContext);
+            quizzElem.setLang(_this5.lang);
+            quizzElem.setGroupContext(_this5.groupContext);
           });
         });
       }
@@ -3632,7 +3670,10 @@ var QuizzComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_5__.Compone
         return;
       }
       this.parent.removeAttribute("data-active");
-      this.checkButton.removeEventListener("click", this.listener);
+      if (this.listener) {
+        var _this$checkButton2;
+        (_this$checkButton2 = this.checkButton) === null || _this$checkButton2 === void 0 ? void 0 : _this$checkButton2.removeEventListener("click", this.listener);
+      }
     }
   }]);
   return QuizzComponent;
@@ -4525,6 +4566,7 @@ function setPathValue(barPath, scope, newValue) {
 /* harmony export */   "runIBScript": function() { return /* binding */ runIBScript; },
 /* harmony export */   "treatIniPlaceholders": function() { return /* binding */ treatIniPlaceholders; }
 /* harmony export */ });
+/* unused harmony export utilities */
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -4614,6 +4656,14 @@ function runIBScript(scriptCode, context, scope) {
       configurable: false,
       writable: false
     });
+    // For every property in nerdamer that is not in global current scope, create a shortcut
+    Object.getOwnPropertyNames(window.nerdamer).forEach(function (key) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      if (utilities[key] === undefined) {
+        utilities[key] = window.nerdamer[key];
+      }
+    });
   }
   if (window.mathjs && !utilities.M) {
     Object.defineProperty(utilities, "M", {
@@ -4646,15 +4696,25 @@ function treatIniPlaceholders(iniTxt) {
     var line = new Array(n).fill('\\MathQuillMathField{}').join(' & ');
     var mtex = new Array(m).fill(line).join(' \\\\ ');
     return '\\begin{pmatrix}' + mtex + '\\end{pmatrix}';
-  }).replace(/\?/g, '\\MathQuillMathField{ }');
+  }).replace(/\?/g, '\\MathQuillMathField{}');
 }
+
+// Make sure that if a Nerdamer object has to be displayed, then call the toLaTeX function
+var serializeObject = function serializeObject(obj) {
+  if (typeof obj.toTeX === 'function') {
+    return obj.toTeX().replace(/vmatrix/g, 'matrix');
+  } else if (typeof obj.toString === 'function') {
+    return obj.toString();
+  }
+  return obj + '';
+};
 function doVariablesInterpolation(text, map) {
   if (!map) {
     return text;
   }
   var interpolated = text.replace(/#([a-zA-Z0-9_]+)($|[ .,"'])/gm, function ($0, $1, $2) {
     if (map[$1] != null) {
-      return map[$1] + ($2 || '');
+      return serializeObject(map[$1]) + ($2 || '');
     }
     return $0;
   });
@@ -5587,7 +5647,7 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
     value: function () {
       var _check = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var _this$statusDisplay, _this$statusDisplay2, _this$widgetConfig2, _this$widgetConfig2$o;
-        var result, ngx, _this$widgetConfig3, _this$groupContext, _this$widgetConfig4, _this$groupContext2, raw, uNerd, localContext, scriptFn, _this$widgetConfig5, _this$widgetConfig6, N, userInput, cas, payload, res;
+        var result, ngx, _this$widgetConfig3, _this$groupContext, _this$widgetConfig4, _this$groupContext2, raw, uNerd, localContext, scriptFn, _this$groupContext3, _this$widgetConfig5, _this$widgetConfig6, N, userInput, map, symbolsProcessed, cas, payload, res;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -5625,44 +5685,62 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
               scriptFn = (((_this$widgetConfig4 = this.widgetConfig) === null || _this$widgetConfig4 === void 0 ? void 0 : _this$widgetConfig4.cfn) || 'return true').replace(/#/g, '');
               result = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_3__.runIBScript)(scriptFn, localContext, ((_this$groupContext2 = this.groupContext) === null || _this$groupContext2 === void 0 ? void 0 : _this$groupContext2._s) || {});
               console.log("Avaluant ", scriptFn, "Retorna ", result);
-              _context.next = 34;
+              _context.next = 37;
               break;
             case 20:
               if (!(window.nerdamer && ngx === 'nermader')) {
-                _context.next = 33;
+                _context.next = 36;
                 break;
               }
               N = window.nerdamer; // Process
               userInput = this.getUserInput() || ''; // Send to the Engine
+              // Vars might contain #... that must be send to the CAS
+              map = ((_this$groupContext3 = this.groupContext) === null || _this$groupContext3 === void 0 ? void 0 : _this$groupContext3._s) || {};
+              console.log("The map is ", map);
+              symbolsProcessed = (((_this$widgetConfig5 = this.widgetConfig) === null || _this$widgetConfig5 === void 0 ? void 0 : _this$widgetConfig5.vars) || []).map(function (text) {
+                var interpolated = text.replace(/#([a-zA-Z0-9_]+)/gm, function ($0, $1) {
+                  var obj = map[$1];
+                  if (obj != null) {
+                    if (typeof obj.text === 'function') {
+                      return obj.text();
+                    } else if (typeof obj.toString === 'function') {
+                      return obj.toString();
+                    }
+                    return obj + '';
+                  }
+                  return $0;
+                });
+                return interpolated;
+              });
               cas = (0,_engines_nerdamerEngine__WEBPACK_IMPORTED_MODULE_4__.getNerdamerCAS)(this.lang);
               payload = {
                 latex: [userInput],
-                ans: [((_this$widgetConfig5 = this.widgetConfig) === null || _this$widgetConfig5 === void 0 ? void 0 : _this$widgetConfig5.ans) || ''],
-                symbols: ((_this$widgetConfig6 = this.widgetConfig) === null || _this$widgetConfig6 === void 0 ? void 0 : _this$widgetConfig6.vars) || [],
+                ans: [((_this$widgetConfig6 = this.widgetConfig) === null || _this$widgetConfig6 === void 0 ? void 0 : _this$widgetConfig6.ans) || ''],
+                symbols: symbolsProcessed,
                 qid: (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_5__.genID)()
               };
               console.log("PAYLOAD ", payload);
-              _context.next = 28;
+              _context.next = 31;
               return cas.compare(payload);
-            case 28:
+            case 31:
               res = _context.sent;
               console.log("Response ", res);
               result = res.correct > 0;
-              _context.next = 34;
-              break;
-            case 33:
-              throw new Error("Check function must be set");
-            case 34:
-              _context.next = 41;
+              _context.next = 37;
               break;
             case 36:
-              _context.prev = 36;
+              throw new Error("Check function must be set");
+            case 37:
+              _context.next = 44;
+              break;
+            case 39:
+              _context.prev = 39;
               _context.t0 = _context["catch"](8);
               //Error
               console.error(_context.t0);
               this.setStatus(_statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.ERROR);
               return _context.abrupt("return", false);
-            case 41:
+            case 44:
               this.setStatus(result ? _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.RIGHT : _statusDisplay__WEBPACK_IMPORTED_MODULE_1__.WidgetStatus.WRONG);
               console.log("Matquill mathinput, ", this.getUserInput(), result);
               this.enable(!result);
@@ -5672,11 +5750,11 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
                 this.showFeedback();
               }
               return _context.abrupt("return", result);
-            case 46:
+            case 49:
             case "end":
               return _context.stop();
           }
-        }, _callee, this, [[8, 36]]);
+        }, _callee, this, [[8, 39]]);
       }));
       function check() {
         return _check.apply(this, arguments);
@@ -5686,7 +5764,7 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
   }, {
     key: "render",
     value: function render() {
-      var _this$groupContext3,
+      var _this$groupContext4,
         _this = this;
       if (!this.widgetConfig) {
         return;
@@ -5699,7 +5777,7 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
 
       // Here groupContext._v map is available and parsed
       // Must evaluate in the context the rightanswer
-      if ((_this$groupContext3 = this.groupContext) !== null && _this$groupContext3 !== void 0 && _this$groupContext3.s.length && this.widgetConfig) {
+      if ((_this$groupContext4 = this.groupContext) !== null && _this$groupContext4 !== void 0 && _this$groupContext4.s.length && this.widgetConfig) {
         var theAns = this.widgetConfig.ans || '';
         if (theAns.indexOf('#') >= 0) {
           theAns = theAns.replace(/#/g, '');
@@ -5707,7 +5785,7 @@ var IBQuizzMathquill = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Compo
         }
       }
       this.input = document.createElement("span");
-      this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_3__.treatIniPlaceholders)(this.widgetConfig.ini || '');
+      this.input.innerText = (0,_quizzUtil__WEBPACK_IMPORTED_MODULE_3__.treatIniPlaceholders)(this.widgetConfig.ini || '').replace(/\\MathQuillMathField{}/gm, '');
       this.input.style.minWidth = "100px";
       this.append(this.input);
       //Important MUST BE appended before calling StaticMath
@@ -5763,30 +5841,35 @@ var pmatrix_re = /\\begin\{pmatrix\}(.*?)\\end\{pmatrix\}/gm;
 var mcount = 0;
 // Convert a \begin{pmatrix} a & b \\ c & d \end{pmatrix} in to nermader matrix([a,b],[c,d]) 
 function parse_pmatrix(latex) {
+  var core = window.nerdamer.getCore();
+  var _Symbol = core.Symbol;
   latex = latex.replace("\\begin{pmatrix}", "").replace("\\end{pmatrix}", "");
   var rows = latex.split("\\" + "\\").map(function (row) {
     var cols = row.split("&").map(function (col) {
-      return col.trim();
+      return parseLatexNerdamer(col.trim() || '0');
     });
-    return '[' + cols.join(',') + ']';
+    return cols.join(",");
   });
-  var out = 'matrix(' + rows.join(',') + ')';
   var varName = 'MM_' + mcount;
-  console.log(window.nerdamer.getVars(), varName, out);
-  window.nerdamer.setVar(varName, out);
+  //const out = 'matrix(' + rows.join(',') + ')'    
+  //window.nerdamer.setVar(varName, out) 
   mcount++;
+  window.nerdamer.setVar(varName, core.Matrix.fromArray(rows));
   return varName;
 }
 function parseLatexNerdamer(tex) {
-  // Treat matrices
-  tex = tex.replace(pmatrix_re, function ($0, $1) {
-    return parse_pmatrix($0);
+  // Treat matrices 
+  tex = tex.replace(pmatrix_re, function ($0) {
+    var mparse = parse_pmatrix($0);
+    return mparse;
   });
   // Treat spaces 
   tex = tex.replace(/\\,/g, ' ').replace(/ \\\s+/g, ' ');
+  //const core = window.nerdamer.getCore(); 
+  var nerd = window.nerdamer.convertFromLaTeX(tex);
   console.log("The variables -- ", window.nerdamer.getVars());
   console.log("Resulting tex -- ", tex);
-  return window.nerdamer.convertFromLaTeX(tex);
+  return nerd;
 }
 
 /***/ }),
@@ -5956,6 +6039,7 @@ var NerdamerCAS = /*#__PURE__*/function () {
               var pos = symb.indexOf(":=");
               var symb_name = symb.substring(0, pos);
               var symb_raw = symb.substring(pos + 2);
+              console.log("Setting", symb_name, " as ", symb_raw);
               cas.setVar(symb_name.trim(), symb_raw.trim());
             } else {
               cas.setVar(symb, symb);

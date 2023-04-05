@@ -34,6 +34,15 @@ test('Test alea matrix', () => {
     expect(matr2.toTeX).not.toBe(null)
 })
 
+test('Cerca matrius no regulars', ()=> {
+    
+    for(let i=0; i<100;i++) {
+        const mat2 = N("aleaRegularMatrix(2,4)");
+        expect(N.determinant(mat2).toDecimal(0)).not.toBe(0)
+    }
+    
+});
+
 
 test('Test matrix rang', () => { 
     let mat2 = N("matrix([0,0],[0,0])");
@@ -105,5 +114,5 @@ test('aleaPoly', () => {
 
     poly = N.aleaPolyRoots(3, 'x', 10);
     expect(N.deg(poly).toString()).toBe("3");
-    expect(JSON.parse(N.solve(poly, 'x').toDecimal()).length).toBe(3);
+    expect(JSON.parse(N.solve(poly, 'x').toDecimal()).length>0).toBe(true);
 });

@@ -127,6 +127,7 @@ class NerdamerCAS implements EngineCAS {
                         const pos = symb.indexOf(":=");
                         const symb_name = symb.substring(0, pos);
                         const symb_raw = symb.substring(pos+2);
+                        console.log("Setting", symb_name, " as ", symb_raw)
                         cas.setVar(symb_name.trim(), symb_raw.trim());
                     } else {
                         cas.setVar(symb, symb);

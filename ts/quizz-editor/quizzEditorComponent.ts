@@ -6,7 +6,7 @@ import registry from "./registry";
 //Manually import the customElements that should be loaded 
 import { WidgetGroupContext } from "../quizz/quizzTypes";
 import { getQuizzConfigDialog } from "./groupDialog";
-import { base64Decode, base64Encode, convertInt } from "../_shared/utilsShared";
+import { addScript, base64Decode, base64Encode, convertInt } from "../_shared/utilsShared";
 import { runIBScript } from "../quizz/quizzUtil";
 
 const SEARCH_QUERY = "ib-quizz-numeric, ib-quizz-dropdown, ib-quizz-mchoice, ib-quizz-cloze, ib-quizz-mathquill";
@@ -52,8 +52,7 @@ export default class QuizzComponent extends BaseComponent {
         console.log(this.allQuizzElements);
 
         this.discoverAttoId();
-        if (this.editor) {
-
+        if (this.editor) { 
             // Lookup of clicks on the editor which are span +  data-quizz-interpol
             this.editor?.addEventListener("dblclick", (evt) => {
                 const target = evt.target as HTMLElement;
@@ -75,32 +74,50 @@ export default class QuizzComponent extends BaseComponent {
 
             // This quizzGroup must listen to requests from atto
             this.parent.addEventListener("editorRequest", () => {
-                // Must open a dialog
-                const dlg = getQuizzConfigDialog();
-                dlg.setBindings(this.groupContext, this.parent);
-                dlg.show((updated?: { [key: string]: unknown }) => {
-                    if (!updated) {
-                        return;
+                // Make sure that nerdamer + mathquill is loaded in page
+                if(!window.nerdamer) {
+                    let url = "https://piworld.es/iedib/snippets/sd/mathquill.min.js";
+                    const script = document.querySelector('script[src$="sd/quizz-editor.min.js"]') as HTMLScriptElement;
+                    if(script) {
+                        url = script.src.replace("sd/quizz-editor.min.js", "sd/mathquill.min.js");
                     }
-                    delete updated['_s'];
-                    const groupContext = updated as unknown as WidgetGroupContext;
-                    groupContext.o.hint=convertInt(groupContext.o.hint, 2);
-                    groupContext.o.ans=convertInt(groupContext.o.ans, 4);
-                    const b64 = base64Encode(groupContext);
-                    this.parent.setAttribute("data-quizz-group", b64);
-                    const event = new Event('updated');
-                    this.editor?.dispatchEvent(event);
-                    console.info("Event dispatched");
-
-                    // update changes in the groupContext
-                    // widgets will pull this new object when needed 
-                    this.updateGroupContext(b64);
-
-                });
+                    addScript(url, "mathquill-nerdamer", () => {
+                        this.editProxy();
+                    }, () => {
+                        console.error("Cannot load mathquill-nerdamer");
+                        this.editProxy();
+                    })
+                } else {
+                    this.editProxy();
+                }
             });
         } else {
             console.error("groupEdit: Cannot find atto editor");
         }
+    }
+
+    private editProxy() {
+         // Must open a dialog
+         const dlg = getQuizzConfigDialog();
+         dlg.setBindings(this.groupContext, this.parent);
+         dlg.show((updated?: { [key: string]: unknown }) => {
+             if (!updated) {
+                 return;
+             }
+             delete updated['_s'];
+             const groupContext = updated as unknown as WidgetGroupContext;
+             groupContext.o.hint=convertInt(groupContext.o.hint, 2);
+             groupContext.o.ans=convertInt(groupContext.o.ans, 4);
+             const b64 = base64Encode(groupContext);
+             this.parent.setAttribute("data-quizz-group", b64);
+             const event = new Event('updated');
+             this.editor?.dispatchEvent(event);
+             console.info("Event dispatched");
+
+             // update changes in the groupContext
+             // widgets will pull this new object when needed 
+             this.updateGroupContext(b64);
+         });
     }
 
     updateGroupContext(contextRaw64: string): void {

@@ -30,7 +30,7 @@ export type Nerdamer = (cmd: string)=> Nerdamer & {
     add(expr: any): Nerdamer,
     subtract(expr: any): Nerdamer,
     multiply(expr: any): Nerdamer,
-    pow(expr: any): Nerdamer 
+    pow(expr: any): Nerdamer
 } 
 
 export interface WidgetGroupContext {
