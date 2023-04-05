@@ -109,9 +109,38 @@ export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any
         return core.Matrix.fromArray(rows);
     };
 
+    const nonZeroMatrix = function(rowMatrix: any[]): boolean {
+        const ncols = rowMatrix.length;
+        let nz = false;
+        let j = 0;
+        while(!nz && j < ncols) {
+            console.log(rowMatrix[j].toString());
+            nz = rowMatrix[j].toString()!=='0';
+            j++;
+        }
+        return nz;
+    }
+    
+    const rangMatriuFn = function(matriu: any) {
+        if(!core.Utils.isMatrix(matriu)) {
+            throw new Error("rang requires a matrix");
+        }
+        const rtrigMat = matriu.clone().toRightTriangular();
+        const nrows = rtrigMat.rows();
+        let count = 0;
+        for(let i=0; i < nrows; i++) {
+            console.log("fila  ",  i)
+            if(nonZeroMatrix(rtrigMat.row(i+1))) {
+                count++;
+            }
+        }
+        console.log(rtrigMat.toString());
+        return new Symbol(count);
+    }
+
     const aleaRegularMatrixFn = function(n: any, r: number) {
         let mat = aleaMatrixFn(n.clone(), n.clone(), r);
-        while(N.determinant(mat).toString()==='0') {
+        while(mat.isSingular()) {
             mat = aleaMatrixFn(n, n, r);
         }
         return mat;
@@ -212,6 +241,12 @@ export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any
         build: function() { return aleaMatrixFn; }
     },
     {
+        name: 'rang',
+        visible: true,
+        numargs: 1,
+        build: function() { return rangMatriuFn; }
+    },
+    {
         name: 'aleaRegularMatrix',
         visible: true,
         numargs: 2,
@@ -248,5 +283,7 @@ export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any
         build: function() { return dbinomialFn; }
     }
     ]);
+
+    N.updateAPI();
 
 }
