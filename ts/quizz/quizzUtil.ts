@@ -1,5 +1,4 @@
-import { createUtilityFunctionsForNerdamer } from "./engines/utilityFunctionsForNerdamer";
-
+ 
 //Add all Math utilities
 export const utilities: { [key: string]: any } = {};
 Object.getOwnPropertyNames(Math).forEach((key) => {
@@ -92,8 +91,6 @@ export function runIBScript(scriptCode: string, context?: Dict<unknown>, scope?:
                 utilities[key] = window.nerdamer[key];
             }
         });
-        // Create more utility functions for Nerdamer
-        createUtilityFunctionsForNerdamer(utilities, window.nerdamer);
     }
     if (window.mathjs && !utilities.M) {
         Object.defineProperty(utilities, "M", {

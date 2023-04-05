@@ -1,5 +1,4 @@
 import "./mathquill.matrix.min.css"
 import "./mathquill.matrix.min.js" 
-import * as nerdamer from "nerdamer";
-import "nerdamer/Algebra.js";
+import nerdamer from "./mathquill.nerdamer"
 window.nerdamer = nerdamer;

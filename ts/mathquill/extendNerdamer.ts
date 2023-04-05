@@ -1,96 +1,46 @@
-import { Nerdamer } from "../quizzTypes";
+import { Nerdamer } from "../quizz/quizzTypes";
 
-export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any}, N: any): void {
-    // function that creates a random polynomial
-    // function that creates a random matrix
-    const alea = utilities.alea;
-    /*
-    utilities.aleaMatrix = function(n: number, m: number, r: number): Nerdamer {
-        const rows = [];
-        for(let i=0; i<n; i++) {
-            const cols = [];
-            for(let j=0; j<m; j++) {
-                cols.push( alea(-r, r) );
-            }
-            rows.push("["+cols.join(",")+"]");
-        }
-        //console.log("matrix("+rows.join(",")+")")
-        return N("matrix("+rows.join(",")+")");
-    };
-
-  
-    utilities.aleaPoly = function(n: number, bar: string, r: number): Nerdamer {
-        r = r || 10;
-        bar = bar || 'x';
-        let expr = '';
-        let coeff = alea(1, r)*alea([-1,1]);
-        expr = coeff+'*'+bar+'^'+n;
-        while(n > 0) {
-            n = n - 1;
-            coeff = alea(-r, r);
-            let term = '('+coeff+')';
-            if( n > 0) {
-                term += '*'+bar+'^'+n;
-            }
-            expr = expr + "+" + term;
-        } 
-        console.log("Raw:", expr);
-        return N(expr);
-    };
-  
-
-    utilities.aleaPolyRoots = function(n: number, bar: string, r: number): Nerdamer {
-        const x = N(bar || 'x');
-        r = r || 5;
-        let root = alea(-r, r);
-        let expr = "(x-("+root+"))";
-        while(n > 1) {
-            n = n - 1;
-            root = alea(-r, r);
-            const term = x.subtract(root);
-            expr = expr + "*"+ term;
-        } 
-        const coeff = N(alea(1,r)*alea([-1,1]));
-        poly = coeff.multiply(poly);
-        return poly.expand();
-    };
-  */
-    
+export function extendNerdamer(N: any): void {
     const core = N.getCore(),
     _ = core.PARSER,
     Symbol = core.Symbol;
 
-    console.log("CORE=", core);
+    const alea = function(a: number, b:number) {
+        return a + Math.round((b-a)*Math.random());
+    }
 
-    const aleaPolyFn = function(n: number, bar: string, r: number) {
-        bar = bar || 'x';
-        r = r || 10;
-        const x = new Symbol(bar);
-        let coeff = new Symbol(alea(1,r)*alea([-1,1]));
-        let term = _.pow(x, new Symbol(n));
+    const aleaSgn = function() {
+        return Math.random()<0.5?-1:1;
+    }
+
+    const aleaPolyFn = function(ns: any, bar: any, r: any) {
+        console.log("aleaPoly", ns, bar, r)
+        r = parseInt(r.toString());
+        let n = parseInt(ns.toString()); 
+        let coeff = new Symbol(alea(1,r)*aleaSgn());
+        let term = _.pow(bar.clone(), ns.clone());
         term = _.multiply(coeff, term);
         let poly = term;
         while(n > 0) {
             n = n - 1;
             coeff = new Symbol(alea(-r,r));
-            term = _.pow(x, new Symbol(n));
+            term = _.pow(bar.clone(), ns.clone());
             term = _.multiply(coeff, term);
             poly = _.add(poly, term);
         } 
         return poly;
     };
 
-    const aleaPolyRootsFn = function(n: number, bar: string, r: number) {
-        bar = bar || 'x';
-        r = r || 10;
-        const x = new Symbol(bar);
-        let coeff = new Symbol(alea(1,r)*alea([-1,1]));
-        let term = _.subtract(x, coeff);
+    const aleaPolyRootsFn = function(n: any, bar: any, r: any) {
+        r = parseInt(r.toString()); 
+        n = parseInt(n.toString()); 
+        let coeff = new Symbol(alea(1,r)*aleaSgn());
+        let term = _.subtract(bar.clone(), coeff);
         let poly = term;
-        while(n > 0) {
+        while(n > 1) {
             n = n - 1;
             coeff = new Symbol(alea(-r,r));
-            term = _.subtract(x, coeff);
+            term = _.subtract(bar.clone(), coeff);
             poly = _.multiply(poly, term);
         } 
         return _.expand(_.multiply(poly, new Symbol(alea(1, r))));
@@ -105,7 +55,7 @@ export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any
             }
             rows.push(aRow);
         }
-        console.log(rows)
+        //console.log(rows)
         return core.Matrix.fromArray(rows);
     };
 
