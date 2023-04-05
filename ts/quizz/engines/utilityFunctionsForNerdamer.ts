@@ -97,7 +97,24 @@ export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any
     };
 
     const aleaMatrixFn = function(n: number, m: number, r: number) {
-        return N.matrix('[1,2a/3]', '[3,4]');
+        const rows: number[][] = [];
+        for(let i=0; i < n; i++) {
+            const aRow: number[] = [];
+            for(let j=0; j < m; j++) {
+                aRow.push(new Symbol(alea(-r,r)));
+            }
+            rows.push(aRow);
+        }
+        console.log(rows)
+        return core.Matrix.fromArray(rows);
+    };
+
+    const aleaRegularMatrixFn = function(n: any, r: number) {
+        let mat = aleaMatrixFn(n.clone(), n.clone(), r);
+        while(N.determinant(mat).toString()==='0') {
+            mat = aleaMatrixFn(n, n, r);
+        }
+        return mat;
     };
    
     const dnormalFn = function(x: any, mu: any, sigma: any) { 
@@ -175,10 +192,6 @@ export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any
         return res;
     }
 
-    const forFn = function() {
-        //
-    }
-
     N.register([
     {
         name: 'aleaPoly',
@@ -197,6 +210,12 @@ export function createUtilityFunctionsForNerdamer(utilities: {[key: string]: any
         visible: true,
         numargs: 3,
         build: function() { return aleaMatrixFn; }
+    },
+    {
+        name: 'aleaRegularMatrix',
+        visible: true,
+        numargs: 2,
+        build: function() { return aleaRegularMatrixFn; }
     },
     {
         name: 'dnormal',
