@@ -24,21 +24,27 @@
 
     <div class="iedib-tasca-exercici">
 
-      <button id="edit-group1">Edit this group 1</button>
+      <button class="edit-group">Edit this group 1</button>
       <button data-cmd="dropdown" data-grp="1">Add dropdown</button>
       <button data-cmd="mchoice" data-grp="1">Add mchoice</button>
       <button data-cmd="numeric" data-grp="1">Add numeric</button>
       <button data-cmd="cloze" data-grp="1">Add cloze</button>
       <button data-cmd="mathquill" data-grp="1">Add mathquill</button>
     
-      <div id="group1" data-quizz-group="eyJzIjoiI2E9MyIsIm8iOnsiaGludCI6IjIiLCJhbnMiOiI0In19" data-lang="en" >
-        1+1=<ib-quizz-numeric data-src="eyJpbmkiOiIiLCJhbnMiOiIjYSIsIm9wdHMiOnsiZXJyIjoiMCIsImVycnVuaXQiOiJhYnNvbHV0ZSJ9LCJoaW50IjoiIiwiZmJrIjoiIiwicHJlIjoiIn0=" class="ib-quizz-elem" style="display: inline-block;"></ib-quizz-numeric>
+      <div id="g_binomial" data-quizz-group="" data-lang="ca">
+        <p>Un dau cúbic regular es llança #rep vegades.</p>
+        <p>a) Calcula la probabilitat que surtin exactament $k1$ sisos.
+        <ib-quizz-mathquill class="ib-quizz-elem ib-enable-future" data-src=""></ib-quizz-mathquill>
+        </p>
+        <p>b) Calcula la probabilitat que surtin menys de $k1$ sisos.
+          <ib-quizz-mathquill class="ib-quizz-elem ib-enable-future" data-src=""></ib-quizz-mathquill>
+          </p>
       </div>
 
 
       <hr>
 
-      <button id="edit-group2">Edit this group 2</button>
+      <button class="edit-group">Edit this group 2</button>
       <button data-cmd="dropdown" data-grp="2">Add dropdown</button>
       <button data-cmd="mchoice" data-grp="2">Add mchoice</button>
       <button data-cmd="numeric" data-grp="2">Add numeric</button>
@@ -55,7 +61,19 @@
       </div>
 
 
-
+      <button class="edit-group">Edit this group 3</button>
+      <button data-cmd="dropdown" data-grp="3">Add dropdown</button>
+      <button data-cmd="mchoice" data-grp="3">Add mchoice</button>
+      <button data-cmd="numeric" data-grp="3">Add numeric</button>
+      <button data-cmd="cloze" data-grp="3">Add cloze</button>
+      <button data-cmd="mathquill" data-grp="3">Add mathquill</button>
+      <div id="g_normal" data-quizz-group="" data-lang="ca">
+        <p>Per a la distribució de probabilitat normal de mitjana $ #mu $ i desviació típica $ #sigma $, calculau les
+          probabilitats.</p>
+        <p>a) $ P(#a \lt x \lt #b)$.
+        <ib-quizz-mathquill class="ib-quizz-elem ib-enable-future" data-src=""></ib-quizz-mathquill>
+        </p>
+      </div>
 
   </div>
 
@@ -90,12 +108,9 @@
 
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
-      $('#edit-group1').on('click', function () {
-        document.querySelector('#group1').dispatchEvent(new Event('editorRequest'));
-      });
-      $('#edit-group2').on('click', function () {
-        document.querySelector('#group2').dispatchEvent(new Event('editorRequest'));
-      });
+      $('.edit-group').on('click', function () {
+        document.querySelector('[data-quizz-group]').dispatchEvent(new Event('editorRequest'));
+      }); 
       document.querySelector('.editor_atto_content').addEventListener('updated', function () {
         console.log("The mock atto editor has recieved an update event");
         $('#codegenarea').val(generateCode());
