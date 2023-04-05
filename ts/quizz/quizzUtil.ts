@@ -1,6 +1,7 @@
+import { createUtilityFunctionsForNerdamer } from "./engines/utilityFunctionsForNerdamer";
 
 //Add all Math utilities
-const utilities: { [key: string]: any } = {};
+export const utilities: { [key: string]: any } = {};
 Object.getOwnPropertyNames(Math).forEach((key) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
@@ -83,6 +84,16 @@ export function runIBScript(scriptCode: string, context?: Dict<unknown>, scope?:
             configurable: false,
             writable: false
         });
+        // For every property in nerdamer that is not in global current scope, create a shortcut
+        Object.getOwnPropertyNames(window.nerdamer).forEach((key) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            if(utilities[key] === undefined) {
+                utilities[key] = window.nerdamer[key];
+            }
+        });
+        // Create more utility functions for Nerdamer
+        createUtilityFunctionsForNerdamer(utilities, window.nerdamer);
     }
     if (window.mathjs && !utilities.M) {
         Object.defineProperty(utilities, "M", {
@@ -119,14 +130,23 @@ export function treatIniPlaceholders(iniTxt: string): string {
     }).replace(/\?/g, '\\MathQuillMathField{ }');
 }
 
+// Make sure that if a Nerdamer object has to be displayed, then call the toLaTeX function
+const serializeObject = function(obj: any): string {
+    if(typeof(obj.toTeX)==='function') {
+        return obj.toTeX();
+    } else if(typeof(obj.toString)==='function') {
+        return obj.toString();
+    }
+    return obj + '';
+}
 
-export function doVariablesInterpolation(text: string, map: Dict<any> | undefined): string {
+export function doVariablesInterpolation(text: string, map: {[key:string]: any} | undefined): string {
     if(!map) {
         return text;
     }
     let interpolated = text.replace(/#([a-zA-Z0-9_]+)($|[ .,"'])/gm, ($0, $1, $2) => {
         if(map[$1] != null) {
-            return map[$1] + ($2 || '');
+            return serializeObject(map[$1]) + ($2 || '');
         }
         return $0;
     });

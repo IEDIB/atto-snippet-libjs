@@ -18,6 +18,8 @@ export interface WidgetConfig {
 }
 
 export type Nerdamer = (cmd: string)=> Nerdamer & {
+    getCore(): any
+    matrix(expr: any): Nerdamer,
     simplify(): Nerdamer,
     flush(): void,
     clearVars(): void,
@@ -25,7 +27,10 @@ export type Nerdamer = (cmd: string)=> Nerdamer & {
     getVar(varname: string): Nerdamer,
     getVars(): string[],
     convertFromLaTeX(latex: string): Nerdamer,
-    subtract(expr: string): Nerdamer
+    add(expr: any): Nerdamer,
+    subtract(expr: any): Nerdamer,
+    multiply(expr: any): Nerdamer,
+    pow(expr: any): Nerdamer 
 } 
 
 export interface WidgetGroupContext {

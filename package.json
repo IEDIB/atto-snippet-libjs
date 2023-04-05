@@ -33,6 +33,8 @@
   "homepage": "https://github.com/IEDIB/atto-snippet-libjs#readme",
   "dependencies": {
     "@types/jest": "^29.5.0",
+    "algebra-latex": "^2.0.3",
+    "algebrite": "^1.4.0",
     "ejs": "^3.1.6",
     "escape-html": "^1.0.3",
     "express": "^4.17.1",
