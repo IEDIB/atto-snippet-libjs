@@ -4,6 +4,8 @@ import { getDropdownDialog } from "./dropdownDialog";
 import registry from "./registry";
 import { base64Encode } from "../_shared/utilsShared";
  
+//create a function that add two numbers
+
 
 @ComponentHTML({
     elementName: "ib-quizz-dropdown",

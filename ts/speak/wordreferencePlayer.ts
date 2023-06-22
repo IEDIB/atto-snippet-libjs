@@ -167,7 +167,7 @@ export default class WordReferencePlayer implements VoicePlayer {
         const id = genID();
         this.$dropdown = $(`
         <div class="dropdown" style="display:inline-block;">
-          <button class="btn btn-secondary btn-sm" style="margin:2px;padding:4px;height:15px;" type="button" id="dmb_${id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-secondary btn-sm" style="margin:2px;padding:4px;height:15px;" type="button" id="dmb_${id}" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa fa-globe" style="transform: translateY(-9px);font-size:90%;"></i>
           </button>
           <div class="dropdown-menu" aria-labelledby="dmb_${id}"> 

@@ -109,8 +109,8 @@ export default class LightboxComponent extends BaseComponent {
 
     createModal() { 
         const hasGallery = this.$gallery.length > 1;
-        const leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);">' + leftArrow + '</a>';
-        const rightArrowHTML = '<a class="navigate-right-arrow" href="javascript:void(0);">' + rightArrow + '</a>';
+        const leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);" style="position: fixed; top: 50%; left: 50px;">' + leftArrow + '</a>';
+        const rightArrowHTML = '<a class="navigate-right-arrow" href="javascript:void(0);" style="position: fixed; top: 50%; right: 50px;">' + rightArrow + '</a>';
         const modalHTML = $('<div class="modal fade modal-fullscreen-xl" id="' + MODAL_ID + '" tabindex="-1" role="dialog">' +
             '<div class="modal-dialog" role="document">' +
             '<div class="modal-content">' +
@@ -118,7 +118,7 @@ export default class LightboxComponent extends BaseComponent {
             '</div>' +
             '<div class="modal-body p-0" style="text-align:center;">' +
             (hasGallery ? leftArrowHTML : '') +
-            '<img src="">' +
+            '<img src="" style="height: 100%; width: 100%; object-fit: contain;">' +
             (hasGallery ? rightArrowHTML : '') +
             '</div>' +
             '</div>' +
@@ -153,6 +153,7 @@ export default class LightboxComponent extends BaseComponent {
     private resize(imgwidth: number, imgheight: number) {
         // Resize accordingly to the image
         // Size of browser viewport.
+        /*
         let imgratio = 1;
         if (imgheight > 0) {
             imgratio = imgwidth / imgheight;
@@ -163,13 +164,17 @@ export default class LightboxComponent extends BaseComponent {
         if (winheight > 0) {
             winratio = winwidth / winheight;
         }
+       
         if (imgratio > winratio) {
-            this.$img?.css("width", "initial");
-            this.$img?.css("height", "100%");
+            //this.$img?.css("height", "initial");
+            //this.$img?.css("width", "90%");
+            this.$img?.css("transform", "scale("+(winratio/imgratio)+")");
         } else {
-            this.$img?.css("height", "initial");
-            this.$img?.css("width", "100%");
+            //this.$img?.css("width", "initial");
+            //this.$img?.css("height", "90%");
+            this.$img?.css("transform", "scale("+(imgratio/winratio)+")");
         }
+        */
     }
 
     private navigateLeft() {

@@ -24,7 +24,7 @@ export function extendNerdamer(N: any): void {
         while(n > 0) {
             n = n - 1;
             coeff = new Symbol(alea(-r,r));
-            term = _.pow(bar.clone(), ns.clone());
+            term = _.pow(bar.clone(), new Symbol(n));
             term = _.multiply(coeff, term);
             poly = _.add(poly, term);
         } 
