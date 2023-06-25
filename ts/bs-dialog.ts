@@ -79,7 +79,7 @@ export class BSDialog {
 
     private resetDialog(): void {
         this.body.html('');
-        this.primaryButton && this.primaryButton.off();
+        this.primaryButton?.off();
         if (this.form) {
             this.form.off();
         }
@@ -188,15 +188,15 @@ export class BSDialog {
             //Seach the parent bar in scope
             if (elem.nodeName === 'TEXTAREA') {
                 const newValue = (elem as HTMLTextAreaElement).value || '';
-                setPathValue(barPath, this.scope!, newValue);
+                setPathValue(barPath, this.scope || {}, newValue);
             } else {
                 const inputElem = elem as HTMLInputElement;
                 const t = (inputElem.getAttribute('type') || '').toLowerCase();
                 const isCheckRadio = (t === 'radio' || t === 'checkbox');
                 if (isCheckRadio) {
-                    setPathValue(barPath, this.scope!, inputElem.checked); 
+                    setPathValue(barPath, this.scope || {}, inputElem.checked); 
                 } else {
-                    setPathValue(barPath, this.scope!, inputElem.value); 
+                    setPathValue(barPath, this.scope || {}, inputElem.value); 
                 }
             }
         });

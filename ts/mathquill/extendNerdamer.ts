@@ -1,4 +1,3 @@
-import { Nerdamer } from "../quizz/quizzTypes";
 
 export function extendNerdamer(N: any): void {
     const core = N.getCore(),

@@ -75,7 +75,7 @@ export default class LightboxComponent extends BaseComponent {
         $theImg.attr("data-active", '1');
         $theImg.off();
         // Action on clicking the image
-        $theImg.on("click", (evt) => {
+        $theImg.on("click", () => {
             this.currentIndex = convertInt($theImg.attr("data-lbpos") || "0" , 0);
             this.loadImageDynamically();
         });
@@ -95,7 +95,7 @@ export default class LightboxComponent extends BaseComponent {
             const imgObj = new Image();
             const src = $container.attr("data-src") || $container.attr("src") || "";
             imgObj.onload = () => {
-                this.resize(imgObj.width, imgObj.height);
+                //this.resize(imgObj.width, imgObj.height);
                 // Can provide a highres in data-src
                 this.$img?.attr("src", src);
             };
@@ -149,11 +149,11 @@ export default class LightboxComponent extends BaseComponent {
             });
         }
     }
-
+ /*
     private resize(imgwidth: number, imgheight: number) {
         // Resize accordingly to the image
         // Size of browser viewport.
-        /*
+       
         let imgratio = 1;
         if (imgheight > 0) {
             imgratio = imgwidth / imgheight;
@@ -174,8 +174,9 @@ export default class LightboxComponent extends BaseComponent {
             //this.$img?.css("height", "90%");
             this.$img?.css("transform", "scale("+(imgratio/winratio)+")");
         }
-        */
+      
     }
+*/
 
     private navigateLeft() {
         if (this.currentIndex == 0) {
