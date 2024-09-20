@@ -72,8 +72,15 @@ export function onJQueryReady(cb: () => void): void {
     waitForFunction('require',
         () => { 
         //wait for jquery 
-            window.require(['jquery'], 
-            () => { 
+            window.require(['jquery'], (jQuery) => { 
+                const $ = jQuery as JQueryStatic;
+                // Share this object into the window if not set
+                if(!window['$']) {
+                    window['$'] = $;
+                }
+                if(!window['jQuery']) {
+                    window['jQuery'] = $;
+                }
                 //wait for document ready
                 console.info("$ready1");
                 $(cb);                        
@@ -82,7 +89,10 @@ export function onJQueryReady(cb: () => void): void {
                 console.error("Error requiring $. Waiting for $");
                 // An error occurred but try to load anyway!
                 // Try jQuery directly
-                waitForFunction('jQuery', () => { 
+                waitForFunction('jQuery', () => {
+                    if(!window['$']) {
+                        window['$'] = jQuery;
+                    }
                     console.info("$ready2");
                     //wait for document ready
                     $(cb);   

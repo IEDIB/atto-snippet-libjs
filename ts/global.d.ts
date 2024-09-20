@@ -3,46 +3,48 @@ type Nullable<T> = T | null;
 type Dict<T> = {[key: string]: T};
 
 declare interface ComponentMeta {
-    name: string,
-    author: string,
-    version: string,
-    use$?: boolean | undefined,
-    query?: string | undefined
+    name: string;
+    author: string;
+    version: string;
+    use$?: boolean | undefined;
+    query?: string | undefined;
 }
 
 declare interface PageInfo {
-    userId: number,
-    userFullname: string,
-    isTeacher: boolean,
-    site: string,
-    courseName: string,
-    courseId: number
+    userId: number;
+    userFullname: string;
+    isTeacher: boolean;
+    site: string;
+    courseName: string;
+    courseId: number;
 }
 
 declare type RanGen = () => number;
 
 declare interface ZoomwheelDefaults {
-    zoom: number,
-    maxZoom: number,
-    initialZoom: number,
-    initialX: number,
-    initialY: number,
+    zoom: number;
+    maxZoom: number;
+    initialZoom: number;
+    initialX: number;
+    initialY: number;
 }
 
 declare interface VoicePlayer {
-    src?: string,
-    setSrc(src: string): void,
-    play(): void,
-    pause(): void,
-    dispose(): void
+    src?: string;
+    setSrc(src: string): void;
+    play(): void;
+    pause(): void;
+    dispose(): void;
 }
 
 interface Window {
-    MathJax: any,
-    MathQuill?: MQ.MathQuill,
-    nerdamer?: any, 
-    mathjs?: any,
-    require(deps: string[], cbSuccess: ()=>void, cbError?: ()=>void): void
+    MathJax: any;
+    MathQuill?: MQ.MathQuill;
+    nerdamer?: any; 
+    mathjs?: any;
+    require(deps: string[], cbSuccess: (...objs: unknown[])=>void, cbError?: ()=>void): void;
+    $: JQueryStatic;
+    jQuery: JQueryStatic;
 }
 
 /**
@@ -78,14 +80,14 @@ declare namespace MQ {
     }
 
     export interface InnerFieldController {
-       textarea: JQuery<HTMLTextAreaElement>,
-       editable: boolean
+       textarea: JQuery<HTMLTextAreaElement>;
+       editable: boolean;
     }
 
     export interface InnerField {
-       latex(latex: string): void,
-       latex(): string,
-       __controller: InnerFieldController
+       latex(latex: string): void;
+       latex(): string;
+       __controller: InnerFieldController;
     }
 
     export interface MathField {
@@ -117,4 +119,3 @@ declare namespace MQ {
         MathField(div: HTMLElement, config: IMathFieldConfig): MathField;
     }
 }
- 
