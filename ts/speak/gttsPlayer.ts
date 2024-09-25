@@ -1,5 +1,7 @@
+import EasySpeech from "easy-speech";
+
 const MAX_GTTS_LEN = 1000;
-const GTTS_URL = "https://piworld.es/api/gtts/speak?t=";
+const GTTS_URL = "https://gtts.ibsuite.es/api/speak?t=";
 
 export default class GTTSPlayer implements VoicePlayer {
     private _elem: HTMLElement;
@@ -21,10 +23,7 @@ export default class GTTSPlayer implements VoicePlayer {
         if (elem.title == "-") {
             //remove it
             elem.removeAttribute("title");
-        } 
-        //else if (!elem.title) {
-        //    elem.title = "gTTS Speak!";
-        //}
+        }
         elem.classList.add("sd-speak-enabled");
         this.url = GTTS_URL + encodeURIComponent(sText) + "&l=" + idioma;
         this.audio = null;
@@ -38,6 +37,7 @@ export default class GTTSPlayer implements VoicePlayer {
         }
     }
     play(): void {
+        EasySpeech.cancel();
         if (!this.audio) {
             this.audio = new Audio(this.url);
         } else {
@@ -67,8 +67,7 @@ export default class GTTSPlayer implements VoicePlayer {
         }
         if (this.handler) {
             this._elem.classList.remove("sd-speak-enabled");
-            this._elem.removeAttribute('data-active'); 
-            //this._elem.removeAttribute('title'); 
+            this._elem.removeAttribute('data-active');
             this._elem.removeEventListener("click", this.handler);
             this.handler = null;
         }

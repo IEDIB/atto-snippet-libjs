@@ -89,7 +89,15 @@ function waitForFunction(funName, cbSuccess, cbError, nattempt) {
 function onJQueryReady(cb) {
   waitForFunction('require', function () {
     //wait for jquery 
-    window.require(['jquery'], function () {
+    window.require(['jquery'], function (jQuery) {
+      var $ = jQuery;
+      // Share this object into the window if not set
+      if (!window['$']) {
+        window['$'] = $;
+      }
+      if (!window['jQuery']) {
+        window['jQuery'] = $;
+      }
       //wait for document ready
       console.info("$ready1");
       $(cb);
@@ -98,6 +106,9 @@ function onJQueryReady(cb) {
       // An error occurred but try to load anyway!
       // Try jQuery directly
       waitForFunction('jQuery', function () {
+        if (!window['$']) {
+          window['$'] = jQuery;
+        }
         console.info("$ready2");
         //wait for document ready
         $(cb);

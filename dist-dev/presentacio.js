@@ -89,7 +89,15 @@ function waitForFunction(funName, cbSuccess, cbError, nattempt) {
 function onJQueryReady(cb) {
   waitForFunction('require', function () {
     //wait for jquery 
-    window.require(['jquery'], function () {
+    window.require(['jquery'], function (jQuery) {
+      var $ = jQuery;
+      // Share this object into the window if not set
+      if (!window['$']) {
+        window['$'] = $;
+      }
+      if (!window['jQuery']) {
+        window['jQuery'] = $;
+      }
       //wait for document ready
       console.info("$ready1");
       $(cb);
@@ -98,6 +106,9 @@ function onJQueryReady(cb) {
       // An error occurred but try to load anyway!
       // Try jQuery directly
       waitForFunction('jQuery', function () {
+        if (!window['$']) {
+          window['$'] = jQuery;
+        }
         console.info("$ready2");
         //wait for document ready
         $(cb);
@@ -855,7 +866,7 @@ var PresentacioComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.C
 
 /***/ }),
 
-/***/ 77:
+/***/ 79:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -867,14 +878,14 @@ var PresentacioComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.C
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@media not print{body.editing div[role=\"snptd_presentacio\"] .nav.nav-tabs{background:lightgray;position:relative}body.editing div[role=\"snptd_presentacio\"] .nav.nav-tabs::before{content:'\\f1e7';position:absolute;top:5px;right:5px;font-family:'FontAwesome';font-size:150%}div[role=\"snptd_presentacio\"]{margin:auto;border-radius:5px;border:2px solid #d4ebee;max-width:600px}div[role=\"snptd_presentacio\"].theme-dark>.tab-content{background:#363640;color:whitesmoke}div[role=\"snptd_presentacio\"].align-center div.tab-pane{align-self:center;min-height:initial}div[role=\"snptd_presentacio\"].align-bottom div.tab-pane{align-self:flex-end;min-height:initial}}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@media not print{body.editing div[role=\"snptd_presentacio\"] .nav.nav-tabs{background:lightgray;position:relative}body.editing div[role=\"snptd_presentacio\"] .nav.nav-tabs::before{content:'\\f1e7';position:absolute;top:5px;right:5px;font-family:\"Font Awesome 6 Free\",\"FontAwesome\";font-size:150%}div[role=\"snptd_presentacio\"]{margin:auto;border-radius:5px;border:2px solid #d4ebee;max-width:600px}div[role=\"snptd_presentacio\"].theme-dark>.tab-content{background:#363640;color:whitesmoke}div[role=\"snptd_presentacio\"].align-center div.tab-pane{align-self:center;min-height:initial}div[role=\"snptd_presentacio\"].align-bottom div.tab-pane{align-self:flex-end;min-height:initial}}", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
 
 /***/ }),
 
-/***/ 79:
+/***/ 81:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -995,7 +1006,7 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 76:
+/***/ 78:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -1010,7 +1021,7 @@ module.exports = function (i) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(77);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(79);
 
       
       
@@ -1042,7 +1053,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ 78:
+/***/ 80:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -1057,7 +1068,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(79);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(81);
 
       
       
@@ -1443,8 +1454,8 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
-/* harmony import */ var _presentacio_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(76);
-/* harmony import */ var _presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(78);
+/* harmony import */ var _presentacio_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(78);
+/* harmony import */ var _presentacio_skipall_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(80);
 /* harmony import */ var _presentacioComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(30);
 
 

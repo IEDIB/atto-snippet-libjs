@@ -2,6 +2,7 @@
 import GTTSPlayer from "./gttsPlayer";
 import { addBaseToUrl, genID } from "../_shared/utilsShared";
 import UrlPlayer from "./urlPlayer";
+import EasySpeech from "easy-speech";
 
 const definition = {
     'en': 'definition',
@@ -195,6 +196,7 @@ export default class WordReferencePlayer implements VoicePlayer {
     }
 
     play(): void {
+        EasySpeech.cancel();
         this.audioElement && this.audioElement.play();
     }
     setSrc(src: string): void {
