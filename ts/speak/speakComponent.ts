@@ -188,7 +188,6 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
             // Check if the required voice is found
             const lang = (this.parent.getAttribute("href") ?? "_").split("_")[1];
             const voice = findVoice(lang, this.sortedVoices);
-            console.log("voice found", lang, voice)
             if (!voice) {
                 console.warn(`Cannot find a voice for lang ${lang}. Fallback on GTTS player.`);
                 this.audioPlayer = new GTTSPlayer(this.parent);

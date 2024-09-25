@@ -3358,7 +3358,7 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 var MAX_GTTS_LEN = 1000;
-var GTTS_URL = "https://gtts.ibsuite.es/api/speak?t=";
+var GTTS_URL = "https://speech.ibsuite.es/api/gtts?t=";
 var GTTSPlayer = /*#__PURE__*/function () {
   function GTTSPlayer(elem) {
     var _this = this;

@@ -1,7 +1,7 @@
 import EasySpeech from "easy-speech";
 
 const MAX_GTTS_LEN = 1000;
-const GTTS_URL = "https://gtts.ibsuite.es/api/speak?t=";
+const GTTS_URL = "https://speech.ibsuite.es/api/gtts?t=";
 
 export default class GTTSPlayer implements VoicePlayer {
     private _elem: HTMLElement;
@@ -15,7 +15,7 @@ export default class GTTSPlayer implements VoicePlayer {
         idioma = idioma.replace("#speak_", "");
         const sText = elem.innerText.trim();
         if (sText.length > MAX_GTTS_LEN) {
-            console.log("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
+            console.warn("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
             elem.removeAttribute("href");
             return;
         }

@@ -121,7 +121,6 @@ export default class WordReferencePlayer implements VoicePlayer {
         const $menu = this.$dropdown?.find(".dropdown-menu");
         const lang = "en";
         wr_define(lang, this.elem.innerText).then(audioMap => {
-            console.log(audioMap);
             const variants = Object.keys(audioMap);
             if (variants.length > 0) {
                 //Agafa la primera variant
@@ -136,10 +135,8 @@ export default class WordReferencePlayer implements VoicePlayer {
                         $menuItem.on("click", (evt) => {
                             evt.preventDefault();
                             const variant2 = evt.target.dataset.variant || '';
-                            console.log(variant2, audioMap);
                             const varDef = audioMap[variant2];
                             if (this.audioElement) {
-                                console.log("Setting url ", varDef, varDef.url);
                                 this.audioElement.setSrc(varDef.url);
                                 this.audioElement.play();
                             }
