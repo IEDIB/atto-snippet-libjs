@@ -8,7 +8,11 @@ import SpeakComponent from './speakComponent';
     const detection = EasySpeech.detect();
     const enabled = detection.speechSynthesis && detection.speechSynthesisUtterance;
     if (enabled) {
-        await EasySpeech.init({ maxTimeout: 5000, interval: 250, quiet: true });
+        try {
+            await EasySpeech.init({ maxTimeout: 5000, interval: 250, quiet: true });
+        } catch(ex) {
+            console.error(ex);
+        }
     }
     Loader.bootstrap([SpeakComponent]);
 })();

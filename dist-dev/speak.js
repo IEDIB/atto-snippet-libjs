@@ -3369,7 +3369,7 @@ var GTTSPlayer = /*#__PURE__*/function () {
     idioma = idioma.replace("#speak_", "");
     var sText = elem.innerText.trim();
     if (sText.length > MAX_GTTS_LEN) {
-      console.log("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
+      console.warn("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
       elem.removeAttribute("href");
       return;
     }
@@ -3391,9 +3391,31 @@ var GTTSPlayer = /*#__PURE__*/function () {
     }
   }
   _createClass(GTTSPlayer, [{
+    key: "cancel",
+    value: function cancel() {
+      if (!this.audio) {
+        return;
+      }
+      this.audio.pause();
+      this.audio.currentTime = 0;
+    }
+  }, {
+    key: "isUtterance",
+    value: function isUtterance() {
+      return false;
+    }
+  }, {
     key: "play",
     value: function play() {
+      var _window$IB$sd$speak$i, _window$IB, _window$IB$sd$speak;
+      // Cancel all possible utterances
       easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].cancel();
+      // Cancel all AudioPlayers
+      Object.values((_window$IB$sd$speak$i = (_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : (_window$IB$sd$speak = _window$IB.sd["speak"]) === null || _window$IB$sd$speak === void 0 ? void 0 : _window$IB$sd$speak.inst) !== null && _window$IB$sd$speak$i !== void 0 ? _window$IB$sd$speak$i : []).filter(function (e) {
+        return !e.isUtterance();
+      }).forEach(function (e) {
+        return e.cancel();
+      });
       if (!this.audio) {
         this.audio = new Audio(this.url);
       } else {
@@ -3449,9 +3471,6 @@ var GTTSPlayer = /*#__PURE__*/function () {
 /* harmony export */ });
 /* harmony import */ var easy_speech__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -3485,41 +3504,39 @@ var NavigatorPlayer = /*#__PURE__*/function () {
     }
   }
   _createClass(NavigatorPlayer, [{
+    key: "cancel",
+    value: function cancel() {
+      easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].cancel();
+    }
+  }, {
+    key: "isUtterance",
+    value: function isUtterance() {
+      return true;
+    }
+  }, {
     key: "play",
-    value: function () {
-      var _play = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              if (this._voice) {
-                _context.next = 3;
-                break;
-              }
-              console.info("Voice is not set in navigatorPlayer. Cannot play");
-              return _context.abrupt("return");
-            case 3:
-              // Cancel any previous speech
-              easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].cancel();
-              console.info("Using the voice ", this._voice);
-              _context.next = 7;
-              return easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].speak({
-                text: this._elem.innerText,
-                voice: this._voice,
-                pitch: 1,
-                rate: 0.95,
-                volume: 1
-              });
-            case 7:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee, this);
-      }));
-      function play() {
-        return _play.apply(this, arguments);
+    value: function play() {
+      var _window$IB$sd$speak$i, _window$IB, _window$IB$sd$speak;
+      if (!this._voice) {
+        console.info("Voice is not set in navigatorPlayer. Cannot play");
+        return;
       }
-      return play;
-    }()
+      // Cancel any previous speech
+      easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].cancel();
+      // Cancel all AudioPlayers
+      Object.values((_window$IB$sd$speak$i = (_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : (_window$IB$sd$speak = _window$IB.sd["speak"]) === null || _window$IB$sd$speak === void 0 ? void 0 : _window$IB$sd$speak.inst) !== null && _window$IB$sd$speak$i !== void 0 ? _window$IB$sd$speak$i : []).filter(function (e) {
+        return !e.isUtterance();
+      }).forEach(function (e) {
+        return e.cancel();
+      });
+      easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].speak({
+        text: this._elem.innerText,
+        voice: this._voice,
+        pitch: 1,
+        rate: 0.95,
+        volume: 1
+      });
+    }
   }, {
     key: "setSrc",
     value: function setSrc(src) {
@@ -3764,7 +3781,6 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
                 // Check if the required voice is found
                 lang = ((_this$parent$getAttri2 = this.parent.getAttribute("href")) !== null && _this$parent$getAttri2 !== void 0 ? _this$parent$getAttri2 : "_").split("_")[1];
                 voice = findVoice(lang, this.sortedVoices);
-                console.log("voice found", lang, voice);
                 if (!voice) {
                   console.warn("Cannot find a voice for lang ".concat(lang, ". Fallback on GTTS player."));
                   this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_9__["default"](this.parent);
@@ -3816,6 +3832,18 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
     value: function pause() {
       this.audioPlayer && this.audioPlayer.pause();
     }
+  }, {
+    key: "cancel",
+    value: function cancel() {
+      var _this$audioPlayer;
+      (_this$audioPlayer = this.audioPlayer) === null || _this$audioPlayer === void 0 ? void 0 : _this$audioPlayer.cancel();
+    }
+  }, {
+    key: "isUtterance",
+    value: function isUtterance() {
+      var _this$audioPlayer$isU, _this$audioPlayer2;
+      return (_this$audioPlayer$isU = (_this$audioPlayer2 = this.audioPlayer) === null || _this$audioPlayer2 === void 0 ? void 0 : _this$audioPlayer2.isUtterance()) !== null && _this$audioPlayer$isU !== void 0 ? _this$audioPlayer$isU : false;
+    }
   }]);
   return SpeakComponent;
 }(_base__WEBPACK_IMPORTED_MODULE_11__.BaseComponent)) || _class);
@@ -3829,12 +3857,14 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ UrlPlayer; }
 /* harmony export */ });
+/* harmony import */ var easy_speech__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 var UrlPlayer = /*#__PURE__*/function () {
   function UrlPlayer(elem, src) {
     _classCallCheck(this, UrlPlayer);
@@ -3851,6 +3881,14 @@ var UrlPlayer = /*#__PURE__*/function () {
   _createClass(UrlPlayer, [{
     key: "play",
     value: function play() {
+      var _window$IB$sd$speak$i, _window$IB, _window$IB$sd$speak;
+      easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].cancel();
+      // Cancel all AudioPlayers
+      Object.values((_window$IB$sd$speak$i = (_window$IB = window.IB) === null || _window$IB === void 0 ? void 0 : (_window$IB$sd$speak = _window$IB.sd["speak"]) === null || _window$IB$sd$speak === void 0 ? void 0 : _window$IB$sd$speak.inst) !== null && _window$IB$sd$speak$i !== void 0 ? _window$IB$sd$speak$i : []).filter(function (e) {
+        return !e.isUtterance();
+      }).forEach(function (e) {
+        return e.cancel();
+      });
       if (this.audioElement) {
         this.audioElement.play();
         return;
@@ -3884,6 +3922,20 @@ var UrlPlayer = /*#__PURE__*/function () {
       this.audioElement && this.audioElement.pause();
     }
   }, {
+    key: "cancel",
+    value: function cancel() {
+      if (!this.audioElement) {
+        return;
+      }
+      this.audioElement.pause();
+      this.audioElement.currentTime = 0;
+    }
+  }, {
+    key: "isUtterance",
+    value: function isUtterance() {
+      return false;
+    }
+  }, {
     key: "dispose",
     value: function dispose() {
       this.audioElement = null;
@@ -3902,17 +3954,15 @@ var UrlPlayer = /*#__PURE__*/function () {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ WordReferencePlayer; }
 /* harmony export */ });
-/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(40);
-/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
-/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(38);
-/* harmony import */ var easy_speech__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
+/* harmony import */ var _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(40);
+/* harmony import */ var _shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _urlPlayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(38);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
 
 
 
@@ -3955,7 +4005,7 @@ function parseAudioFiles(extracted, lang) {
     if (!map[variant]) {
       map[variant] = {
         name: nameOfVariant(variant),
-        url: (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, asource)
+        url: (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.addBaseToUrl)(wordReferencePrefix, asource)
       };
     }
   });
@@ -3965,12 +4015,12 @@ var wr_define = function wr_define(from, word) {
   // Make the request
   return new Promise(function (resolve, reject) {
     if (!(from in definition)) {
-      reject();
+      reject(new Error("Missing from lang in wr_define"));
       return;
     }
     var url2 = wordReferencePrefix + definition[from] + '/' + encodeURIComponent(word);
     if (!definition[from]) {
-      reject();
+      reject(new Error("Cannot find definition from lang"));
       return;
     }
     $.ajax({
@@ -3989,9 +4039,9 @@ var wr_define = function wr_define(from, word) {
         resolve(audioMap);
         return;
       }
-      reject("cannot find audioFiles in page");
+      reject(new Error("Cannot find audioFiles in page " + url2));
     }).fail(function (err) {
-      reject(err);
+      reject(new Error(err.statusText));
     });
   });
 };
@@ -4002,11 +4052,11 @@ var WordReferencePlayer = /*#__PURE__*/function () {
     elem.classList.add("sd-speak-enabled");
     this.init();
   }
-
-  //Show dropdown but do lazy wordreference loading
   _createClass(WordReferencePlayer, [{
     key: "lazyLoad",
-    value: function lazyLoad(mustPlay) {
+    value:
+    //Show dropdown but do lazy wordreference loading
+    function lazyLoad(mustPlay) {
       var _this$$dropdown,
         _this = this;
       if (this.audioElement != null) {
@@ -4018,13 +4068,12 @@ var WordReferencePlayer = /*#__PURE__*/function () {
       var $menu = (_this$$dropdown = this.$dropdown) === null || _this$$dropdown === void 0 ? void 0 : _this$$dropdown.find(".dropdown-menu");
       var lang = "en";
       wr_define(lang, this.elem.innerText).then(function (audioMap) {
-        console.log(audioMap);
         var variants = Object.keys(audioMap);
         if (variants.length > 0) {
           //Agafa la primera variant
           var theURL = audioMap[variants[0]];
-          var url = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.addBaseToUrl)(wordReferencePrefix, theURL.url);
-          _this.audioElement = new _urlPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](undefined, url);
+          var url = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.addBaseToUrl)(wordReferencePrefix, theURL.url);
+          _this.audioElement = new _urlPlayer__WEBPACK_IMPORTED_MODULE_1__["default"](undefined, url);
           if (variants.length > 1) {
             // Add a dropdown to change variant                      
             variants.forEach(function (variant) {
@@ -4033,27 +4082,34 @@ var WordReferencePlayer = /*#__PURE__*/function () {
               $menuItem.on("click", function (evt) {
                 evt.preventDefault();
                 var variant2 = evt.target.dataset.variant || '';
-                console.log(variant2, audioMap);
                 var varDef = audioMap[variant2];
                 if (_this.audioElement) {
-                  console.log("Setting url ", varDef, varDef.url);
                   _this.audioElement.setSrc(varDef.url);
+                  _this.audioElement.cancel();
                   _this.audioElement.play();
                 }
               });
               $menu && $menu.append($menuItem);
             });
+          } else {
+            var _this$$dropdown2;
+            // We can hide the dropdown
+            (_this$$dropdown2 = _this.$dropdown) === null || _this$$dropdown2 === void 0 ? void 0 : _this$$dropdown2.hide();
           }
         } else {
           // Fallback on google
           console.warn("Fallback on GTTSPlayer US");
           _this.elem.setAttribute('href', '#speak_en-US');
-          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_3__["default"](_this.elem);
+          _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
         }
         mustPlay && _this.audioElement.play();
       }, function (err) {
+        var _this$$dropdown3;
+        console.warn("Fallback on GTTSPlayer US. Err: ", err);
+        // We can hide the dropdown
+        (_this$$dropdown3 = _this.$dropdown) === null || _this$$dropdown3 === void 0 ? void 0 : _this$$dropdown3.hide();
         // Fallback on google
-        _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_3__["default"](_this.elem);
+        _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
         _this.elem.setAttribute('href', '#speak_en-US');
         _this.audioElement.play();
       });
@@ -4062,10 +4118,11 @@ var WordReferencePlayer = /*#__PURE__*/function () {
     key: "init",
     value: function init() {
       var _this2 = this;
-      var id = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.genID)();
-      this.$dropdown = $("\n        <div class=\"dropdown\" style=\"display:inline-block;\">\n          <button class=\"btn btn-secondary btn-sm\" style=\"margin:2px;padding:4px;height:15px;\" type=\"button\" id=\"dmb_".concat(id, "\" data-toggle=\"dropdown\" data-boundary=\"viewport\" aria-haspopup=\"true\" aria-expanded=\"false\">\n          <i class=\"fas fa fa-globe\" style=\"transform: translateY(-9px);font-size:90%;\"></i>\n          </button>\n          <div class=\"dropdown-menu\" aria-labelledby=\"dmb_").concat(id, "\"> \n          </div>\n        </div>"));
+      var id = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_0__.genID)();
+      // data-boundary="window" 
+      this.$dropdown = $("\n        <div class=\"dropdown\" style=\"display:inline-block;\">\n          <button class=\"btn btn-secondary btn-sm\" style=\"margin:2px;padding:4px;height:15px;\" type=\"button\" id=\"dmb_".concat(id, "\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n          <i class=\"fas fa fa-globe\" style=\"transform: translateY(-9px);font-size:90%;\"></i>\n          </button>\n          <div class=\"dropdown-menu\" aria-labelledby=\"dmb_").concat(id, "\"> \n          </div>\n        </div>"));
       this.$dropdown.insertAfter($(this.elem));
-      this.$dropdown.find("button").on("click", function (evt) {
+      this.$dropdown.find("button").on("click", function () {
         _this2.lazyLoad();
       });
 
@@ -4080,12 +4137,10 @@ var WordReferencePlayer = /*#__PURE__*/function () {
         _this2.lazyLoad(true);
       };
       this.elem.addEventListener("click", this.handler);
-      //this.elem.title = "wordReference";
     }
   }, {
     key: "play",
     value: function play() {
-      easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].cancel();
       this.audioElement && this.audioElement.play();
     }
   }, {
@@ -4103,14 +4158,27 @@ var WordReferencePlayer = /*#__PURE__*/function () {
   }, {
     key: "dispose",
     value: function dispose() {
-      var _this$$dropdown2;
+      var _this$$dropdown4;
       this.pause();
       this.elem.classList.remove("sd-speak-enabled");
       if (this.handler) {
         this.elem.removeEventListener("click", this.handler);
         this.handler = null;
       }
-      (_this$$dropdown2 = this.$dropdown) === null || _this$$dropdown2 === void 0 ? void 0 : _this$$dropdown2.find("button").off();
+      (_this$$dropdown4 = this.$dropdown) === null || _this$$dropdown4 === void 0 ? void 0 : _this$$dropdown4.find("button").off();
+    }
+  }, {
+    key: "cancel",
+    value: function cancel() {
+      if (!this.audioElement) {
+        return;
+      }
+      this.audioElement.cancel();
+    }
+  }, {
+    key: "isUtterance",
+    value: function isUtterance() {
+      return false;
     }
   }]);
   return WordReferencePlayer;
@@ -5676,22 +5744,30 @@ _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         detection = easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].detect();
         enabled = detection.speechSynthesis && detection.speechSynthesisUtterance;
         if (!enabled) {
-          _context.next = 5;
+          _context.next = 11;
           break;
         }
-        _context.next = 5;
+        _context.prev = 3;
+        _context.next = 6;
         return easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].init({
           maxTimeout: 5000,
           interval: 250,
           quiet: true
         });
-      case 5:
-        _loader__WEBPACK_IMPORTED_MODULE_2__["default"].bootstrap([_speakComponent__WEBPACK_IMPORTED_MODULE_3__["default"]]);
       case 6:
+        _context.next = 11;
+        break;
+      case 8:
+        _context.prev = 8;
+        _context.t0 = _context["catch"](3);
+        console.error(_context.t0);
+      case 11:
+        _loader__WEBPACK_IMPORTED_MODULE_2__["default"].bootstrap([_speakComponent__WEBPACK_IMPORTED_MODULE_3__["default"]]);
+      case 12:
       case "end":
         return _context.stop();
     }
-  }, _callee);
+  }, _callee, null, [[3, 8]]);
 }))();
 }();
 /******/ })()

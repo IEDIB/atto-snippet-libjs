@@ -145,6 +145,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
     constructor(parent: HTMLElement) {
         super(parent);
     }
+    src?: string | undefined;
 
     async init() {
         const ds = this.parent.dataset;
@@ -221,5 +222,11 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
     }
     pause(): void {
         this.audioPlayer && this.audioPlayer.pause();
+    }
+    cancel(): void {
+        this.audioPlayer?.cancel();
+    }
+    isUtterance(): boolean {
+        return this.audioPlayer?.isUtterance() ?? false;
     }
 }

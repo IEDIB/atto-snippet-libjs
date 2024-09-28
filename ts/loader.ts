@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IBase } from "./types";
 import { onJQueryReady } from "./_shared/utilsShared";
+import { BaseComponent } from "./base";
 
 function genID() {
     return "sd_" + Math.random().toString(32).substring(2);
@@ -77,7 +78,7 @@ function _bootstrap(classes: IBase[]) {
                 return;
             }
             Object.keys(window.IB.sd[meta.name].inst!).forEach((key: string) => { 
-                const instance = window.IB.sd[meta.name].inst![key];
+                const instance = window.IB.sd[meta.name].inst![key] as BaseComponent;
                 if(instance) {
                     instance.dispose();
                     counter++;

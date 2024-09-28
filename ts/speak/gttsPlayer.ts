@@ -36,8 +36,25 @@ export default class GTTSPlayer implements VoicePlayer {
             this._elem.removeEventListener("click", this.handler);
         }
     }
+    src?: string | undefined;
+    cancel(): void {
+        if (!this.audio) {
+            return;
+        }
+        this.audio.pause();
+        this.audio.currentTime = 0;
+    }
+    isUtterance(): boolean {
+        return false;
+    }
     play(): void {
+        // Cancel all possible utterances
         EasySpeech.cancel();
+        // Cancel all AudioPlayers
+        Object.values((window.IB?.sd["speak"]?.inst ?? []) as VoicePlayer[])
+            .filter(e => !e.isUtterance())
+            .forEach(e => e.cancel());
+            
         if (!this.audio) {
             this.audio = new Audio(this.url);
         } else {

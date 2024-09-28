@@ -2,7 +2,6 @@
 import GTTSPlayer from "./gttsPlayer";
 import { addBaseToUrl, genID } from "../_shared/utilsShared";
 import UrlPlayer from "./urlPlayer";
-import EasySpeech from "easy-speech";
 
 const definition = {
     'en': 'definition',
@@ -66,12 +65,12 @@ const wr_define = function (from: string, word: string): Promise<{ [key: string]
     // Make the request
     return new Promise((resolve, reject) => {
         if (!(from in definition)) {
-            reject();
+            reject(new Error("Missing from lang in wr_define"));
             return;
         }
         const url2 = wordReferencePrefix + definition[from as ValidLang] + '/' + encodeURIComponent(word);
         if (!definition[from as ValidLang]) {
-            reject();
+            reject(new Error("Cannot find definition from lang"));
             return;
         }
         $.ajax({
@@ -90,9 +89,9 @@ const wr_define = function (from: string, word: string): Promise<{ [key: string]
                 resolve(audioMap);
                 return;
             }
-            reject("cannot find audioFiles in page");
+            reject(new Error("Cannot find audioFiles in page " + url2));
         }).fail(function (err) {
-            reject(err);
+            reject(new Error(err.statusText));
         });
     });
 };
@@ -109,6 +108,8 @@ export default class WordReferencePlayer implements VoicePlayer {
         elem.classList.add("sd-speak-enabled");
         this.init();
     }
+    src?: string | undefined;
+  
 
     //Show dropdown but do lazy wordreference loading
     private lazyLoad(mustPlay?: boolean): void {
@@ -138,12 +139,15 @@ export default class WordReferencePlayer implements VoicePlayer {
                             const varDef = audioMap[variant2];
                             if (this.audioElement) {
                                 this.audioElement.setSrc(varDef.url);
+                                this.audioElement.cancel();
                                 this.audioElement.play();
                             }
                         });
                         $menu && $menu.append($menuItem);
                     });
-
+                } else {
+                    // We can hide the dropdown
+                    this.$dropdown?.hide();
                 }
             } else {
                 // Fallback on google
@@ -154,6 +158,9 @@ export default class WordReferencePlayer implements VoicePlayer {
             mustPlay && this.audioElement.play();
         },
             (err) => {
+                console.warn("Fallback on GTTSPlayer US. Err: ", err);
+                // We can hide the dropdown
+                this.$dropdown?.hide();
                 // Fallback on google
                 this.audioElement = new GTTSPlayer(this.elem);
                 this.elem.setAttribute('href', '#speak_en-US');
@@ -163,16 +170,17 @@ export default class WordReferencePlayer implements VoicePlayer {
 
     private init(): void {
         const id = genID();
+        // data-boundary="window" 
         this.$dropdown = $(`
         <div class="dropdown" style="display:inline-block;">
-          <button class="btn btn-secondary btn-sm" style="margin:2px;padding:4px;height:15px;" type="button" id="dmb_${id}" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-secondary btn-sm" style="margin:2px;padding:4px;height:15px;" type="button" id="dmb_${id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa fa-globe" style="transform: translateY(-9px);font-size:90%;"></i>
           </button>
           <div class="dropdown-menu" aria-labelledby="dmb_${id}"> 
           </div>
         </div>`);
         this.$dropdown.insertAfter($(this.elem));
-        this.$dropdown.find("button").on("click", (evt) => {
+        this.$dropdown.find("button").on("click", () => {
             this.lazyLoad();
         });
 
@@ -189,11 +197,9 @@ export default class WordReferencePlayer implements VoicePlayer {
              
         };
         this.elem.addEventListener("click", this.handler);
-        //this.elem.title = "wordReference";
     }
 
-    play(): void {
-        EasySpeech.cancel();
+    play(): void { 
         this.audioElement && this.audioElement.play();
     }
     setSrc(src: string): void {
@@ -212,6 +218,15 @@ export default class WordReferencePlayer implements VoicePlayer {
             this.handler = null;
         }
         this.$dropdown?.find("button").off();
+    }
+    cancel(): void {
+        if(!this.audioElement) {
+            return;
+        }
+        this.audioElement.cancel();
+    }
+    isUtterance(): boolean {
+        return false;
     }
 
 }

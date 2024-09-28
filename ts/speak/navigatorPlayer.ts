@@ -1,15 +1,15 @@
 import EasySpeech from "easy-speech";
- 
+
 export default class NavigatorPlayer implements VoicePlayer {
     private _elem: HTMLElement;
     private _voice: SpeechSynthesisVoice | null = null;
     private handler: any;
 
-    constructor(elem: HTMLElement, voice: SpeechSynthesisVoice) { 
+    constructor(elem: HTMLElement, voice: SpeechSynthesisVoice) {
         this._elem = elem;
         this._voice = voice;
         //decide what to do with the title
-        if(elem.title == "-") {
+        if (elem.title == "-") {
             //remove it
             elem.removeAttribute("title");
         }
@@ -19,22 +19,33 @@ export default class NavigatorPlayer implements VoicePlayer {
             this.handler = (evt: Event) => {
                 evt.preventDefault(); // Evita que executi el link    
                 this.play();
-            }; 
+            };
             elem.addEventListener("click", this.handler);
         } else {
             //Get rid of the a link since browser does not support this feature
             elem.removeAttribute("href");
         }
     }
-    async play() {
-        if(!this._voice) {
+    src?: string | undefined;
+    cancel(): void {
+        EasySpeech.cancel();
+    }
+    isUtterance(): boolean {
+        return true;
+    }
+    play() {
+        if (!this._voice) {
             console.info("Voice is not set in navigatorPlayer. Cannot play");
             return;
         }
         // Cancel any previous speech
         EasySpeech.cancel();
-        console.info("Using the voice ", this._voice);
-        await EasySpeech.speak({
+        // Cancel all AudioPlayers
+        Object.values((window.IB?.sd["speak"]?.inst ?? []) as VoicePlayer[])
+            .filter(e => !e.isUtterance())
+            .forEach(e => e.cancel());
+
+        EasySpeech.speak({
             text: this._elem.innerText,
             voice: this._voice,
             pitch: 1,
@@ -42,7 +53,7 @@ export default class NavigatorPlayer implements VoicePlayer {
             volume: 1,
         });
     }
-    setSrc(src: string): void { 
+    setSrc(src: string): void {
         //Do nothing
     }
     pause(): void {
@@ -50,7 +61,7 @@ export default class NavigatorPlayer implements VoicePlayer {
     }
     dispose(): void {
         this._elem.removeEventListener("click", this.handler);
-        this._elem.classList.remove("sd-speak-enabled"); 
+        this._elem.classList.remove("sd-speak-enabled");
         this._elem.removeAttribute('data-active');
     }
 
