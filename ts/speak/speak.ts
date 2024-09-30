@@ -13,6 +13,9 @@ import SpeakComponent from './speakComponent';
         } catch(ex) {
             console.error(ex);
         }
+    } else {
+        console.error("speechSynthesis is not enabled");
+        console.warn(detection);
     }
     Loader.bootstrap([SpeakComponent]);
 })();

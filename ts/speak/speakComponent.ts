@@ -145,7 +145,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
     constructor(parent: HTMLElement) {
         super(parent);
     }
-    src?: string | undefined;
+    src: string | undefined;
 
     async init() {
         const ds = this.parent.dataset;
@@ -170,21 +170,25 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
             }
         }
         // Check if the speechSynthesis API is available
-        const internal = EasySpeech.status() as any;
-        const supported = internal.initialized && internal.speechSynthesis && internal.speechSynthesisUtterance;
-
+        const internal = EasySpeech.status();
+        let supported;
+        let voices: SpeechSynthesisVoice[] = [];
+        if(internal.status === "init: complete") {
+            supported = internal.initialized && internal.speechSynthesis && internal.speechSynthesisUtterance;
+            voices = internal.voices;
+        }
         this.audioPlayer = null;
         
         if(!supported) {
             console.warn("Web Speech Synthesis is not supported. Fallback on GTTS player.");
             this.audioPlayer = new GTTSPlayer(this.parent);
-        } else if (internal.voices.length === 0) {
+        } else if (voices.length === 0) {
             console.warn("EasySpeech.voices returns no voices. Fallback on GTTS player.");
             this.audioPlayer = new GTTSPlayer(this.parent);
         } else {
             // Sort local voices by lang and quality
             if (!this.sortedVoices) {
-                this.sortedVoices = sortVoices(internal.voices);
+                this.sortedVoices = sortVoices(voices);
             }
             // Check if the required voice is found
             const lang = (this.parent.getAttribute("href") ?? "_").split("_")[1];
@@ -218,7 +222,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
     }
 
     setSrc(src: string): void {
-     //
+        this.src = src;
     }
     pause(): void {
         this.audioPlayer && this.audioPlayer.pause();

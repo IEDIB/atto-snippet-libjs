@@ -10,7 +10,7 @@ export default class UrlPlayer implements VoicePlayer {
         this.src = "";
         if(elem!=null) {
             const ds = elem.dataset;
-            this.src = ds.src || "";
+            this.src = ds.src ?? "";
         }
         if(!this.src && src) {
             this.src = src;

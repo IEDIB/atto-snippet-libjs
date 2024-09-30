@@ -3,7 +3,7 @@ import EasySpeech from "easy-speech";
 export default class NavigatorPlayer implements VoicePlayer {
     private _elem: HTMLElement;
     private _voice: SpeechSynthesisVoice | null = null;
-    private handler: any;
+    private handler: ((this: HTMLElement, ev: MouseEvent) => unknown) | null ;
 
     constructor(elem: HTMLElement, voice: SpeechSynthesisVoice) {
         this._elem = elem;
@@ -26,7 +26,7 @@ export default class NavigatorPlayer implements VoicePlayer {
             elem.removeAttribute("href");
         }
     }
-    src?: string | undefined;
+    src: string | undefined;
     cancel(): void {
         EasySpeech.cancel();
     }
@@ -54,13 +54,15 @@ export default class NavigatorPlayer implements VoicePlayer {
         });
     }
     setSrc(src: string): void {
-        //Do nothing
+        this.src = src;
     }
     pause(): void {
         EasySpeech.pause();
     }
     dispose(): void {
-        this._elem.removeEventListener("click", this.handler);
+        if(this.handler) {
+            this._elem.removeEventListener("click", this.handler);
+        }
         this._elem.classList.remove("sd-speak-enabled");
         this._elem.removeAttribute('data-active');
     }

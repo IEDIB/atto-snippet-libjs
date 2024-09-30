@@ -22,7 +22,7 @@ const variantNames = {
     "ca": "Catalunya",
     "mexico": "México",
     "argentina": "Argentina",
-} as any;
+} as Record<string, string>;
 
 function nameOfVariant(variant: string): string {
     return variantNames[variant] || variant;
@@ -34,7 +34,7 @@ interface NameUrl {
 }
 
 function parseAudioFiles(extracted: string[], lang: string): { [key: string]: NameUrl } {
-    const map: { [key: string]: any } = {};
+    const map: { [key: string]: {name: string, url: string} } = {};
     extracted.forEach((asource) => {
 
         //asource
@@ -108,7 +108,7 @@ export default class WordReferencePlayer implements VoicePlayer {
         elem.classList.add("sd-speak-enabled");
         this.init();
     }
-    src?: string | undefined;
+    src: string | undefined;
   
 
     //Show dropdown but do lazy wordreference loading
@@ -117,8 +117,6 @@ export default class WordReferencePlayer implements VoicePlayer {
             return; //Already loaded
         }
         // Defer the search of sources until the first click
-        //TODO if no region specified show dropdown with variants
-
         const $menu = this.$dropdown?.find(".dropdown-menu");
         const lang = "en";
         wr_define(lang, this.elem.innerText).then(audioMap => {
@@ -135,7 +133,7 @@ export default class WordReferencePlayer implements VoicePlayer {
                         const $menuItem = $(`<a class="dropdown-item" data-variant="${variant}" href="#">${varDef.name}</a>`);
                         $menuItem.on("click", (evt) => {
                             evt.preventDefault();
-                            const variant2 = evt.target.dataset.variant || '';
+                            const variant2 = evt.target.dataset.variant ?? '';
                             const varDef = audioMap[variant2];
                             if (this.audioElement) {
                                 this.audioElement.setSrc(varDef.url);
@@ -146,7 +144,7 @@ export default class WordReferencePlayer implements VoicePlayer {
                         $menu && $menu.append($menuItem);
                     });
                 } else {
-                    // We can hide the dropdown
+                    // We can hide the dropdown (no variants)
                     this.$dropdown?.hide();
                 }
             } else {

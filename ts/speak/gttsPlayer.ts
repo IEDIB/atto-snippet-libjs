@@ -11,7 +11,7 @@ export default class GTTSPlayer implements VoicePlayer {
 
     constructor(elem: HTMLElement) { 
         this._elem = elem;
-        let idioma = elem.getAttribute("href") || elem.dataset.lang || "en_us";
+        let idioma = elem.getAttribute("href") ?? elem.dataset.lang ?? "en_us";
         idioma = idioma.replace("#speak_", "");
         const sText = elem.innerText.trim();
         if (sText.length > MAX_GTTS_LEN) {
@@ -36,7 +36,8 @@ export default class GTTSPlayer implements VoicePlayer {
             this._elem.removeEventListener("click", this.handler);
         }
     }
-    src?: string | undefined;
+    src: string | undefined;
+    
     cancel(): void {
         if (!this.audio) {
             return;

@@ -3361,11 +3361,13 @@ var MAX_GTTS_LEN = 1000;
 var GTTS_URL = "https://speech.ibsuite.es/api/gtts?t=";
 var GTTSPlayer = /*#__PURE__*/function () {
   function GTTSPlayer(elem) {
-    var _this = this;
+    var _ref,
+      _elem$getAttribute,
+      _this = this;
     _classCallCheck(this, GTTSPlayer);
     _defineProperty(this, "url", "");
     this._elem = elem;
-    var idioma = elem.getAttribute("href") || elem.dataset.lang || "en_us";
+    var idioma = (_ref = (_elem$getAttribute = elem.getAttribute("href")) !== null && _elem$getAttribute !== void 0 ? _elem$getAttribute : elem.dataset.lang) !== null && _ref !== void 0 ? _ref : "en_us";
     idioma = idioma.replace("#speak_", "");
     var sText = elem.innerText.trim();
     if (sText.length > MAX_GTTS_LEN) {
@@ -3540,7 +3542,7 @@ var NavigatorPlayer = /*#__PURE__*/function () {
   }, {
     key: "setSrc",
     value: function setSrc(src) {
-      //Do nothing
+      this.src = src;
     }
   }, {
     key: "pause",
@@ -3550,7 +3552,9 @@ var NavigatorPlayer = /*#__PURE__*/function () {
   }, {
     key: "dispose",
     value: function dispose() {
-      this._elem.removeEventListener("click", this.handler);
+      if (this.handler) {
+        this._elem.removeEventListener("click", this.handler);
+      }
       this._elem.classList.remove("sd-speak-enabled");
       this._elem.removeAttribute('data-active');
     }
@@ -3728,7 +3732,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var _this$parent$getAttri;
-        var ds, internal, supported, _this$parent$getAttri2, lang, voice;
+        var ds, internal, supported, voices, _this$parent$getAttri2, lang, voice;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -3765,18 +3769,22 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
             case 15:
               // Check if the speechSynthesis API is available
               internal = easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].status();
-              supported = internal.initialized && internal.speechSynthesis && internal.speechSynthesisUtterance;
+              voices = [];
+              if (internal.status === "init: complete") {
+                supported = internal.initialized && internal.speechSynthesis && internal.speechSynthesisUtterance;
+                voices = internal.voices;
+              }
               this.audioPlayer = null;
               if (!supported) {
                 console.warn("Web Speech Synthesis is not supported. Fallback on GTTS player.");
                 this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_9__["default"](this.parent);
-              } else if (internal.voices.length === 0) {
+              } else if (voices.length === 0) {
                 console.warn("EasySpeech.voices returns no voices. Fallback on GTTS player.");
                 this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_9__["default"](this.parent);
               } else {
                 // Sort local voices by lang and quality
                 if (!this.sortedVoices) {
-                  this.sortedVoices = sortVoices(internal.voices);
+                  this.sortedVoices = sortVoices(voices);
                 }
                 // Check if the required voice is found
                 lang = ((_this$parent$getAttri2 = this.parent.getAttribute("href")) !== null && _this$parent$getAttri2 !== void 0 ? _this$parent$getAttri2 : "_").split("_")[1];
@@ -3796,7 +3804,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
                   this.audioPlayer = new _navigatorPlayer__WEBPACK_IMPORTED_MODULE_10__["default"](this.parent, voice);
                 }
               }
-            case 19:
+            case 20:
             case "end":
               return _context.stop();
           }
@@ -3825,7 +3833,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
   }, {
     key: "setSrc",
     value: function setSrc(src) {
-      //
+      this.src = src;
     }
   }, {
     key: "pause",
@@ -3870,8 +3878,9 @@ var UrlPlayer = /*#__PURE__*/function () {
     _classCallCheck(this, UrlPlayer);
     this.src = "";
     if (elem != null) {
+      var _ds$src;
       var ds = elem.dataset;
-      this.src = ds.src || "";
+      this.src = (_ds$src = ds.src) !== null && _ds$src !== void 0 ? _ds$src : "";
     }
     if (!this.src && src) {
       this.src = src;
@@ -4063,8 +4072,6 @@ var WordReferencePlayer = /*#__PURE__*/function () {
         return; //Already loaded
       }
       // Defer the search of sources until the first click
-      //TODO if no region specified show dropdown with variants
-
       var $menu = (_this$$dropdown = this.$dropdown) === null || _this$$dropdown === void 0 ? void 0 : _this$$dropdown.find(".dropdown-menu");
       var lang = "en";
       wr_define(lang, this.elem.innerText).then(function (audioMap) {
@@ -4080,8 +4087,9 @@ var WordReferencePlayer = /*#__PURE__*/function () {
               var varDef = audioMap[variant];
               var $menuItem = $("<a class=\"dropdown-item\" data-variant=\"".concat(variant, "\" href=\"#\">").concat(varDef.name, "</a>"));
               $menuItem.on("click", function (evt) {
+                var _evt$target$dataset$v;
                 evt.preventDefault();
-                var variant2 = evt.target.dataset.variant || '';
+                var variant2 = (_evt$target$dataset$v = evt.target.dataset.variant) !== null && _evt$target$dataset$v !== void 0 ? _evt$target$dataset$v : '';
                 var varDef = audioMap[variant2];
                 if (_this.audioElement) {
                   _this.audioElement.setSrc(varDef.url);
@@ -4093,7 +4101,7 @@ var WordReferencePlayer = /*#__PURE__*/function () {
             });
           } else {
             var _this$$dropdown2;
-            // We can hide the dropdown
+            // We can hide the dropdown (no variants)
             (_this$$dropdown2 = _this.$dropdown) === null || _this$$dropdown2 === void 0 ? void 0 : _this$$dropdown2.hide();
           }
         } else {
@@ -5744,7 +5752,7 @@ _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         detection = easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].detect();
         enabled = detection.speechSynthesis && detection.speechSynthesisUtterance;
         if (!enabled) {
-          _context.next = 11;
+          _context.next = 13;
           break;
         }
         _context.prev = 3;
@@ -5762,8 +5770,14 @@ _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         _context.t0 = _context["catch"](3);
         console.error(_context.t0);
       case 11:
+        _context.next = 15;
+        break;
+      case 13:
+        console.error("speechSynthesis is not enabled");
+        console.warn(detection);
+      case 15:
         _loader__WEBPACK_IMPORTED_MODULE_2__["default"].bootstrap([_speakComponent__WEBPACK_IMPORTED_MODULE_3__["default"]]);
-      case 12:
+      case 16:
       case "end":
         return _context.stop();
     }
