@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IBase } from "./types";
 import { onJQueryReady } from "./_shared/utilsShared";
+import { BaseComponent } from "./base";
 
 function genID() {
     return "sd_" + Math.random().toString(32).substring(2);
@@ -27,7 +28,7 @@ function _bootstrap(classes: IBase[]) {
         }
         const _init = function() {
             IB.sd[meta.name] = IB.sd[meta.name] || {inst:{}, _class: clazz, init: _init, dispose: null};
-            const query = meta.query || `div[role="snptd_${meta.name}"], div[data-snptd="${meta.name}"]`;
+            const query = meta.query ?? `div[role="snptd_${meta.name}"], div[data-snptd="${meta.name}"]`;
             //Check if is defined as a singleton
             if(query==='body') {
                 if(IB.sd[meta.name].singl) {
@@ -77,7 +78,7 @@ function _bootstrap(classes: IBase[]) {
                 return;
             }
             Object.keys(window.IB.sd[meta.name].inst!).forEach((key: string) => { 
-                const instance = window.IB.sd[meta.name].inst![key];
+                const instance = window.IB.sd[meta.name].inst![key] as BaseComponent;
                 if(instance) {
                     instance.dispose();
                     counter++;

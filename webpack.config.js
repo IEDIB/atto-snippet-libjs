@@ -75,7 +75,7 @@ module.exports = {
           format: {
               comments: false,
           },
-          compress:{ pure_funcs: ['console.debug', 'console.log', 'console.info'] }
+          compress: { pure_funcs: ['console.debug', 'console.log', 'console.info'] }
       },
       extractComments: false,
     }),

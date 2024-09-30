@@ -9,8 +9,8 @@ export interface IBComponentNS {
     _class: IBase,
     init(): void,
     dispose(): void,
-    inst?: Dict<BaseComponent>,
-    singl?: BaseComponent
+    inst?: Dict<unknown>,
+    singl?: unknown
 }
 
 

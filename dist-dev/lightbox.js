@@ -89,7 +89,15 @@ function waitForFunction(funName, cbSuccess, cbError, nattempt) {
 function onJQueryReady(cb) {
   waitForFunction('require', function () {
     //wait for jquery 
-    window.require(['jquery'], function () {
+    window.require(['jquery'], function (jQuery) {
+      var $ = jQuery;
+      // Share this object into the window if not set
+      if (!window['$']) {
+        window['$'] = $;
+      }
+      if (!window['jQuery']) {
+        window['jQuery'] = $;
+      }
       //wait for document ready
       console.info("$ready1");
       $(cb);
@@ -98,6 +106,9 @@ function onJQueryReady(cb) {
       // An error occurred but try to load anyway!
       // Try jQuery directly
       waitForFunction('jQuery', function () {
+        if (!window['$']) {
+          window['$'] = jQuery;
+        }
         console.info("$ready2");
         //wait for document ready
         $(cb);
@@ -467,7 +478,7 @@ var LightboxComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Comp
       $theImg.attr("data-active", '1');
       $theImg.off();
       // Action on clicking the image
-      $theImg.on("click", function (evt) {
+      $theImg.on("click", function () {
         _this3.currentIndex = (0,_shared_utilsShared__WEBPACK_IMPORTED_MODULE_1__.convertInt)($theImg.attr("data-lbpos") || "0", 0);
         _this3.loadImageDynamically();
       });
@@ -491,7 +502,7 @@ var LightboxComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Comp
         var src = $container.attr("data-src") || $container.attr("src") || "";
         imgObj.onload = function () {
           var _this4$$img;
-          _this4.resize(imgObj.width, imgObj.height);
+          //this.resize(imgObj.width, imgObj.height);
           // Can provide a highres in data-src
           (_this4$$img = _this4.$img) === null || _this4$$img === void 0 ? void 0 : _this4$$img.attr("src", src);
         };
@@ -508,9 +519,9 @@ var LightboxComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Comp
     value: function createModal() {
       var _this5 = this;
       var hasGallery = this.$gallery.length > 1;
-      var leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);">' + leftArrow + '</a>';
-      var rightArrowHTML = '<a class="navigate-right-arrow" href="javascript:void(0);">' + rightArrow + '</a>';
-      var modalHTML = $('<div class="modal fade modal-fullscreen-xl" id="' + MODAL_ID + '" tabindex="-1" role="dialog">' + '<div class="modal-dialog" role="document">' + '<div class="modal-content">' + '<div class="modal-header"><button type="button" class="close text-white" data-dismiss="modal">&times;</button>' + '</div>' + '<div class="modal-body p-0" style="text-align:center;">' + (hasGallery ? leftArrowHTML : '') + '<img src="">' + (hasGallery ? rightArrowHTML : '') + '</div>' + '</div>' + '</div>' + '</div>');
+      var leftArrowHTML = '<a class="navigate-left-arrow" href="javascript:void(0);" style="position: fixed; top: 50%; left: 50px;">' + leftArrow + '</a>';
+      var rightArrowHTML = '<a class="navigate-right-arrow" href="javascript:void(0);" style="position: fixed; top: 50%; right: 50px;">' + rightArrow + '</a>';
+      var modalHTML = $('<div class="modal fade modal-fullscreen-xl" id="' + MODAL_ID + '" tabindex="-1" role="dialog">' + '<div class="modal-dialog" role="document">' + '<div class="modal-content">' + '<div class="modal-header"><button type="button" class="close text-white" data-dismiss="modal">&times;</button>' + '</div>' + '<div class="modal-body p-0" style="text-align:center;">' + (hasGallery ? leftArrowHTML : '') + '<img src="" style="height: 100%; width: 100%; object-fit: contain;">' + (hasGallery ? rightArrowHTML : '') + '</div>' + '</div>' + '</div>' + '</div>');
       this.$modal = $(modalHTML);
       this.$img = this.$modal.find('img');
       this.$close = this.$modal.find('button');
@@ -534,31 +545,34 @@ var LightboxComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_0__.Comp
         });
       }
     }
-  }, {
-    key: "resize",
-    value: function resize(imgwidth, imgheight) {
-      // Resize accordingly to the image
-      // Size of browser viewport.
-      var imgratio = 1;
-      if (imgheight > 0) {
-        imgratio = imgwidth / imgheight;
-      }
-      var winwidth = $(window).height() || 0;
-      var winheight = $(window).width() || 0;
-      var winratio = 1;
-      if (winheight > 0) {
-        winratio = winwidth / winheight;
-      }
-      if (imgratio > winratio) {
-        var _this$$img2, _this$$img3;
-        (_this$$img2 = this.$img) === null || _this$$img2 === void 0 ? void 0 : _this$$img2.css("width", "initial");
-        (_this$$img3 = this.$img) === null || _this$$img3 === void 0 ? void 0 : _this$$img3.css("height", "100%");
-      } else {
-        var _this$$img4, _this$$img5;
-        (_this$$img4 = this.$img) === null || _this$$img4 === void 0 ? void 0 : _this$$img4.css("height", "initial");
-        (_this$$img5 = this.$img) === null || _this$$img5 === void 0 ? void 0 : _this$$img5.css("width", "100%");
-      }
-    }
+    /*
+       private resize(imgwidth: number, imgheight: number) {
+           // Resize accordingly to the image
+           // Size of browser viewport.
+          
+           let imgratio = 1;
+           if (imgheight > 0) {
+               imgratio = imgwidth / imgheight;
+           }
+           const winwidth = $(window).height() || 0;
+           const winheight = $(window).width() || 0;
+           let winratio = 1;
+           if (winheight > 0) {
+               winratio = winwidth / winheight;
+           }
+          
+           if (imgratio > winratio) {
+               //this.$img?.css("height", "initial");
+               //this.$img?.css("width", "90%");
+               this.$img?.css("transform", "scale("+(winratio/imgratio)+")");
+           } else {
+               //this.$img?.css("width", "initial");
+               //this.$img?.css("height", "90%");
+               this.$img?.css("transform", "scale("+(imgratio/winratio)+")");
+           }
+         
+       }
+    */
   }, {
     key: "navigateLeft",
     value: function navigateLeft() {
@@ -629,13 +643,14 @@ function _bootstrap(classes) {
       return;
     }
     var _init = function _init() {
+      var _meta$query;
       IB.sd[meta.name] = IB.sd[meta.name] || {
         inst: {},
         _class: clazz,
         init: _init,
         dispose: null
       };
-      var query = meta.query || "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
+      var query = (_meta$query = meta.query) !== null && _meta$query !== void 0 ? _meta$query : "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
       //Check if is defined as a singleton
       if (query === 'body') {
         if (IB.sd[meta.name].singl) {
@@ -735,7 +750,7 @@ function _bootstrap(classes) {
 
 /***/ }),
 
-/***/ 60:
+/***/ 66:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
@@ -856,7 +871,7 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 59:
+/***/ 65:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
@@ -871,7 +886,7 @@ module.exports = function (i) {
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_lightbox_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(60);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_lightbox_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(66);
 
       
       
@@ -1257,7 +1272,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 /* harmony import */ var _loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var _lightbox_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(59);
+/* harmony import */ var _lightbox_min_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(65);
 /* harmony import */ var _lightboxComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
 
 

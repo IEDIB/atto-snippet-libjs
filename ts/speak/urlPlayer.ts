@@ -1,3 +1,5 @@
+import EasySpeech from "easy-speech";
+
 export default class UrlPlayer implements VoicePlayer {
     private audioElement: HTMLAudioElement | undefined | null; 
     private handler: EventListener | undefined | null;
@@ -8,14 +10,21 @@ export default class UrlPlayer implements VoicePlayer {
         this.src = "";
         if(elem!=null) {
             const ds = elem.dataset;
-            this.src = ds.src || "";
+            this.src = ds.src ?? "";
         }
         if(!this.src && src) {
             this.src = src;
         }
         this.elem = elem;
     } 
+  
     play(): void {
+        EasySpeech.cancel();
+        // Cancel all AudioPlayers
+          Object.values((window.IB?.sd["speak"]?.inst ?? []) as VoicePlayer[])
+          .filter(e => !e.isUtterance())
+          .forEach(e => e.cancel());
+          
         if(this.audioElement) {
             this.audioElement.play();
             return;
@@ -44,6 +53,17 @@ export default class UrlPlayer implements VoicePlayer {
 
     pause(): void {
         this.audioElement && this.audioElement.pause();
+    }
+
+    cancel(): void {
+        if(!this.audioElement) {
+            return;
+        }
+        this.audioElement.pause();
+        this.audioElement.currentTime = 0;
+    }
+    isUtterance(): boolean {
+       return false;
     }
     
     dispose(): void {

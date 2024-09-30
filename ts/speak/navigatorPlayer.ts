@@ -1,67 +1,70 @@
+import EasySpeech from "easy-speech";
 
-const findVoice = function (lang: string, voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
-    lang = (lang || "").toLowerCase();
-    let k = 0;
-    let voice = null;
-    const len = (voices || []).length;
-    while (k < len && voice == null) {
-        if (voices[k].lang.toLowerCase() == lang) {
-            voice = voices[k];
-        }
-        k++;
-    }
-    return voice;
-}; 
- 
 export default class NavigatorPlayer implements VoicePlayer {
-    utterance: SpeechSynthesisUtterance | null | undefined;
     private _elem: HTMLElement;
-    private handler: any;
+    private _voice: SpeechSynthesisVoice | null = null;
+    private handler: ((this: HTMLElement, ev: MouseEvent) => unknown) | null ;
 
-    constructor(elem: HTMLElement, voices: SpeechSynthesisVoice[]) { 
+    constructor(elem: HTMLElement, voice: SpeechSynthesisVoice) {
         this._elem = elem;
-        const idioma = (elem.getAttribute("href") || "_").split("_")[1];
+        this._voice = voice;
         //decide what to do with the title
-        if(elem.title == "-") {
+        if (elem.title == "-") {
             //remove it
             elem.removeAttribute("title");
-        } 
-        //else if(!elem.title) {
-        //    elem.title = "Speak!";
-        //} 
-        const voice = findVoice(idioma, voices);
+        }
         this.handler = null;
-        if (voice) { 
-            //const idioma = (this._elem.getAttribute("href") || "_").split("_")[1];
-            this.utterance = new SpeechSynthesisUtterance(elem.innerText);
-            this.utterance.voice = voice;
+        if (this._voice) {
             elem.classList.add("sd-speak-enabled");
             this.handler = (evt: Event) => {
                 evt.preventDefault(); // Evita que executi el link    
                 this.play();
-            }; 
+            };
             elem.addEventListener("click", this.handler);
         } else {
             //Get rid of the a link since browser does not support this feature
             elem.removeAttribute("href");
         }
     }
-    play(): void {
-       // call abort pending...
-       window.speechSynthesis.cancel(); 
-       this.utterance && window.speechSynthesis.speak(this.utterance); 
+    src: string | undefined;
+    cancel(): void {
+        EasySpeech.cancel();
     }
-    setSrc(src: string): void { 
-        //Do nothing
+    isUtterance(): boolean {
+        return true;
+    }
+    play() {
+        if (!this._voice) {
+            console.info("Voice is not set in navigatorPlayer. Cannot play");
+            return;
+        }
+        // Cancel any previous speech
+        EasySpeech.cancel();
+        // Cancel all AudioPlayers
+        Object.values((window.IB?.sd["speak"]?.inst ?? []) as VoicePlayer[])
+            .filter(e => !e.isUtterance())
+            .forEach(e => e.cancel());
+
+        EasySpeech.speak({
+            text: this._elem.dataset.text ?? this._elem.innerText,
+            voice: this._voice,
+            pitch: 1,
+            rate: 0.95,
+            volume: 1,
+        });
+    }
+    setSrc(src: string): void {
+        this.src = src;
     }
     pause(): void {
-        window.speechSynthesis.cancel();
+        EasySpeech.pause();
     }
     dispose(): void {
-        this._elem.removeEventListener("click", this.handler);
-        this._elem.classList.remove("sd-speak-enabled"); 
-        this._elem.removeAttribute('data-active'); 
-        //this._elem.removeAttribute('title'); 
+        if(this.handler) {
+            this._elem.removeEventListener("click", this.handler);
+        }
+        this._elem.classList.remove("sd-speak-enabled");
+        this._elem.removeAttribute('data-active');
     }
 
 }

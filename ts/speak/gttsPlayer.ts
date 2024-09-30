@@ -1,5 +1,7 @@
+import EasySpeech from "easy-speech";
+
 const MAX_GTTS_LEN = 1000;
-const GTTS_URL = "https://piworld.es/api/gtts/speak?t=";
+const GTTS_URL = "https://speech.ibsuite.es/api/gtts?t=";
 
 export default class GTTSPlayer implements VoicePlayer {
     private _elem: HTMLElement;
@@ -9,11 +11,11 @@ export default class GTTSPlayer implements VoicePlayer {
 
     constructor(elem: HTMLElement) { 
         this._elem = elem;
-        let idioma = elem.getAttribute("href") || elem.dataset.lang || "en_us";
+        let idioma = elem.getAttribute("href") ?? elem.dataset.lang ?? "en_us";
         idioma = idioma.replace("#speak_", "");
-        const sText = elem.innerText.trim();
+        const sText = (elem.dataset.text ?? elem.innerText).trim();
         if (sText.length > MAX_GTTS_LEN) {
-            console.log("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
+            console.warn("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
             elem.removeAttribute("href");
             return;
         }
@@ -21,10 +23,7 @@ export default class GTTSPlayer implements VoicePlayer {
         if (elem.title == "-") {
             //remove it
             elem.removeAttribute("title");
-        } 
-        //else if (!elem.title) {
-        //    elem.title = "gTTS Speak!";
-        //}
+        }
         elem.classList.add("sd-speak-enabled");
         this.url = GTTS_URL + encodeURIComponent(sText) + "&l=" + idioma;
         this.audio = null;
@@ -37,7 +36,26 @@ export default class GTTSPlayer implements VoicePlayer {
             this._elem.removeEventListener("click", this.handler);
         }
     }
+    src: string | undefined;
+    
+    cancel(): void {
+        if (!this.audio) {
+            return;
+        }
+        this.audio.pause();
+        this.audio.currentTime = 0;
+    }
+    isUtterance(): boolean {
+        return false;
+    }
     play(): void {
+        // Cancel all possible utterances
+        EasySpeech.cancel();
+        // Cancel all AudioPlayers
+        Object.values((window.IB?.sd["speak"]?.inst ?? []) as VoicePlayer[])
+            .filter(e => !e.isUtterance())
+            .forEach(e => e.cancel());
+            
         if (!this.audio) {
             this.audio = new Audio(this.url);
         } else {
@@ -67,8 +85,7 @@ export default class GTTSPlayer implements VoicePlayer {
         }
         if (this.handler) {
             this._elem.classList.remove("sd-speak-enabled");
-            this._elem.removeAttribute('data-active'); 
-            //this._elem.removeAttribute('title'); 
+            this._elem.removeAttribute('data-active');
             this._elem.removeEventListener("click", this.handler);
             this.handler = null;
         }

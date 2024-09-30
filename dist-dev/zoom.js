@@ -89,7 +89,15 @@ function waitForFunction(funName, cbSuccess, cbError, nattempt) {
 function onJQueryReady(cb) {
   waitForFunction('require', function () {
     //wait for jquery 
-    window.require(['jquery'], function () {
+    window.require(['jquery'], function (jQuery) {
+      var $ = jQuery;
+      // Share this object into the window if not set
+      if (!window['$']) {
+        window['$'] = $;
+      }
+      if (!window['jQuery']) {
+        window['jQuery'] = $;
+      }
       //wait for document ready
       console.info("$ready1");
       $(cb);
@@ -98,6 +106,9 @@ function onJQueryReady(cb) {
       // An error occurred but try to load anyway!
       // Try jQuery directly
       waitForFunction('jQuery', function () {
+        if (!window['$']) {
+          window['$'] = jQuery;
+        }
         console.info("$ready2");
         //wait for document ready
         $(cb);
@@ -391,13 +402,14 @@ function _bootstrap(classes) {
       return;
     }
     var _init = function _init() {
+      var _meta$query;
       IB.sd[meta.name] = IB.sd[meta.name] || {
         inst: {},
         _class: clazz,
         init: _init,
         dispose: null
       };
-      var query = meta.query || "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
+      var query = (_meta$query = meta.query) !== null && _meta$query !== void 0 ? _meta$query : "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
       //Check if is defined as a singleton
       if (query === 'body') {
         if (IB.sd[meta.name].singl) {

@@ -34,7 +34,9 @@ declare interface VoicePlayer {
     setSrc(src: string): void;
     play(): void;
     pause(): void;
+    cancel(): void;
     dispose(): void;
+    isUtterance(): boolean;
 }
 
 interface Window {
