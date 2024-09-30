@@ -13,7 +13,7 @@ export default class GTTSPlayer implements VoicePlayer {
         this._elem = elem;
         let idioma = elem.getAttribute("href") ?? elem.dataset.lang ?? "en_us";
         idioma = idioma.replace("#speak_", "");
-        const sText = elem.innerText.trim();
+        const sText = (elem.dataset.text ?? elem.innerText).trim();
         if (sText.length > MAX_GTTS_LEN) {
             console.warn("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
             elem.removeAttribute("href");

@@ -132,7 +132,7 @@ const findVoice = function (lang: string, sortedVoices: Record<string, SpeechSyn
 @Component({
     name: 'speak',
     author: 'Josep Mulet Pol',
-    version: '2.6',
+    version: '2.7',
     query: 'a[href^="#speak_"],[role="snptd_speak"],[data-snptd="speak"]',
     use$: true, //May require $ajax
 })
@@ -140,7 +140,7 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
 
     private audioPlayer: VoicePlayer | undefined | null;
     private unloadListener: (() => void) | null = null;
-    private sortedVoices: Record<string, SpeechSynthesisVoice[]> | null = null;
+    private static sortedVoices: Record<string, SpeechSynthesisVoice[]> | null = null;
 
     constructor(parent: HTMLElement) {
         super(parent);
@@ -158,8 +158,9 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
             return;
         } 
         // Single word and wordReference variant set
-        if (this.parent.getAttribute('href')?.endsWith("#speak_en-wr") ) {
-            if(this.parent.innerText.trim().indexOf(" ") < 0) {
+        if (this.parent.getAttribute('href')?.endsWith("#speak_en-wr") || ds.lang === "wr") {
+            const text = (ds.text ?? this.parent.innerText).trim();            
+            if(text.indexOf(" ") < 0) {
                 //use wordreference
                 this.audioPlayer = new WordReferencePlayer(this.parent);
                 return;
@@ -187,12 +188,12 @@ export default class SpeakComponent extends BaseComponent implements VoicePlayer
             this.audioPlayer = new GTTSPlayer(this.parent);
         } else {
             // Sort local voices by lang and quality
-            if (!this.sortedVoices) {
-                this.sortedVoices = sortVoices(voices);
+            if (!SpeakComponent.sortedVoices) {
+                SpeakComponent.sortedVoices = sortVoices(voices);
             }
             // Check if the required voice is found
             const lang = (this.parent.getAttribute("href") ?? "_").split("_")[1];
-            const voice = findVoice(lang, this.sortedVoices);
+            const voice = findVoice(lang, SpeakComponent.sortedVoices);
             if (!voice) {
                 console.warn(`Cannot find a voice for lang ${lang}. Fallback on GTTS player.`);
                 this.audioPlayer = new GTTSPlayer(this.parent);

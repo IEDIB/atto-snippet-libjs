@@ -403,13 +403,14 @@ function _bootstrap(classes) {
       return;
     }
     var _init = function _init() {
+      var _meta$query;
       IB.sd[meta.name] = IB.sd[meta.name] || {
         inst: {},
         _class: clazz,
         init: _init,
         dispose: null
       };
-      var query = meta.query || "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
+      var query = (_meta$query = meta.query) !== null && _meta$query !== void 0 ? _meta$query : "div[role=\"snptd_".concat(meta.name, "\"], div[data-snptd=\"").concat(meta.name, "\"]");
       //Check if is defined as a singleton
       if (query === 'body') {
         if (IB.sd[meta.name].singl) {
@@ -3363,13 +3364,14 @@ var GTTSPlayer = /*#__PURE__*/function () {
   function GTTSPlayer(elem) {
     var _ref,
       _elem$getAttribute,
+      _elem$dataset$text,
       _this = this;
     _classCallCheck(this, GTTSPlayer);
     _defineProperty(this, "url", "");
     this._elem = elem;
     var idioma = (_ref = (_elem$getAttribute = elem.getAttribute("href")) !== null && _elem$getAttribute !== void 0 ? _elem$getAttribute : elem.dataset.lang) !== null && _ref !== void 0 ? _ref : "en_us";
     idioma = idioma.replace("#speak_", "");
-    var sText = elem.innerText.trim();
+    var sText = ((_elem$dataset$text = elem.dataset.text) !== null && _elem$dataset$text !== void 0 ? _elem$dataset$text : elem.innerText).trim();
     if (sText.length > MAX_GTTS_LEN) {
       console.warn("GTTS: Max length supported is " + MAX_GTTS_LEN + " characters.");
       elem.removeAttribute("href");
@@ -3518,7 +3520,7 @@ var NavigatorPlayer = /*#__PURE__*/function () {
   }, {
     key: "play",
     value: function play() {
-      var _window$IB$sd$speak$i, _window$IB, _window$IB$sd$speak;
+      var _window$IB$sd$speak$i, _window$IB, _window$IB$sd$speak, _this$_elem$dataset$t;
       if (!this._voice) {
         console.info("Voice is not set in navigatorPlayer. Cannot play");
         return;
@@ -3532,7 +3534,7 @@ var NavigatorPlayer = /*#__PURE__*/function () {
         return e.cancel();
       });
       easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].speak({
-        text: this._elem.innerText,
+        text: (_this$_elem$dataset$t = this._elem.dataset.text) !== null && _this$_elem$dataset$t !== void 0 ? _this$_elem$dataset$t : this._elem.innerText,
         voice: this._voice,
         pitch: 1,
         rate: 0.95,
@@ -3584,7 +3586,7 @@ var NavigatorPlayer = /*#__PURE__*/function () {
 /* harmony import */ var _de__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(36);
 /* harmony import */ var _fr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(37);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-var _dec, _class;
+var _dec, _class, _class2;
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -3713,10 +3715,10 @@ var findVoice = function findVoice(lang, sortedVoices) {
 var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Component)({
   name: 'speak',
   author: 'Josep Mulet Pol',
-  version: '2.6',
+  version: '2.7',
   query: 'a[href^="#speak_"],[role="snptd_speak"],[data-snptd="speak"]',
   use$: true //May require $ajax
-}), _dec(_class = /*#__PURE__*/function (_BaseComponent) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_BaseComponent) {
   _inherits(SpeakComponent, _BaseComponent);
   var _super = _createSuper(SpeakComponent);
   function SpeakComponent(parent) {
@@ -3724,7 +3726,6 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
     _classCallCheck(this, SpeakComponent);
     _this = _super.call(this, parent);
     _defineProperty(_assertThisInitialized(_this), "unloadListener", null);
-    _defineProperty(_assertThisInitialized(_this), "sortedVoices", null);
     return _this;
   }
   _createClass(SpeakComponent, [{
@@ -3732,7 +3733,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var _this$parent$getAttri;
-        var ds, internal, supported, voices, _this$parent$getAttri2, lang, voice;
+        var ds, _ds$text, text, internal, supported, voices, _this$parent$getAttri2, lang, voice;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -3751,22 +3752,23 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
               this.audioPlayer = new _urlPlayer__WEBPACK_IMPORTED_MODULE_7__["default"](this.parent);
               return _context.abrupt("return");
             case 7:
-              if (!((_this$parent$getAttri = this.parent.getAttribute('href')) !== null && _this$parent$getAttri !== void 0 && _this$parent$getAttri.endsWith("#speak_en-wr"))) {
-                _context.next = 15;
+              if (!((_this$parent$getAttri = this.parent.getAttribute('href')) !== null && _this$parent$getAttri !== void 0 && _this$parent$getAttri.endsWith("#speak_en-wr") || ds.lang === "wr")) {
+                _context.next = 16;
                 break;
               }
-              if (!(this.parent.innerText.trim().indexOf(" ") < 0)) {
-                _context.next = 13;
+              text = ((_ds$text = ds.text) !== null && _ds$text !== void 0 ? _ds$text : this.parent.innerText).trim();
+              if (!(text.indexOf(" ") < 0)) {
+                _context.next = 14;
                 break;
               }
               //use wordreference
               this.audioPlayer = new _wordreferencePlayer__WEBPACK_IMPORTED_MODULE_8__["default"](this.parent);
               return _context.abrupt("return");
-            case 13:
+            case 14:
               console.error("WordReference only works for single words.");
               //turn into speech synthesis for american english 
               this.parent.setAttribute('href', '#speak_en-US');
-            case 15:
+            case 16:
               // Check if the speechSynthesis API is available
               internal = easy_speech__WEBPACK_IMPORTED_MODULE_0__["default"].status();
               voices = [];
@@ -3783,12 +3785,12 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
                 this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_9__["default"](this.parent);
               } else {
                 // Sort local voices by lang and quality
-                if (!this.sortedVoices) {
-                  this.sortedVoices = sortVoices(voices);
+                if (!SpeakComponent.sortedVoices) {
+                  SpeakComponent.sortedVoices = sortVoices(voices);
                 }
                 // Check if the required voice is found
                 lang = ((_this$parent$getAttri2 = this.parent.getAttribute("href")) !== null && _this$parent$getAttri2 !== void 0 ? _this$parent$getAttri2 : "_").split("_")[1];
-                voice = findVoice(lang, this.sortedVoices);
+                voice = findVoice(lang, SpeakComponent.sortedVoices);
                 if (!voice) {
                   console.warn("Cannot find a voice for lang ".concat(lang, ". Fallback on GTTS player."));
                   this.audioPlayer = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_9__["default"](this.parent);
@@ -3804,7 +3806,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
                   this.audioPlayer = new _navigatorPlayer__WEBPACK_IMPORTED_MODULE_10__["default"](this.parent, voice);
                 }
               }
-            case 20:
+            case 21:
             case "end":
               return _context.stop();
           }
@@ -3854,7 +3856,7 @@ var SpeakComponent = (_dec = (0,_decorators__WEBPACK_IMPORTED_MODULE_6__.Compone
     }
   }]);
   return SpeakComponent;
-}(_base__WEBPACK_IMPORTED_MODULE_11__.BaseComponent)) || _class);
+}(_base__WEBPACK_IMPORTED_MODULE_11__.BaseComponent), _defineProperty(_class2, "sortedVoices", null), _class2)) || _class);
 
 
 /***/ }),
@@ -4064,9 +4066,10 @@ var WordReferencePlayer = /*#__PURE__*/function () {
   _createClass(WordReferencePlayer, [{
     key: "lazyLoad",
     value:
-    //Show dropdown but do lazy wordreference loading
+    // Show dropdown but do lazy wordreference loading
     function lazyLoad(mustPlay) {
       var _this$$dropdown,
+        _this$elem$dataset$te,
         _this = this;
       if (this.audioElement != null) {
         return; //Already loaded
@@ -4074,7 +4077,8 @@ var WordReferencePlayer = /*#__PURE__*/function () {
       // Defer the search of sources until the first click
       var $menu = (_this$$dropdown = this.$dropdown) === null || _this$$dropdown === void 0 ? void 0 : _this$$dropdown.find(".dropdown-menu");
       var lang = "en";
-      wr_define(lang, this.elem.innerText).then(function (audioMap) {
+      var text = ((_this$elem$dataset$te = this.elem.dataset.text) !== null && _this$elem$dataset$te !== void 0 ? _this$elem$dataset$te : this.elem.innerText).trim();
+      wr_define(lang, text).then(function (audioMap) {
         var variants = Object.keys(audioMap);
         if (variants.length > 0) {
           //Agafa la primera variant
@@ -4107,7 +4111,11 @@ var WordReferencePlayer = /*#__PURE__*/function () {
         } else {
           // Fallback on google
           console.warn("Fallback on GTTSPlayer US");
-          _this.elem.setAttribute('href', '#speak_en-US');
+          if (_this.elem.getAttribute('href')) {
+            _this.elem.setAttribute('href', '#speak_en-US');
+          } else {
+            _this.elem.dataset.lang = "en-US";
+          }
           _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
         }
         mustPlay && _this.audioElement.play();
@@ -4117,8 +4125,12 @@ var WordReferencePlayer = /*#__PURE__*/function () {
         // We can hide the dropdown
         (_this$$dropdown3 = _this.$dropdown) === null || _this$$dropdown3 === void 0 ? void 0 : _this$$dropdown3.hide();
         // Fallback on google
+        if (_this.elem.getAttribute('href')) {
+          _this.elem.setAttribute('href', '#speak_en-US');
+        } else {
+          _this.elem.dataset.lang = "en-US";
+        }
         _this.audioElement = new _gttsPlayer__WEBPACK_IMPORTED_MODULE_2__["default"](_this.elem);
-        _this.elem.setAttribute('href', '#speak_en-US');
         _this.audioElement.play();
       });
     }

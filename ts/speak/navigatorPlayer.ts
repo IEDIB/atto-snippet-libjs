@@ -46,7 +46,7 @@ export default class NavigatorPlayer implements VoicePlayer {
             .forEach(e => e.cancel());
 
         EasySpeech.speak({
-            text: this._elem.innerText,
+            text: this._elem.dataset.text ?? this._elem.innerText,
             voice: this._voice,
             pitch: 1,
             rate: 0.95,

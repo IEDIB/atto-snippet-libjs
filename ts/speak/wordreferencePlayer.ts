@@ -111,7 +111,7 @@ export default class WordReferencePlayer implements VoicePlayer {
     src: string | undefined;
   
 
-    //Show dropdown but do lazy wordreference loading
+    // Show dropdown but do lazy wordreference loading
     private lazyLoad(mustPlay?: boolean): void {
         if (this.audioElement != null) {
             return; //Already loaded
@@ -119,7 +119,8 @@ export default class WordReferencePlayer implements VoicePlayer {
         // Defer the search of sources until the first click
         const $menu = this.$dropdown?.find(".dropdown-menu");
         const lang = "en";
-        wr_define(lang, this.elem.innerText).then(audioMap => {
+        const text = (this.elem.dataset.text ?? this.elem.innerText).trim();
+        wr_define(lang, text).then(audioMap => {
             const variants = Object.keys(audioMap);
             if (variants.length > 0) {
                 //Agafa la primera variant
@@ -149,8 +150,12 @@ export default class WordReferencePlayer implements VoicePlayer {
                 }
             } else {
                 // Fallback on google
-                console.warn("Fallback on GTTSPlayer US");
-                this.elem.setAttribute('href', '#speak_en-US');
+                console.warn("Fallback on GTTSPlayer US");                
+                if(this.elem.getAttribute('href')) {
+                    this.elem.setAttribute('href', '#speak_en-US');
+                } else {
+                    this.elem.dataset.lang = "en-US";
+                }
                 this.audioElement = new GTTSPlayer(this.elem);
             }
             mustPlay && this.audioElement.play();
@@ -160,8 +165,12 @@ export default class WordReferencePlayer implements VoicePlayer {
                 // We can hide the dropdown
                 this.$dropdown?.hide();
                 // Fallback on google
-                this.audioElement = new GTTSPlayer(this.elem);
-                this.elem.setAttribute('href', '#speak_en-US');
+                if(this.elem.getAttribute('href')) {
+                    this.elem.setAttribute('href', '#speak_en-US');
+                } else {
+                    this.elem.dataset.lang = "en-US";
+                }
+                this.audioElement = new GTTSPlayer(this.elem);                
                 this.audioElement.play();
             });
     }

@@ -28,7 +28,7 @@ function _bootstrap(classes: IBase[]) {
         }
         const _init = function() {
             IB.sd[meta.name] = IB.sd[meta.name] || {inst:{}, _class: clazz, init: _init, dispose: null};
-            const query = meta.query || `div[role="snptd_${meta.name}"], div[data-snptd="${meta.name}"]`;
+            const query = meta.query ?? `div[role="snptd_${meta.name}"], div[data-snptd="${meta.name}"]`;
             //Check if is defined as a singleton
             if(query==='body') {
                 if(IB.sd[meta.name].singl) {
