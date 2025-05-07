@@ -1,9 +1,11 @@
 @media not print {
-    body.editing div[role="snptd_presentacio"] .nav.nav-tabs {
+    body.editing div[role="snptd_presentacio"] .nav.nav-tabs, 
+    body.mce-content-body div[role="snptd_presentacio"] .nav.nav-tabs {
         background: lightgray;
         position: relative;
     }
-    body.editing div[role="snptd_presentacio"] .nav.nav-tabs::before {
+    body.editing div[role="snptd_presentacio"] .nav.nav-tabs::before,
+    body.mce-content-body div[role="snptd_presentacio"] .nav.nav-tabs::before {
         content: '\f1e7';
         position: absolute;
         top: 5px;

@@ -47,6 +47,8 @@ interface Window {
     require(deps: string[], cbSuccess: (...objs: unknown[])=>void, cbError?: ()=>void): void;
     $: JQueryStatic;
     jQuery: JQueryStatic;
+    hljs: any;
+    IB: IBType;
 }
 
 /**
