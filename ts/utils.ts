@@ -180,3 +180,44 @@ export function copyPropsFromTo(source: any, target: any) {
 export function isNumeric(str: string): boolean {
    return (str ||'').replace(/\s+/g,'').match(/^[+-]?[0-9]+\.?[0-9]*$/)!=null
 } 
+
+export function createLinkSheet(href: string, id: string) {
+    if(id) {
+        // Is sheet already there?
+        if(document.querySelector('link#'+id)) {
+            return;
+        }
+    }
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = href;
+    if(id) {
+        link.id = id;
+    }
+    document.getElementsByTagName('head')[0].appendChild(link);
+}
+
+export function createScript(src: string, id: string, cb: { (): void; (): void; (): void; }) {
+    if(id) {
+        // Is script already there?
+        if(document.querySelector('script#'+id)) {
+            if (cb) {
+                cb();
+            }
+            return;
+        }
+    }
+    const scriptElem = document.createElement('script'); 
+    scriptElem.src = src;
+    scriptElem.async = false;
+    if(id) {
+        scriptElem.id = id;
+    }
+    if(cb) {
+        scriptElem.onload = function() {
+            cb();
+        };
+    }
+    document.getElementsByTagName('head')[0].appendChild(scriptElem);
+}
