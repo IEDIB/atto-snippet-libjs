@@ -70,8 +70,8 @@ export default class LightboxComponent extends BaseComponent {
             return;
         }
         $theImg.css("cursor", "pointer");
-        $theImg.attr("data-toggle", "modal");
-        $theImg.attr("data-target", '#' + MODAL_ID);
+        $theImg.attr("data-toggle", "modal").attr("data-bs-toggle", "modal");
+        $theImg.attr("data-target", '#' + MODAL_ID).attr("data-bs-target", '#' + MODAL_ID);
         $theImg.attr("data-active", '1');
         $theImg.off();
         // Action on clicking the image
@@ -114,7 +114,7 @@ export default class LightboxComponent extends BaseComponent {
         const modalHTML = $('<div class="modal fade modal-fullscreen-xl" id="' + MODAL_ID + '" tabindex="-1" role="dialog">' +
             '<div class="modal-dialog" role="document">' +
             '<div class="modal-content">' +
-            '<div class="modal-header"><button type="button" class="close text-white" data-dismiss="modal">&times;</button>' +
+            '<div class="modal-header"><button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal">&times;</button>' +
             '</div>' +
             '<div class="modal-body p-0" style="text-align:center;">' +
             (hasGallery ? leftArrowHTML : '') +
@@ -200,8 +200,8 @@ export default class LightboxComponent extends BaseComponent {
         this.$gallery.forEach( (theImg) => {
             const $theImg = $(theImg);
             $theImg.removeAttr("data-active");
-            $theImg.removeAttr("data-toggle");
-            $theImg.removeAttr("data-target");
+            $theImg.removeAttr("data-toggle data-bs-toggle");
+            $theImg.removeAttr("data-target data-bs-target");
 
             $theImg.css("cursor", 'initial');
             $theImg.off();
