@@ -20,7 +20,7 @@ class HLJSLanguageDisplayPlugin {
 
     "after:highlightElement"(obj: { el: HTMLElement, text: string }) {
         const {el, text} = obj;
-        if (!el || !el.parentElement?.classList?.contains('display-lang')) {
+        if (!el?.parentElement?.classList?.contains('display-lang')) {
             return;
         }
         // Extract the language name from the class list of the <code> tag
